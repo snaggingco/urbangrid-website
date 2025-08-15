@@ -284,6 +284,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get blog posts for internal linking (simplified data)
+  app.get('/api/admin/blog/links', isAdminAuthenticated, async (req: any, res) => {
+    try {
+      const posts = await storage.getBlogPosts({
+        status: 'published',
+        limit: 100, // Get all published posts for linking
+      });
+
+      // Return simplified data for linking
+      const linkData = posts.map(post => ({
+        id: post.id,
+        title: post.title,
+        slug: post.slug,
+        category: post.category,
+        excerpt: post.excerpt,
+      }));
+
+      res.json(linkData);
+    } catch (error) {
+      console.error("Error fetching blog links:", error);
+      res.status(500).json({ message: "Failed to fetch blog links" });
+    }
+  });
+
   // Admin dashboard stats
   app.get('/api/admin/stats', isAdminAuthenticated, async (req: any, res) => {
     try {

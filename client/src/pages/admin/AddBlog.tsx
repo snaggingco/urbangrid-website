@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import EnhancedEditor from "@/components/EnhancedEditor";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
@@ -191,22 +192,15 @@ export default function AddBlog() {
                     )}
                   </div>
 
-                  <div>
-                    <Label htmlFor="content">Content *</Label>
-                    <Textarea
-                      id="content"
-                      {...register("content")}
-                      placeholder="Write your blog post content here..."
-                      rows={15}
-                      className={errors.content ? "border-red-500" : ""}
-                    />
-                    {errors.content && (
-                      <p className="text-red-500 text-sm mt-1">{errors.content.message}</p>
-                    )}
-                    <p className="text-sm text-text-grey mt-1">
-                      You can use HTML formatting in the content.
-                    </p>
-                  </div>
+                  <EnhancedEditor
+                    label="Content"
+                    value={watch("content") || ""}
+                    onChange={(value) => setValue("content", value)}
+                    placeholder="Write your blog post content here..."
+                    rows={15}
+                    error={errors.content?.message}
+                    id="content"
+                  />
                 </CardContent>
               </Card>
             </div>
