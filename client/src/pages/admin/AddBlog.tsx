@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 import { z } from "zod";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -123,14 +123,36 @@ export default function AddBlog() {
   return (
     <div className="pt-16 lg:pt-20 min-h-screen bg-light-grey">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
+        {/* Header with Navigation */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-brand-black mb-2">
             Add New Blog Post
           </h1>
-          <p className="text-text-grey">
+          <p className="text-text-grey mb-6">
             Create and publish new content for your website.
           </p>
+          
+          {/* Admin Navigation */}
+          <nav className="flex flex-wrap gap-4 p-4 bg-white rounded-lg shadow-sm border border-gray-200">
+            <Link href="/admin">
+              <a className="px-4 py-2 rounded-md text-sm font-medium transition-colors text-text-grey hover:text-brand-green hover:bg-gray-100">
+                <i className="fas fa-home mr-2"></i>
+                Dashboard
+              </a>
+            </Link>
+            <Link href="/admin/add-blog">
+              <a className="px-4 py-2 rounded-md text-sm font-medium transition-colors bg-brand-green text-white">
+                <i className="fas fa-plus mr-2"></i>
+                Add Blog
+              </a>
+            </Link>
+            <Link href="/admin/manage-blogs">
+              <a className="px-4 py-2 rounded-md text-sm font-medium transition-colors text-text-grey hover:text-brand-green hover:bg-gray-100">
+                <i className="fas fa-list mr-2"></i>
+                Manage Blogs
+              </a>
+            </Link>
+          </nav>
         </div>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
@@ -212,14 +234,25 @@ export default function AddBlog() {
                     </Select>
                   </div>
 
-                  <div className="flex space-x-2">
+                  <div className="space-y-2">
                     <Button
                       type="submit"
                       disabled={createBlogMutation.isPending}
-                      className="flex-1 bg-brand-green text-white hover:bg-opacity-90"
+                      className="w-full bg-brand-green text-white hover:bg-opacity-90"
                     >
                       {createBlogMutation.isPending ? "Saving..." : watch("status") === "published" ? "Publish" : "Save Draft"}
                     </Button>
+                    
+                    <Link href="/admin/manage-blogs">
+                      <Button
+                        type="button"
+                        variant="outline"
+                        className="w-full border-brand-green text-brand-green hover:bg-brand-green hover:text-white"
+                      >
+                        <i className="fas fa-arrow-left mr-2"></i>
+                        Back to Manage Blogs
+                      </Button>
+                    </Link>
                   </div>
                 </CardContent>
               </Card>

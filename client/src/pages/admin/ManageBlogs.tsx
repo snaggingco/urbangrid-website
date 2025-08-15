@@ -159,7 +159,7 @@ export default function ManageBlogs() {
               <h1 className="text-3xl font-bold text-brand-black mb-2">
                 Manage Blog Posts
               </h1>
-              <p className="text-text-grey">
+              <p className="text-text-grey mb-6">
                 View, edit, and manage all your blog content.
               </p>
             </div>
@@ -170,6 +170,28 @@ export default function ManageBlogs() {
               </Button>
             </Link>
           </div>
+          
+          {/* Admin Navigation */}
+          <nav className="flex flex-wrap gap-4 p-4 bg-white rounded-lg shadow-sm border border-gray-200">
+            <Link href="/admin">
+              <a className="px-4 py-2 rounded-md text-sm font-medium transition-colors text-text-grey hover:text-brand-green hover:bg-gray-100">
+                <i className="fas fa-home mr-2"></i>
+                Dashboard
+              </a>
+            </Link>
+            <Link href="/admin/add-blog">
+              <a className="px-4 py-2 rounded-md text-sm font-medium transition-colors text-text-grey hover:text-brand-green hover:bg-gray-100">
+                <i className="fas fa-plus mr-2"></i>
+                Add Blog
+              </a>
+            </Link>
+            <Link href="/admin/manage-blogs">
+              <a className="px-4 py-2 rounded-md text-sm font-medium transition-colors bg-brand-green text-white">
+                <i className="fas fa-list mr-2"></i>
+                Manage Blogs
+              </a>
+            </Link>
+          </nav>
         </div>
 
         {/* Search and Filter */}
