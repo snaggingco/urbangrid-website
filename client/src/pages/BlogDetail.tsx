@@ -4,6 +4,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import NotFound from "@/pages/not-found";
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
 import type { BlogPostWithAuthor } from "@shared/schema";
 
 export default function BlogDetail() {
@@ -192,11 +195,29 @@ export default function BlogDetail() {
       <section className="py-8 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
-            <article className="prose prose-lg max-w-none">
-              <div 
-                className="text-text-grey leading-relaxed"
-                dangerouslySetInnerHTML={{ __html: post.content }}
-              />
+            <article className="prose prose-lg max-w-none prose-headings:text-brand-black prose-headings:font-bold prose-p:text-text-grey prose-p:leading-relaxed prose-strong:text-brand-black prose-strong:font-semibold prose-ul:text-text-grey prose-ol:text-text-grey prose-li:mb-2 prose-a:text-brand-green prose-a:no-underline hover:prose-a:underline">
+              <ReactMarkdown 
+                remarkPlugins={[remarkGfm]}
+                rehypePlugins={[rehypeRaw]}
+                components={{
+                  h1: ({children}) => <h1 className="text-3xl font-bold text-brand-black mb-6 mt-8">{children}</h1>,
+                  h2: ({children}) => <h2 className="text-2xl font-bold text-brand-black mb-4 mt-6">{children}</h2>,
+                  h3: ({children}) => <h3 className="text-xl font-semibold text-brand-black mb-3 mt-5">{children}</h3>,
+                  h4: ({children}) => <h4 className="text-lg font-semibold text-brand-black mb-2 mt-4">{children}</h4>,
+                  p: ({children}) => <p className="text-text-grey leading-relaxed mb-4">{children}</p>,
+                  ul: ({children}) => <ul className="list-disc pl-6 mb-4 space-y-2 text-text-grey">{children}</ul>,
+                  ol: ({children}) => <ol className="list-decimal pl-6 mb-4 space-y-2 text-text-grey">{children}</ol>,
+                  li: ({children}) => <li className="mb-1">{children}</li>,
+                  strong: ({children}) => <strong className="font-semibold text-brand-black">{children}</strong>,
+                  em: ({children}) => <em className="italic">{children}</em>,
+                  a: ({href, children}) => <a href={href} className="text-brand-green hover:underline">{children}</a>,
+                  blockquote: ({children}) => <blockquote className="border-l-4 border-brand-green pl-4 italic my-4 text-text-grey">{children}</blockquote>,
+                  code: ({children}) => <code className="bg-gray-100 px-2 py-1 rounded text-sm font-mono">{children}</code>,
+                  pre: ({children}) => <pre className="bg-gray-100 p-4 rounded-lg overflow-x-auto mb-4">{children}</pre>
+                }}
+              >
+                {post.content}
+              </ReactMarkdown>
             </article>
 
             {/* Tags */}
