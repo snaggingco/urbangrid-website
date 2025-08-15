@@ -51,7 +51,7 @@ const servicesData: Record<string, ServiceData> = {
       "Leverage for negotiations with developers"
     ],
     duration: "4-8 hours",
-    price: "From AED 1,500",
+    price: "From AED 1 / Sq.ft",
     includes: [
       "Professional inspection team",
       "Digital report with photos",
@@ -94,7 +94,7 @@ const servicesData: Record<string, ServiceData> = {
       "Support for contractor negotiations"
     ],
     duration: "3-6 hours",
-    price: "From AED 1,200",
+    price: "From AED 1 / Sq.ft",
     includes: [
       "Comprehensive quality assessment",
       "Detailed inspection report",
@@ -137,7 +137,7 @@ const servicesData: Record<string, ServiceData> = {
       "Extended property protection"
     ],
     duration: "5-9 hours", 
-    price: "From AED 1,800",
+    price: "From AED 0.5 / Sq.ft",
     includes: [
       "Comprehensive re-inspection",
       "Defect tracking system",
@@ -180,7 +180,7 @@ const servicesData: Record<string, ServiceData> = {
       "Mediation support if needed"
     ],
     duration: "2-4 hours",
-    price: "From AED 800",
+    price: "From AED 0.5 / Sq.ft",
     includes: [
       "Detailed condition report",
       "Comprehensive photo documentation",
@@ -223,7 +223,7 @@ const servicesData: Record<string, ServiceData> = {
       "Avoid costly surprises"
     ],
     duration: "3-5 hours",
-    price: "From AED 1,000",
+    price: "From AED 1 / Sq.ft",
     includes: [
       "Pre-purchase inspection",
       "Market assessment report",

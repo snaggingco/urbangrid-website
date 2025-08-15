@@ -264,7 +264,7 @@ export default function Services() {
               className="inline-flex items-center bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-semibold hover:bg-white hover:text-brand-green transition-colors"
             >
               <i className="fas fa-phone mr-2"></i>
-              Call Now: +971 50 123 4567
+              Call Now: +971 58 568 6852
             </a>
           </div>
         </div>
