@@ -215,7 +215,7 @@ export default function Dashboard() {
                           <i className={`fas ${post.status === 'published' ? 'fa-globe text-green-500' : 'fa-edit text-amber-500'} mr-1`}></i>
                           {post.status === 'published' ? 'Published' : 'Draft'}
                         </span>
-                        <span>{formatDate(post.createdAt!)}</span>
+                        <span>{formatDate(post.createdAt!.toString())}</span>
                         {post.category && (
                           <span className="bg-brand-green text-white px-2 py-1 rounded text-xs">
                             {post.category}
