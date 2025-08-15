@@ -83,14 +83,14 @@ export default function FloatingButtons() {
                 href="https://wa.me/971585686852?text=Hello%20UrbanGrid%2C%20I%27m%20interested%20in%20your%20property%20inspection%20services.%20Please%20provide%20me%20with%20more%20information."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-105"
+                className="bg-green-500 hover:bg-green-600 text-white w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:scale-105 flex items-center justify-center"
                 aria-label="Contact us on WhatsApp"
               >
                 <i className="fab fa-whatsapp text-lg"></i>
               </a>
               <a
                 href="tel:+971585686852"
-                className="bg-brand-green hover:bg-opacity-90 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-105"
+                className="bg-brand-green hover:bg-opacity-90 text-white w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:scale-105 flex items-center justify-center"
                 aria-label="Call us"
               >
                 <i className="fas fa-phone text-lg"></i>
