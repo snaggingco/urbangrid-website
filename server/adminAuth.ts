@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
+import session from "express-session";
 import type { Express } from "express";
 
 // Super admin credentials (hardcoded as requested)
@@ -16,7 +17,7 @@ const SUPER_ADMIN = {
 
 export function setupLocalAuth(app: Express) {
   // Setup session middleware for passport
-  app.use(require('express-session')({
+  app.use(session({
     secret: process.env.SESSION_SECRET || 'your-secret-key',
     resave: false,
     saveUninitialized: false,
@@ -24,8 +25,8 @@ export function setupLocalAuth(app: Express) {
   }));
 
   // Initialize passport
-  app.use(require('passport').initialize());
-  app.use(require('passport').session());
+  app.use(passport.initialize());
+  app.use(passport.session());
   // Local strategy for super admin
   passport.use('local', new LocalStrategy({
     usernameField: 'username',
