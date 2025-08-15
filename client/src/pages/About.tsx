@@ -8,21 +8,21 @@ export default function About() {
       name: "Ahmed Al-Rashid",
       position: "Lead Inspector & Founder",
       experience: "12+ years",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400",
+      image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400",
       description: "Certified property inspector with extensive experience in UAE construction standards."
     },
     {
       name: "Sarah Mitchell",
       position: "Senior Property Inspector",
       experience: "8+ years",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b332c371?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400",
+      image: "https://images.unsplash.com/photo-1507101105822-7472b28e22ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400",
       description: "Specialized in luxury residential properties and commercial developments."
     },
     {
       name: "Mohammed Hassan",
       position: "Technical Inspector",
       experience: "6+ years",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400",
+      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400",
       description: "Expert in MEP systems and structural assessments for high-rise buildings."
     }
   ];

@@ -22,7 +22,7 @@ const servicesData: Record<string, ServiceData> = {
     slug: "new-build-snagging",
     title: "New Build Handover Snagging & Inspection",
     description: "Comprehensive pre-handover inspection of newly constructed properties to identify defects, incomplete work, and quality issues before you take possession.",
-    image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
+    image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
     longDescription: "Our new build handover snagging service is designed to protect your investment by conducting a thorough inspection before you accept your new property. Our certified inspectors examine every aspect of your property, from structural elements to finishing details, ensuring that everything meets the required standards and specifications. This critical step can save you thousands of dirhams in future repairs and ensures that any defects are identified and rectified by the developer at no cost to you.",
     features: [
       "Complete structural assessment and stability check",
@@ -65,7 +65,7 @@ const servicesData: Record<string, ServiceData> = {
     slug: "post-renovation-inspection", 
     title: "Post Renovation / Fit-out Snagging Inspection",
     description: "Quality assessment after renovation or fit-out work to ensure all improvements meet specifications and industry standards.",
-    image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
     longDescription: "After completing renovation or fit-out work, it's essential to verify that all improvements have been executed according to specifications and meet industry standards. Our post-renovation inspection service provides comprehensive quality assessment, ensuring that your investment in property improvements delivers the expected results and complies with all relevant building codes and safety requirements.",
     features: [
       "Renovation work quality assessment",
@@ -108,7 +108,7 @@ const servicesData: Record<string, ServiceData> = {
     slug: "dlp-snagging",
     title: "Property Defect Liability Period (DLP) Snagging",
     description: "Strategic inspection during the defect liability period to identify and document all issues before warranty expires.",
-    image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
+    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
     longDescription: "The Defect Liability Period (DLP) is your last opportunity to claim free rectification of defects from your developer or contractor. Our DLP snagging service conducts a strategic and comprehensive inspection to identify all potential issues before your warranty expires, ensuring maximum protection for your investment and securing your rights for free repairs.",
     features: [
       "Pre-warranty expiry comprehensive inspection",
@@ -151,7 +151,7 @@ const servicesData: Record<string, ServiceData> = {
     slug: "move-in-move-out",
     title: "Property Move-in / Move-out Snagging",
     description: "Detailed condition reports for rental properties to protect both tenants and landlords during property transitions.",
-    image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
+    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
     longDescription: "Our move-in/move-out snagging service provides impartial, detailed condition reports that protect both tenants and landlords during property transitions. These comprehensive assessments document the exact condition of the property, preventing disputes over security deposits and ensuring fair treatment for all parties involved in rental agreements.",
     features: [
       "Comprehensive property condition assessment",
@@ -194,7 +194,7 @@ const servicesData: Record<string, ServiceData> = {
     slug: "secondary-market",
     title: "Secondary Market Property Snagging",
     description: "Pre-purchase inspections for existing properties to help buyers make informed decisions and negotiate fair prices.",
-    image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
+    image: "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
     longDescription: "Purchasing a property in the secondary market requires careful evaluation to ensure you're making a sound investment. Our secondary market snagging service provides comprehensive pre-purchase inspections that reveal hidden issues, assess maintenance requirements, and provide valuable insights for price negotiations and future planning.",
     features: [
       "Comprehensive pre-purchase inspection",
@@ -237,7 +237,7 @@ const servicesData: Record<string, ServiceData> = {
     slug: "developer-projects",
     title: "Developer and Contractor Project Snagging",
     description: "Quality control inspections for developers and contractors to ensure projects meet industry standards and client expectations.",
-    image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
+    image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
     longDescription: "For developers and contractors, maintaining quality standards and client satisfaction is paramount to business success. Our project snagging service provides independent quality control inspections that ensure your projects meet industry standards, comply with regulations, and exceed client expectations, protecting your reputation and minimizing future liabilities.",
     features: [
       "Independent quality control auditing",
