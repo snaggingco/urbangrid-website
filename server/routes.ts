@@ -267,7 +267,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         ${submission.message}
       `;
 
-      await sendEmail('info@urbangrid.ae', 'New Contact Form Submission', emailContent);
+      await sendEmail('info@snagging.me', 'New Contact Form Submission', emailContent);
 
       res.status(201).json({ message: "Thank you for your message. We'll get back to you soon!" });
     } catch (error) {
@@ -305,7 +305,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         Phone: ${phone}
       `;
 
-      await sendEmail('info@urbangrid.ae', 'New Free Consultation Request', emailContent);
+      await sendEmail('info@snagging.me', 'New Free Consultation Request', emailContent);
 
       res.status(201).json({ message: "Thank you! We'll contact you soon for your free consultation." });
     } catch (error) {
