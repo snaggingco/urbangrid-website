@@ -287,7 +287,17 @@
     margin-right: 4px;
   }
 
-  /* Floating Buttons Enhancements */
+  /* Clean Desktop Floating Buttons */
+  .floating-button-desktop {
+    position: relative;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  }
+
+  .floating-button-desktop:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Mobile Floating Buttons with Enhanced Features */
   .floating-button {
     position: relative;
     animation: float 3s ease-in-out infinite;
@@ -321,7 +331,7 @@
     animation: pulse-glow 2s ease-in-out 3;
   }
 
-  /* Enhanced shadow and glow effects */
+  /* Enhanced shadow and glow effects for mobile */
   .floating-button {
     box-shadow: 
       0 10px 25px rgba(0, 0, 0, 0.1),
@@ -336,27 +346,15 @@
       0 0 20px rgba(6, 78, 59, 0.3);
   }
 
-  /* Attention-grabbing animations */
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-2px); }
-    75% { transform: translateX(2px); }
-  }
-
-  @keyframes heartbeat {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-  }
-
-  /* Mobile floating bar animations */
-  @media (max-width: 768px) {
+  /* Disable mobile animations on desktop */
+  @media (min-width: 768px) {
     .floating-button {
-      animation: none; /* Disable float animation on mobile */
+      animation: none;
     }
   }
 
-  /* Responsive adjustments */
-  @media (max-width: 640px) {
+  /* Mobile specific styling */
+  @media (max-width: 767px) {
     .floating-button {
       padding: 12px;
     }
