@@ -27,6 +27,17 @@ export function setupLocalAuth(app: Express) {
   // Initialize passport
   app.use(passport.initialize());
   app.use(passport.session());
+
+  // Serialize user for session storage
+  passport.serializeUser((user: any, done) => {
+    done(null, user);
+  });
+
+  // Deserialize user from session
+  passport.deserializeUser((user: any, done) => {
+    done(null, user);
+  });
+
   // Local strategy for super admin
   passport.use('local', new LocalStrategy({
     usernameField: 'username',
