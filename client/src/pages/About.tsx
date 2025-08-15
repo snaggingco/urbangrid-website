@@ -38,8 +38,8 @@ export default function About() {
   ];
 
   const achievements = [
-    { number: "2000+", label: "Properties Inspected" },
-    { number: "98%", label: "Client Satisfaction" },
+    { number: "40000+", label: "Properties Inspected" },
+    { number: "100%", label: "Client Satisfaction" },
     { number: "50+", label: "Partner Developers" },
     { number: "10+", label: "Years Experience" }
   ];

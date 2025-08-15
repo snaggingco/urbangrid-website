@@ -156,7 +156,7 @@ export default function Home() {
               
               {/* Stats Overlay */}
               <div className="absolute -bottom-6 -left-6 bg-brand-green text-white p-6 rounded-lg shadow-xl">
-                <div className="text-2xl font-bold">2000+</div>
+                <div className="text-2xl font-bold">40,000+</div>
                 <div className="text-sm">Properties Inspected</div>
               </div>
             </div>
