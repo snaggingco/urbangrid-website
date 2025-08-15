@@ -5,6 +5,7 @@ import { setupLocalAuth } from "./adminAuth";
 import { insertBlogPostSchema, insertContactSubmissionSchema } from "@shared/schema";
 import { z } from "zod";
 import nodemailer from "nodemailer";
+import { generateSitemap, getSitemapUrls } from "./sitemap";
 
 // Generate slug from title
 function generateSlug(title: string): string {
@@ -355,6 +356,53 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error("Error fetching admin stats:", error);
       res.status(500).json({ message: "Failed to fetch stats" });
     }
+  });
+
+  // Sitemap.xml endpoint
+  app.get('/sitemap.xml', async (req, res) => {
+    try {
+      const protocol = req.get('x-forwarded-proto') || req.protocol;
+      const host = req.get('host');
+      const baseUrl = `${protocol}://${host}`;
+
+      // Get published blog posts for sitemap
+      const blogPosts = await storage.getBlogPosts({
+        status: 'published',
+        limit: 1000 // Get all published posts
+      });
+
+      const urls = getSitemapUrls(baseUrl, blogPosts);
+      const sitemap = generateSitemap(urls);
+
+      res.setHeader('Content-Type', 'application/xml');
+      res.send(sitemap);
+    } catch (error) {
+      console.error("Error generating sitemap:", error);
+      res.status(500).send('Error generating sitemap');
+    }
+  });
+
+  // Robots.txt endpoint
+  app.get('/robots.txt', (req, res) => {
+    const protocol = req.get('x-forwarded-proto') || req.protocol;
+    const host = req.get('host');
+    const baseUrl = `${protocol}://${host}`;
+
+    const robotsTxt = `User-agent: *
+Allow: /
+
+# Disallow admin pages
+Disallow: /admin/
+Disallow: /api/
+
+# Sitemap
+Sitemap: ${baseUrl}/sitemap.xml
+
+# Crawl delay
+Crawl-delay: 1`;
+
+    res.setHeader('Content-Type', 'text/plain');
+    res.send(robotsTxt);
   });
 
   const httpServer = createServer(app);
