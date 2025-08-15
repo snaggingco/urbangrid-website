@@ -11,7 +11,7 @@ import {
   type ContactSubmission,
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc, and, ilike, or } from "drizzle-orm";
+import { eq, desc, and, ilike, or, sql, count } from "drizzle-orm";
 
 export interface IStorage {
   // User operations (required for Replit Auth)
@@ -116,7 +116,7 @@ export class DatabaseStorage implements IStorage {
 
   async deleteBlogPost(id: number): Promise<boolean> {
     const result = await db.delete(blogPosts).where(eq(blogPosts.id, id));
-    return result.rowCount > 0;
+    return (result.rowCount ?? 0) > 0;
   }
 
   async getBlogPosts(options: {
@@ -173,7 +173,7 @@ export class DatabaseStorage implements IStorage {
   } = {}): Promise<number> {
     const { status, category, search } = options;
     
-    let query = db.select({ count: sql<number>`count(*)` }).from(blogPosts);
+    let query = db.select({ count: count() }).from(blogPosts);
 
     const conditions = [];
     
@@ -233,7 +233,7 @@ export class DatabaseStorage implements IStorage {
       .update(contactSubmissions)
       .set({ isRead: true })
       .where(eq(contactSubmissions.id, id));
-    return result.rowCount > 0;
+    return (result.rowCount ?? 0) > 0;
   }
 }
 

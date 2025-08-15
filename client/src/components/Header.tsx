@@ -94,14 +94,16 @@ export default function Header({ isAdmin = false }: HeaderProps) {
                 </Button>
               </div>
             ) : (
-              <Button
-                size="sm"
-                variant="outline"
-                className="hidden md:inline-flex border-brand-green text-brand-green hover:bg-brand-green hover:text-white"
-                onClick={() => window.location.href = '/api/login'}
-              >
-                Admin Login
-              </Button>
+              <div className="hidden md:flex items-center space-x-2">
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className="border-brand-green text-brand-green hover:bg-brand-green hover:text-white"
+                  onClick={() => window.location.href = '/api/admin/login'}
+                >
+                  Admin Login
+                </Button>
+              </div>
             )}
             
             {/* Mobile Menu Button */}
@@ -162,7 +164,7 @@ export default function Header({ isAdmin = false }: HeaderProps) {
                       <Button
                         variant="outline"
                         className="border-brand-green text-brand-green hover:bg-brand-green hover:text-white mt-4"
-                        onClick={() => window.location.href = '/api/login'}
+                        onClick={() => window.location.href = '/api/admin/login'}
                       >
                         Admin Login
                       </Button>

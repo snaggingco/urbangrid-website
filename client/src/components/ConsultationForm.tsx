@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { PhoneInput } from "@/components/ui/phone-input";
+import { CountryPhoneInput } from "@/components/ui/country-phone-input";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 
@@ -63,11 +63,11 @@ export default function ConsultationForm() {
             Get Your Free Consultation
           </h2>
           
-          <form onSubmit={handleSubmit} className="flex flex-col lg:flex-row gap-4 items-end justify-center">
+          <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-3 items-end justify-center max-w-5xl mx-auto">
             {/* Name Field */}
-            <div className="flex-1 max-w-xs">
-              <Label htmlFor="name" className="block text-sm font-medium text-text-grey mb-2 text-left">
-                Full Name
+            <div className="flex-1 min-w-0">
+              <Label htmlFor="name" className="block text-sm font-medium text-text-grey mb-2">
+                Name
               </Label>
               <Input
                 id="name"
@@ -77,14 +77,14 @@ export default function ConsultationForm() {
                 onChange={(e) => handleInputChange("name", e.target.value)}
                 placeholder="Enter your name"
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-green focus:border-transparent"
+                className="h-12 px-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-green focus:border-brand-green text-sm"
               />
             </div>
             
             {/* Email Field */}
-            <div className="flex-1 max-w-xs">
-              <Label htmlFor="email" className="block text-sm font-medium text-text-grey mb-2 text-left">
-                Email Address
+            <div className="flex-1 min-w-0">
+              <Label htmlFor="email" className="block text-sm font-medium text-text-grey mb-2">
+                Email
               </Label>
               <Input
                 id="email"
@@ -94,21 +94,19 @@ export default function ConsultationForm() {
                 onChange={(e) => handleInputChange("email", e.target.value)}
                 placeholder="Enter your email"
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-green focus:border-transparent"
+                className="h-12 px-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-green focus:border-brand-green text-sm"
               />
             </div>
             
             {/* Phone Field with Country Code */}
-            <div className="flex-1 max-w-xs">
-              <Label htmlFor="phone" className="block text-sm font-medium text-text-grey mb-2 text-left">
+            <div className="flex-1 min-w-0">
+              <Label htmlFor="phone" className="block text-sm font-medium text-text-grey mb-2">
                 Contact Number
               </Label>
-              <PhoneInput
-                id="phone"
-                name="phone"
+              <CountryPhoneInput
                 value={formData.phone}
+                onChange={(value) => handleInputChange("phone", value)}
                 countryCode={formData.countryCode}
-                onChange={(e) => handleInputChange("phone", e.target.value)}
                 onCountryCodeChange={(code) => handleInputChange("countryCode", code)}
                 placeholder="501234567"
                 required
@@ -116,13 +114,14 @@ export default function ConsultationForm() {
             </div>
             
             {/* Submit Button */}
-            <div>
+            <div className="flex-shrink-0">
+              <div className="h-8 mb-2"></div> {/* Spacer to align with labels */}
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="bg-brand-green text-white px-8 py-3 rounded-md font-semibold hover:bg-opacity-90 transition-colors whitespace-nowrap"
+                className="h-12 bg-brand-green text-white px-6 rounded-md font-semibold hover:bg-opacity-90 transition-colors text-sm whitespace-nowrap"
               >
-                {isLoading ? "Sending..." : "Get Free Consultation"}
+                {isLoading ? "Sending..." : "Submit"}
               </Button>
             </div>
           </form>
