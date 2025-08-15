@@ -62,67 +62,71 @@ export default function ConsultationForm() {
             Get Your Free Consultation
           </h2>
           
-          <form onSubmit={handleSubmit} className="flex flex-col md:flex-row gap-3 items-end justify-center max-w-5xl mx-auto">
-            {/* Name Field */}
-            <div className="flex-1 min-w-0">
-              <Label htmlFor="name" className="block text-sm font-medium text-text-grey mb-2">
-                Name
-              </Label>
-              <Input
-                id="name"
-                name="name"
-                type="text"
-                value={formData.name}
-                onChange={(e) => handleInputChange("name", e.target.value)}
-                placeholder="Enter your name"
-                required
-                className="h-12 px-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-green focus:border-brand-green text-sm"
-              />
-            </div>
-            
-            {/* Email Field */}
-            <div className="flex-1 min-w-0">
-              <Label htmlFor="email" className="block text-sm font-medium text-text-grey mb-2">
-                Email
-              </Label>
-              <Input
-                id="email"
-                name="email"
-                type="email"
-                value={formData.email}
-                onChange={(e) => handleInputChange("email", e.target.value)}
-                placeholder="Enter your email"
-                required
-                className="h-12 px-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-green focus:border-brand-green text-sm"
-              />
-            </div>
-            
-            {/* Phone Field with Country Code */}
-            <div className="flex-1 min-w-0">
-              <Label htmlFor="phone" className="block text-sm font-medium text-text-grey mb-2">
-                Contact Number
-              </Label>
-              <PhoneInput
-                international
-                countryCallingCodeEditable={false}
-                defaultCountry="AE"
-                value={formData.phone}
-                onChange={(value) => handleInputChange("phone", value || "")}
-                placeholder="Enter phone number"
-                className="custom-phone-input"
-              />
-            </div>
-            
-            {/* Submit Button */}
-            <div className="flex-shrink-0">
-              <div className="h-8 mb-2"></div> {/* Spacer to align with labels */}
-              <Button
-                type="submit"
-                disabled={isLoading}
-                className="h-12 bg-brand-green text-white px-6 rounded-md font-semibold hover:bg-opacity-90 transition-colors text-sm whitespace-nowrap"
-              >
-                {isLoading ? "Sending..." : "Submit"}
-              </Button>
+          <form onSubmit={handleSubmit} className="w-full max-w-5xl mx-auto">
+            <div className="flex flex-col md:flex-row gap-3 items-end justify-center">
+              {/* Name Field */}
+              <div className="w-full md:flex-1 md:min-w-0">
+                <Label htmlFor="name" className="block text-sm font-medium text-text-grey mb-2 text-center md:text-left">
+                  Name
+                </Label>
+                <Input
+                  id="name"
+                  name="name"
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => handleInputChange("name", e.target.value)}
+                  placeholder="Enter your name"
+                  required
+                  className="h-12 px-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-green focus:border-brand-green text-sm w-full max-w-sm mx-auto md:max-w-none md:mx-0"
+                />
+              </div>
+              
+              {/* Email Field */}
+              <div className="w-full md:flex-1 md:min-w-0">
+                <Label htmlFor="email" className="block text-sm font-medium text-text-grey mb-2 text-center md:text-left">
+                  Email
+                </Label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => handleInputChange("email", e.target.value)}
+                  placeholder="Enter your email"
+                  required
+                  className="h-12 px-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-green focus:border-brand-green text-sm w-full max-w-sm mx-auto md:max-w-none md:mx-0"
+                />
+              </div>
+              
+              {/* Phone Field with Country Code */}
+              <div className="w-full md:flex-1 md:min-w-0">
+                <Label htmlFor="phone" className="block text-sm font-medium text-text-grey mb-2 text-center md:text-left">
+                  Contact Number
+                </Label>
+                <div className="max-w-sm mx-auto md:max-w-none md:mx-0">
+                  <PhoneInput
+                    international
+                    countryCallingCodeEditable={false}
+                    defaultCountry="AE"
+                    value={formData.phone}
+                    onChange={(value) => handleInputChange("phone", value || "")}
+                    placeholder="Enter phone number"
+                    className="custom-phone-input"
+                  />
+                </div>
+              </div>
+              
+              {/* Submit Button */}
+              <div className="w-full md:flex-shrink-0 flex justify-center md:justify-start">
+                <div className="hidden md:block h-8 mb-2"></div> {/* Spacer to align with labels */}
+                <Button
+                  type="submit"
+                  disabled={isLoading}
+                  className="h-12 bg-brand-green text-white px-6 rounded-md font-semibold hover:bg-opacity-90 transition-colors text-sm whitespace-nowrap"
+                >
+                  {isLoading ? "Sending..." : "Submit"}
+                </Button>
+              </div>
             </div>
           </form>
         </div>
