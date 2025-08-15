@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { CountryPhoneInput } from "@/components/ui/country-phone-input";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 
@@ -12,7 +13,6 @@ export default function ConsultationForm() {
     name: "",
     email: "",
     phone: "",
-    countryCode: "+971",
   });
   const { toast } = useToast();
 
@@ -24,7 +24,7 @@ export default function ConsultationForm() {
       await apiRequest("POST", "/api/consultation", {
         name: formData.name,
         email: formData.email,
-        phone: `${formData.countryCode}${formData.phone}`,
+        phone: formData.phone,
       });
 
       toast({
@@ -38,7 +38,6 @@ export default function ConsultationForm() {
         name: "",
         email: "",
         phone: "",
-        countryCode: "+971",
       });
     } catch (error) {
       toast({
@@ -103,13 +102,19 @@ export default function ConsultationForm() {
               <Label htmlFor="phone" className="block text-sm font-medium text-text-grey mb-2">
                 Contact Number
               </Label>
-              <CountryPhoneInput
+              <PhoneInput
+                international
+                countryCallingCodeEditable={false}
+                defaultCountry="AE"
                 value={formData.phone}
-                onChange={(value) => handleInputChange("phone", value)}
-                countryCode={formData.countryCode}
-                onCountryCodeChange={(code) => handleInputChange("countryCode", code)}
-                placeholder="501234567"
-                required
+                onChange={(value) => handleInputChange("phone", value || "")}
+                placeholder="Enter phone number"
+                className="h-12"
+                style={{
+                  '--PhoneInputCountryFlag-height': '1em',
+                  '--PhoneInputCountryFlag-borderColor': 'transparent',
+                  '--PhoneInput-color--focus': '#064E3B',
+                }}
               />
             </div>
             
