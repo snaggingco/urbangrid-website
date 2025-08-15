@@ -286,4 +286,83 @@
   .custom-phone-input .PhoneInputCountryIcon {
     margin-right: 4px;
   }
+
+  /* Floating Buttons Enhancements */
+  .floating-button {
+    position: relative;
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .floating-button:nth-child(2) {
+    animation-delay: 1s;
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-5px);
+    }
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 0 20px rgba(6, 78, 59, 0.3);
+      transform: scale(1);
+    }
+    50% {
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15), 0 0 30px rgba(6, 78, 59, 0.5);
+      transform: scale(1.05);
+    }
+  }
+
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out 3;
+  }
+
+  /* Enhanced shadow and glow effects */
+  .floating-button {
+    box-shadow: 
+      0 10px 25px rgba(0, 0, 0, 0.1),
+      0 0 0 1px rgba(255, 255, 255, 0.1) inset,
+      0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .floating-button:hover {
+    box-shadow: 
+      0 20px 40px rgba(0, 0, 0, 0.15),
+      0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+      0 0 20px rgba(6, 78, 59, 0.3);
+  }
+
+  /* Attention-grabbing animations */
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    75% { transform: translateX(2px); }
+  }
+
+  @keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  /* Mobile floating bar animations */
+  @media (max-width: 768px) {
+    .floating-button {
+      animation: none; /* Disable float animation on mobile */
+    }
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    .floating-button {
+      padding: 12px;
+    }
+    
+    .floating-button i {
+      font-size: 1.25rem;
+    }
+  }
 }
