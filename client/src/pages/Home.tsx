@@ -16,42 +16,42 @@ export default function Home() {
       id: 1,
       title: "New Build Handover Snagging",
       description: "Comprehensive inspection before accepting your new property, identifying defects and ensuring everything meets standards.",
-      icon: "fas fa-home",
+      icon: "fas fa-clipboard-check",
       slug: "new-build-snagging"
     },
     {
       id: 2,
       title: "Post Renovation Inspection",
       description: "Quality assessment after renovation or fit-out work, ensuring all work meets specifications and quality standards.",
-      icon: "fas fa-tools",
+      icon: "fas fa-hard-hat",
       slug: "post-renovation-inspection"
     },
     {
       id: 3,
       title: "DLP Snagging",
       description: "Defect Liability Period inspections to identify issues before warranty expires and ensure developer compliance.",
-      icon: "fas fa-shield-alt",
+      icon: "fas fa-file-contract",
       slug: "dlp-snagging"
     },
     {
       id: 4,
       title: "Move-in / Move-out Snagging",
       description: "Comprehensive condition reports for rental properties, protecting both tenants and landlords during transitions.",
-      icon: "fas fa-exchange-alt",
+      icon: "fas fa-key",
       slug: "move-in-move-out"
     },
     {
       id: 5,
       title: "Secondary Market Snagging",
       description: "Pre-purchase inspections for existing properties, helping buyers make informed decisions and negotiate fairly.",
-      icon: "fas fa-search",
+      icon: "fas fa-search-plus",
       slug: "secondary-market"
     },
     {
       id: 6,
       title: "Developer & Contractor Snagging",
       description: "Quality control inspections for developers and contractors, ensuring projects meet industry standards and specifications.",
-      icon: "fas fa-building",
+      icon: "fas fa-users-cog",
       slug: "developer-projects"
     }
   ];
