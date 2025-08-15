@@ -15,6 +15,17 @@ const SUPER_ADMIN = {
 };
 
 export function setupLocalAuth(app: Express) {
+  // Setup session middleware for passport
+  app.use(require('express-session')({
+    secret: process.env.SESSION_SECRET || 'your-secret-key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false } // set to true in production with HTTPS
+  }));
+
+  // Initialize passport
+  app.use(require('passport').initialize());
+  app.use(require('passport').session());
   // Local strategy for super admin
   passport.use('local', new LocalStrategy({
     usernameField: 'username',
@@ -44,6 +55,12 @@ export function setupLocalAuth(app: Express) {
     failureRedirect: '/admin/login?error=1',
     failureFlash: false
   }));
+
+  app.get('/api/admin/logout', (req, res) => {
+    req.logout(() => {
+      res.redirect('/');
+    });
+  });
 
   app.get('/api/admin/login', (req, res) => {
     const error = req.query.error;

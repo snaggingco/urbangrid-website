@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { Link } from "wouter";
+import { Link, useLocation } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
@@ -22,6 +22,7 @@ interface BlogResponse {
 export default function Dashboard() {
   const { isAuthenticated, isLoading, user } = useAuth();
   const { toast } = useToast();
+  const [location] = useLocation();
 
   // Redirect if not authenticated or not admin
   useEffect(() => {
@@ -83,14 +84,48 @@ export default function Dashboard() {
   return (
     <div className="pt-16 lg:pt-20 min-h-screen bg-light-grey">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Header */}
+        {/* Header with Navigation */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-brand-black mb-2">
             Admin Dashboard
           </h1>
-          <p className="text-text-grey">
+          <p className="text-text-grey mb-6">
             Welcome back, {user?.firstName}! Manage your blog content and view statistics.
           </p>
+          
+          {/* Admin Navigation */}
+          <nav className="flex flex-wrap gap-4 p-4 bg-white rounded-lg shadow-sm border border-gray-200">
+            <Link href="/admin">
+              <a className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                location === '/admin' 
+                  ? 'bg-brand-green text-white' 
+                  : 'text-text-grey hover:text-brand-green hover:bg-gray-100'
+              }`}>
+                <i className="fas fa-home mr-2"></i>
+                Dashboard
+              </a>
+            </Link>
+            <Link href="/admin/add-blog">
+              <a className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                location === '/admin/add-blog' 
+                  ? 'bg-brand-green text-white' 
+                  : 'text-text-grey hover:text-brand-green hover:bg-gray-100'
+              }`}>
+                <i className="fas fa-plus mr-2"></i>
+                Add Blog
+              </a>
+            </Link>
+            <Link href="/admin/manage-blogs">
+              <a className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                location === '/admin/manage-blogs' 
+                  ? 'bg-brand-green text-white' 
+                  : 'text-text-grey hover:text-brand-green hover:bg-gray-100'
+              }`}>
+                <i className="fas fa-list mr-2"></i>
+                Manage Blogs
+              </a>
+            </Link>
+          </nav>
         </div>
 
         {/* Quick Actions */}

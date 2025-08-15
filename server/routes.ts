@@ -1,7 +1,6 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { setupAuth, isAuthenticated } from "./replitAuth";
 import { setupLocalAuth } from "./adminAuth";
 import { insertBlogPostSchema, insertContactSubmissionSchema } from "@shared/schema";
 import { z } from "zod";
@@ -24,36 +23,31 @@ async function sendEmail(to: string, subject: string, content: string) {
   return true;
 }
 
+// Admin authentication middleware
+function isAdminAuthenticated(req: any, res: any, next: any) {
+  if (req.isAuthenticated() && req.user?.claims?.sub === 'super-admin') {
+    return next();
+  }
+  res.status(401).json({ message: "Unauthorized" });
+}
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
-  await setupAuth(app);
   setupLocalAuth(app);
 
-  // Auth routes - handle both Replit auth and local admin auth
+  // Auth routes - only local admin auth
   app.get('/api/auth/user', async (req: any, res) => {
     try {
-      // Check if user is authenticated
-      if (req.isAuthenticated() && req.user) {
-        // Local admin authentication
-        if (req.user.claims?.sub === 'super-admin') {
-          return res.json({
-            id: 'super-admin',
-            email: 'admin@urbangrid.ae',
-            firstName: 'Arif',
-            lastName: 'Admin',
-            role: 'admin',
-            profileImageUrl: null
-          });
-        }
-        
-        // Replit authentication
-        if (req.user.claims?.sub && req.user.claims.sub !== 'super-admin') {
-          const userId = req.user.claims.sub;
-          const user = await storage.getUser(userId);
-          if (user) {
-            return res.json(user);
-          }
-        }
+      // Check if user is authenticated via local admin auth
+      if (req.isAuthenticated() && req.user?.claims?.sub === 'super-admin') {
+        return res.json({
+          id: 'super-admin',
+          email: 'admin@urbangrid.ae',
+          firstName: 'Arif',
+          lastName: 'Admin',
+          role: 'admin',
+          profileImageUrl: null
+        });
       }
       
       // Not authenticated
@@ -115,12 +109,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Protected blog routes (admin only)
-  app.get('/api/admin/blog', isAuthenticated, async (req: any, res) => {
+  app.get('/api/admin/blog', isAdminAuthenticated, async (req: any, res) => {
     try {
-      const user = await storage.getUser(req.user.claims.sub);
-      if (user?.role !== 'admin') {
-        return res.status(403).json({ message: "Admin access required" });
-      }
 
       const { page = '1', limit = '10', status, search } = req.query;
       const pageNum = parseInt(page as string);
@@ -151,12 +141,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.get('/api/admin/blog/:id', isAuthenticated, async (req: any, res) => {
+  app.get('/api/admin/blog/:id', isAdminAuthenticated, async (req: any, res) => {
     try {
-      const user = await storage.getUser(req.user.claims.sub);
-      if (user?.role !== 'admin') {
-        return res.status(403).json({ message: "Admin access required" });
-      }
 
       const { id } = req.params;
       const post = await storage.getBlogPost(parseInt(id));
@@ -172,12 +158,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.post('/api/admin/blog', isAuthenticated, async (req: any, res) => {
+  app.post('/api/admin/blog', isAdminAuthenticated, async (req: any, res) => {
     try {
-      const user = await storage.getUser(req.user.claims.sub);
-      if (user?.role !== 'admin') {
-        return res.status(403).json({ message: "Admin access required" });
-      }
 
       const validatedData = insertBlogPostSchema.parse({
         ...req.body,
@@ -196,12 +178,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.put('/api/admin/blog/:id', isAuthenticated, async (req: any, res) => {
+  app.put('/api/admin/blog/:id', isAdminAuthenticated, async (req: any, res) => {
     try {
-      const user = await storage.getUser(req.user.claims.sub);
-      if (user?.role !== 'admin') {
-        return res.status(403).json({ message: "Admin access required" });
-      }
 
       const { id } = req.params;
       const updateData = { ...req.body };
@@ -223,12 +201,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  app.delete('/api/admin/blog/:id', isAuthenticated, async (req: any, res) => {
+  app.delete('/api/admin/blog/:id', isAdminAuthenticated, async (req: any, res) => {
     try {
-      const user = await storage.getUser(req.user.claims.sub);
-      if (user?.role !== 'admin') {
-        return res.status(403).json({ message: "Admin access required" });
-      }
 
       const { id } = req.params;
       const success = await storage.deleteBlogPost(parseInt(id));
@@ -311,12 +285,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // Admin dashboard stats
-  app.get('/api/admin/stats', isAuthenticated, async (req: any, res) => {
+  app.get('/api/admin/stats', isAdminAuthenticated, async (req: any, res) => {
     try {
-      const user = await storage.getUser(req.user.claims.sub);
-      if (user?.role !== 'admin') {
-        return res.status(403).json({ message: "Admin access required" });
-      }
 
       const totalPosts = await storage.getBlogPostsCount();
       const draftPosts = await storage.getBlogPostsCount({ status: 'draft' });
