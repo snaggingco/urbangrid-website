@@ -71,7 +71,7 @@ export default function Home() {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1518684079-3c830dcef090?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080')`
+            backgroundImage: `url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080')`
           }}
         ></div>
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
@@ -149,8 +149,8 @@ export default function Home() {
             
             <div className="relative">
               <img 
-                src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" 
-                alt="Dubai Marina skyscrapers and properties" 
+                src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" 
+                alt="Professional property inspection team" 
                 className="rounded-lg shadow-lg w-full"
               />
               
