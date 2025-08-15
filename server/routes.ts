@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { setupLocalAuth } from "./adminAuth";
 import { insertBlogPostSchema, insertContactSubmissionSchema } from "@shared/schema";
 import { z } from "zod";
+import nodemailer from "nodemailer";
 
 // Generate slug from title
 function generateSlug(title: string): string {
@@ -16,11 +17,40 @@ function generateSlug(title: string): string {
     .substring(0, 100);
 }
 
-// Email sending function (mock for now, replace with actual email service)
+// Email sending function using Nodemailer with SMTP
 async function sendEmail(to: string, subject: string, content: string) {
-  console.log(`Sending email to ${to}: ${subject}\n${content}`);
-  // TODO: Implement actual email sending using Nodemailer or similar
-  return true;
+  try {
+    // Create SMTP transporter
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: parseInt(process.env.SMTP_PORT || '587'),
+      secure: process.env.SMTP_PORT === '465', // true for 465, false for other ports
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+      tls: {
+        rejectUnauthorized: false // For development, set to true in production
+      }
+    });
+
+    // Send email
+    const info = await transporter.sendMail({
+      from: process.env.EMAIL_FROM || process.env.SMTP_USER,
+      to: to,
+      subject: subject,
+      text: content,
+      html: content.replace(/\n/g, '<br>'),
+    });
+
+    console.log(`Email sent successfully to ${to}. Message ID: ${info.messageId}`);
+    return true;
+  } catch (error) {
+    console.error(`Failed to send email to ${to}:`, error);
+    // Log the error but don't fail the form submission completely
+    console.log(`Fallback: Logging email to ${to}: ${subject}\n${content}`);
+    return false;
+  }
 }
 
 // Admin authentication middleware
