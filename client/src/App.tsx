@@ -13,7 +13,7 @@ import ServiceDetail from "@/pages/ServiceDetail";
 import Blog from "@/pages/Blog";
 import BlogDetail from "@/pages/BlogDetail";
 import Contact from "@/pages/Contact";
-import Landing from "@/pages/Landing";
+import Login from "@/pages/Login";
 import Dashboard from "@/pages/admin/Dashboard";
 import AddBlog from "@/pages/admin/AddBlog";
 import ManageBlogs from "@/pages/admin/ManageBlogs";
