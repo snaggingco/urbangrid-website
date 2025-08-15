@@ -41,7 +41,10 @@ export default function Header({ isAdmin = false }: HeaderProps) {
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/">
-              <div className="text-2xl font-bold text-brand-green cursor-pointer">
+              <div 
+                className="text-2xl font-bold text-brand-green cursor-pointer"
+                onClick={() => window.scrollTo(0, 0)}
+              >
                 UrbanGrid
               </div>
             </Link>
@@ -56,6 +59,7 @@ export default function Header({ isAdmin = false }: HeaderProps) {
                     className={`text-text-grey hover:text-brand-green transition-colors font-medium ${
                       location === item.href ? 'text-brand-green' : ''
                     }`}
+                    onClick={() => window.scrollTo(0, 0)}
                   >
                     {item.name}
                   </a>
@@ -107,7 +111,10 @@ export default function Header({ isAdmin = false }: HeaderProps) {
                               className={`block py-2 px-3 text-lg text-text-grey hover:text-brand-green transition-colors ${
                                 location === item.href ? 'text-brand-green' : ''
                               }`}
-                              onClick={() => setIsMobileMenuOpen(false)}
+                              onClick={() => {
+                                setIsMobileMenuOpen(false);
+                                window.scrollTo(0, 0);
+                              }}
                             >
                               {item.name}
                             </a>
