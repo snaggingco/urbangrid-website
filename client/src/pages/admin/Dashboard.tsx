@@ -67,7 +67,7 @@ export default function Dashboard() {
 
   if (isLoading || (!isAuthenticated || user?.role !== 'admin')) {
     return (
-      <div className="pt-16 lg:pt-20 min-h-screen flex items-center justify-center">
+      <div className="pt-16 lg:pt-20 min-h-screen flex items-center justify-center admin-content">
         <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-brand-green"></div>
       </div>
     );
@@ -82,7 +82,7 @@ export default function Dashboard() {
   };
 
   return (
-    <div className="pt-16 lg:pt-20 min-h-screen bg-light-grey">
+    <div className="pt-16 lg:pt-20 min-h-screen bg-light-grey admin-content">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header with Navigation */}
         <div className="mb-8">

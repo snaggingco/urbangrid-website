@@ -16,42 +16,42 @@ export default function Home() {
       id: 1,
       title: "New Build Handover Snagging",
       description: "Comprehensive inspection before accepting your new property, identifying defects and ensuring everything meets standards.",
-      image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      icon: "fas fa-home",
       slug: "new-build-snagging"
     },
     {
       id: 2,
       title: "Post Renovation Inspection",
       description: "Quality assessment after renovation or fit-out work, ensuring all work meets specifications and quality standards.",
-      image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      icon: "fas fa-tools",
       slug: "post-renovation-inspection"
     },
     {
       id: 3,
       title: "DLP Snagging",
       description: "Defect Liability Period inspections to identify issues before warranty expires and ensure developer compliance.",
-      image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      icon: "fas fa-shield-alt",
       slug: "dlp-snagging"
     },
     {
       id: 4,
       title: "Move-in / Move-out Snagging",
       description: "Comprehensive condition reports for rental properties, protecting both tenants and landlords during transitions.",
-      image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      icon: "fas fa-exchange-alt",
       slug: "move-in-move-out"
     },
     {
       id: 5,
       title: "Secondary Market Snagging",
       description: "Pre-purchase inspections for existing properties, helping buyers make informed decisions and negotiate fairly.",
-      image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      icon: "fas fa-search",
       slug: "secondary-market"
     },
     {
       id: 6,
       title: "Developer & Contractor Snagging",
       description: "Quality control inspections for developers and contractors, ensuring projects meet industry standards and specifications.",
-      image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      icon: "fas fa-building",
       slug: "developer-projects"
     }
   ];
@@ -105,16 +105,18 @@ export default function Home() {
           {/* Services Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service) => (
-              <Card key={service.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                <div 
-                  className="h-48 bg-cover bg-center"
-                  style={{ backgroundImage: `url(${service.image})` }}
-                ></div>
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold text-brand-black mb-2">{service.title}</h3>
-                  <p className="text-text-grey mb-4">{service.description}</p>
+              <Card key={service.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
+                <CardContent className="p-8 text-center">
+                  <div className="service-icon">
+                    <i className={service.icon}></i>
+                  </div>
+                  <h3 className="text-xl font-semibold text-brand-black mb-3">{service.title}</h3>
+                  <p className="text-text-grey mb-6 leading-relaxed">{service.description}</p>
                   <Link href={`/services/${service.slug}`}>
-                    <a className="text-brand-green font-medium hover:underline">Learn More →</a>
+                    <a className="inline-flex items-center text-brand-green font-medium hover:underline transition-colors">
+                      Learn More
+                      <i className="fas fa-arrow-right ml-2 text-sm"></i>
+                    </a>
                   </Link>
                 </CardContent>
               </Card>
