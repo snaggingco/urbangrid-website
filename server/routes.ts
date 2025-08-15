@@ -29,12 +29,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
   await setupAuth(app);
   setupLocalAuth(app);
 
-  // Auth routes
-  app.get('/api/auth/user', isAuthenticated, async (req: any, res) => {
+  // Auth routes - handle both Replit auth and local admin auth
+  app.get('/api/auth/user', async (req: any, res) => {
     try {
-      const userId = req.user.claims.sub;
-      const user = await storage.getUser(userId);
-      res.json(user);
+      // Check if user is authenticated
+      if (req.isAuthenticated() && req.user) {
+        // Local admin authentication
+        if (req.user.claims?.sub === 'super-admin') {
+          return res.json({
+            id: 'super-admin',
+            email: 'admin@urbangrid.ae',
+            firstName: 'Arif',
+            lastName: 'Admin',
+            role: 'admin',
+            profileImageUrl: null
+          });
+        }
+        
+        // Replit authentication
+        if (req.user.claims?.sub && req.user.claims.sub !== 'super-admin') {
+          const userId = req.user.claims.sub;
+          const user = await storage.getUser(userId);
+          if (user) {
+            return res.json(user);
+          }
+        }
+      }
+      
+      // Not authenticated
+      res.status(401).json({ message: "Unauthorized" });
     } catch (error) {
       console.error("Error fetching user:", error);
       res.status(500).json({ message: "Failed to fetch user" });
