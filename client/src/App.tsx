@@ -29,6 +29,22 @@ import RasAlKhaimah from "@/pages/locations/RasAlKhaimah";
 import Fujairah from "@/pages/locations/Fujairah";
 import UmmAlQuwain from "@/pages/locations/UmmAlQuwain";
 
+// Dubai Location + Service Pages
+import DubaiNewBuildSnagging from "@/pages/locations/dubai/new-build-snagging";
+import DubaiVillaSnagging from "@/pages/locations/dubai/villa-snagging";
+import DubaiApartmentInspection from "@/pages/locations/dubai/apartment-inspection";
+import DubaiDLPSnagging from "@/pages/locations/dubai/dlp-snagging";
+
+// Abu Dhabi Location + Service Pages
+import AbuDhabiNewBuildSnagging from "@/pages/locations/abu-dhabi/new-build-snagging";
+import AbuDhabiVillaSnagging from "@/pages/locations/abu-dhabi/villa-snagging";
+import AbuDhabiApartmentInspection from "@/pages/locations/abu-dhabi/apartment-inspection";
+
+// Sharjah Location + Service Pages
+import SharjahNewBuildSnagging from "@/pages/locations/sharjah/new-build-snagging";
+import SharjahVillaSnagging from "@/pages/locations/sharjah/villa-snagging";
+import SharjahApartmentInspection from "@/pages/locations/sharjah/apartment-inspection";
+
 // Components
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -72,6 +88,22 @@ function Router() {
           <Route path="/locations/ras-al-khaimah" component={RasAlKhaimah} />
           <Route path="/locations/fujairah" component={Fujairah} />
           <Route path="/locations/umm-al-quwain" component={UmmAlQuwain} />
+          
+          {/* Dubai Location + Service Pages */}
+          <Route path="/locations/dubai/new-build-snagging" component={DubaiNewBuildSnagging} />
+          <Route path="/locations/dubai/villa-snagging" component={DubaiVillaSnagging} />
+          <Route path="/locations/dubai/apartment-inspection" component={DubaiApartmentInspection} />
+          <Route path="/locations/dubai/dlp-snagging" component={DubaiDLPSnagging} />
+          
+          {/* Abu Dhabi Location + Service Pages */}
+          <Route path="/locations/abu-dhabi/new-build-snagging" component={AbuDhabiNewBuildSnagging} />
+          <Route path="/locations/abu-dhabi/villa-snagging" component={AbuDhabiVillaSnagging} />
+          <Route path="/locations/abu-dhabi/apartment-inspection" component={AbuDhabiApartmentInspection} />
+          
+          {/* Sharjah Location + Service Pages */}
+          <Route path="/locations/sharjah/new-build-snagging" component={SharjahNewBuildSnagging} />
+          <Route path="/locations/sharjah/villa-snagging" component={SharjahVillaSnagging} />
+          <Route path="/locations/sharjah/apartment-inspection" component={SharjahApartmentInspection} />
           {/* Admin routes - protected for authenticated admin users */}
           {isAdmin && (
             <>
