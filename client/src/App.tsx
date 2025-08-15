@@ -26,7 +26,7 @@ import FloatingButtons from "@/components/FloatingButtons";
 
 function Router() {
   const { isAuthenticated, isLoading, user } = useAuth();
-  const isAdmin = user?.role === 'admin';
+  const isAdmin = isAuthenticated && user?.role === 'admin';
 
   if (isLoading) {
     return (
@@ -38,37 +38,29 @@ function Router() {
 
   return (
     <div className="min-h-screen bg-white">
-      {isAuthenticated ? (
-        <>
-          <Header isAdmin={isAdmin} />
-          <main>
-            <Switch>
-              <Route path="/" component={Home} />
-              <Route path="/about" component={About} />
-              <Route path="/services" component={Services} />
-              <Route path="/services/:slug" component={ServiceDetail} />
-              <Route path="/blog" component={Blog} />
-              <Route path="/blog/:slug" component={BlogDetail} />
-              <Route path="/contact" component={Contact} />
-              {isAdmin && (
-                <>
-                  <Route path="/admin" component={Dashboard} />
-                  <Route path="/admin/add-blog" component={AddBlog} />
-                  <Route path="/admin/manage-blogs" component={ManageBlogs} />
-                </>
-              )}
-              <Route component={NotFound} />
-            </Switch>
-          </main>
-          <Footer />
-          <FloatingButtons />
-        </>
-      ) : (
+      <Header isAdmin={isAdmin} />
+      <main>
         <Switch>
-          <Route path="/" component={Landing} />
-          <Route component={Landing} />
+          <Route path="/" component={Home} />
+          <Route path="/about" component={About} />
+          <Route path="/services" component={Services} />
+          <Route path="/services/:slug" component={ServiceDetail} />
+          <Route path="/blog" component={Blog} />
+          <Route path="/blog/:slug" component={BlogDetail} />
+          <Route path="/contact" component={Contact} />
+          {/* Admin routes - protected for authenticated admin users */}
+          {isAdmin && (
+            <>
+              <Route path="/admin" component={Dashboard} />
+              <Route path="/admin/add-blog" component={AddBlog} />
+              <Route path="/admin/manage-blogs" component={ManageBlogs} />
+            </>
+          )}
+          <Route component={NotFound} />
         </Switch>
-      )}
+      </main>
+      <Footer />
+      <FloatingButtons />
     </div>
   );
 }
