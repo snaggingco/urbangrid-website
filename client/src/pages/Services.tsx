@@ -24,7 +24,7 @@ export default function Services() {
     {
       id: 2,
       title: "Post Renovation / Fit-out Snagging Inspection",
-      slug: "post-renovation-inspection", 
+      slug: "post-renovation-inspection",
       description: "Quality assessment after renovation or fit-out work to ensure all improvements meet specifications and industry standards.",
       icon: "fas fa-hammer",
       features: [
@@ -52,7 +52,7 @@ export default function Services() {
         "Legal documentation",
         "Multiple follow-ups"
       ],
-      duration: "5-9 hours", 
+      duration: "5-9 hours",
       price: "From AED 1,800"
     },
     {
@@ -127,7 +127,7 @@ export default function Services() {
       {/* Services Grid */}
       <section className="py-16 lg:py-20 bg-light-grey">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {services.map((service) => (
               <Card key={service.id} className="bg-white overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                 <CardContent className="p-8">
@@ -140,7 +140,7 @@ export default function Services() {
                   <p className="text-text-grey mb-6 leading-relaxed">
                     {service.description}
                   </p>
-                  
+
                   <div className="space-y-4 mb-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
@@ -166,7 +166,7 @@ export default function Services() {
                       </div>
                     </div>
                   </div>
-                  
+
                   <div className="flex flex-col sm:flex-row gap-4">
                     <Link href={`/services/${service.slug}`}>
                       <a onClick={() => window.scrollTo(0, 0)}>
@@ -199,7 +199,7 @@ export default function Services() {
               A systematic approach ensuring thorough, professional, and reliable property inspections every time.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             <div className="text-center">
               <div className="bg-brand-green text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
@@ -210,7 +210,7 @@ export default function Services() {
                 Initial discussion to understand your requirements and schedule the inspection.
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="bg-brand-green text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
                 2
@@ -220,7 +220,7 @@ export default function Services() {
                 Comprehensive on-site examination using professional tools and expertise.
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="bg-brand-green text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
                 3
@@ -230,7 +230,7 @@ export default function Services() {
                 Detailed report with photos, findings, and professional recommendations.
               </p>
             </div>
-            
+
             <div className="text-center">
               <div className="bg-brand-green text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
                 4
@@ -259,7 +259,7 @@ export default function Services() {
                 Get Free Consultation
               </Button>
             </Link>
-            <a 
+            <a
               href="tel:+971501234567"
               className="inline-flex items-center bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-semibold hover:bg-white hover:text-brand-green transition-colors"
             >
