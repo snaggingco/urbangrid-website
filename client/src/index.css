@@ -109,4 +109,31 @@
   .font-inter {
     font-family: var(--font-inter);
   }
+
+  /* Custom phone input styling to match other form fields */
+  .custom-phone-input .PhoneInputInput {
+    height: 48px;
+    padding: 0 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: white;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  .custom-phone-input .PhoneInputInput:focus {
+    border-color: var(--brand-green);
+    box-shadow: 0 0 0 2px rgba(6, 78, 59, 0.2);
+  }
+
+  .custom-phone-input .PhoneInputCountrySelect {
+    border: none;
+    background: transparent;
+    margin-right: 8px;
+  }
+
+  .custom-phone-input .PhoneInputCountrySelectArrow {
+    color: #6b7280;
+  }
 }

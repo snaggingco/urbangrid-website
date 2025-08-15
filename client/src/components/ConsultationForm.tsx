@@ -109,12 +109,7 @@ export default function ConsultationForm() {
                 value={formData.phone}
                 onChange={(value) => handleInputChange("phone", value || "")}
                 placeholder="Enter phone number"
-                className="h-12"
-                style={{
-                  '--PhoneInputCountryFlag-height': '1em',
-                  '--PhoneInputCountryFlag-borderColor': 'transparent',
-                  '--PhoneInput-color--focus': '#064E3B',
-                }}
+                className="custom-phone-input"
               />
             </div>
             
