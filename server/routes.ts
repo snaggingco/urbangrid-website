@@ -79,7 +79,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           profileImageUrl: null
         });
       }
-      
+
       // Not authenticated
       res.status(401).json({ message: "Unauthorized" });
     } catch (error) {
@@ -126,7 +126,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { slug } = req.params;
       const post = await storage.getBlogPostBySlug(slug);
-      
+
       if (!post || post.status !== 'published') {
         return res.status(404).json({ message: "Blog post not found" });
       }
@@ -176,7 +176,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const { id } = req.params;
       const post = await storage.getBlogPost(parseInt(id));
-      
+
       if (!post) {
         return res.status(404).json({ message: "Blog post not found" });
       }
@@ -213,13 +213,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const { id } = req.params;
       const updateData = { ...req.body };
-      
+
       if (req.body.title) {
         updateData.slug = generateSlug(req.body.title);
       }
 
       const post = await storage.updateBlogPost(parseInt(id), updateData);
-      
+
       if (!post) {
         return res.status(404).json({ message: "Blog post not found" });
       }
@@ -236,7 +236,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const { id } = req.params;
       const success = await storage.deleteBlogPost(parseInt(id));
-      
+
       if (!success) {
         return res.status(404).json({ message: "Blog post not found" });
       }
@@ -257,12 +257,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Send email notification to info@urbangrid.ae
       const emailContent = `
         New contact form submission:
-        
+
         Name: ${submission.name}
         Email: ${submission.email}
         Phone: ${submission.phone || 'Not provided'}
         Enquiry Type: ${submission.enquiryType || 'General Enquiry'}
-        
+
         Message:
         ${submission.message}
       `;
@@ -283,7 +283,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/consultation', async (req, res) => {
     try {
       const { name, email, phone } = req.body;
-      
+
       if (!name || !email || !phone) {
         return res.status(400).json({ message: "Name, email, and phone are required" });
       }
@@ -299,7 +299,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Send email notification
       const emailContent = `
         New free consultation request:
-        
+
         Name: ${name}
         Email: ${email}
         Phone: ${phone}
