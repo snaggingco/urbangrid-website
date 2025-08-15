@@ -122,10 +122,10 @@ export default function Contact() {
                       <div>
                         <h3 className="font-semibold text-brand-black">Phone Number</h3>
                         <a 
-                          href="tel:+971501234567" 
+                          href="tel:+971585686852" 
                           className="text-text-grey hover:text-brand-green transition-colors"
                         >
-                          +971 50 123 4567
+                          +971 58 568 6852
                         </a>
                       </div>
                     </div>
@@ -176,7 +176,7 @@ export default function Contact() {
                     <h3 className="font-semibold text-brand-black mb-4">Quick Contact</h3>
                     <div className="flex flex-col sm:flex-row gap-4">
                       <a
-                        href="tel:+971501234567"
+                        href="tel:+971585686852"
                         className="flex items-center justify-center px-4 py-2 bg-brand-green text-white rounded-md hover:bg-opacity-90 transition-colors"
                       >
                         <i className="fas fa-phone mr-2"></i>
@@ -184,7 +184,7 @@ export default function Contact() {
                       </a>
                       
                       <a
-                        href="https://wa.me/971501234567?text=Hello! I'm interested in your property inspection services."
+                        href="https://wa.me/971585686852?text=Hello%20UrbanGrid%2C%20I%27m%20interested%20in%20your%20property%20inspection%20services.%20Please%20provide%20me%20with%20more%20information."
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex items-center justify-center px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors"
@@ -338,15 +338,15 @@ export default function Contact() {
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a 
-              href="tel:+971501234567"
+              href="tel:+971585686852"
               className="inline-flex items-center bg-white text-brand-green px-8 py-3 rounded-md font-semibold hover:bg-gray-100 transition-colors"
             >
               <i className="fas fa-phone mr-2"></i>
-              Call Now: +971 50 123 4567
+              Call Now: +971 58 568 6852
             </a>
             
             <a 
-              href="https://wa.me/971501234567?text=Hello! I'm ready to schedule my property inspection."
+              href="https://wa.me/971585686852?text=Hello%20UrbanGrid%2C%20I%27m%20ready%20to%20schedule%20my%20property%20inspection.%20Please%20provide%20me%20with%20more%20information."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-semibold hover:bg-white hover:text-brand-green transition-colors"

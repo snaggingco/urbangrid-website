@@ -57,11 +57,11 @@ export default function NewBuildSnaggingDubai() {
                 </Button>
               </Link>
               <a 
-                href="tel:+971501234567"
+                href="tel:+971585686852"
                 className="inline-flex items-center bg-transparent border-2 border-brand-green text-brand-green px-8 py-3 rounded-md font-semibold hover:bg-brand-green hover:text-white transition-colors"
               >
                 <i className="fas fa-phone mr-2"></i>
-                Call Dubai: +971 50 123 4567
+                Call Dubai: +971 58 568 6852
               </a>
               <a 
                 href="https://wa.me/971501234567?text=Hello! I need new build snagging services in Dubai."

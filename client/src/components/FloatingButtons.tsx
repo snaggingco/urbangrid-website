@@ -21,7 +21,7 @@ export default function FloatingButtons() {
           {/* WhatsApp Button */}
           <div className="relative">
             <a
-              href="https://wa.me/971501234567?text=Hello! I'm interested in your property inspection services."
+              href="https://wa.me/971585686852?text=Hello%20UrbanGrid%2C%20I%27m%20interested%20in%20your%20property%20inspection%20services.%20Please%20provide%20me%20with%20more%20information."
               target="_blank"
               rel="noopener noreferrer"
               className={`floating-button-desktop bg-green-500 hover:bg-green-600 text-white w-14 h-14 rounded-full shadow-lg transition-all duration-300 hover:scale-110 group flex items-center justify-center ${
@@ -47,7 +47,7 @@ export default function FloatingButtons() {
           {/* Call Button */}
           <div className="relative">
             <a
-              href="tel:+971501234567"
+              href="tel:+971585686852"
               className={`floating-button-desktop bg-brand-green hover:bg-opacity-90 text-white w-14 h-14 rounded-full shadow-lg transition-all duration-300 hover:scale-110 group flex items-center justify-center ${
                 showPulse ? 'animate-pulse-glow-desktop' : ''
               }`}
@@ -80,7 +80,7 @@ export default function FloatingButtons() {
             </div>
             <div className="flex space-x-3">
               <a
-                href="https://wa.me/971501234567?text=Hello! I'm interested in your property inspection services."
+                href="https://wa.me/971585686852?text=Hello%20UrbanGrid%2C%20I%27m%20interested%20in%20your%20property%20inspection%20services.%20Please%20provide%20me%20with%20more%20information."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-105"
@@ -89,7 +89,7 @@ export default function FloatingButtons() {
                 <i className="fab fa-whatsapp text-lg"></i>
               </a>
               <a
-                href="tel:+971501234567"
+                href="tel:+971585686852"
                 className="bg-brand-green hover:bg-opacity-90 text-white p-3 rounded-full shadow-lg transition-all duration-300 hover:scale-105"
                 aria-label="Call us"
               >

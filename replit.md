@@ -74,8 +74,8 @@ Preferred communication style: Simple, everyday language.
 
 ### Communication & Notifications
 - **Email Service**: Email sending capability for form submissions (configured for info@urbangrid.ae)
-- **WhatsApp Integration**: Direct messaging for customer inquiries
-- **Phone Integration**: Click-to-call functionality for immediate contact
+- **WhatsApp Integration**: Direct messaging for customer inquiries (+971 58 568 6852)
+- **Phone Integration**: Click-to-call functionality for immediate contact (+971 58 568 6852)
 
 ### Development & Deployment
 - **Vite**: Fast build tool with HMR for development
