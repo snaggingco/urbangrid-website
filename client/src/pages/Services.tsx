@@ -9,7 +9,7 @@ export default function Services() {
       title: "New Build Handover Snagging & Inspection",
       slug: "new-build-snagging",
       description: "Comprehensive pre-handover inspection of newly constructed properties to identify defects, incomplete work, and quality issues before you take possession.",
-      image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      icon: "fas fa-clipboard-list",
       features: [
         "Complete structural assessment",
         "MEP systems inspection",
@@ -26,7 +26,7 @@ export default function Services() {
       title: "Post Renovation / Fit-out Snagging Inspection",
       slug: "post-renovation-inspection", 
       description: "Quality assessment after renovation or fit-out work to ensure all improvements meet specifications and industry standards.",
-      image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      icon: "fas fa-hammer",
       features: [
         "Renovation work quality check",
         "Material compliance verification",
@@ -43,7 +43,7 @@ export default function Services() {
       title: "Property Defect Liability Period (DLP) Snagging",
       slug: "dlp-snagging",
       description: "Strategic inspection during the defect liability period to identify and document all issues before warranty expires.",
-      image: "https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      icon: "fas fa-file-alt",
       features: [
         "Pre-warranty expiry inspection",
         "Comprehensive defect catalog",
@@ -60,7 +60,7 @@ export default function Services() {
       title: "Property Move-in / Move-out Snagging",
       slug: "move-in-move-out",
       description: "Detailed condition reports for rental properties to protect both tenants and landlords during property transitions.",
-      image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      icon: "fas fa-key",
       features: [
         "Comprehensive condition report",
         "Photo documentation",
@@ -77,7 +77,7 @@ export default function Services() {
       title: "Secondary Market Property Snagging",
       slug: "secondary-market",
       description: "Pre-purchase inspections for existing properties to help buyers make informed decisions and negotiate fair prices.",
-      image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      icon: "fas fa-search",
       features: [
         "Pre-purchase inspection",
         "Market value assessment",
@@ -94,7 +94,7 @@ export default function Services() {
       title: "Developer and Contractor Project Snagging",
       slug: "developer-projects",
       description: "Quality control inspections for developers and contractors to ensure projects meet industry standards and client expectations.",
-      image: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=400",
+      icon: "fas fa-users",
       features: [
         "Quality control auditing",
         "Progress milestone verification",
@@ -129,12 +129,11 @@ export default function Services() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {services.map((service) => (
-              <Card key={service.id} className="bg-white overflow-hidden hover:shadow-lg transition-shadow">
-                <div 
-                  className="h-48 bg-cover bg-center"
-                  style={{ backgroundImage: `url(${service.image})` }}
-                ></div>
+              <Card key={service.id} className="bg-white overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                 <CardContent className="p-8">
+                  <div className="service-icon mb-6">
+                    <i className={service.icon}></i>
+                  </div>
                   <h2 className="text-2xl font-semibold text-brand-black mb-4">
                     {service.title}
                   </h2>
@@ -170,9 +169,11 @@ export default function Services() {
                   
                   <div className="flex flex-col sm:flex-row gap-4">
                     <Link href={`/services/${service.slug}`}>
-                      <Button className="bg-brand-green text-white hover:bg-opacity-90 flex-1">
-                        Learn More
-                      </Button>
+                      <a onClick={() => window.scrollTo(0, 0)}>
+                        <Button className="bg-brand-green text-white hover:bg-opacity-90 w-full">
+                          Learn More
+                        </Button>
+                      </a>
                     </Link>
                     <Link href="/contact">
                       <Button variant="outline" className="border-brand-green text-brand-green hover:bg-brand-green hover:text-white flex-1">
