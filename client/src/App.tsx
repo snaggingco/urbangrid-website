@@ -20,6 +20,15 @@ import AddBlog from "@/pages/admin/AddBlog";
 import ManageBlogs from "@/pages/admin/ManageBlogs";
 import NotFound from "@/pages/not-found";
 
+// Location Pages
+import Dubai from "@/pages/locations/Dubai";
+import AbuDhabi from "@/pages/locations/AbuDhabi";
+import Sharjah from "@/pages/locations/Sharjah";
+import Ajman from "@/pages/locations/Ajman";
+import RasAlKhaimah from "@/pages/locations/RasAlKhaimah";
+import Fujairah from "@/pages/locations/Fujairah";
+import UmmAlQuwain from "@/pages/locations/UmmAlQuwain";
+
 // Components
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -55,6 +64,14 @@ function Router() {
           <Route path="/blog" component={Blog} />
           <Route path="/blog/:slug" component={BlogDetail} />
           <Route path="/contact" component={Contact} />
+          {/* Location Pages */}
+          <Route path="/locations/dubai" component={Dubai} />
+          <Route path="/locations/abu-dhabi" component={AbuDhabi} />
+          <Route path="/locations/sharjah" component={Sharjah} />
+          <Route path="/locations/ajman" component={Ajman} />
+          <Route path="/locations/ras-al-khaimah" component={RasAlKhaimah} />
+          <Route path="/locations/fujairah" component={Fujairah} />
+          <Route path="/locations/umm-al-quwain" component={UmmAlQuwain} />
           {/* Admin routes - protected for authenticated admin users */}
           {isAdmin && (
             <>
