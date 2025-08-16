@@ -73,16 +73,7 @@ export default function Home() {
           style={{
             backgroundImage: `url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80')`
           }}
-        >
-          <img 
-            src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80"
-            alt="Professional property inspection in modern building"
-            className="absolute inset-0 w-full h-full object-cover"
-            fetchpriority="high"
-            loading="eager"
-            style={{ display: 'none' }}
-          />
-        </div>
+        ></div>
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
         
         {/* Hero Content */}
