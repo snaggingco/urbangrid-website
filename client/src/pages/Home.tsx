@@ -71,9 +71,18 @@ export default function Home() {
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080')`
+            backgroundImage: `url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80')`
           }}
-        ></div>
+        >
+          <img 
+            src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80"
+            alt="Professional property inspection in modern building"
+            className="absolute inset-0 w-full h-full object-cover"
+            fetchPriority="high"
+            loading="eager"
+            style={{ display: 'none' }}
+          />
+        </div>
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
         
         {/* Hero Content */}
@@ -113,10 +122,10 @@ export default function Home() {
                   <h3 className="text-xl font-semibold text-brand-black mb-3">{service.title}</h3>
                   <p className="text-text-grey mb-6 leading-relaxed">{service.description}</p>
                   <Link href={`/services/${service.slug}`}>
-                    <a className="inline-flex items-center text-brand-green font-medium hover:underline transition-colors">
-                      Learn More
+                    <span className="inline-flex items-center text-brand-green font-medium hover:underline transition-colors cursor-pointer">
+                      Learn More About {service.title}
                       <i className="fas fa-arrow-right ml-2 text-sm"></i>
-                    </a>
+                    </span>
                   </Link>
                 </CardContent>
               </Card>
@@ -149,9 +158,10 @@ export default function Home() {
             
             <div className="relative">
               <img 
-                src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" 
+                src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=450&q=80" 
                 alt="Professional property inspection team" 
                 className="rounded-lg shadow-lg w-full"
+                loading="lazy"
               />
               
               {/* Stats Overlay */}
@@ -174,12 +184,12 @@ export default function Home() {
             <p className="text-text-grey">Trusted by leading developers, contractors, and homeowners across the UAE</p>
           </div>
           
-          <div className="flex flex-wrap justify-center items-center gap-8 opacity-70">
+          <div className="flex flex-wrap justify-center items-center gap-8">
             {certifications.map((cert) => (
-              <div key={cert.name} className="bg-white p-4 rounded-lg shadow-sm">
+              <div key={cert.name} className="bg-white p-4 rounded-lg shadow-sm opacity-90 hover:opacity-100 transition-opacity">
                 <div className="text-brand-green text-center">
                   <i className={`${cert.icon} text-3xl mb-2`}></i>
-                  <div className="text-sm font-medium">{cert.name}</div>
+                  <div className="text-sm font-medium text-gray-800">{cert.name}</div>
                 </div>
               </div>
             ))}

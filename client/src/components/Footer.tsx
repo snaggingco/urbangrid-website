@@ -60,9 +60,9 @@ export default function Footer() {
               {quickLinks.map((link) => (
                 <li key={link.name}>
                   <Link href={link.href}>
-                    <a className="text-gray-300 hover:text-white transition-colors">
+                    <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">
                       {link.name}
-                    </a>
+                    </span>
                   </Link>
                 </li>
               ))}
@@ -76,9 +76,9 @@ export default function Footer() {
               {services.map((service) => (
                 <li key={service.name}>
                   <Link href={service.href}>
-                    <a className="text-gray-300 hover:text-white transition-colors">
+                    <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">
                       {service.name}
-                    </a>
+                    </span>
                   </Link>
                 </li>
               ))}

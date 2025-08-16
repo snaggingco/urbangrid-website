@@ -55,14 +55,14 @@ export default function Header({ isAdmin = false }: HeaderProps) {
             <nav className="hidden md:flex items-center space-x-8">
               {navigation.map((item) => (
                 <Link key={item.name} href={item.href}>
-                  <a
-                    className={`text-text-grey hover:text-brand-green transition-colors font-medium ${
+                  <span
+                    className={`text-text-grey hover:text-brand-green transition-colors font-medium cursor-pointer ${
                       location === item.href ? 'text-brand-green' : ''
                     }`}
                     onClick={() => window.scrollTo(0, 0)}
                   >
                     {item.name}
-                  </a>
+                  </span>
                 </Link>
               ))}
             </nav>
@@ -99,6 +99,7 @@ export default function Header({ isAdmin = false }: HeaderProps) {
                         variant="ghost"
                         size="sm"
                         className="text-text-grey hover:text-brand-green"
+                        aria-label="Open navigation menu"
                       >
                         <Menu className="h-5 w-5" />
                       </Button>
@@ -107,8 +108,8 @@ export default function Header({ isAdmin = false }: HeaderProps) {
                       <nav className="flex flex-col space-y-4 mt-8">
                         {navigation.map((item) => (
                           <Link key={item.name} href={item.href}>
-                            <a
-                              className={`block py-2 px-3 text-lg text-text-grey hover:text-brand-green transition-colors ${
+                            <span
+                              className={`block py-2 px-3 text-lg text-text-grey hover:text-brand-green transition-colors cursor-pointer ${
                                 location === item.href ? 'text-brand-green' : ''
                               }`}
                               onClick={() => {
@@ -117,7 +118,7 @@ export default function Header({ isAdmin = false }: HeaderProps) {
                               }}
                             >
                               {item.name}
-                            </a>
+                            </span>
                           </Link>
                         ))}
                         
