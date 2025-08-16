@@ -318,17 +318,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Quick contact form endpoint (scroll-triggered popup)
   app.post('/api/quick-contact', async (req, res) => {
     try {
-      const { name, email } = req.body;
+      const { name, email, phone } = req.body;
 
-      if (!name || !email) {
-        return res.status(400).json({ message: "Name and email are required" });
+      if (!name || !email || !phone) {
+        return res.status(400).json({ message: "Name, email, and phone are required" });
       }
 
       // Save to contact submissions table
       const submission = await storage.createContactSubmission({
         name,
         email,
-        phone: '', // Not collected in quick form
+        phone,
         message: 'Quick contact form submission (scroll-triggered)',
         enquiryType: 'Quick Contact Request'
       });
@@ -339,6 +339,7 @@ New Quick Contact Form Submission:
 
 Name: ${name}
 Email: ${email}
+Phone: ${phone}
 Source: Scroll-triggered popup form
       `;
 

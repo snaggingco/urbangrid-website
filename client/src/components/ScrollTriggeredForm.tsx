@@ -6,6 +6,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { X } from "lucide-react";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
 export default function ScrollTriggeredForm() {
   const [isVisible, setIsVisible] = useState(false);
@@ -14,6 +16,7 @@ export default function ScrollTriggeredForm() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    phone: "",
   });
   const { toast } = useToast();
 
@@ -43,6 +46,7 @@ export default function ScrollTriggeredForm() {
       await apiRequest("POST", "/api/quick-contact", {
         name: formData.name,
         email: formData.email,
+        phone: formData.phone,
       });
 
       toast({
@@ -55,6 +59,7 @@ export default function ScrollTriggeredForm() {
       setFormData({
         name: "",
         email: "",
+        phone: "",
       });
       setIsVisible(false);
     } catch (error) {
@@ -133,6 +138,24 @@ export default function ScrollTriggeredForm() {
                 required
                 className="w-full h-12 px-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-green focus:border-brand-green"
               />
+            </div>
+            
+            {/* Phone Field */}
+            <div>
+              <Label htmlFor="popup-phone" className="block text-sm font-medium text-gray-700 mb-2">
+                Phone Number *
+              </Label>
+              <div className="custom-phone-input-wrapper">
+                <PhoneInput
+                  international
+                  countryCallingCodeEditable={false}
+                  defaultCountry="AE"
+                  value={formData.phone}
+                  onChange={(value) => handleInputChange("phone", value || "")}
+                  placeholder="Enter phone number"
+                  className="custom-phone-input"
+                />
+              </div>
             </div>
             
             {/* Submit Button */}
