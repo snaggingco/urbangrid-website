@@ -2,6 +2,7 @@ import { useParams, Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import NotFound from "@/pages/not-found";
+import SEO from "@/components/SEO";
 
 interface ServiceData {
   slug: string;
@@ -719,8 +720,40 @@ export default function ServiceDetail() {
 
   const service = servicesData[slug];
 
+  const categoryDisplayNames = {
+    'property-snagging': 'Property Snagging',
+    'rera-services': 'RERA Services', 
+    'technical-inspections': 'Technical Inspections'
+  };
+
+  const categoryName = categoryDisplayNames[category as keyof typeof categoryDisplayNames] || 'Services';
+
   return (
-    <div className="pt-16 lg:pt-20">
+    <>
+      <SEO 
+        title={`${service.title} UAE - Professional ${categoryName} Services | UrbanGrid`}
+        description={`${service.description} Expert ${categoryName.toLowerCase()} services across Dubai, Abu Dhabi, UAE. Professional inspection reports, same-day service, competitive pricing.`}
+        keywords={`${service.title.toLowerCase()}, ${categoryName.toLowerCase()} UAE, property inspection Dubai, ${service.slug} Abu Dhabi, professional inspection services`}
+      />
+      
+      <div className="pt-16 lg:pt-20">
+      {/* Breadcrumb Navigation */}
+      <section className="py-4 bg-light-grey border-b">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <nav className="flex text-sm text-text-grey" aria-label="Breadcrumb">
+            <Link href="/" className="hover:text-brand-green transition-colors">
+              Home
+            </Link>
+            <span className="mx-2">/</span>
+            <Link href="/services" className="hover:text-brand-green transition-colors">
+              Services
+            </Link>
+            <span className="mx-2">/</span>
+            <span className="text-brand-black font-medium">{service.title}</span>
+          </nav>
+        </div>
+      </section>
+
       {/* Hero Section */}
       <section className="relative py-16 lg:py-20 bg-gray-900">
         <div 
@@ -732,11 +765,25 @@ export default function ServiceDetail() {
         <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center text-white">
             <h1 className="text-4xl lg:text-5xl font-bold mb-6">
-              {service.title}
+              {service.title} in Dubai, Abu Dhabi & UAE
             </h1>
-            <p className="text-xl leading-relaxed">
+            <p className="text-xl leading-relaxed mb-4">
               {service.description}
             </p>
+            <div className="flex flex-wrap justify-center gap-4 text-green-200">
+              <span className="flex items-center">
+                <i className="fas fa-check-circle mr-2"></i>
+                Same-Day Reports
+              </span>
+              <span className="flex items-center">
+                <i className="fas fa-check-circle mr-2"></i>
+                RERA Certified
+              </span>
+              <span className="flex items-center">
+                <i className="fas fa-check-circle mr-2"></i>
+                40,000+ Properties Inspected
+              </span>
+            </div>
           </div>
         </div>
       </section>
@@ -893,14 +940,97 @@ export default function ServiceDetail() {
         </div>
       </section>
 
+      {/* Related Services */}
+      <section className="py-16 lg:py-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-brand-black mb-12 text-center">
+            Related Services You Might Need
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Show 3 related services from the same category or popular services */}
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardContent className="p-6 text-center">
+                <i className="fas fa-clipboard-list text-brand-green text-3xl mb-4"></i>
+                <h3 className="text-lg font-semibold mb-3">New Build Snagging</h3>
+                <p className="text-text-grey mb-4">Comprehensive pre-handover inspection services</p>
+                <Link href="/services/property-snagging/new-build-snagging">
+                  <span className="text-brand-green hover:underline cursor-pointer">Learn More →</span>
+                </Link>
+              </CardContent>
+            </Card>
+            
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardContent className="p-6 text-center">
+                <i className="fas fa-search text-brand-green text-3xl mb-4"></i>
+                <h3 className="text-lg font-semibold mb-3">Pre-Purchase Inspection</h3>
+                <p className="text-text-grey mb-4">Investment protection for existing properties</p>
+                <Link href="/services/property-snagging/secondary-market">
+                  <span className="text-brand-green hover:underline cursor-pointer">Learn More →</span>
+                </Link>
+              </CardContent>
+            </Card>
+            
+            <Card className="hover:shadow-lg transition-shadow">
+              <CardContent className="p-6 text-center">
+                <i className="fas fa-file-alt text-brand-green text-3xl mb-4"></i>
+                <h3 className="text-lg font-semibold mb-3">DLP Snagging</h3>
+                <p className="text-text-grey mb-4">Warranty period defect identification</p>
+                <Link href="/services/property-snagging/dlp-snagging">
+                  <span className="text-brand-green hover:underline cursor-pointer">Learn More →</span>
+                </Link>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section for SEO */}
+      <section className="py-16 lg:py-20 bg-light-grey">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-3xl font-bold text-brand-black mb-12 text-center">
+            Frequently Asked Questions
+          </h2>
+          
+          <div className="max-w-4xl mx-auto space-y-6">
+            <div className="bg-white p-6 rounded-lg shadow-sm">
+              <h3 className="text-lg font-semibold text-brand-black mb-3">
+                How much does {service.title.toLowerCase()} cost in UAE?
+              </h3>
+              <p className="text-text-grey">
+                Our {service.title.toLowerCase()} services start from {service.price}. Final pricing depends on property size, location, and specific requirements. Contact us for a free, no-obligation quote tailored to your needs.
+              </p>
+            </div>
+            
+            <div className="bg-white p-6 rounded-lg shadow-sm">
+              <h3 className="text-lg font-semibold text-brand-black mb-3">
+                How long does the {service.title.toLowerCase()} process take?
+              </h3>
+              <p className="text-text-grey">
+                Typically takes {service.duration}. We provide same-day reports with detailed findings, photographs, and professional recommendations. Urgent inspections can be arranged within 24 hours.
+              </p>
+            </div>
+            
+            <div className="bg-white p-6 rounded-lg shadow-sm">
+              <h3 className="text-lg font-semibold text-brand-black mb-3">
+                Do you provide {service.title.toLowerCase()} services across all UAE emirates?
+              </h3>
+              <p className="text-text-grey">
+                Yes, we provide comprehensive {service.title.toLowerCase()} services across Dubai, Abu Dhabi, Sharjah, Ajman, Fujairah, Ras Al Khaimah, and Umm Al Quwain. Our certified team ensures consistent quality standards nationwide.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-16 lg:py-20 bg-brand-green text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold mb-6">
-            Ready to Schedule Your Inspection?
+            Ready to Schedule Your {service.title}?
           </h2>
           <p className="text-xl mb-8 text-green-100 max-w-2xl mx-auto">
-            Get professional property inspection services from UAE's most trusted experts. Contact us today for a free consultation.
+            Get expert {service.title.toLowerCase()} services across Dubai, Abu Dhabi, Sharjah and all UAE. Same-day reports, competitive pricing, RERA certified professionals.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -915,8 +1045,37 @@ export default function ServiceDetail() {
               </Button>
             </Link>
           </div>
+          
+          {/* Location Coverage */}
+          <div className="mt-12 pt-8 border-t border-green-400">
+            <h3 className="text-2xl font-bold mb-6 text-center">
+              Service Coverage Across UAE
+            </h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <i className="fas fa-map-marker-alt mb-2 text-2xl"></i>
+                <div className="font-semibold">Dubai</div>
+                <div className="text-green-200 text-sm">All Areas</div>
+              </div>
+              <div>
+                <i className="fas fa-map-marker-alt mb-2 text-2xl"></i>
+                <div className="font-semibold">Abu Dhabi</div>
+                <div className="text-green-200 text-sm">All Areas</div>
+              </div>
+              <div>
+                <i className="fas fa-map-marker-alt mb-2 text-2xl"></i>
+                <div className="font-semibold">Sharjah</div>
+                <div className="text-green-200 text-sm">All Areas</div>
+              </div>
+              <div>
+                <i className="fas fa-map-marker-alt mb-2 text-2xl"></i>
+                <div className="font-semibold">Northern Emirates</div>
+                <div className="text-green-200 text-sm">Ajman, RAK, Fujairah</div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
-    </div>
+    </>
   );
 }

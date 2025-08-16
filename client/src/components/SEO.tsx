@@ -82,6 +82,92 @@ const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
     title: 'Property Inspection Abu Dhabi - Expert Property Assessment Services',
     description: 'Professional property inspection services across Abu Dhabi\'s premium developments. From Al Reem Island to Saadiyat Island, ensure your property investment meets the highest standards.',
     keywords: 'property inspection abu dhabi, abu dhabi property assessment, property snagging abu dhabi, abu dhabi inspection services'
+  },
+  
+  // Property Snagging Services
+  '/services/property-snagging/new-build-snagging': {
+    title: 'New Build Handover Snagging Dubai Abu Dhabi UAE - Professional Inspection',
+    description: 'Expert new build snagging services across UAE. Pre-handover inspections identifying defects before you accept your property. Professional reports, developer liaison, warranty protection.',
+    keywords: 'new build snagging UAE, handover inspection Dubai, new property snagging Abu Dhabi, pre-handover inspection, property defects UAE, new build inspection'
+  },
+  '/services/property-snagging/post-renovation-inspection': {
+    title: 'Post Renovation Inspection UAE - Quality Assessment After Fit-out Work',
+    description: 'Professional post-renovation inspection services ensuring fit-out work meets specifications. Quality control, compliance verification, warranty documentation across Dubai, Abu Dhabi, UAE.',
+    keywords: 'post renovation inspection UAE, fit-out inspection Dubai, renovation quality control, post construction inspection Abu Dhabi, fit-out snagging'
+  },
+  '/services/property-snagging/dlp-snagging': {
+    title: 'DLP Snagging UAE - Defect Liability Period Inspection Before Warranty Expires',
+    description: 'Strategic DLP snagging services maximizing warranty claims before expiry. Expert defect identification, developer liaison, free rectification claims across UAE.',
+    keywords: 'DLP snagging UAE, defect liability period inspection, warranty snagging Dubai, property warranty claims, DLP inspection Abu Dhabi'
+  },
+  '/services/property-snagging/move-in-move-out': {
+    title: 'Move-in Move-out Inspection UAE - Rental Property Condition Reports',
+    description: 'Professional move-in/move-out inspections protecting tenants and landlords. Detailed condition reports, security deposit protection, rental property assessments UAE.',
+    keywords: 'move in move out inspection UAE, rental property inspection Dubai, tenant move out inspection, landlord protection UAE, security deposit inspection'
+  },
+  '/services/property-snagging/secondary-market': {
+    title: 'Secondary Market Property Inspection UAE - Pre-Purchase Assessment',
+    description: 'Expert pre-purchase inspections for existing properties. Investment protection, hidden defect detection, negotiation support, market analysis across Dubai, Abu Dhabi, UAE.',
+    keywords: 'secondary market inspection UAE, pre-purchase inspection Dubai, existing property inspection, investment property assessment, property buying inspection'
+  },
+  '/services/property-snagging/developer-projects': {
+    title: 'Developer Contractor Snagging UAE - Quality Control Project Inspection',
+    description: 'Independent quality control inspections for developers and contractors. Project compliance, industry standards verification, client satisfaction assurance across UAE.',
+    keywords: 'developer snagging UAE, contractor quality control, project inspection Dubai, construction quality assurance, developer quality control UAE'
+  },
+  
+  // RERA Services
+  '/services/rera-services/reserve-fund-study': {
+    title: 'Reserve Fund Study UAE - RERA Compliant Sinking Fund Analysis',
+    description: 'Professional reserve fund studies ensuring RERA compliance. Long-term capital planning, financial projections, strata property management across Dubai, Abu Dhabi, UAE.',
+    keywords: 'reserve fund study UAE, sinking fund analysis Dubai, RERA compliance UAE, strata management, capital expenditure planning Abu Dhabi'
+  },
+  '/services/rera-services/service-charge-allocation': {
+    title: 'Service Charge Allocation UAE - RERA Compliant Cost Distribution',
+    description: 'Expert service charge allocation ensuring fair distribution and RERA compliance. Common area assessment, transparent cost allocation, dispute resolution support UAE.',
+    keywords: 'service charge allocation UAE, RERA service charges Dubai, common area costs, strata fees allocation, property management UAE'
+  },
+  '/services/rera-services/reinstatement-cost-assessment': {
+    title: 'Reinstatement Cost Assessment UAE - Insurance Valuation RERA Compliant',
+    description: 'Professional reinstatement cost valuations for insurance and RERA compliance. Accurate property valuation, insurance adequacy, regulatory compliance across UAE.',
+    keywords: 'reinstatement cost UAE, insurance valuation Dubai, property valuation UAE, RERA valuation, insurance assessment Abu Dhabi'
+  },
+  '/services/rera-services/building-completion-audit': {
+    title: 'Building Completion Audit UAE - RERA Compliance Verification',
+    description: 'Comprehensive building completion audits verifying RERA compliance. Plan compliance verification, handover certification, regulatory liaison across Dubai, Abu Dhabi.',
+    keywords: 'building completion audit UAE, RERA compliance audit, construction completion Dubai, handover certification UAE, regulatory compliance'
+  },
+  '/services/rera-services/building-condition-survey': {
+    title: 'Building Condition Survey UAE - RERA Compliant Property Assessment',
+    description: 'Detailed building condition surveys for RERA compliance and maintenance planning. Asset condition assessment, regulatory reporting, risk identification across UAE.',
+    keywords: 'building condition survey UAE, property condition assessment Dubai, RERA building survey, maintenance planning UAE, asset condition Abu Dhabi'
+  },
+  
+  // Technical Inspections
+  '/services/technical-inspections/technical-due-diligence': {
+    title: 'Technical Due Diligence UAE - Property Investment Risk Assessment',
+    description: 'Comprehensive technical due diligence for property acquisitions. Investment risk assessment, structural analysis, compliance verification across Dubai, Abu Dhabi, UAE.',
+    keywords: 'technical due diligence UAE, property investment assessment Dubai, acquisition inspection, investment risk analysis UAE, property due diligence'
+  },
+  '/services/technical-inspections/dilapidation-survey': {
+    title: 'Dilapidation Survey UAE - Construction Impact Assessment',
+    description: 'Professional dilapidation surveys documenting property condition before/after construction. Legal protection, damage documentation, expert witness services UAE.',
+    keywords: 'dilapidation survey UAE, construction impact assessment Dubai, property damage survey, legal documentation UAE, expert witness inspection'
+  },
+  '/services/technical-inspections/thermographic-survey': {
+    title: 'Thermographic Survey UAE - Thermal Imaging Property Inspection',
+    description: 'Advanced thermographic surveys detecting energy losses and hidden defects. Thermal imaging inspection, moisture detection, electrical issues across Dubai, Abu Dhabi.',
+    keywords: 'thermographic survey UAE, thermal imaging inspection Dubai, energy audit UAE, moisture detection Abu Dhabi, thermal property inspection'
+  },
+  '/services/technical-inspections/noise-survey': {
+    title: 'Noise Survey UAE - Acoustic Assessment Regulatory Compliance',
+    description: 'Professional noise surveys ensuring regulatory compliance. Acoustic assessments, noise level measurement, habitability standards verification across UAE.',
+    keywords: 'noise survey UAE, acoustic assessment Dubai, noise level testing, sound measurement UAE, acoustic compliance Abu Dhabi'
+  },
+  '/services/technical-inspections/structural-survey': {
+    title: 'Structural Survey UAE - Building Integrity Safety Assessment',
+    description: 'Expert structural surveys examining building integrity and safety. Load-bearing analysis, building code compliance, structural engineering assessment across UAE.',
+    keywords: 'structural survey UAE, building integrity assessment Dubai, structural inspection, load bearing analysis UAE, structural safety Abu Dhabi'
   }
 };
 
@@ -155,9 +241,118 @@ export default function SEO({
     // Update canonical URL
     updateLinkTag('canonical', canonical);
     
-    // Add page-specific Schema.org structured data for service pages
-    if (location.includes('/locations/') && location.includes('snagging')) {
+    // Add comprehensive structured data for service pages
+    if (location.includes('/services/')) {
+      const serviceCategory = location.includes('property-snagging') ? 'Property Snagging' : 
+                             location.includes('rera-services') ? 'RERA Services' : 
+                             location.includes('technical-inspections') ? 'Technical Inspections' : 'Property Inspection';
+      
       const serviceSchema = {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": title,
+        "description": description,
+        "provider": {
+          "@type": "LocalBusiness",
+          "name": "UrbanGrid Property Inspection",
+          "telephone": "+971585686852",
+          "email": "info@urbangrid.ae",
+          "url": "https://urbangrid.ae",
+          "address": {
+            "@type": "PostalAddress",
+            "addressCountry": "AE",
+            "addressRegion": "Dubai"
+          },
+          "priceRange": "$$",
+          "aggregateRating": {
+            "@type": "AggregateRating",
+            "ratingValue": "4.9",
+            "reviewCount": "200+"
+          }
+        },
+        "areaServed": [
+          {
+            "@type": "City",
+            "name": "Dubai",
+            "addressCountry": "AE"
+          },
+          {
+            "@type": "City", 
+            "name": "Abu Dhabi",
+            "addressCountry": "AE"
+          },
+          {
+            "@type": "City",
+            "name": "Sharjah", 
+            "addressCountry": "AE"
+          }
+        ],
+        "serviceType": serviceCategory,
+        "category": "Property Inspection Services",
+        "url": canonical,
+        "offers": {
+          "@type": "Offer",
+          "availability": "https://schema.org/InStock",
+          "priceValidUntil": new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
+        }
+      };
+
+      // Add FAQ schema for service pages
+      const faqSchema = {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": `What is ${serviceCategory}?`,
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": description
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How long does the inspection take?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Inspection duration varies by service type and property size, typically ranging from 2-8 hours for comprehensive assessments."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you provide same-day reports?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, we provide detailed inspection reports on the same day with photographic evidence and professional recommendations."
+            }
+          }
+        ]
+      };
+      
+      // Remove existing schemas
+      ['#service-schema', '#faq-schema'].forEach(selector => {
+        const existing = document.querySelector(selector);
+        if (existing) existing.remove();
+      });
+      
+      // Add service schema
+      const serviceScript = document.createElement('script');
+      serviceScript.id = 'service-schema';
+      serviceScript.type = 'application/ld+json';
+      serviceScript.textContent = JSON.stringify(serviceSchema);
+      document.head.appendChild(serviceScript);
+
+      // Add FAQ schema
+      const faqScript = document.createElement('script');
+      faqScript.id = 'faq-schema';
+      faqScript.type = 'application/ld+json';
+      faqScript.textContent = JSON.stringify(faqSchema);
+      document.head.appendChild(faqScript);
+    }
+
+    // Add location-specific schema for location pages
+    if (location.includes('/locations/') && location.includes('snagging')) {
+      const locationSchema = {
         "@context": "https://schema.org",
         "@type": "Service",
         "name": title,
@@ -177,18 +372,16 @@ export default function SEO({
         "url": canonical
       };
       
-      // Remove existing service schema if any
-      const existingServiceSchema = document.querySelector('#service-schema');
-      if (existingServiceSchema) {
-        existingServiceSchema.remove();
+      const existingLocationSchema = document.querySelector('#location-schema');
+      if (existingLocationSchema) {
+        existingLocationSchema.remove();
       }
       
-      // Add new service schema
-      const script = document.createElement('script');
-      script.id = 'service-schema';
-      script.type = 'application/ld+json';
-      script.textContent = JSON.stringify(serviceSchema);
-      document.head.appendChild(script);
+      const locationScript = document.createElement('script');
+      locationScript.id = 'location-schema';
+      locationScript.type = 'application/ld+json';
+      locationScript.textContent = JSON.stringify(locationSchema);
+      document.head.appendChild(locationScript);
     }
     
   }, [location, customTitle, customDescription, customKeywords, customOgImage, customCanonical, noindex]);
