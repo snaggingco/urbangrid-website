@@ -5,7 +5,6 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import { X } from "lucide-react";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 
@@ -77,22 +76,11 @@ export default function ScrollTriggeredForm() {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleClose = () => {
-    setIsVisible(false);
-  };
-
   return (
     <Dialog open={isVisible} onOpenChange={setIsVisible}>
       <DialogContent className="sm:max-w-md mx-auto bg-white border-0 shadow-2xl rounded-2xl p-0 overflow-hidden">
-        {/* Header with close button */}
-        <div className="relative bg-gradient-to-r from-brand-green to-emerald-600 text-white p-6 pb-4">
-          <button
-            onClick={handleClose}
-            className="absolute top-4 right-4 text-white hover:text-gray-200 transition-colors"
-          >
-            <X size={20} />
-          </button>
-          
+        {/* Header */}
+        <div className="bg-gradient-to-r from-brand-green to-emerald-600 text-white p-6 pb-4">
           <DialogHeader className="text-center space-y-3">
             <DialogTitle className="text-2xl font-bold">
               🔍 Hidden flaws destroy value 💰 
