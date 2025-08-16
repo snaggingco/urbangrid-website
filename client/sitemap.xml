@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <!-- Main Pages -->
@@ -32,39 +33,103 @@
     <priority>0.7</priority>
   </url>
 
-  <!-- Service Pages -->
+  <!-- Property Snagging Services -->
   <url>
-    <loc>https://urbangrid.ae/services/new-build-snagging</loc>
+    <loc>https://urbangrid.ae/services/property-snagging/new-build-snagging</loc>
     <lastmod>2024-08-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://urbangrid.ae/services/post-renovation-inspection</loc>
+    <loc>https://urbangrid.ae/services/property-snagging/post-renovation-inspection</loc>
     <lastmod>2024-08-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://urbangrid.ae/services/dlp-snagging</loc>
+    <loc>https://urbangrid.ae/services/property-snagging/dlp-snagging</loc>
     <lastmod>2024-08-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://urbangrid.ae/services/move-in-move-out</loc>
+    <loc>https://urbangrid.ae/services/property-snagging/move-in-move-out</loc>
     <lastmod>2024-08-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://urbangrid.ae/services/secondary-market</loc>
+    <loc>https://urbangrid.ae/services/property-snagging/secondary-market</loc>
     <lastmod>2024-08-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://urbangrid.ae/services/developer-projects</loc>
+    <loc>https://urbangrid.ae/services/property-snagging/developer-projects</loc>
+    <lastmod>2024-08-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- RERA Services -->
+  <url>
+    <loc>https://urbangrid.ae/services/rera-services/reserve-fund-study</loc>
+    <lastmod>2024-08-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://urbangrid.ae/services/rera-services/service-charge-allocation</loc>
+    <lastmod>2024-08-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://urbangrid.ae/services/rera-services/reinstatement-cost-assessment</loc>
+    <lastmod>2024-08-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://urbangrid.ae/services/rera-services/building-completion-audit</loc>
+    <lastmod>2024-08-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://urbangrid.ae/services/rera-services/building-condition-survey</loc>
+    <lastmod>2024-08-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Technical Inspection Services -->
+  <url>
+    <loc>https://urbangrid.ae/services/technical-inspections/technical-due-diligence</loc>
+    <lastmod>2024-08-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://urbangrid.ae/services/technical-inspections/dilapidation-survey</loc>
+    <lastmod>2024-08-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://urbangrid.ae/services/technical-inspections/thermographic-survey</loc>
+    <lastmod>2024-08-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://urbangrid.ae/services/technical-inspections/noise-survey</loc>
+    <lastmod>2024-08-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://urbangrid.ae/services/technical-inspections/structural-survey</loc>
     <lastmod>2024-08-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>

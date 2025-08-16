@@ -41,13 +41,27 @@ export function getSitemapUrls(baseUrl: string, blogPosts: Array<{slug: string, 
     { loc: `${baseUrl}/contact`, priority: 0.8, changefreq: 'monthly' },
     { loc: `${baseUrl}/blog`, priority: 0.7, changefreq: 'weekly' },
 
-    // Service detail pages
-    { loc: `${baseUrl}/services/new-build-snagging`, priority: 0.9, changefreq: 'monthly' },
-    { loc: `${baseUrl}/services/post-renovation-inspection`, priority: 0.8, changefreq: 'monthly' },
-    { loc: `${baseUrl}/services/dlp-snagging`, priority: 0.8, changefreq: 'monthly' },
-    { loc: `${baseUrl}/services/move-in-move-out`, priority: 0.8, changefreq: 'monthly' },
-    { loc: `${baseUrl}/services/secondary-market`, priority: 0.8, changefreq: 'monthly' },
-    { loc: `${baseUrl}/services/developer-projects`, priority: 0.8, changefreq: 'monthly' },
+    // Property Snagging Services
+    { loc: `${baseUrl}/services/property-snagging/new-build-snagging`, priority: 0.9, changefreq: 'monthly' },
+    { loc: `${baseUrl}/services/property-snagging/post-renovation-inspection`, priority: 0.8, changefreq: 'monthly' },
+    { loc: `${baseUrl}/services/property-snagging/dlp-snagging`, priority: 0.8, changefreq: 'monthly' },
+    { loc: `${baseUrl}/services/property-snagging/move-in-move-out`, priority: 0.8, changefreq: 'monthly' },
+    { loc: `${baseUrl}/services/property-snagging/secondary-market`, priority: 0.8, changefreq: 'monthly' },
+    { loc: `${baseUrl}/services/property-snagging/developer-projects`, priority: 0.8, changefreq: 'monthly' },
+
+    // RERA Services
+    { loc: `${baseUrl}/services/rera-services/reserve-fund-study`, priority: 0.8, changefreq: 'monthly' },
+    { loc: `${baseUrl}/services/rera-services/service-charge-allocation`, priority: 0.8, changefreq: 'monthly' },
+    { loc: `${baseUrl}/services/rera-services/reinstatement-cost-assessment`, priority: 0.8, changefreq: 'monthly' },
+    { loc: `${baseUrl}/services/rera-services/building-completion-audit`, priority: 0.8, changefreq: 'monthly' },
+    { loc: `${baseUrl}/services/rera-services/building-condition-survey`, priority: 0.8, changefreq: 'monthly' },
+
+    // Technical Inspection Services
+    { loc: `${baseUrl}/services/technical-inspections/technical-due-diligence`, priority: 0.8, changefreq: 'monthly' },
+    { loc: `${baseUrl}/services/technical-inspections/dilapidation-survey`, priority: 0.8, changefreq: 'monthly' },
+    { loc: `${baseUrl}/services/technical-inspections/thermographic-survey`, priority: 0.8, changefreq: 'monthly' },
+    { loc: `${baseUrl}/services/technical-inspections/noise-survey`, priority: 0.8, changefreq: 'monthly' },
+    { loc: `${baseUrl}/services/technical-inspections/structural-survey`, priority: 0.8, changefreq: 'monthly' },
 
     // Location pages
     { loc: `${baseUrl}/locations/dubai`, priority: 0.7, changefreq: 'monthly' },
