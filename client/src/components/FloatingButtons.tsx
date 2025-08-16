@@ -78,6 +78,13 @@ export default function FloatingButtons() {
               <p className="text-xs text-text-grey">Get your free quote now</p>
             </div>
             <div className="flex space-x-3">
+              <button
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                className="bg-gray-500 hover:bg-gray-600 text-white w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:scale-105 flex items-center justify-center"
+                aria-label="Scroll to top"
+              >
+                <i className="fas fa-chevron-up text-lg"></i>
+              </button>
               <a
                 href="https://wa.me/971585686852?text=Hello%20UrbanGrid%2C%20I%27m%20interested%20in%20your%20property%20inspection%20services.%20Please%20provide%20me%20with%20more%20information."
                 target="_blank"
