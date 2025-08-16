@@ -1,0 +1,21 @@
+User-agent: *
+Allow: /
+
+# Sitemap location (HTTPS only)
+Sitemap: https://urbangrid.ae/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 1
+
+# Specific rules for search engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Block common bot paths
+Disallow: /api/
+Disallow: /_vite/
+Disallow: /src/
+Disallow: /node_modules/
