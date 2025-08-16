@@ -71,7 +71,7 @@ export default function FloatingButtons() {
       </div>
       {/* Mobile-optimized version */}
       <div className="fixed bottom-4 left-4 right-4 z-50 md:hidden">
-        <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-2xl border border-gray-200 ml-[100px] mr-[100px] pl-[16px] pr-[16px] text-left">
+        <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-2xl border border-gray-200 pl-[16px] pr-[16px] text-left ml-[0px] mr-[0px]">
           <div className="flex items-center justify-between">
             <div className="flex-1">
               <p className="text-sm font-semibold text-brand-black">Need Help?</p>
