@@ -95,7 +95,7 @@ export default function ScrollTriggeredForm() {
           
           <DialogHeader className="text-center space-y-3">
             <DialogTitle className="text-2xl font-bold">
-              🔍 Snag now, Move-In Defect Free! 😃
+              🔍 Hidden flaws destroy value 💰 
             </DialogTitle>
             <p className="text-green-100 text-lg">
               Let us contact you today:
