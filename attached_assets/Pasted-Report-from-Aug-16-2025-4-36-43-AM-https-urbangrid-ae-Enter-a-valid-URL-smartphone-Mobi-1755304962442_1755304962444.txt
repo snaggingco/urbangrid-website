@@ -1,0 +1,369 @@
+Report from Aug 16, 2025, 4:36:43 AM
+https://urbangrid.ae/
+Enter a valid URL
+
+
+smartphone
+Mobile
+
+computer
+Desktop
+
+Discover what your real users are experiencing
+No Data
+
+Diagnose performance issues
+56
+Performance
+86
+Accessibility
+96
+Best Practices
+85
+SEO
+56
+FCP
++0
+LCP
++0
+TBT
++30
+CLS
++25
+SI
++1
+Performance
+Values are estimated and may vary. The performance score is calculated directly from these metrics.See calculator.
+0–49
+50–89
+90–100
+Final Screenshot
+
+Metrics
+Expand view
+First Contentful Paint
+10.5 s
+Largest Contentful Paint
+12.5 s
+Total Blocking Time
+10 ms
+Cumulative Layout Shift
+0.006
+Speed Index
+10.5 s
+Captured at Aug 16, 2025, 4:36 AM GMT+4
+Emulated Moto G Power with Lighthouse 12.8.0
+Single page session
+Initial page load
+Slow 4G throttling
+Using HeadlessChromium 137.0.7151.119 with lr
+View Treemap
+Screenshot
+Screenshot
+Screenshot
+Screenshot
+Screenshot
+Screenshot
+Screenshot
+Screenshot
+Later this year, insights will replace performance audits. Learn more and provide feedback here.
+Go back to audits
+Show audits relevant to:
+
+All
+
+FCP
+
+LCP
+
+TBT
+
+CLS
+Insights
+Render blocking requests Est savings of 3,450 ms
+Requests are blocking the page's initial render, which may delay LCP. Deferring or inlining can move these network requests out of the critical path.LCPFCP
+URL
+Transfer Size
+Duration
+urbangrid.ae 1st party
+101.2 KiB	2,280 ms
+/assets/index-BWC8plTd.css(urbangrid.ae)
+101.2 KiB
+2,280 ms
+replit.com
+2.6 KiB	780 ms
+…js/replit-dev-banner.js(replit.com)
+2.6 KiB
+780 ms
+Cloudflare CDN cdn 
+19.4 KiB	1,080 ms
+…css/all.min.css(cdnjs.cloudflare.com)
+19.4 KiB
+1,080 ms
+Google Fonts cdn 
+9.6 KiB	1,260 ms
+/css2?family=…(fonts.googleapis.com)
+8.1 KiB
+780 ms
+/css2?family=Inter:wght@300;400;500;600;700&display=swap(fonts.googleapis.com)
+1.5 KiB
+480 ms
+Improve image delivery Est savings of 99 KiB
+Reducing the download time of images can improve the perceived load time of the page and LCP. Learn more about optimizing image sizeLCPFCP
+URL
+Resource Size
+Est Savings
+unsplash.com
+449.1 KiB	99.3 KiB
+/photo-151…-5ea266f8880c?ixlib=…(images.unsplash.com)
+394.4 KiB
+56.9 KiB
+Increasing the image compression factor could improve this image's download size.
+56.9 KiB
+/photo-160…-757bb62b4baf?ixlib=…(images.unsplash.com)
+54.7 KiB
+42.4 KiB
+This image file is larger than it needs to be (800x600) for its displayed dimensions (380x285). Use responsive images to reduce the image download size.
+42.4 KiB
+LCP request discovery
+Optimize LCP by making the LCP image discoverable from the HTML immediately, and avoiding lazy-loadingLCP
+lazy load not applied
+fetchpriority=high should be applied
+Request is discoverable in initial document
+div.min-h-screen > main > section.relative > div.absolute
+<div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url(&quot;https://images.unsplash.com/photo-1512453979798-5ea…&quot;);">
+Network dependency tree
+Avoid chaining critical requests by reducing the length of chains, reducing the download size of resources, or deferring the download of unnecessary resources to improve page load.LCP
+Maximum critical path latency: 1,356 ms
+Initial Navigation
+https://urbangrid.ae - 187 ms, 7.18 KiB
+/css2?family=…(fonts.googleapis.com) - 206 ms, 8.10 KiB
+…css/all.min.css(cdnjs.cloudflare.com) - 218 ms, 19.38 KiB
+…webfonts/fa-brands-400.woff2(cdnjs.cloudflare.com) - 1,355 ms, 115.57 KiB
+…webfonts/fa-solid-900.woff2(cdnjs.cloudflare.com) - 1,356 ms, 153.78 KiB
+/assets/index-BQj0ccPr.js(urbangrid.ae) - 903 ms, 1,261.49 KiB
+…auth/user(urbangrid.ae) - 1,198 ms, 0.42 KiB
+/assets/index-BWC8plTd.css(urbangrid.ae) - 449 ms, 101.24 KiB
+/css2?family=Inter:wght@300;400;500;600;700&display=swap(fonts.googleapis.com) - 455 ms, 1.50 KiB
+…v19/UcC73FwrK….woff2(fonts.gstatic.com) - 1,354 ms, 48.09 KiB
+…js/replit-dev-banner.js(replit.com) - 253 ms, 2.63 KiB
+Preconnected origins
+preconnect hints help the browser establish a connection earlier in the page load, saving time when the first request for that origin is made. The following are the origins that the page preconnected to.
+no origins were preconnected
+Preconnect candidates
+Add preconnect hints to your most important origins, but try to use no more than 4.
+Origin
+Est LCP savings
+https://purecatamphetamine.github.io
+300 ms
+Use efficient cache lifetimes Est savings of 1 KiB
+A long cache lifetime can speed up repeat visits to your page. Learn more.LCPFCP
+Request
+Cache TTL
+Transfer Size
+GitHub utility
+1 KiB
+…3x2/AE.svg(purecatamphetamine.github.io)
+10m
+1 KiB
+Document request latency Est savings of 4 KiB
+Your first network request is the most important. Reduce its latency by avoiding redirects, ensuring a fast server response, and enabling text compression.LCPFCP
+Avoids redirects
+Server responds quickly (observed 166 ms)
+No compression applied
+Font display Est savings of 20 ms
+Consider setting font-display to swap or optional to ensure text is consistently visible. swap can be further optimized to mitigate layout shifts with font metric overrides.FCP
+URL
+Est Savings
+Cloudflare CDN cdn 
+30 ms
+…webfonts/fa-solid-900.woff2(cdnjs.cloudflare.com)
+20 ms
+…webfonts/fa-brands-400.woff2(cdnjs.cloudflare.com)
+20 ms
+Layout shift culprits
+LCP breakdown
+3rd parties
+These insights are also available in the Chrome DevTools Performance Panel - record a trace to view more detailed information.
+Diagnostics
+Reduce unused JavaScript Est savings of 797 KiB
+Reduce unused JavaScript and defer loading scripts until they are required to decrease bytes consumed by network activity. Learn how to reduce unused JavaScript.LCPFCP
+URL
+Transfer Size
+Est Savings
+urbangrid.ae 1st party
+1,249.9 KiB	797.3 KiB
+/assets/index-BQj0ccPr.js(urbangrid.ae)
+1,249.9 KiB
+797.3 KiB
+Reduce unused CSS Est savings of 103 KiB
+Reduce unused rules from stylesheets and defer CSS not used for above-the-fold content to decrease bytes consumed by network activity. Learn how to reduce unused CSS.LCPFCP
+URL
+Transfer Size
+Est Savings
+urbangrid.ae 1st party
+100.8 KiB	84.6 KiB
+/assets/index-BWC8plTd.css(urbangrid.ae)
+100.8 KiB
+84.6 KiB
+Cloudflare CDN cdn 
+18.3 KiB	18.1 KiB
+…css/all.min.css(cdnjs.cloudflare.com)
+18.3 KiB
+18.1 KiB
+Avoid serving legacy JavaScript to modern browsers Est savings of 1 KiB
+Polyfills and transforms enable legacy browsers to use new JavaScript features. However, many aren't necessary for modern browsers. Consider modifying your JavaScript build process to not transpile Baseline features, unless you know you must support legacy browsers. Learn why most sites can deploy ES6+ code without transpilingLCPFCP
+URL
+Est Savings
+urbangrid.ae 1st party
+1.0 KiB
+/assets/index-BQj0ccPr.js(urbangrid.ae)
+1.0 KiB
+/assets/index-BQj0ccPr.js:104:6416(urbangrid.ae)
+@babel/plugin-transform-classes
+Avoid long main-thread tasks 2 long tasks found
+More information about the performance of your application. These numbers don't directly affect the Performance score.
+Passed audits (16)
+Show
+86
+Accessibility
+These checks highlight opportunities to improve the accessibility of your web app. Automatic detection can only detect a subset of issues and does not guarantee the accessibility of your web app, so manual testing is also encouraged.
+Names and labels
+Buttons do not have an accessible name
+When a button doesn't have an accessible name, screen readers announce it as "button", making it unusable for users who rely on screen readers. Learn how to make buttons more accessible.
+Failing Elements
+div.flex > div.flex > div.md:hidden > button.inline-flex
+<button class="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm fo…" type="button" aria-haspopup="dialog" aria-expanded="false" aria-controls="radix-:r0:" data-state="closed">
+These are opportunities to improve the semantics of the controls in your application. This may enhance the experience for users of assistive technology, like a screen reader.
+Best practices
+[user-scalable="no"] is used in the <meta name="viewport"> element or the [maximum-scale] attribute is less than 5.
+Disabling zooming is problematic for users with low vision who rely on screen magnification to properly see the contents of a web page. Learn more about the viewport meta tag.
+Failing Elements
+head > meta
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+These items highlight common accessibility best practices.
+Contrast
+Background and foreground colors do not have a sufficient contrast ratio.
+Low-contrast text is difficult or impossible for many users to read. Learn how to provide sufficient color contrast.
+Failing Elements
+RERA Certified
+<div class="text-sm font-medium">
+RERA Certified
+<div class="bg-white p-4 rounded-lg shadow-sm">
+ISO 9001
+<div class="text-sm font-medium">
+ISO 9001
+<div class="bg-white p-4 rounded-lg shadow-sm">
+NACHI Member
+<div class="text-sm font-medium">
+NACHI Member
+<div class="bg-white p-4 rounded-lg shadow-sm">
+Dubai Municipality
+<div class="text-sm font-medium">
+Dubai Municipality
+<div class="bg-white p-4 rounded-lg shadow-sm">
+These are opportunities to improve the legibility of your content.
+Additional items to manually check (10)
+Show
+These items address areas which an automated testing tool cannot cover. Learn more in our guide on conducting an accessibility review.
+Passed audits (25)
+Show
+Not applicable (29)
+Show
+96
+Best Practices
+General
+Browser errors were logged to the console
+Errors logged to the console indicate unresolved problems. They can come from network request failures and other browser concerns. Learn more about this errors in console diagnostic audit
+Source
+Description
+urbangrid.ae 1st party
+…auth/user:1:0(urbangrid.ae)
+Failed to load resource: the server responded with a status of 401 (Unauthorized)
+Missing source maps for large first-party JavaScript
+Source maps translate minified code to the original source code. This helps developers debug in production. In addition, Lighthouse is able to provide further insights. Consider deploying source maps to take advantage of these benefits. Learn more about source maps.
+URL
+Map URL
+urbangrid.ae 1st party
+/assets/index-BQj0ccPr.js(urbangrid.ae)
+Large JavaScript file is missing a source map
+Trust and Safety
+Ensure CSP is effective against XSS attacks
+Use a strong HSTS policy
+Ensure proper origin isolation with COOP
+Mitigate clickjacking with XFO or CSP
+Mitigate DOM-based XSS with Trusted Types
+Passed audits (13)
+Show
+Not applicable (2)
+Show
+85
+SEO
+These checks ensure that your page is following basic search engine optimization advice. There are many additional factors Lighthouse does not score here that may affect your search ranking, including performance on Core Web Vitals. Learn more about Google Search Essentials.
+Content Best Practices
+Links do not have descriptive text 6 links found
+Descriptive link text helps search engines understand your content. Learn how to make links more accessible.
+Link destination
+Link Text
+urbangrid.ae 1st party
+/services/new-build-snagging(urbangrid.ae)
+Learn More
+/services/post-renovation-inspection(urbangrid.ae)
+Learn More
+/services/dlp-snagging(urbangrid.ae)
+Learn More
+/services/move-in-move-out(urbangrid.ae)
+Learn More
+/services/secondary-market(urbangrid.ae)
+Learn More
+/services/developer-projects(urbangrid.ae)
+Learn More
+Format your HTML in a way that enables crawlers to better understand your app’s content.
+Crawling and Indexing
+Links are not crawlable
+Search engines may use href attributes on links to crawl websites. Ensure that the href attribute of anchor elements links to an appropriate destination, so more pages of the site can be discovered. Learn how to make links crawlable
+Uncrawlable Link
+Home
+<a class="text-text-grey hover:text-brand-green transition-colors font-medium text-b…">
+About
+<a class="text-text-grey hover:text-brand-green transition-colors font-medium ">
+Services
+<a class="text-text-grey hover:text-brand-green transition-colors font-medium ">
+Blog
+<a class="text-text-grey hover:text-brand-green transition-colors font-medium ">
+Contact
+<a class="text-text-grey hover:text-brand-green transition-colors font-medium ">
+Learn More
+<a class="inline-flex items-center text-brand-green font-medium hover:underline tran…">
+Learn More
+<a class="inline-flex items-center text-brand-green font-medium hover:underline tran…">
+Learn More
+<a class="inline-flex items-center text-brand-green font-medium hover:underline tran…">
+Learn More
+<a class="inline-flex items-center text-brand-green font-medium hover:underline tran…">
+Learn More
+<a class="inline-flex items-center text-brand-green font-medium hover:underline tran…">
+Learn More
+<a class="inline-flex items-center text-brand-green font-medium hover:underline tran…">
+Home
+<a class="text-gray-300 hover:text-white transition-colors">
+About Us
+<a class="text-gray-300 hover:text-white transition-colors">
+Our Services
+<a class="text-gray-300 hover:text-white transition-colors">
+Blog
+<a class="text-gray-300 hover:text-white transition-colors">
+Contact
+<a class="text-gray-300 hover:text-white transition-colors">
+New Build Snagging
+<a class="text-gray-300 hover:text-white transition-colors">
+Post Renovation Inspection
+<a class="text-gray-300 hover:text-white transition-colors">
+DLP Snagging
+<a class="text-gray-300 hover:text-white transition-colors">
+Move-in/Move-out
+<a class="text-gray-300 hover:text-white transition-colors">
+Secondary Market
+<a class="text-gray-300 hover:text-white transition-colors">
+Developer Projects
+<a class="text-gray-300 hover:text-white transition-colors">
