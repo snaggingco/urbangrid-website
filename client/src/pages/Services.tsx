@@ -354,54 +354,50 @@ export default function Services() {
           </div>
 
           {/* Services Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {serviceCategories[activeSection].services.map((service) => (
               <Card key={service.id} className="bg-white overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                <CardContent className="p-8">
-                  <div className="service-icon mb-6">
-                    <i className={service.icon}></i>
+                <CardContent className="p-6">
+                  <div className="service-icon mb-4">
+                    <i className={`${service.icon} text-2xl text-brand-green`}></i>
                   </div>
-                  <h3 className="text-2xl font-semibold text-brand-black mb-4">
+                  <h3 className="text-lg font-semibold text-brand-black mb-3 line-clamp-2">
                     {service.title}
                   </h3>
-                  <p className="text-text-grey mb-6 leading-relaxed">
+                  <p className="text-text-grey mb-4 leading-relaxed text-sm line-clamp-3">
                     {service.description}
                   </p>
 
-                  <div className="space-y-4 mb-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <div className="text-sm font-semibold text-brand-green mb-2">Key Features:</div>
-                        <ul className="text-sm text-text-grey space-y-1">
-                          {service.features.slice(0, 3).map((feature, index) => (
-                            <li key={index} className="flex items-center">
-                              <i className="fas fa-check text-brand-green mr-2"></i>
-                              {feature}
-                            </li>
-                          ))}
-                        </ul>
+                  <div className="space-y-3 mb-4">
+                    <div className="text-xs font-semibold text-brand-green mb-2">Key Features:</div>
+                    <ul className="text-xs text-text-grey space-y-1">
+                      {service.features.slice(0, 3).map((feature, index) => (
+                        <li key={index} className="flex items-start">
+                          <i className="fas fa-check text-brand-green mr-2 mt-0.5 text-xs"></i>
+                          <span className="line-clamp-1">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="flex justify-between items-center pt-2">
+                      <div className="flex items-center text-xs">
+                        <i className="fas fa-clock text-brand-green mr-1"></i>
+                        <span className="text-text-grey">{service.duration}</span>
                       </div>
-                      <div className="space-y-2">
-                        <div className="flex items-center text-sm">
-                          <i className="fas fa-clock text-brand-green mr-2"></i>
-                          <span className="text-text-grey">Duration: {service.duration}</span>
-                        </div>
-                        <div className="flex items-center text-sm">
-                          <i className="fas fa-tag text-brand-green mr-2"></i>
-                          <span className="text-text-grey">{service.price}</span>
-                        </div>
+                      <div className="flex items-center text-xs">
+                        <i className="fas fa-tag text-brand-green mr-1"></i>
+                        <span className="text-text-grey font-medium">{service.price}</span>
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex flex-col sm:flex-row gap-4">
+                  <div className="flex flex-col gap-2">
                     <Link href={`/services/${activeSection}/${service.slug}`}>
-                      <Button className="bg-brand-green text-white hover:bg-opacity-90 w-full">
+                      <Button className="bg-brand-green text-white hover:bg-opacity-90 w-full text-sm py-2">
                         Learn More
                       </Button>
                     </Link>
                     <Link href="/contact">
-                      <Button variant="outline" className="border-brand-green text-brand-green hover:bg-brand-green hover:text-white flex-1">
+                      <Button variant="outline" className="border-brand-green text-brand-green hover:bg-brand-green hover:text-white w-full text-sm py-2">
                         Get Quote
                       </Button>
                     </Link>

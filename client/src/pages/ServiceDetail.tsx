@@ -275,12 +275,443 @@ const servicesData: Record<string, ServiceData> = {
       "Certification documentation",
       "Improvement recommendations"
     ]
+  },
+  "reserve-fund-study": {
+    slug: "reserve-fund-study",
+    title: "Reserve Fund Study / Sinking Fund",
+    description: "Comprehensive analysis of building reserve fund requirements and long-term capital expenditure planning for strata properties in compliance with RERA regulations.",
+    image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
+    longDescription: "Our Reserve Fund Study service provides comprehensive analysis of building reserve fund requirements and long-term capital expenditure planning for strata properties. This essential service ensures compliance with RERA regulations while providing property owners and management companies with accurate financial projections for future maintenance and replacement costs.",
+    features: [
+      "Long-term capital planning analysis",
+      "RERA compliance assessment and documentation",
+      "Financial projection modeling and forecasting",
+      "Asset lifecycle analysis and evaluation",
+      "Regulatory documentation and reporting",
+      "Stakeholder consultation and presentation",
+      "Reserve fund requirement calculations",
+      "Maintenance scheduling optimization"
+    ],
+    process: [
+      "Property assessment and data collection",
+      "Asset condition evaluation and analysis",
+      "Financial modeling and projections",
+      "RERA compliance verification",
+      "Report preparation and documentation",
+      "Stakeholder presentation and consultation"
+    ],
+    benefits: [
+      "Ensure RERA regulatory compliance",
+      "Accurate long-term financial planning",
+      "Protect property investment value",
+      "Transparent reserve fund management",
+      "Professional financial documentation",
+      "Reduced future financial risks"
+    ],
+    duration: "2-4 weeks",
+    price: "Custom Quote",
+    includes: [
+      "Comprehensive building assessment",
+      "Financial projection modeling",
+      "RERA compliance documentation",
+      "Professional consultation",
+      "Detailed analytical report",
+      "Ongoing advisory support"
+    ]
+  },
+  "service-charge-allocation": {
+    slug: "service-charge-allocation",
+    title: "Service Charge Cost Allocation",
+    description: "Detailed assessment and allocation of service charges across common property areas ensuring fair distribution and full compliance with RERA guidelines.",
+    image: "https://images.unsplash.com/photo-1607863680198-23d4b2565df0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
+    longDescription: "Our Service Charge Cost Allocation service provides detailed assessment and fair allocation of service charges across common property areas. This service ensures transparent cost distribution and full compliance with RERA guidelines, protecting both property owners and management companies from disputes and regulatory issues.",
+    features: [
+      "Fair cost distribution analysis and calculation",
+      "RERA guideline compliance verification",
+      "Common area assessment and evaluation",
+      "Usage pattern analysis and documentation",
+      "Transparent reporting and documentation",
+      "Dispute resolution support and mediation",
+      "Cost allocation methodology development",
+      "Regulatory compliance monitoring"
+    ],
+    process: [
+      "Property analysis and area measurement",
+      "Usage pattern assessment and evaluation",
+      "Cost allocation calculation and modeling",
+      "RERA compliance verification",
+      "Documentation preparation and review",
+      "Stakeholder consultation and approval"
+    ],
+    benefits: [
+      "Fair and transparent cost allocation",
+      "RERA regulatory compliance assurance",
+      "Reduced owner disputes and conflicts",
+      "Professional cost documentation",
+      "Legal protection and compliance",
+      "Improved management transparency"
+    ],
+    duration: "1-3 weeks",
+    price: "Custom Quote",
+    includes: [
+      "Comprehensive area assessment",
+      "Cost allocation calculations",
+      "RERA compliance verification",
+      "Detailed allocation report",
+      "Professional consultation",
+      "Dispute resolution support"
+    ]
+  },
+  "reinstatement-cost-assessment": {
+    slug: "reinstatement-cost-assessment",
+    title: "Reinstatement Cost Assessment",
+    description: "Professional valuation of property reinstatement costs for insurance purposes and regulatory compliance requirements under UAE property law.",
+    image: "https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
+    longDescription: "Our Reinstatement Cost Assessment service provides professional valuation of property reinstatement costs for insurance purposes and regulatory compliance. This critical service ensures accurate insurance coverage and compliance with UAE property law requirements, protecting property owners from underinsurance risks.",
+    features: [
+      "Insurance valuation compliance assessment",
+      "Current market cost analysis and evaluation",
+      "Regulatory requirement adherence verification",
+      "Risk assessment integration and analysis",
+      "Professional certification and documentation",
+      "Annual review recommendations and updates",
+      "Insurance adequacy evaluation",
+      "Market trend analysis and reporting"
+    ],
+    process: [
+      "Property inspection and assessment",
+      "Market cost analysis and research",
+      "Insurance requirement evaluation",
+      "Regulatory compliance verification",
+      "Valuation calculation and modeling",
+      "Professional certification and reporting"
+    ],
+    benefits: [
+      "Accurate insurance coverage protection",
+      "Regulatory compliance assurance",
+      "Protection from underinsurance risks",
+      "Professional valuation certification",
+      "Insurance claim support",
+      "Risk mitigation and management"
+    ],
+    duration: "1-2 weeks",
+    price: "Custom Quote",
+    includes: [
+      "Professional property valuation",
+      "Market cost analysis",
+      "Insurance compliance verification",
+      "Certified valuation report",
+      "Professional consultation",
+      "Annual review recommendations"
+    ]
+  },
+  "building-completion-audit": {
+    slug: "building-completion-audit",
+    title: "Building Completion Audit",
+    description: "Comprehensive audit to verify building completion status against approved plans and regulatory requirements for RERA compliance and handover certification.",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
+    longDescription: "Our Building Completion Audit service provides comprehensive verification of building completion status against approved plans and regulatory requirements. This essential service ensures RERA compliance and proper handover certification, protecting developers and property owners from regulatory issues and compliance failures.",
+    features: [
+      "Plan compliance verification and assessment",
+      "RERA requirement assessment and documentation",
+      "Completion status documentation and reporting",
+      "Regulatory liaison support and coordination",
+      "Handover readiness certification and approval",
+      "Non-compliance identification and remediation",
+      "Quality control verification",
+      "Documentation preparation and management"
+    ],
+    process: [
+      "Plan review and analysis",
+      "On-site completion verification",
+      "Regulatory compliance assessment",
+      "Documentation preparation and review",
+      "RERA liaison and coordination",
+      "Certification preparation and submission"
+    ],
+    benefits: [
+      "RERA compliance assurance",
+      "Proper handover certification",
+      "Regulatory protection and compliance",
+      "Professional documentation support",
+      "Risk mitigation and management",
+      "Quality assurance verification"
+    ],
+    duration: "2-4 weeks",
+    price: "Custom Quote",
+    includes: [
+      "Comprehensive completion audit",
+      "Plan compliance verification",
+      "RERA documentation support",
+      "Regulatory liaison services",
+      "Professional certification",
+      "Detailed audit report"
+    ]
+  },
+  "building-condition-survey": {
+    slug: "building-condition-survey",
+    title: "Building Condition Survey",
+    description: "Detailed condition assessment of building components and systems for regulatory reporting, maintenance planning, and RERA compliance documentation.",
+    image: "https://images.unsplash.com/photo-1523287562758-66c7fc58967f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
+    longDescription: "Our Building Condition Survey service provides detailed assessment of building components and systems for regulatory reporting, maintenance planning, and RERA compliance documentation. This comprehensive service ensures proper building management and regulatory compliance while supporting long-term maintenance planning.",
+    features: [
+      "Comprehensive condition analysis and assessment",
+      "Regulatory reporting compliance documentation",
+      "Maintenance planning integration and support",
+      "Asset condition documentation and reporting",
+      "Risk identification and assessment",
+      "Improvement recommendations and planning",
+      "System performance evaluation",
+      "Compliance monitoring and reporting"
+    ],
+    process: [
+      "Building inspection and assessment",
+      "Component condition evaluation",
+      "System performance analysis",
+      "Risk assessment and identification",
+      "Documentation preparation and review",
+      "Recommendations development and presentation"
+    ],
+    benefits: [
+      "Comprehensive building condition knowledge",
+      "Effective maintenance planning support",
+      "Regulatory compliance assurance",
+      "Risk mitigation and management",
+      "Professional assessment documentation",
+      "Long-term cost optimization"
+    ],
+    duration: "1-3 weeks",
+    price: "Custom Quote",
+    includes: [
+      "Detailed condition survey",
+      "Component analysis report",
+      "Maintenance planning support",
+      "Risk assessment documentation",
+      "Professional recommendations",
+      "Regulatory compliance verification"
+    ]
+  },
+  "technical-due-diligence": {
+    slug: "technical-due-diligence",
+    title: "Technical Due Diligence",
+    description: "Comprehensive technical analysis for property acquisition, covering structural, mechanical, and compliance aspects for informed investment decisions in UAE market.",
+    image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
+    longDescription: "Our Technical Due Diligence service provides comprehensive technical analysis for property acquisition, covering all structural, mechanical, and compliance aspects. This critical service enables informed investment decisions in the UAE market by identifying potential risks, compliance issues, and technical challenges before property acquisition.",
+    features: [
+      "Investment risk assessment and analysis",
+      "Technical compliance verification and documentation",
+      "Structural integrity analysis and evaluation",
+      "Systems performance evaluation and testing",
+      "Market value correlation and analysis",
+      "Professional recommendations and advisory",
+      "Regulatory compliance verification",
+      "Future maintenance cost projections"
+    ],
+    process: [
+      "Property documentation review",
+      "Comprehensive technical inspection",
+      "Compliance verification and assessment",
+      "Risk analysis and evaluation",
+      "Market analysis and comparison",
+      "Report preparation and presentation"
+    ],
+    benefits: [
+      "Informed investment decision making",
+      "Risk identification and mitigation",
+      "Technical compliance assurance",
+      "Professional investment advisory",
+      "Market value optimization",
+      "Future cost prediction and planning"
+    ],
+    duration: "2-4 weeks",
+    price: "Custom Quote",
+    includes: [
+      "Comprehensive technical analysis",
+      "Risk assessment report",
+      "Compliance verification",
+      "Investment recommendations",
+      "Professional consultation",
+      "Detailed due diligence report"
+    ]
+  },
+  "dilapidation-survey": {
+    slug: "dilapidation-survey",
+    title: "Dilapidation Survey",
+    description: "Pre and post-construction condition assessments of adjacent properties to document potential impact from nearby construction activities and protect property interests.",
+    image: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
+    longDescription: "Our Dilapidation Survey service provides professional pre and post-construction condition assessments of adjacent properties to document potential impact from nearby construction activities. This essential service protects property interests and provides legal documentation for potential damage claims.",
+    features: [
+      "Pre-construction condition documentation",
+      "Post-construction comparison and analysis",
+      "Impact assessment analysis and evaluation",
+      "Legal documentation support and preparation",
+      "Photographic evidence collection and archiving",
+      "Expert witness testimony and support",
+      "Damage quantification and assessment",
+      "Construction monitoring and reporting"
+    ],
+    process: [
+      "Initial property condition assessment",
+      "Detailed documentation and photography",
+      "Construction monitoring and observation",
+      "Post-construction condition evaluation",
+      "Impact analysis and comparison",
+      "Legal documentation preparation"
+    ],
+    benefits: [
+      "Legal protection and documentation",
+      "Property interest protection",
+      "Professional evidence collection",
+      "Expert witness support",
+      "Damage claim support",
+      "Risk mitigation and management"
+    ],
+    duration: "Ongoing monitoring",
+    price: "Custom Quote",
+    includes: [
+      "Pre-construction assessment",
+      "Ongoing construction monitoring",
+      "Post-construction evaluation",
+      "Legal documentation support",
+      "Expert witness services",
+      "Comprehensive impact report"
+    ]
+  },
+  "thermographic-survey": {
+    slug: "thermographic-survey",
+    title: "Thermographic Survey",
+    description: "Advanced thermal imaging inspections to detect energy losses, moisture intrusion, and electrical issues invisible to conventional inspection methods.",
+    image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
+    longDescription: "Our Thermographic Survey service utilizes advanced thermal imaging technology to detect energy losses, moisture intrusion, and electrical issues that are invisible to conventional inspection methods. This cutting-edge service provides detailed analysis of building performance and identifies hidden problems before they become costly repairs.",
+    features: [
+      "Thermal imaging analysis and evaluation",
+      "Energy efficiency assessment and optimization",
+      "Moisture detection and analysis",
+      "Electrical system evaluation and testing",
+      "Building envelope testing and assessment",
+      "Performance optimization recommendations",
+      "Heat loss identification and quantification",
+      "Insulation effectiveness evaluation"
+    ],
+    process: [
+      "Thermal imaging data collection",
+      "Image analysis and interpretation",
+      "Problem identification and documentation",
+      "Performance assessment and evaluation",
+      "Recommendations development",
+      "Report preparation and presentation"
+    ],
+    benefits: [
+      "Hidden problem identification",
+      "Energy efficiency optimization",
+      "Preventive maintenance planning",
+      "Cost-effective problem solving",
+      "Professional thermal analysis",
+      "Performance improvement guidance"
+    ],
+    duration: "1-2 days",
+    price: "Custom Quote",
+    includes: [
+      "Advanced thermal imaging",
+      "Comprehensive analysis",
+      "Problem identification",
+      "Performance recommendations",
+      "Detailed thermal report",
+      "Professional consultation"
+    ]
+  },
+  "noise-survey": {
+    slug: "noise-survey",
+    title: "Noise Survey",
+    description: "Professional acoustic assessments to measure and analyze noise levels for compliance with local regulations and habitability standards in UAE residential and commercial properties.",
+    image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
+    longDescription: "Our Noise Survey service provides professional acoustic assessments to measure and analyze noise levels for compliance with local regulations and habitability standards. This specialized service ensures properties meet UAE noise regulations and provides documentation for regulatory compliance and dispute resolution.",
+    features: [
+      "Acoustic level measurement and analysis",
+      "Regulatory compliance testing and verification",
+      "Environmental impact analysis and assessment",
+      "Habitability assessment and evaluation",
+      "Mitigation recommendations and planning",
+      "Expert reporting and documentation",
+      "Noise source identification and analysis",
+      "Sound level monitoring and tracking"
+    ],
+    process: [
+      "Site acoustic assessment and measurement",
+      "Data collection and analysis",
+      "Regulatory compliance verification",
+      "Impact assessment and evaluation",
+      "Mitigation planning and recommendations",
+      "Professional reporting and documentation"
+    ],
+    benefits: [
+      "Regulatory compliance assurance",
+      "Habitability verification",
+      "Professional acoustic analysis",
+      "Noise mitigation guidance",
+      "Legal documentation support",
+      "Environmental protection compliance"
+    ],
+    duration: "1-3 days",
+    price: "Custom Quote",
+    includes: [
+      "Professional noise measurement",
+      "Regulatory compliance assessment",
+      "Acoustic analysis report",
+      "Mitigation recommendations",
+      "Expert consultation",
+      "Compliance documentation"
+    ]
+  },
+  "structural-survey": {
+    slug: "structural-survey",
+    title: "Structural Survey",
+    description: "Detailed structural engineering assessment examining building integrity, load-bearing elements, and structural compliance with UAE safety standards and building codes.",
+    image: "https://images.unsplash.com/photo-1581094613018-d1db5d0b5b30?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
+    longDescription: "Our Structural Survey service provides detailed structural engineering assessment examining building integrity, load-bearing elements, and structural compliance with UAE safety standards and building codes. This critical service ensures structural safety and regulatory compliance while identifying potential structural issues and risks.",
+    features: [
+      "Structural integrity assessment and analysis",
+      "Load-bearing analysis and evaluation",
+      "Building code compliance verification",
+      "Safety standard verification and assessment",
+      "Risk identification and evaluation",
+      "Remediation planning and recommendations",
+      "Structural component evaluation",
+      "Foundation assessment and analysis"
+    ],
+    process: [
+      "Structural inspection and assessment",
+      "Load analysis and calculation",
+      "Compliance verification and evaluation",
+      "Risk assessment and identification",
+      "Remediation planning and development",
+      "Professional reporting and documentation"
+    ],
+    benefits: [
+      "Structural safety assurance",
+      "Building code compliance verification",
+      "Risk mitigation and management",
+      "Professional structural analysis",
+      "Safety standard compliance",
+      "Investment protection and security"
+    ],
+    duration: "1-2 weeks",
+    price: "Custom Quote",
+    includes: [
+      "Comprehensive structural assessment",
+      "Load-bearing analysis",
+      "Compliance verification",
+      "Risk assessment report",
+      "Remediation recommendations",
+      "Professional engineering consultation"
+    ]
   }
 };
 
 export default function ServiceDetail() {
   const params = useParams();
   const slug = params.slug;
+  const category = params.category;
   
   if (!slug || !servicesData[slug]) {
     return <NotFound />;
@@ -359,15 +790,15 @@ export default function ServiceDetail() {
                     </Link>
                     
                     <a 
-                      href="tel:+971501234567"
+                      href="tel:+971585686852"
                       className="w-full inline-flex items-center justify-center px-4 py-2 border border-brand-green text-brand-green rounded-md hover:bg-brand-green hover:text-white transition-colors"
                     >
                       <i className="fas fa-phone mr-2"></i>
-                      Call: +971 50 123 4567
+                      Call: +971 58 568 6852
                     </a>
                     
                     <a 
-                      href="https://wa.me/971501234567?text=Hello! I'm interested in your property inspection services."
+                      href="https://wa.me/971585686852?text=Hello! I'm interested in your property inspection services."
                       target="_blank"
                       rel="noopener noreferrer"
                       className="w-full inline-flex items-center justify-center px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors"
