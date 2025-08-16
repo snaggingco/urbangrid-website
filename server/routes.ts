@@ -315,6 +315,44 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Quick contact form endpoint (scroll-triggered popup)
+  app.post('/api/quick-contact', async (req, res) => {
+    try {
+      const { name, email } = req.body;
+
+      if (!name || !email) {
+        return res.status(400).json({ message: "Name and email are required" });
+      }
+
+      // Save to contact submissions table
+      const submission = await storage.createContactSubmission({
+        name,
+        email,
+        phone: '', // Not collected in quick form
+        message: 'Quick contact form submission (scroll-triggered)',
+        enquiryType: 'Quick Contact Request'
+      });
+
+      // Send email notification
+      const emailContent = `
+New Quick Contact Form Submission:
+
+Name: ${name}
+Email: ${email}
+Source: Scroll-triggered popup form
+      `;
+
+      await sendEmail('info@snagging.me', 'New Quick Contact Request', emailContent);
+
+      res.status(201).json({ 
+        message: "Quick contact request submitted successfully! We'll get back to you soon."
+      });
+    } catch (error: any) {
+      console.error('Error submitting quick contact request:', error);
+      res.status(500).json({ message: "Failed to submit request" });
+    }
+  });
+
   // Get blog posts for internal linking (simplified data)
   app.get('/api/admin/blog/links', isAdminAuthenticated, async (req: any, res) => {
     try {

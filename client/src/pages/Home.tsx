@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import ConsultationForm from "@/components/ConsultationForm";
+import ScrollTriggeredForm from "@/components/ScrollTriggeredForm";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -351,6 +352,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Scroll Triggered Form */}
+      <ScrollTriggeredForm />
     </>
   );
 }
