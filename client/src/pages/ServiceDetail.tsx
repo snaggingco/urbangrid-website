@@ -1076,6 +1076,7 @@ export default function ServiceDetail() {
           </div>
         </div>
       </section>
+      </div>
     </>
   );
 }
