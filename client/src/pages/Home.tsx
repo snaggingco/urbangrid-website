@@ -6,55 +6,155 @@ import { Card, CardContent } from "@/components/ui/card";
 
 export default function Home() {
   const [isVisible, setIsVisible] = useState(false);
+  const [activeTab, setActiveTab] = useState<keyof typeof serviceCategories>('property-snagging');
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
 
-  const services = [
-    {
-      id: 1,
-      title: "New Build Handover Snagging",
-      description: "Comprehensive inspection before accepting your new property, identifying defects and ensuring everything meets standards.",
-      icon: "fas fa-clipboard-list",
-      slug: "new-build-snagging"
+  const serviceCategories = {
+    'property-snagging': {
+      title: 'Property Snagging',
+      subtitle: 'Comprehensive property inspection and snagging services',
+      categorySlug: 'property-snagging',
+      services: [
+        {
+          id: 1,
+          title: "New Build Handover Snagging",
+          description: "Comprehensive inspection before accepting your new property, identifying defects and ensuring everything meets standards.",
+          icon: "fas fa-clipboard-list",
+          slug: "new-build-snagging"
+        },
+        {
+          id: 2,
+          title: "Post Renovation Inspection",
+          description: "Quality assessment after renovation or fit-out work, ensuring all work meets specifications and quality standards.",
+          icon: "fas fa-hammer",
+          slug: "post-renovation-inspection"
+        },
+        {
+          id: 3,
+          title: "DLP Snagging",
+          description: "Defect Liability Period inspections to identify issues before warranty expires and ensure developer compliance.",
+          icon: "fas fa-file-alt",
+          slug: "dlp-snagging"
+        },
+        {
+          id: 4,
+          title: "Move-in / Move-out Snagging",
+          description: "Comprehensive condition reports for rental properties, protecting both tenants and landlords during transitions.",
+          icon: "fas fa-key",
+          slug: "move-in-move-out"
+        },
+        {
+          id: 5,
+          title: "Secondary Market Snagging",
+          description: "Pre-purchase inspections for existing properties, helping buyers make informed decisions and negotiate fairly.",
+          icon: "fas fa-search",
+          slug: "secondary-market"
+        },
+        {
+          id: 6,
+          title: "Developer & Contractor Snagging",
+          description: "Quality control inspections for developers and contractors, ensuring projects meet industry standards and specifications.",
+          icon: "fas fa-users",
+          slug: "developer-projects"
+        }
+      ]
     },
-    {
-      id: 2,
-      title: "Post Renovation Inspection",
-      description: "Quality assessment after renovation or fit-out work, ensuring all work meets specifications and quality standards.",
-      icon: "fas fa-hammer",
-      slug: "post-renovation-inspection"
+    'rera-services': {
+      title: 'RERA Services',
+      subtitle: 'Professional regulatory compliance and assessment services',
+      categorySlug: 'rera-services',
+      services: [
+        {
+          id: 7,
+          title: "Reserve Fund Study / Sinking Fund",
+          description: "Comprehensive analysis of building reserve fund requirements and long-term capital expenditure planning for strata properties.",
+          icon: "fas fa-calculator",
+          slug: "reserve-fund-study"
+        },
+        {
+          id: 8,
+          title: "Service Charge Cost Allocation",
+          description: "Detailed assessment and allocation of service charges across common property areas ensuring fair distribution and RERA compliance.",
+          icon: "fas fa-chart-pie",
+          slug: "service-charge-allocation"
+        },
+        {
+          id: 9,
+          title: "Reinstatement Cost Assessment",
+          description: "Professional valuation of property reinstatement costs for insurance purposes and regulatory compliance requirements.",
+          icon: "fas fa-building",
+          slug: "reinstatement-cost-assessment"
+        },
+        {
+          id: 10,
+          title: "Building Completion Audit",
+          description: "Comprehensive audit to verify building completion status against approved plans and regulatory requirements for RERA compliance.",
+          icon: "fas fa-clipboard-check",
+          slug: "building-completion-audit"
+        },
+        {
+          id: 11,
+          title: "Building Condition Survey",
+          description: "Detailed condition assessment of building components and systems for regulatory reporting and maintenance planning.",
+          icon: "fas fa-search-plus",
+          slug: "building-condition-survey"
+        }
+      ]
     },
-    {
-      id: 3,
-      title: "DLP Snagging",
-      description: "Defect Liability Period inspections to identify issues before warranty expires and ensure developer compliance.",
-      icon: "fas fa-file-alt",
-      slug: "dlp-snagging"
-    },
-    {
-      id: 4,
-      title: "Move-in / Move-out Snagging",
-      description: "Comprehensive condition reports for rental properties, protecting both tenants and landlords during transitions.",
-      icon: "fas fa-key",
-      slug: "move-in-move-out"
-    },
-    {
-      id: 5,
-      title: "Secondary Market Snagging",
-      description: "Pre-purchase inspections for existing properties, helping buyers make informed decisions and negotiate fairly.",
-      icon: "fas fa-search",
-      slug: "secondary-market"
-    },
-    {
-      id: 6,
-      title: "Developer & Contractor Snagging",
-      description: "Quality control inspections for developers and contractors, ensuring projects meet industry standards and specifications.",
-      icon: "fas fa-users",
-      slug: "developer-projects"
+    'technical-inspections': {
+      title: 'Other Technical Inspections',
+      subtitle: 'Specialized technical assessments and surveys',
+      categorySlug: 'technical-inspections',
+      services: [
+        {
+          id: 12,
+          title: "Technical Due Diligence",
+          description: "Comprehensive technical analysis for property acquisition, covering structural, mechanical, and compliance aspects for informed investment decisions.",
+          icon: "fas fa-microscope",
+          slug: "technical-due-diligence"
+        },
+        {
+          id: 13,
+          title: "Dilapidation Survey",
+          description: "Pre and post-construction condition assessments of adjacent properties to document potential impact from nearby construction activities.",
+          icon: "fas fa-camera",
+          slug: "dilapidation-survey"
+        },
+        {
+          id: 14,
+          title: "Thermographic Survey",
+          description: "Advanced thermal imaging inspections to detect energy losses, moisture intrusion, and electrical issues invisible to conventional inspection methods.",
+          icon: "fas fa-thermometer-half",
+          slug: "thermographic-survey"
+        },
+        {
+          id: 15,
+          title: "Noise Survey",
+          description: "Professional acoustic assessments to measure and analyze noise levels for compliance with local regulations and habitability standards.",
+          icon: "fas fa-volume-up",
+          slug: "noise-survey"
+        },
+        {
+          id: 16,
+          title: "Structural Survey",
+          description: "Detailed structural engineering assessment examining building integrity, load-bearing elements, and structural compliance with safety standards.",
+          icon: "fas fa-hard-hat",
+          slug: "structural-survey"
+        }
+      ]
     }
+  };
+
+  const tabs = [
+    { key: 'property-snagging', label: 'Property Snagging' },
+    { key: 'rera-services', label: 'RERA Services' },
+    { key: 'technical-inspections', label: 'Other Technical Inspections' }
   ];
+
+  const currentServices = serviceCategories[activeTab].services;
 
   const certifications = [
     { name: "RERA Certified", icon: "fas fa-certificate" },
@@ -74,19 +174,11 @@ export default function Home() {
             backgroundImage: `url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80')`
           }}
         >
-          <img 
-            src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80"
-            alt="Professional property inspection in modern building"
-            className="absolute inset-0 w-full h-full object-cover"
-            fetchpriority="high"
-            loading="eager"
-            style={{ display: 'none' }}
-          />
         </div>
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
         
         {/* Hero Content */}
-        <div className={`relative z-10 text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-15'}`}>
+        <div className={`relative z-10 text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
             Your Trusted Property Inspection & Snagging Experts
           </h1>
@@ -111,9 +203,38 @@ export default function Home() {
             </p>
           </div>
           
+          {/* Service Tabs */}
+          <div className="mb-8">
+            <div className="flex flex-wrap justify-center gap-2 bg-white rounded-lg p-2 shadow-sm">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.key}
+                  onClick={() => setActiveTab(tab.key as keyof typeof serviceCategories)}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
+                    activeTab === tab.key
+                      ? 'bg-brand-green text-white'
+                      : 'text-text-grey hover:text-brand-green hover:bg-gray-50'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          
+          {/* Active Tab Description */}
+          <div className="text-center mb-8">
+            <h3 className="text-2xl font-semibold text-brand-black mb-2">
+              {serviceCategories[activeTab].title}
+            </h3>
+            <p className="text-text-grey">
+              {serviceCategories[activeTab].subtitle}
+            </p>
+          </div>
+
           {/* Services Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {services.map((service) => (
+            {currentServices.map((service) => (
               <Card key={service.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
                 <CardContent className="p-8 text-center">
                   <div className="service-icon">
@@ -121,7 +242,7 @@ export default function Home() {
                   </div>
                   <h3 className="text-xl font-semibold text-brand-black mb-3">{service.title}</h3>
                   <p className="text-text-grey mb-6 leading-relaxed">{service.description}</p>
-                  <Link href={`/services/${service.slug}`}>
+                  <Link href={`/services/${serviceCategories[activeTab].categorySlug}/${service.slug}`}>
                     <span className="inline-flex items-center text-brand-green font-medium hover:underline transition-colors cursor-pointer">
                       Learn More About {service.title}
                       <i className="fas fa-arrow-right ml-2 text-sm"></i>
