@@ -1,0 +1,73 @@
+Show audits relevant to:
+
+All
+
+FCP
+
+LCP
+
+TBT
+
+CLS
+Insights
+Render blocking requests Est savings of 600 ms
+Requests are blocking the page's initial render, which may delay LCP. Deferring or inlining can move these network requests out of the critical path.LCPFCP
+URL
+Transfer Size
+Duration
+urbangrid.ae 1st party
+101.3 KiB	470 ms
+/assets/index-BWF5kptk.css(urbangrid.ae)
+101.3 KiB
+470 ms
+replit.com
+2.6 KiB	230 ms
+…js/replit-dev-banner.js(replit.com)
+2.6 KiB
+230 ms
+Cloudflare CDN cdn 
+19.4 KiB	270 ms
+…css/all.min.css(cdnjs.cloudflare.com)
+19.4 KiB
+270 ms
+Google Fonts cdn 
+3.3 KiB	380 ms
+/css2?family=…(fonts.googleapis.com)
+1.8 KiB
+230 ms
+/css2?family=Inter:wght@300;400;500;600;700&display=swap(fonts.googleapis.com)
+1.5 KiB
+150 ms
+LCP request discovery
+Optimize LCP by making the LCP image discoverable from the HTML immediately, and avoiding lazy-loadingLCP
+lazy load not applied
+fetchpriority=high applied
+Request is discoverable in initial document
+Professional property inspection in modern building
+<div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url(&quot;https://images.unsplash.com/photo-1512453979798-5ea…&quot;);">
+Network dependency tree
+Avoid chaining critical requests by reducing the length of chains, reducing the download size of resources, or deferring the download of unnecessary resources to improve page load.LCP
+Maximum critical path latency: 1,168 ms
+Initial Navigation
+https://urbangrid.ae - 193 ms, 6.05 KiB
+/css2?family=…(fonts.googleapis.com) - 197 ms, 1.76 KiB
+…v19/UcC73FwrK….woff2(fonts.gstatic.com) - 1,164 ms, 48.09 KiB
+…css/all.min.css(cdnjs.cloudflare.com) - 220 ms, 19.38 KiB
+…webfonts/fa-brands-400.woff2(cdnjs.cloudflare.com) - 1,167 ms, 115.58 KiB
+…webfonts/fa-solid-900.woff2(cdnjs.cloudflare.com) - 1,168 ms, 153.78 KiB
+/assets/index-BsVU21vy.js(urbangrid.ae) - 835 ms, 1,262.01 KiB
+…auth/user(urbangrid.ae) - 1,054 ms, 0.42 KiB
+/assets/index-BWF5kptk.css(urbangrid.ae) - 515 ms, 101.33 KiB
+/css2?family=Inter:wght@300;400;500;600;700&display=swap(fonts.googleapis.com) - 521 ms, 1.50 KiB
+…js/replit-dev-banner.js(replit.com) - 247 ms, 2.63 KiB
+Preconnected origins
+preconnect hints help the browser establish a connection earlier in the page load, saving time when the first request for that origin is made. The following are the origins that the page preconnected to.
+no origins were preconnected
+Preconnect candidates
+Add preconnect hints to your most important origins, but try to use no more than 4.
+Origin
+Est LCP savings
+https://images.unsplash.com
+80 ms
+https://purecatamphetamine.github.io
+80 ms
