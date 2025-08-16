@@ -300,9 +300,9 @@ export default function Services() {
   };
 
   const sections = [
-    { key: 'property-snagging', label: 'Section 1: Property Snagging Services' },
-    { key: 'rera-services', label: 'Section 2: RERA Services' },
-    { key: 'technical-inspections', label: 'Section 3: Other Technical Inspections' }
+    { key: 'property-snagging', label: 'Property Snagging Services' },
+    { key: 'rera-services', label: 'RERA Services' },
+    { key: 'technical-inspections', label: 'Other Technical Inspections' }
   ];
 
   return (
