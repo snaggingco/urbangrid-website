@@ -66,7 +66,7 @@ export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center bg-gray-900 mt-16 lg:mt-20">
+      <section className="relative h-screen flex items-center justify-center bg-gray-900 mt-8 lg:mt-12">
         {/* Background Image with Overlay */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
