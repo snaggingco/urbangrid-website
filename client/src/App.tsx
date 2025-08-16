@@ -58,6 +58,7 @@ import PropertyInspectionAbuDhabi from "@/pages/locations/abu-dhabi/property-ins
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingButtons from "@/components/FloatingButtons";
+import SEO from "@/components/SEO";
 
 function Router() {
   const { isAuthenticated, isLoading, user } = useAuth();
@@ -79,6 +80,7 @@ function Router() {
 
   return (
     <div className="min-h-screen bg-white">
+      <SEO />
       <Header isAdmin={isAdmin} />
       <main>
         <Switch>
