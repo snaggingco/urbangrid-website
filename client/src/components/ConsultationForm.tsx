@@ -55,39 +55,7 @@ export default function ConsultationForm() {
   };
 
   return (
-    <section className="relative py-16 lg:py-20 bg-brand-green text-white overflow-hidden">
-      {/* Top Wave Shape */}
-      <div className="absolute top-0 left-0 w-full overflow-hidden">
-        <svg
-          className="relative block w-full h-16"
-          data-name="Layer 1"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"
-            className="fill-gray-50"
-          ></path>
-        </svg>
-      </div>
-
-      {/* Bottom Wave Shape */}
-      <div className="absolute bottom-0 left-0 w-full overflow-hidden rotate-180">
-        <svg
-          className="relative block w-full h-16"
-          data-name="Layer 1"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"
-            className="fill-gray-50"
-          ></path>
-        </svg>
-      </div>
-
+    <section className="py-16 lg:py-20 bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
@@ -98,7 +66,7 @@ export default function ConsultationForm() {
               Fill out the form below and our property inspection experts will contact you within 24 hours.
             </p>
           </div>
-
+          
           <div className="max-w-4xl mx-auto">
             <form onSubmit={handleSubmit} className="bg-light-grey rounded-lg p-6 lg:p-8">
               <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 items-end">
@@ -118,7 +86,7 @@ export default function ConsultationForm() {
                     className="h-12 px-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-green focus:border-brand-green text-sm bg-white"
                   />
                 </div>
-
+                
                 {/* Email Field */}
                 <div className="lg:col-span-1">
                   <Label htmlFor="email" className="block text-sm font-medium text-text-grey mb-2">
@@ -135,7 +103,7 @@ export default function ConsultationForm() {
                     className="h-12 px-4 border border-gray-300 rounded-md focus:ring-2 focus:ring-brand-green focus:border-brand-green text-sm bg-white"
                   />
                 </div>
-
+                
                 {/* Phone Field */}
                 <div className="lg:col-span-1">
                   <Label htmlFor="phone" className="block text-sm font-medium text-text-grey mb-2">
@@ -153,7 +121,7 @@ export default function ConsultationForm() {
                     />
                   </div>
                 </div>
-
+                
                 {/* Submit Button */}
                 <div className="lg:col-span-1">
                   <Button
@@ -172,7 +140,7 @@ export default function ConsultationForm() {
                   </Button>
                 </div>
               </div>
-
+              
               <div className="mt-4 text-center">
                 <p className="text-xs text-text-grey">
                   * Required fields. We respect your privacy and will never share your information.
