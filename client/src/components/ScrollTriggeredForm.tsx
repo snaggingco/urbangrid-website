@@ -27,7 +27,7 @@ export default function ScrollTriggeredForm() {
       const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
       const scrollPercentage = (scrollTop / scrollHeight) * 100;
 
-      if (scrollPercentage >= 40) {
+      if (scrollPercentage >= 50) {
         setIsVisible(true);
         setHasShown(true);
       }
