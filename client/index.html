@@ -106,17 +106,36 @@
       ]
     }
     </script>
-    <!-- Preconnect hints for performance -->
+    <!-- Critical resource hints for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://images.unsplash.com">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <link rel="preconnect" href="https://purecatamphetamine.github.io">
     
-    <!-- Optimized font loading - only essential weights -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Critical font preload for LCP -->
+    <link rel="preload" href="https://fonts.gstatic.com/s/inter/v19/UcC73FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2" as="font" type="font/woff2" crossorigin>
     
-    <!-- FontAwesome Icons - loaded asynchronously -->
+    <!-- Optimized font loading - reduced weights -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome Icons - Critical subset inline -->
+    <style>
+      /* Critical FontAwesome icons used above-the-fold */
+      .fas, .far, .fab { font-family: "Font Awesome 6 Free", "Font Awesome 6 Brands"; font-weight: 900; }
+      .far { font-weight: 400; }
+      .fab { font-family: "Font Awesome 6 Brands"; font-weight: 400; }
+      .fa-phone:before { content: "\f095"; }
+      .fa-whatsapp:before { content: "\f232"; }
+      .fa-arrow-right:before { content: "\f061"; }
+      .fa-clipboard-list:before { content: "\f46d"; }
+      .fa-hammer:before { content: "\f6e3"; }
+      .fa-file-alt:before { content: "\f15c"; }
+      .fa-key:before { content: "\f084"; }
+      .fa-search:before { content: "\f002"; }
+      .fa-users:before { content: "\f0c0"; }
+    </style>
+    
+    <!-- FontAwesome full CSS - defer loading -->
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer"></noscript>
   </head>

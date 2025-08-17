@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import ConsultationForm from "@/components/ConsultationForm";
 import ScrollTriggeredForm from "@/components/ScrollTriggeredForm";
+import LazyImage from "@/components/LazyImage";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
@@ -168,14 +169,14 @@ export default function Home() {
     <>
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center bg-gray-900 mt-8 lg:mt-12">
-        {/* Background Image with Overlay */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80')`
-          }}
-        >
-        </div>
+        {/* Background Image with Overlay - Optimized LCP */}
+        <LazyImage
+          src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080&q=85"
+          alt="Professional property inspection in UAE"
+          className="absolute inset-0"
+          priority={true}
+          style={{ objectFit: 'cover' }}
+        />
         <div className="absolute inset-0 bg-black bg-opacity-50"></div>
         
         {/* Hero Content */}
@@ -279,11 +280,10 @@ export default function Home() {
             </div>
             
             <div className="relative">
-              <img 
+              <LazyImage
                 src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=450&q=80" 
                 alt="Professional property inspection team" 
-                className="rounded-lg shadow-lg w-full"
-                loading="lazy"
+                className="rounded-lg shadow-lg w-full h-96"
               />
               
               {/* Stats Overlay */}
