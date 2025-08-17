@@ -18,6 +18,27 @@ export default function FloatingButtons() {
       {/* Desktop Floating Buttons - Attention-Grabbing & Circular */}
       <div className="hidden md:block fixed bottom-6 right-6 z-50">
         <div className="flex flex-col space-y-4">
+          {/* Scroll to Top Button */}
+          <div className="relative">
+            <button
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className={`floating-button-desktop bg-gray-500 hover:bg-gray-600 text-white w-14 h-14 rounded-full shadow-lg transition-all duration-300 hover:scale-110 group flex items-center justify-center ${
+                showPulse ? 'animate-pulse-glow-desktop' : ''
+              }`}
+              aria-label="Scroll to top"
+            >
+              <i className="fas fa-chevron-up text-xl"></i>
+              
+              {/* Enhanced tooltip */}
+              <div className="absolute right-full top-1/2 -translate-y-1/2 mr-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-0 translate-x-2">
+                <div className="bg-gray-600 text-white text-sm px-3 py-2 rounded-lg shadow-lg whitespace-nowrap relative">
+                  <span className="font-medium">Scroll to top</span>
+                  <div className="absolute top-1/2 -right-1 -translate-y-1/2 w-2 h-2 bg-gray-600 rotate-45"></div>
+                </div>
+              </div>
+            </button>
+          </div>
+
           {/* WhatsApp Button */}
           <div className="relative">
             <a
