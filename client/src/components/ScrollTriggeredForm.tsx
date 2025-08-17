@@ -10,7 +10,7 @@ import "react-phone-number-input/style.css";
 
 export default function ScrollTriggeredForm() {
   const [isVisible, setIsVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+
   const [hasShown, setHasShown] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -37,39 +37,35 @@ export default function ScrollTriggeredForm() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasShown]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
 
-    try {
-      await apiRequest("POST", "/api/quick-contact", {
-        name: formData.name,
-        email: formData.email,
-        phone: formData.phone,
-      });
+    // Show immediate success feedback
+    toast({
+      title: "Success! 🎉",
+      description: "Thank you! We'll contact you soon to help make your move-in defect-free!",
+      variant: "default",
+    });
 
-      toast({
-        title: "Success! 🎉",
-        description: "Thank you! We'll contact you soon to help make your move-in defect-free!",
-        variant: "default",
-      });
+    // Reset form and close modal immediately
+    const submissionData = {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+    };
 
-      // Reset form and close modal
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-      });
-      setIsVisible(false);
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to submit request. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+    setFormData({
+      name: "",
+      email: "",
+      phone: "",
+    });
+    setIsVisible(false);
+
+    // Handle submission in background without blocking UI
+    apiRequest("POST", "/api/quick-contact", submissionData).catch(error => {
+      console.error("Background form submission failed:", error);
+      // Optionally log to monitoring service in production
+    });
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -149,17 +145,9 @@ export default function ScrollTriggeredForm() {
             {/* Submit Button */}
             <Button
               type="submit"
-              disabled={isLoading}
               className="w-full h-12 bg-gradient-to-r from-brand-green to-emerald-600 text-white font-semibold rounded-lg hover:from-emerald-700 hover:to-brand-green transition-all duration-300 shadow-lg hover:shadow-xl"
             >
-              {isLoading ? (
-                <div className="flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                  Submitting...
-                </div>
-              ) : (
-                "Submit"
-              )}
+              Submit
             </Button>
             
             <p className="text-xs text-gray-500 text-center mt-3">
