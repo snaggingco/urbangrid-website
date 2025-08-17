@@ -4,6 +4,8 @@ import ConsultationForm from "@/components/ConsultationForm";
 import ScrollTriggeredForm from "@/components/ScrollTriggeredForm";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import internachi1 from "@assets/internachi.webp";
+import internachi2 from "@assets/internachi2.webp";
 
 export default function Home() {
   const [isVisible, setIsVisible] = useState(false);
@@ -186,6 +188,46 @@ export default function Home() {
           <p className="text-xl sm:text-2xl text-gray-200 leading-relaxed">
             Protecting quality, value, and your peace of mind in Dubai, Abu Dhabi, Sharjah and across UAE.
           </p>
+        </div>
+      </section>
+
+      {/* InterNACHI Certification Section */}
+      <section className="py-12 bg-white border-b border-gray-100">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl lg:text-3xl font-bold text-brand-black mb-3">
+              Certified by InterNACHI
+            </h2>
+            <p className="text-lg text-text-grey max-w-2xl mx-auto">
+              Internationally certified home inspectors committed to professional excellence and industry standards
+            </p>
+          </div>
+          
+          <div className="flex justify-center items-center gap-8 lg:gap-12">
+            <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <img 
+                src={internachi1}
+                alt="InterNACHI International Association of Certified Home Inspectors Certification" 
+                className="h-20 lg:h-24 w-auto object-contain mx-auto"
+                loading="lazy"
+              />
+            </div>
+            <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <img 
+                src={internachi2}
+                alt="InterNACHI Professional Certification Badge" 
+                className="h-20 lg:h-24 w-auto object-contain mx-auto"
+                loading="lazy"
+              />
+            </div>
+          </div>
+          
+          <div className="text-center mt-6">
+            <p className="text-sm text-text-grey">
+              <span className="font-medium text-brand-green">InterNACHI Certified</span> • 
+              Professional Standards • Quality Assured
+            </p>
+          </div>
         </div>
       </section>
 
