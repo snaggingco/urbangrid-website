@@ -1,0 +1,162 @@
+
+
+Diagnose performance issues
+56
+Performance
+100
+Accessibility
+96
+Best Practices
+100
+SEO
+56
+FCP
++0
+LCP
++0
+TBT
++30
+CLS
++25
+SI
++1
+Performance
+Values are estimated and may vary. The performance score is calculated directly from these metrics.See calculator.
+0–49
+50–89
+90–100
+Final Screenshot
+
+Metrics
+Expand view
+First Contentful Paint
+10.8 s
+Largest Contentful Paint
+11.6 s
+Total Blocking Time
+0 ms
+Cumulative Layout Shift
+0.006
+Speed Index
+10.8 s
+Captured at Aug 17, 2025, 11:58 PM GMT+4
+Emulated Moto G Power with Lighthouse 12.8.0
+Single page session
+Initial page load
+Slow 4G throttling
+Using HeadlessChromium 137.0.7151.119 with lr
+View Treemap
+Screenshot
+Screenshot
+Screenshot
+Screenshot
+Screenshot
+Screenshot
+Screenshot
+Screenshot
+Later this year, insights will replace performance audits. Learn more and provide feedback here.
+Go back to audits
+Show audits relevant to:
+
+All
+
+FCP
+
+LCP
+
+TBT
+
+CLS
+Insights
+Render blocking requests Est savings of 1,050 ms
+Requests are blocking the page's initial render, which may delay LCP. Deferring or inlining can move these network requests out of the critical path.LCPFCP
+URL
+Transfer Size
+Duration
+urbangrid.ae 1st party
+103.6 KiB	2,580 ms
+/assets/index-DIxfexet.css(urbangrid.ae)
+103.6 KiB
+2,580 ms
+Google Fonts cdn 
+3.0 KiB	1,260 ms
+/css2?family=Inter:wght@400;500;600;700&display=swap(fonts.googleapis.com)
+1.5 KiB
+780 ms
+/css2?family=Inter:wght@300;400;500;600;700&display=swap(fonts.googleapis.com)
+1.5 KiB
+480 ms
+LCP request discovery
+Optimize LCP by making the LCP image discoverable from the HTML immediately, and avoiding lazy-loadingLCP
+lazy load not applied
+fetchpriority=high should be applied
+Request is discoverable in initial document
+div.min-h-screen > main > section.relative > div.absolute
+<div class="absolute inset-0 bg-cover bg-center bg-no-repeat" style="background-image: url(&quot;https://images.unsplash.com/photo-1512453979798-5ea…&quot;);">
+Network dependency tree
+Avoid chaining critical requests by reducing the length of chains, reducing the download size of resources, or deferring the download of unnecessary resources to improve page load.LCP
+Maximum critical path latency: 1,701 ms
+Initial Navigation
+https://urbangrid.ae - 328 ms, 6.97 KiB
+/css2?family=Inter:wght@400;500;600;700&display=swap(fonts.googleapis.com) - 341 ms, 1.46 KiB
+…v19/UcC73FwrK….woff2(fonts.gstatic.com) - 1,701 ms, 48.09 KiB
+/assets/index-CdeYJrPE.js(urbangrid.ae) - 1,108 ms, 1,309.42 KiB
+…auth/user(urbangrid.ae) - 1,603 ms, 0.57 KiB
+/assets/index-DIxfexet.css(urbangrid.ae) - 609 ms, 103.63 KiB
+/css2?family=Inter:wght@300;400;500;600;700&display=swap(fonts.googleapis.com) - 613 ms, 1.50 KiB
+Preconnected origins
+preconnect hints help the browser establish a connection earlier in the page load, saving time when the first request for that origin is made. The following are the origins that the page preconnected to.
+no origins were preconnected
+Preconnect candidates
+Add preconnect hints to your most important origins, but try to use no more than 4.
+Origin
+Est LCP savings
+https://purecatamphetamine.github.io
+300 ms
+Use efficient cache lifetimes Est savings of 1 KiB
+Document request latency Est savings of 4 KiB
+Font display Est savings of 20 ms
+Improve image delivery Est savings of 10 KiB
+Layout shift culprits
+LCP breakdown
+3rd parties
+These insights are also available in the Chrome DevTools Performance Panel - record a trace to view more detailed information.
+Diagnostics
+Reduce unused JavaScript Est savings of 810 KiB
+Reduce unused JavaScript and defer loading scripts until they are required to decrease bytes consumed by network activity. Learn how to reduce unused JavaScript.LCPFCP
+URL
+Transfer Size
+Est Savings
+urbangrid.ae 1st party
+1,297.6 KiB	809.6 KiB
+/assets/index-CdeYJrPE.js(urbangrid.ae)
+1,297.6 KiB
+809.6 KiB
+Reduce unused CSS Est savings of 104 KiB
+Reduce unused rules from stylesheets and defer CSS not used for above-the-fold content to decrease bytes consumed by network activity. Learn how to reduce unused CSS.LCPFCP
+URL
+Transfer Size
+Est Savings
+urbangrid.ae 1st party
+103.0 KiB	86.1 KiB
+/assets/index-DIxfexet.css(urbangrid.ae)
+103.0 KiB
+86.1 KiB
+Cloudflare CDN cdn 
+18.3 KiB	18.1 KiB
+…css/all.min.css(cdnjs.cloudflare.com)
+18.3 KiB
+18.1 KiB
+Avoid serving legacy JavaScript to modern browsers Est savings of 1 KiB
+Polyfills and transforms enable legacy browsers to use new JavaScript features. However, many aren't necessary for modern browsers. Consider modifying your JavaScript build process to not transpile Baseline features, unless you know you must support legacy browsers. Learn why most sites can deploy ES6+ code without transpilingLCPFCP
+URL
+Est Savings
+urbangrid.ae 1st party
+1.0 KiB
+/assets/index-CdeYJrPE.js(urbangrid.ae)
+1.0 KiB
+/assets/index-CdeYJrPE.js:104:6416(urbangrid.ae)
+@babel/plugin-transform-classes
+Avoid long main-thread tasks 1 long task found
+More information about the performance of your application. These numbers don't directly affect the Performance score.
+Passed audits (16)
