@@ -4,64 +4,61 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/useAuth";
-import { useEffect, lazy, Suspense } from "react";
+import { useEffect } from "react";
 
-// Critical pages (loaded immediately)
+// Pages
 import Home from "@/pages/Home";
+import About from "@/pages/About";
+import Services from "@/pages/Services";
+import ServiceDetail from "@/pages/ServiceDetail";
+import Blog from "@/pages/Blog";
+import BlogDetail from "@/pages/BlogDetail";
+import Contact from "@/pages/Contact";
+import Login from "@/pages/Login";
+import Dashboard from "@/pages/admin/Dashboard";
+import AddBlog from "@/pages/admin/AddBlog";
+import ManageBlogs from "@/pages/admin/ManageBlogs";
 import NotFound from "@/pages/not-found";
 
-// Lazy load non-critical pages
-const About = lazy(() => import("@/pages/About"));
-const Services = lazy(() => import("@/pages/Services"));
-const ServiceDetail = lazy(() => import("@/pages/ServiceDetail"));
-const Blog = lazy(() => import("@/pages/Blog"));
-const BlogDetail = lazy(() => import("@/pages/BlogDetail"));
-const Contact = lazy(() => import("@/pages/Contact"));
-const Login = lazy(() => import("@/pages/Login"));
-const Dashboard = lazy(() => import("@/pages/admin/Dashboard"));
-const AddBlog = lazy(() => import("@/pages/admin/AddBlog"));
-const ManageBlogs = lazy(() => import("@/pages/admin/ManageBlogs"));
+// Location Pages
+import Dubai from "@/pages/locations/Dubai";
+import AbuDhabi from "@/pages/locations/AbuDhabi";
+import Sharjah from "@/pages/locations/Sharjah";
+import Ajman from "@/pages/locations/Ajman";
+import RasAlKhaimah from "@/pages/locations/RasAlKhaimah";
+import Fujairah from "@/pages/locations/Fujairah";
+import UmmAlQuwain from "@/pages/locations/UmmAlQuwain";
 
-// Lazy load location pages
-const Dubai = lazy(() => import("@/pages/locations/Dubai"));
-const AbuDhabi = lazy(() => import("@/pages/locations/AbuDhabi"));
-const Sharjah = lazy(() => import("@/pages/locations/Sharjah"));
-const Ajman = lazy(() => import("@/pages/locations/Ajman"));
-const RasAlKhaimah = lazy(() => import("@/pages/locations/RasAlKhaimah"));
-const Fujairah = lazy(() => import("@/pages/locations/Fujairah"));
-const UmmAlQuwain = lazy(() => import("@/pages/locations/UmmAlQuwain"));
+// Dubai Location + Service Pages
+import DubaiNewBuildSnagging from "@/pages/locations/dubai/new-build-snagging";
+import DubaiVillaSnagging from "@/pages/locations/dubai/villa-snagging";
+import DubaiApartmentInspection from "@/pages/locations/dubai/apartment-inspection";
+import DubaiDLPSnagging from "@/pages/locations/dubai/dlp-snagging";
 
-// Lazy load Dubai Location + Service Pages
-const DubaiNewBuildSnagging = lazy(() => import("@/pages/locations/dubai/new-build-snagging"));
-const DubaiVillaSnagging = lazy(() => import("@/pages/locations/dubai/villa-snagging"));
-const DubaiApartmentInspection = lazy(() => import("@/pages/locations/dubai/apartment-inspection"));
-const DubaiDLPSnagging = lazy(() => import("@/pages/locations/dubai/dlp-snagging"));
+// Abu Dhabi Location + Service Pages
+import AbuDhabiNewBuildSnagging from "@/pages/locations/abu-dhabi/new-build-snagging";
+import AbuDhabiVillaSnagging from "@/pages/locations/abu-dhabi/villa-snagging";
+import AbuDhabiApartmentInspection from "@/pages/locations/abu-dhabi/apartment-inspection";
 
-// Lazy load Abu Dhabi Location + Service Pages
-const AbuDhabiNewBuildSnagging = lazy(() => import("@/pages/locations/abu-dhabi/new-build-snagging"));
-const AbuDhabiVillaSnagging = lazy(() => import("@/pages/locations/abu-dhabi/villa-snagging"));
-const AbuDhabiApartmentInspection = lazy(() => import("@/pages/locations/abu-dhabi/apartment-inspection"));
+// Sharjah Location + Service Pages
+import SharjahNewBuildSnagging from "@/pages/locations/sharjah/new-build-snagging";
+import SharjahVillaSnagging from "@/pages/locations/sharjah/villa-snagging";
+import SharjahApartmentInspection from "@/pages/locations/sharjah/apartment-inspection";
 
-// Lazy load Sharjah Location + Service Pages
-const SharjahNewBuildSnagging = lazy(() => import("@/pages/locations/sharjah/new-build-snagging"));
-const SharjahVillaSnagging = lazy(() => import("@/pages/locations/sharjah/villa-snagging"));
-const SharjahApartmentInspection = lazy(() => import("@/pages/locations/sharjah/apartment-inspection"));
+// Dubai High-Priority SEO Pages
+import PropertySnaggingDubai from "@/pages/locations/dubai/property-snagging";
+import SnaggingCostDubai from "@/pages/locations/dubai/snagging-cost";
+import PropertySnaggingServicesDubai from "@/pages/locations/dubai/property-snagging-services";
+import PrePurchaseInspectionDubai from "@/pages/locations/dubai/pre-purchase-inspection";
 
-// Lazy load Dubai High-Priority SEO Pages
-const PropertySnaggingDubai = lazy(() => import("@/pages/locations/dubai/property-snagging"));
-const SnaggingCostDubai = lazy(() => import("@/pages/locations/dubai/snagging-cost"));
-const PropertySnaggingServicesDubai = lazy(() => import("@/pages/locations/dubai/property-snagging-services"));
-const PrePurchaseInspectionDubai = lazy(() => import("@/pages/locations/dubai/pre-purchase-inspection"));
-
-// Lazy load Abu Dhabi High-Priority SEO Pages
-const PropertyInspectionAbuDhabi = lazy(() => import("@/pages/locations/abu-dhabi/property-inspection"));
+// Abu Dhabi High-Priority SEO Pages
+import PropertyInspectionAbuDhabi from "@/pages/locations/abu-dhabi/property-inspection";
 
 // Components
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingButtons from "@/components/FloatingButtons";
 import SEO from "@/components/SEO";
-import PerformanceOptimizer from "@/components/PerformanceOptimizer";
 
 function Router() {
   const { isAuthenticated, isLoading, user } = useAuth();
@@ -83,18 +80,12 @@ function Router() {
 
   return (
     <div className="min-h-screen bg-white">
-      <PerformanceOptimizer />
       <SEO />
       <Header isAdmin={isAdmin} />
       <main>
-        <Suspense fallback={
-          <div className="min-h-screen flex items-center justify-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-green"></div>
-          </div>
-        }>
-          <Switch>
-            <Route path="/" component={Home} />
-            <Route path="/about" component={About} />
+        <Switch>
+          <Route path="/" component={Home} />
+          <Route path="/about" component={About} />
           <Route path="/services" component={Services} />
           {/* Service Detail Routes - All 16 Services */}
           <Route path="/services/:category/:slug" component={ServiceDetail} />
@@ -167,7 +158,6 @@ function Router() {
           )}
           <Route component={NotFound} />
         </Switch>
-        </Suspense>
       </main>
       <Footer />
       <FloatingButtons />
