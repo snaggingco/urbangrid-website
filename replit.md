@@ -73,9 +73,10 @@ Preferred communication style: Simple, everyday language.
 - **Replit Auth**: OAuth provider for admin authentication and user management
 
 ### Communication & Notifications
-- **Email Service**: Email sending capability for form submissions (configured for info@urbangrid.ae)
+- **Email Service**: Email sending capability for form submissions (configured for info@snagging.me)
 - **WhatsApp Integration**: Direct messaging for customer inquiries (+971 58 568 6852)
 - **Phone Integration**: Click-to-call functionality for immediate contact (+971 58 568 6852)
+- **Google Analytics**: Google tag (gtag.js) with conversion tracking ID AW-11443889137
 
 ### Development & Deployment
 - **Vite**: Fast build tool with HMR for development
