@@ -14,6 +14,7 @@ import ServiceDetail from "@/pages/ServiceDetail";
 import Blog from "@/pages/Blog";
 import BlogDetail from "@/pages/BlogDetail";
 import Contact from "@/pages/Contact";
+import Careers from "@/pages/Careers";
 import Login from "@/pages/Login";
 import Dashboard from "@/pages/admin/Dashboard";
 import AddBlog from "@/pages/admin/AddBlog";
@@ -114,6 +115,7 @@ function Router() {
 
           <Route path="/blog" component={Blog} />
           <Route path="/blog/:slug" component={BlogDetail} />
+          <Route path="/careers" component={Careers} />
           <Route path="/contact" component={Contact} />
           {/* Location Pages */}
           <Route path="/locations/dubai" component={Dubai} />

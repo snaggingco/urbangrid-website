@@ -354,6 +354,60 @@ Source: Scroll-triggered popup form
     }
   });
 
+  // Career application form endpoint
+  app.post('/api/career-application', async (req, res) => {
+    try {
+      const { fullName, email, phone, position, experience, coverLetter, hasResume, resumeFileName } = req.body;
+
+      if (!fullName || !email || !phone || !position || !experience || !coverLetter) {
+        return res.status(400).json({ message: "All required fields must be filled" });
+      }
+
+      // Save to contact submissions table (reusing existing structure)
+      const submission = await storage.createContactSubmission({
+        name: fullName,
+        email,
+        phone,
+        message: `Career Application:
+        
+Position: ${position}
+Experience Level: ${experience}
+Resume Attached: ${hasResume ? `Yes (${resumeFileName})` : 'No'}
+
+Cover Letter:
+${coverLetter}`,
+        enquiryType: 'Career Application'
+      });
+
+      // Send email notification
+      const emailContent = `
+New Career Application Submission:
+
+Full Name: ${fullName}
+Email: ${email}
+Phone: ${phone}
+Position of Interest: ${position}
+Experience Level: ${experience}
+Resume Attached: ${hasResume ? `Yes (${resumeFileName})` : 'No'}
+
+Cover Letter:
+${coverLetter}
+
+---
+This application was submitted through the UrbanGrid careers page.
+      `;
+
+      await sendEmail('info@snagging.me', `New Career Application - ${position}`, emailContent);
+
+      res.status(201).json({ 
+        message: "Career application submitted successfully! We'll review your application and get back to you soon."
+      });
+    } catch (error: any) {
+      console.error('Error submitting career application:', error);
+      res.status(500).json({ message: "Failed to submit application" });
+    }
+  });
+
   // Get blog posts for internal linking (simplified data)
   app.get('/api/admin/blog/links', isAdminAuthenticated, async (req: any, res) => {
     try {
