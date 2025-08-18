@@ -13,19 +13,19 @@ export default function ApartmentInspectionDubai() {
     {
       title: "High-Rise Apartment Inspection",
       description: "Specialized inspection for Dubai's iconic tower apartments",
-      price: "Starting from AED 1,200",
+      price: "From AED 1 / Sq.ft",
       features: ["Complete apartment assessment", "Balcony & terrace safety", "MEP systems check", "View & privacy verification"]
     },
     {
       title: "Luxury Apartment Snagging",
       description: "Premium service for high-end apartment developments",
-      price: "Starting from AED 1,500",
+      price: "From AED 1 / Sq.ft",
       features: ["Luxury finish inspection", "High-end appliance testing", "Smart home features", "Premium material verification"]
     },
     {
       title: "Studio & 1BR Quick Inspection",
       description: "Efficient inspection service for smaller apartment units",
-      price: "Starting from AED 900",
+      price: "From AED 1 / Sq.ft",
       features: ["Essential systems check", "Finish quality assessment", "Basic defect identification", "Quick turnaround report"]
     }
   ];
@@ -154,7 +154,7 @@ export default function ApartmentInspectionDubai() {
             Professional Apartment Inspection in Dubai
           </h2>
           <p className="text-xl mb-8 text-green-100 max-w-2xl mx-auto">
-            Ensure your Dubai apartment investment with expert high-rise inspection services. Starting from AED 1,200.
+            Ensure your Dubai apartment investment with expert high-rise inspection services. From AED 1 / Sq.ft.
           </p>
           <Link href="/contact">
             <Button className="bg-white text-brand-green hover:bg-gray-100 px-8 py-3">

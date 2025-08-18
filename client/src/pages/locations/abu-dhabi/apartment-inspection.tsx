@@ -13,19 +13,19 @@ export default function ApartmentInspectionAbuDhabi() {
     {
       title: "Capital District Apartment Inspection",
       description: "Premium inspection for government district and business area apartments",
-      price: "Starting from AED 1,200",
+      price: "From AED 1 / Sq.ft",
       features: ["Government standards compliance", "Business district specifications", "Premium finish quality", "Professional tenant standards"]
     },
     {
       title: "Island Tower Apartment Assessment",
       description: "Specialized service for Al Reem and Saadiyat Island high-rises",
-      price: "Starting from AED 1,400",
+      price: "From AED 1 / Sq.ft",
       features: ["Island infrastructure integration", "High-rise tower systems", "Marina and water views", "Resort-style amenities"]
     },
     {
       title: "Cultural District Luxury Inspection",
       description: "Expert evaluation for Saadiyat Cultural District apartments",
-      price: "Starting from AED 1,600",
+      price: "From AED 1 / Sq.ft",
       features: ["Cultural district standards", "Museum-quality finishes", "International compliance", "Premium amenity access"]
     }
   ];
@@ -111,7 +111,7 @@ export default function ApartmentInspectionAbuDhabi() {
             Expert Apartment Inspection in Abu Dhabi
           </h2>
           <p className="text-xl mb-8 text-green-100 max-w-2xl mx-auto">
-            Ensure your Abu Dhabi apartment investment with capital city's leading inspection experts. Starting from AED 1,200.
+            Ensure your Abu Dhabi apartment investment with capital city's leading inspection experts. From AED 1 / Sq.ft.
           </p>
           <Link href="/contact">
             <Button className="bg-white text-brand-green hover:bg-gray-100 px-8 py-3">

@@ -7,19 +7,19 @@ export default function PropertySnaggingDubai() {
     {
       title: "New Build Property Snagging",
       description: "Pre-handover inspections for new developments",
-      price: "Starting from AED 1,500",
+      price: "From AED 1 / Sq.ft",
       features: ["Pre-handover inspection", "Defect identification", "Quality assessment", "Developer liaison", "Comprehensive report"]
     },
     {
       title: "Apartment Snagging Services",
       description: "Specialized apartment snagging in Dubai",
-      price: "Starting from AED 1,200",
+      price: "From AED 1 / Sq.ft",
       features: ["Studio to 3BR coverage", "MEP systems check", "Finish quality review", "Same-day reporting", "Dubai-specific expertise"]
     },
     {
       title: "Villa Property Snagging",
       description: "Complete villa snagging and inspection",
-      price: "Starting from AED 2,500",
+      price: "From AED 1 / Sq.ft",
       features: ["Full structural survey", "Exterior inspection", "Pool & landscape check", "Premium villa coverage", "Detailed documentation"]
     }
   ];

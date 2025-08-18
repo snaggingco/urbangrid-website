@@ -21,19 +21,19 @@ export default function NewBuildSnaggingDubai() {
     {
       title: "Pre-Handover Snagging",
       description: "Comprehensive inspection 7-14 days before handover",
-      price: "Starting from AED 1,500",
+      price: "From AED 1 / Sq.ft",
       features: ["Full structural assessment", "MEP systems testing", "Finish quality check", "Defect documentation"]
     },
     {
       title: "Handover Day Inspection",
       description: "Final walkthrough and quality verification on handover day",
-      price: "Starting from AED 1,200",
+      price: "From AED 1 / Sq.ft",
       features: ["Final quality check", "Immediate defect identification", "Developer liaison", "Handover documentation"]
     },
     {
       title: "Post-Handover Review",
       description: "Follow-up inspection to ensure defect rectification",
-      price: "Starting from AED 800",
+      price: "From AED 0.5 / Sq.ft",
       features: ["Defect rectification check", "Quality compliance", "Final sign-off", "Warranty activation"]
     }
   ];

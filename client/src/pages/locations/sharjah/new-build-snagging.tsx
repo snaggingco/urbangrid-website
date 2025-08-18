@@ -13,19 +13,19 @@ export default function NewBuildSnaggingSharjah() {
     {
       title: "Cultural Emirate New Build Snagging",
       description: "Comprehensive inspection respecting Sharjah's cultural heritage standards",
-      price: "Starting from AED 1,500",
+      price: "From AED 1 / Sq.ft",
       features: ["Cultural compliance check", "Heritage-inspired designs", "Traditional material assessment", "Community integration"]
     },
     {
       title: "Affordable Housing Quality Control",
       description: "Value-focused inspection for Sharjah's budget-friendly developments",
-      price: "Starting from AED 1,200",
+      price: "From AED 1 / Sq.ft",
       features: ["Cost-effective quality standards", "Essential defect identification", "Value engineering assessment", "Long-term durability focus"]
     },
     {
       title: "University District Student Housing",
       description: "Specialized inspection for student accommodation and university area properties",
-      price: "Starting from AED 1,000",
+      price: "From AED 1 / Sq.ft",
       features: ["Student housing standards", "Shared facility assessment", "Educational zone compliance", "Safety and security focus"]
     }
   ];
@@ -111,7 +111,7 @@ export default function NewBuildSnaggingSharjah() {
             Quality New Build Snagging in Sharjah
           </h2>
           <p className="text-xl mb-8 text-green-100 max-w-2xl mx-auto">
-            Protect your Sharjah investment with cultural emirate's trusted snagging experts. Starting from AED 1,200.
+            Protect your Sharjah investment with cultural emirate's trusted snagging experts. From AED 1 / Sq.ft.
           </p>
           <Link href="/contact">
             <Button className="bg-white text-brand-green hover:bg-gray-100 px-8 py-3">

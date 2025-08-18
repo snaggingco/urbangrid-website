@@ -13,19 +13,19 @@ export default function NewBuildSnaggingAbuDhabi() {
     {
       title: "Capital District New Build Snagging",
       description: "Premium inspection for Abu Dhabi's prestigious developments",
-      price: "Starting from AED 1,500",
+      price: "From AED 1 / Sq.ft",
       features: ["Government district standards", "Premium finish inspection", "Advanced MEP systems", "Cultural compliance check"]
     },
     {
       title: "Island Development Inspection",
       description: "Specialized service for Saadiyat and Al Reem Island properties",
-      price: "Starting from AED 1,600",
+      price: "From AED 1 / Sq.ft",
       features: ["Island-specific standards", "Marine environment assessment", "Infrastructure integration", "Tourism zone compliance"]
     },
     {
       title: "Sustainable Building Assessment",
       description: "Expert evaluation for Masdar City and green developments",
-      price: "Starting from AED 1,700",
+      price: "From AED 1 / Sq.ft",
       features: ["Sustainability features", "Energy efficiency systems", "Green building standards", "LEED compliance"]
     }
   ];
@@ -111,7 +111,7 @@ export default function NewBuildSnaggingAbuDhabi() {
             Expert New Build Snagging in Abu Dhabi
           </h2>
           <p className="text-xl mb-8 text-green-100 max-w-2xl mx-auto">
-            Protect your Abu Dhabi investment with capital city's leading snagging experts. Starting from AED 1,500.
+            Protect your Abu Dhabi investment with capital city's leading snagging experts. From AED 1 / Sq.ft.
           </p>
           <Link href="/contact">
             <Button className="bg-white text-brand-green hover:bg-gray-100 px-8 py-3">

@@ -13,19 +13,19 @@ export default function PropertyInspectionAbuDhabi() {
     {
       title: "New Build Property Inspection",
       description: "Pre-handover inspections for new developments in Abu Dhabi",
-      price: "Starting from AED 1,500",
+      price: "From AED 1 / Sq.ft",
       features: ["Pre-handover assessment", "Structural integrity check", "MEP systems testing", "Quality compliance review", "Developer coordination"]
     },
     {
       title: "Pre-Purchase Property Inspection",
       description: "Comprehensive inspection before buying property in Abu Dhabi",
-      price: "Starting from AED 1,200",
+      price: "From AED 1 / Sq.ft",
       features: ["Investment protection", "Market value assessment", "Condition evaluation", "Risk identification", "Purchase recommendation"]
     },
     {
       title: "Villa Property Inspection",
       description: "Specialized villa inspection services across Abu Dhabi",
-      price: "Starting from AED 2,800",
+      price: "From AED 1 / Sq.ft",
       features: ["Complete villa assessment", "Exterior & landscape", "Pool & amenities", "Smart home systems", "Premium reporting"]
     }
   ];

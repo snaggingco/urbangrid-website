@@ -13,19 +13,19 @@ export default function VillaSnaggingAbuDhabi() {
     {
       title: "Compound Villa Inspection",
       description: "Comprehensive inspection for Abu Dhabi's gated villa communities",
-      price: "Starting from AED 2,000",
+      price: "From AED 1 / Sq.ft",
       features: ["Full villa assessment", "Community facility access", "Compound infrastructure", "Maintenance standards"]
     },
     {
       title: "Standalone Villa Snagging",
       description: "Detailed inspection for independent villa properties",
-      price: "Starting from AED 2,200",
+      price: "From AED 1 / Sq.ft",
       features: ["Complete property evaluation", "Boundary and gates", "Private utilities", "Landscaping assessment"]
     },
     {
       title: "Beach Villa Premium Service",
       description: "Specialized inspection for Saadiyat and coastal villa properties",
-      price: "Starting from AED 2,500",
+      price: "From AED 1 / Sq.ft",
       features: ["Marine environment protection", "Beach access verification", "Premium finish standards", "Resort amenity integration"]
     }
   ];
@@ -111,7 +111,7 @@ export default function VillaSnaggingAbuDhabi() {
             Professional Villa Snagging in Abu Dhabi
           </h2>
           <p className="text-xl mb-8 text-green-100 max-w-2xl mx-auto">
-            Secure your Abu Dhabi villa investment with expert snagging services. Starting from AED 2,000.
+            Secure your Abu Dhabi villa investment with expert snagging services. From AED 1 / Sq.ft.
           </p>
           <Link href="/contact">
             <Button className="bg-white text-brand-green hover:bg-gray-100 px-8 py-3">

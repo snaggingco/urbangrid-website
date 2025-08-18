@@ -13,19 +13,19 @@ export default function VillaSnaggingSharjah() {
     {
       title: "Traditional Design Villa Inspection",
       description: "Specialized assessment for heritage-inspired villa designs",
-      price: "Starting from AED 2,000",
+      price: "From AED 1 / Sq.ft",
       features: ["Cultural design compliance", "Traditional material quality", "Heritage architecture standards", "Community harmony assessment"]
     },
     {
       title: "Family-Oriented Villa Snagging",
       description: "Comprehensive inspection focusing on family living requirements",
-      price: "Starting from AED 1,800",
+      price: "From AED 1 / Sq.ft",
       features: ["Family safety features", "Child-friendly design", "Educational facility access", "Community amenities"]
     },
     {
       title: "Value Villa Quality Assessment",
       description: "Cost-effective inspection for affordable villa developments",
-      price: "Starting from AED 1,500",
+      price: "From AED 1 / Sq.ft",
       features: ["Essential quality standards", "Cost-benefit analysis", "Durability assessment", "Maintenance planning"]
     }
   ];
@@ -111,7 +111,7 @@ export default function VillaSnaggingSharjah() {
             Professional Villa Snagging in Sharjah
           </h2>
           <p className="text-xl mb-8 text-green-100 max-w-2xl mx-auto">
-            Secure your Sharjah villa investment with family-focused inspection services. Starting from AED 1,500.
+            Secure your Sharjah villa investment with family-focused inspection services. From AED 1 / Sq.ft.
           </p>
           <Link href="/contact">
             <Button className="bg-white text-brand-green hover:bg-gray-100 px-8 py-3">

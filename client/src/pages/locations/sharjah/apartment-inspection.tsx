@@ -13,19 +13,19 @@ export default function ApartmentInspectionSharjah() {
     {
       title: "Cultural District Apartment Inspection",
       description: "Specialized inspection for apartments in Sharjah's cultural areas",
-      price: "Starting from AED 1,200",
+      price: "From AED 1 / Sq.ft",
       features: ["Cultural heritage compliance", "Traditional aesthetic integration", "Community cultural standards", "Heritage district requirements"]
     },
     {
       title: "University Area Student Housing",
       description: "Focused inspection for student accommodation and university district apartments",
-      price: "Starting from AED 1,000",
+      price: "From AED 1 / Sq.ft",
       features: ["Student housing standards", "Educational facility proximity", "Shared accommodation features", "Safety and security protocols"]
     },
     {
       title: "Waterfront Apartment Assessment",
       description: "Comprehensive inspection for Al Majaz and waterfront apartment buildings",
-      price: "Starting from AED 1,400",
+      price: "From AED 1 / Sq.ft",
       features: ["Waterfront view verification", "Marina access assessment", "Lagoon area standards", "Recreational facility integration"]
     }
   ];
@@ -111,7 +111,7 @@ export default function ApartmentInspectionSharjah() {
             Expert Apartment Inspection in Sharjah
           </h2>
           <p className="text-xl mb-8 text-green-100 max-w-2xl mx-auto">
-            Ensure your Sharjah apartment investment with cultural emirate's trusted inspection experts. Starting from AED 1,000.
+            Ensure your Sharjah apartment investment with cultural emirate's trusted inspection experts. From AED 1 / Sq.ft.
           </p>
           <Link href="/contact">
             <Button className="bg-white text-brand-green hover:bg-gray-100 px-8 py-3">

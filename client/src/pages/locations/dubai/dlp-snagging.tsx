@@ -7,19 +7,19 @@ export default function DLPSnaggingDubai() {
     {
       title: "12-Month DLP Inspection",
       description: "Comprehensive inspection at the end of your defects liability period",
-      price: "Starting from AED 1,800",
+      price: "From AED 0.5 / Sq.ft",
       features: ["Complete property re-inspection", "Outstanding defect verification", "New defect identification", "Developer liaison support"]
     },
     {
       title: "6-Month Mid-Term Review",
       description: "Optional mid-term inspection to track defect rectification progress",
-      price: "Starting from AED 1,200",
+      price: "From AED 0.5 / Sq.ft",
       features: ["Progress assessment", "Defect tracking", "Developer communication", "Priority defect focus"]
     },
     {
       title: "DLP Documentation Service",
       description: "Professional documentation and legal support for warranty claims",
-      price: "Starting from AED 800",
+      price: "From AED 0.5 / Sq.ft",
       features: ["Legal documentation", "RERA compliance", "Developer correspondence", "Warranty claim preparation"]
     }
   ];

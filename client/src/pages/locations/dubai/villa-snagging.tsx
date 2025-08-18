@@ -13,19 +13,19 @@ export default function VillaSnaggingDubai() {
     {
       title: "Luxury Villa Comprehensive Snagging",
       description: "Complete inspection for high-end villas with extensive grounds",
-      price: "Starting from AED 2,000",
+      price: "From AED 1 / Sq.ft",
       features: ["Full villa structure", "Landscaping assessment", "Pool & water features", "Smart home systems", "Security systems"]
     },
     {
       title: "Gated Community Villa Inspection",
       description: "Specialized inspection for community villas with shared amenities",
-      price: "Starting from AED 1,800",
+      price: "From AED 1 / Sq.ft",
       features: ["Villa interior & exterior", "Community amenity access", "Parking & storage", "Utility connections"]
     },
     {
       title: "Townhouse Snagging Service",
       description: "Focused inspection for Dubai's premium townhouse developments",
-      price: "Starting from AED 1,500",
+      price: "From AED 1 / Sq.ft",
       features: ["Multi-level assessment", "Shared wall inspection", "Garden & terrace", "Built-in storage"]
     }
   ];
@@ -154,7 +154,7 @@ export default function VillaSnaggingDubai() {
             Expert Villa Snagging in Dubai
           </h2>
           <p className="text-xl mb-8 text-green-100 max-w-2xl mx-auto">
-            Protect your luxury villa investment with Dubai's most experienced villa snagging team. Starting from AED 2,000.
+            Protect your luxury villa investment with Dubai's most experienced villa snagging team. From AED 1 / Sq.ft.
           </p>
           <Link href="/contact">
             <Button className="bg-white text-brand-green hover:bg-gray-100 px-8 py-3">
