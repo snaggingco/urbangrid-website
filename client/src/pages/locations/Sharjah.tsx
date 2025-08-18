@@ -50,11 +50,11 @@ export default function Sharjah() {
                 </Button>
               </Link>
               <a 
-                href="tel:+971501234567"
+                href="tel:+971585686852"
                 className="inline-flex items-center bg-transparent border-2 border-brand-green text-brand-green px-8 py-3 rounded-md font-semibold hover:bg-brand-green hover:text-white transition-colors"
               >
                 <i className="fas fa-phone mr-2"></i>
-                Call Sharjah: +971 50 123 4567
+                Call Sharjah: +971585686852
               </a>
             </div>
           </div>
@@ -180,7 +180,7 @@ export default function Sharjah() {
               </Button>
             </Link>
             <a 
-              href="https://wa.me/971501234567?text=Hello! I need property inspection services in Sharjah."
+              href="https://wa.me/971585686852?text=Hello! I need property inspection services in Sharjah."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-semibold hover:bg-white hover:text-brand-green transition-colors"

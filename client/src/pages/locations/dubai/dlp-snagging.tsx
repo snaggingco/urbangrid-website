@@ -66,11 +66,11 @@ export default function DLPSnaggingDubai() {
                 </Button>
               </Link>
               <a 
-                href="tel:+971501234567"
+                href="tel:+971585686852"
                 className="inline-flex items-center bg-transparent border-2 border-brand-green text-brand-green px-8 py-3 rounded-md font-semibold hover:bg-brand-green hover:text-white transition-colors"
               >
                 <i className="fas fa-phone mr-2"></i>
-                Call Dubai: +971 50 123 4567
+                Call Dubai: +971585686852
               </a>
             </div>
           </div>

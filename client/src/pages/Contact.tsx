@@ -137,10 +137,10 @@ export default function Contact() {
                       <div>
                         <h3 className="font-semibold text-brand-black">Email Address</h3>
                         <a 
-                          href="mailto:info@urbangrid.ae" 
+                          href="mailto:info@snagging.me" 
                           className="text-text-grey hover:text-brand-green transition-colors"
                         >
-                          info@urbangrid.ae
+                          info@snagging.me
                         </a>
                       </div>
                     </div>

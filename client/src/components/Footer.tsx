@@ -107,10 +107,10 @@ export default function Footer() {
               <div className="flex items-center">
                 <i className="fas fa-envelope text-brand-green mr-2"></i>
                 <a 
-                  href="mailto:info@urbangrid.ae" 
+                  href="mailto:info@snagging.me" 
                   className="text-gray-300 hover:text-white transition-colors"
                 >
-                  info@urbangrid.ae
+                  info@snagging.me
                 </a>
               </div>
             </div>

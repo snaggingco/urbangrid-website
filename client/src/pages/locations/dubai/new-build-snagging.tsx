@@ -64,7 +64,7 @@ export default function NewBuildSnaggingDubai() {
                 Call Dubai: +971 58 568 6852
               </a>
               <a 
-                href="https://wa.me/971501234567?text=Hello! I need new build snagging services in Dubai."
+                href="https://wa.me/971585686852?text=Hello! I need new build snagging services in Dubai."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center bg-green-500 text-white px-8 py-3 rounded-md font-semibold hover:bg-green-600 transition-colors"
@@ -252,7 +252,7 @@ export default function NewBuildSnaggingDubai() {
               </Button>
             </Link>
             <a 
-              href="https://wa.me/971501234567?text=Hello! I need new build snagging in Dubai. Please send me a quote."
+              href="https://wa.me/971585686852?text=Hello! I need new build snagging in Dubai. Please send me a quote."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-semibold hover:bg-white hover:text-brand-green transition-colors"
