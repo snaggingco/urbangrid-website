@@ -10,12 +10,12 @@ export default function Footer() {
   ];
 
   const services = [
-    { name: 'New Build Snagging', href: '/services/new-build-snagging' },
-    { name: 'Post Renovation Inspection', href: '/services/post-renovation-inspection' },
-    { name: 'DLP Snagging', href: '/services/dlp-snagging' },
-    { name: 'Move-in/Move-out', href: '/services/move-in-move-out' },
-    { name: 'Secondary Market', href: '/services/secondary-market' },
-    { name: 'Developer Projects', href: '/services/developer-projects' },
+    { name: 'New Build Snagging', href: '/services/property-snagging/new-build-snagging' },
+    { name: 'Post Renovation Inspection', href: '/services/property-snagging/post-renovation-inspection' },
+    { name: 'DLP Snagging', href: '/services/property-snagging/dlp-snagging' },
+    { name: 'Move-in/Move-out', href: '/services/property-snagging/move-in-move-out' },
+    { name: 'Secondary Market', href: '/services/property-snagging/secondary-market' },
+    { name: 'Developer Projects', href: '/services/property-snagging/developer-projects' },
   ];
 
   return (
