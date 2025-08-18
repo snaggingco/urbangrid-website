@@ -22,7 +22,7 @@ export default function SnaggingCostDubai() {
     {
       type: "Villa/Townhouse",
       size: "1,500+ sq ft",
-      price: "From AED 1 / Sq.ft",
+      price: "From AED 1.5 / Sq.ft",
       duration: "4-6 hours", 
       features: ["Full villa snagging", "Exterior inspection", "Garden/pool assessment", "Smart home systems", "Premium reporting"]
     }

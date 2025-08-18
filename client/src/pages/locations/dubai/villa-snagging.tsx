@@ -13,7 +13,7 @@ export default function VillaSnaggingDubai() {
     {
       title: "Luxury Villa Comprehensive Snagging",
       description: "Complete inspection for high-end villas with extensive grounds",
-      price: "From AED 1 / Sq.ft",
+      price: "From AED 1.5 / Sq.ft",
       features: ["Full villa structure", "Landscaping assessment", "Pool & water features", "Smart home systems", "Security systems"]
     },
     {

@@ -25,7 +25,7 @@ export default function ApartmentInspectionAbuDhabi() {
     {
       title: "Cultural District Luxury Inspection",
       description: "Expert evaluation for Saadiyat Cultural District apartments",
-      price: "From AED 1 / Sq.ft",
+      price: "From AED 1.5 / Sq.ft",
       features: ["Cultural district standards", "Museum-quality finishes", "International compliance", "Premium amenity access"]
     }
   ];

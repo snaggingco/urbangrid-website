@@ -19,7 +19,7 @@ export default function ApartmentInspectionDubai() {
     {
       title: "Luxury Apartment Snagging",
       description: "Premium service for high-end apartment developments",
-      price: "From AED 1 / Sq.ft",
+      price: "From AED 1.5 / Sq.ft",
       features: ["Luxury finish inspection", "High-end appliance testing", "Smart home features", "Premium material verification"]
     },
     {

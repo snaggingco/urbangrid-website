@@ -25,7 +25,7 @@ export default function VillaSnaggingAbuDhabi() {
     {
       title: "Beach Villa Premium Service",
       description: "Specialized inspection for Saadiyat and coastal villa properties",
-      price: "From AED 1 / Sq.ft",
+      price: "From AED 1.5 / Sq.ft",
       features: ["Marine environment protection", "Beach access verification", "Premium finish standards", "Resort amenity integration"]
     }
   ];
