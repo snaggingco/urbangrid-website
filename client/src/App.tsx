@@ -55,6 +55,11 @@ import PrePurchaseInspectionDubai from "@/pages/locations/dubai/pre-purchase-ins
 // Abu Dhabi High-Priority SEO Pages
 import PropertyInspectionAbuDhabi from "@/pages/locations/abu-dhabi/property-inspection";
 
+// New Snagging Company Pages
+import SnaggingCompanyDubai from "@/pages/locations/dubai/snagging-company";
+import SnaggingCompanyAbuDhabi from "@/pages/locations/abu-dhabi/snagging-company";
+import SnaggingCompanySharjah from "@/pages/locations/sharjah/snagging-company";
+
 // Components
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -150,6 +155,21 @@ function Router() {
 
           {/* High-Priority SEO Pages - Abu Dhabi */}
           <Route path="/locations/abu-dhabi/property-inspection" component={PropertyInspectionAbuDhabi} />
+
+          {/* Snagging Company Pages */}
+          <Route path="/locations/dubai/snagging-company" component={SnaggingCompanyDubai} />
+          <Route path="/locations/abu-dhabi/snagging-company" component={SnaggingCompanyAbuDhabi} />
+          <Route path="/locations/sharjah/snagging-company" component={SnaggingCompanySharjah} />
+
+          {/* Location Pages */}
+          <Route path="/locations/dubai" component={Dubai} />
+          <Route path="/locations/abu-dhabi" component={AbuDhabi} />
+          <Route path="/locations/sharjah" component={Sharjah} />
+          <Route path="/locations/ajman" component={Ajman} />
+          <Route path="/locations/ras-al-khaimah" component={RasAlKhaimah} />
+          <Route path="/locations/fujairah" component={Fujairah} />
+          <Route path="/locations/umm-al-quwain" component={UmmAlQuwain} />
+
           {/* Admin routes - protected for authenticated admin users */}
           {isAdmin && (
             <>

@@ -1,4 +1,3 @@
-
 export interface SitemapUrl {
   loc: string;
   lastmod?: string;
@@ -9,19 +8,19 @@ export interface SitemapUrl {
 export function generateSitemap(urls: SitemapUrl[]): string {
   const urlElements = urls.map(url => {
     let urlXml = `  <url>\n    <loc>${url.loc}</loc>\n`;
-    
+
     if (url.lastmod) {
       urlXml += `    <lastmod>${url.lastmod}</lastmod>\n`;
     }
-    
+
     if (url.changefreq) {
       urlXml += `    <changefreq>${url.changefreq}</changefreq>\n`;
     }
-    
+
     if (url.priority !== undefined) {
       urlXml += `    <priority>${url.priority}</priority>\n`;
     }
-    
+
     urlXml += `  </url>`;
     return urlXml;
   }).join('\n');
@@ -79,9 +78,12 @@ export function getSitemapUrls(baseUrl: string, blogPosts: Array<{slug: string, 
     { loc: `${baseUrl}/locations/dubai/dlp-snagging`, priority: 0.6, changefreq: 'monthly' },
 
     // Location-specific service pages - Abu Dhabi
-    { loc: `${baseUrl}/locations/abu-dhabi/new-build-snagging`, priority: 0.6, changefreq: 'monthly' },
-    { loc: `${baseUrl}/locations/abu-dhabi/villa-snagging`, priority: 0.6, changefreq: 'monthly' },
-    { loc: `${baseUrl}/locations/abu-dhabi/apartment-inspection`, priority: 0.6, changefreq: 'monthly' },
+    { loc: `${baseUrl}/locations/abu-dhabi/property-inspection`, priority: 0.6, changefreq: 'monthly' },
+
+    // Snagging Company Pages - High Priority
+    { loc: `${baseUrl}/locations/dubai/snagging-company`, priority: 0.9, changefreq: 'monthly' },
+    { loc: `${baseUrl}/locations/abu-dhabi/snagging-company`, priority: 0.9, changefreq: 'monthly' },
+    { loc: `${baseUrl}/locations/sharjah/snagging-company`, priority: 0.9, changefreq: 'monthly' },
 
     // Location-specific service pages - Sharjah
     { loc: `${baseUrl}/locations/sharjah/new-build-snagging`, priority: 0.6, changefreq: 'monthly' },
