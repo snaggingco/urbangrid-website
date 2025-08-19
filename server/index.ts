@@ -30,6 +30,18 @@ app.use((req, res, next) => {
   const path = req.path;
   let capturedJsonResponse: Record<string, any> | undefined = undefined;
 
+  // Get visitor IP address
+  const getClientIP = (req: any) => {
+    return req.headers['x-forwarded-for']?.split(',')[0]?.trim() ||
+           req.headers['x-real-ip'] ||
+           req.connection?.remoteAddress ||
+           req.socket?.remoteAddress ||
+           req.ip ||
+           'unknown';
+  };
+
+  const clientIP = getClientIP(req);
+
   const originalResJson = res.json;
   res.json = function (bodyJson, ...args) {
     capturedJsonResponse = bodyJson;
@@ -38,18 +50,21 @@ app.use((req, res, next) => {
 
   res.on("finish", () => {
     const duration = Date.now() - start;
+    
+    // Log all requests with IP addresses
+    let logLine = `${clientIP} - ${req.method} ${path} ${res.statusCode} in ${duration}ms`;
+    
     if (path.startsWith("/api")) {
-      let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
       if (capturedJsonResponse) {
         logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
       }
-
-      if (logLine.length > 80) {
-        logLine = logLine.slice(0, 79) + "…";
-      }
-
-      log(logLine);
     }
+
+    if (logLine.length > 120) {
+      logLine = logLine.slice(0, 119) + "…";
+    }
+
+    log(logLine);
   });
 
   next();
