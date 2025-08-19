@@ -183,7 +183,7 @@ export default function Home() {
         {/* Hero Content */}
         <div className={`relative z-10 text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000 -translate-y-16 sm:-translate-y-8 lg:translate-y-0 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-            Your Trusted Property Inspection & Snagging Experts
+            Dubai's Leading Snagging Company & Property Inspection Experts
           </h1>
           <p className="text-xl sm:text-2xl text-gray-200 leading-relaxed">
             Protecting quality, value, and your peace of mind in Dubai, Abu Dhabi, Sharjah and across UAE.
@@ -196,10 +196,10 @@ export default function Home() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
             <h2 className="text-2xl lg:text-3xl font-bold text-brand-black mb-3">
-              Certified by InterNACHI
+              Dubai Snagging Company - Certified by InterNACHI
             </h2>
             <p className="text-lg text-text-grey max-w-2xl mx-auto">
-              Internationally certified home inspectors committed to professional excellence and industry standards
+              <strong>Internationally certified snagging company</strong> in Dubai committed to professional excellence and industry standards
             </p>
           </div>
           
@@ -207,7 +207,7 @@ export default function Home() {
             <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
               <img 
                 src={internachi1}
-                alt="InterNACHI International Association of Certified Home Inspectors Certification" 
+                alt="InterNACHI snagging company Dubai certification property inspection" 
                 className="h-20 lg:h-24 w-auto object-contain mx-auto"
                 loading="lazy"
               />
@@ -215,7 +215,7 @@ export default function Home() {
             <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
               <img 
                 src={internachi2}
-                alt="InterNACHI Professional Certification Badge" 
+                alt="Dubai snagging company InterNACHI professional certification badge" 
                 className="h-20 lg:h-24 w-auto object-contain mx-auto"
                 loading="lazy"
               />
@@ -239,10 +239,10 @@ export default function Home() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl lg:text-4xl font-bold text-brand-black mb-4">
-              Our Professional Services
+              Professional Snagging Company Services Dubai UAE
             </h2>
             <p className="text-lg text-text-grey max-w-2xl mx-auto">
-              Comprehensive property inspection and snagging services across the UAE, ensuring your investment meets the highest standards.
+              <strong>Dubai's premier snagging company</strong> offering comprehensive property inspection and snagging services across the UAE, ensuring your investment meets the highest standards.
             </p>
           </div>
           
@@ -304,13 +304,13 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-3xl lg:text-4xl font-bold text-brand-black mb-6">
-                Why Choose UrbanGrid?
+                Why Choose Dubai's Leading Snagging Company?
               </h2>
               <p className="text-lg text-text-grey mb-6 leading-relaxed">
-                With over a decade of experience in the UAE property market, UrbanGrid is your trusted partner for comprehensive property inspections and snagging services. Our certified team of experts ensures that every detail is meticulously examined.
+                With over a decade of experience in the UAE property market, <strong>UrbanGrid snagging company</strong> is your trusted partner for comprehensive property inspections and snagging services. Our certified team of experts ensures that every detail is meticulously examined.
               </p>
               <p className="text-text-grey mb-8 leading-relaxed">
-                We serve clients across Dubai, Abu Dhabi, Sharjah, and the entire UAE, providing peace of mind through thorough, professional inspections that protect your investment and ensure quality standards are met.
+                As a premier <strong>snagging company in Dubai</strong>, we serve clients across Dubai, Abu Dhabi, Sharjah, and the entire UAE, providing peace of mind through thorough, professional inspections that protect your investment and ensure quality standards are met.
               </p>
               <Link href="/about">
                 <Button className="bg-brand-green text-white hover:bg-opacity-90">
@@ -323,7 +323,7 @@ export default function Home() {
             <div className="relative">
               <img 
                 src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=450&q=80" 
-                alt="Professional property inspection team" 
+                alt="Professional snagging company team Dubai property inspection experts" 
                 className="rounded-lg shadow-lg w-full"
                 loading="lazy"
               />
@@ -343,9 +343,9 @@ export default function Home() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold text-brand-black mb-4">
-              Certified & Accredited
+              Certified Dubai Snagging Company - Trusted Across UAE
             </h2>
-            <p className="text-text-grey">Trusted by leading developers, contractors, and homeowners across the UAE</p>
+            <p className="text-text-grey">Leading <strong>snagging company in Dubai</strong> trusted by developers, contractors, and homeowners across the UAE</p>
           </div>
           
           <div className="flex flex-wrap justify-center items-center gap-8">
@@ -366,10 +366,10 @@ export default function Home() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-3xl mx-auto">
             <h2 className="text-3xl lg:text-4xl font-bold mb-6">
-              Ready to Protect Your Property Investment?
+              Ready to Protect Your Dubai Property Investment?
             </h2>
             <p className="text-xl mb-8 text-green-100">
-              Get expert property inspection and snagging services from UAE's most trusted professionals. Contact us today for a free consultation.
+              Get expert property inspection and snagging services from <strong>Dubai's leading snagging company</strong>. Contact our professional team today for a free consultation.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center">

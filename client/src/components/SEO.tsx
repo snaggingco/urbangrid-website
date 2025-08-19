@@ -13,9 +13,9 @@ interface SEOProps {
 // SEO data for each route
 const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
   '/': {
-    title: 'UrbanGrid Property Inspection - Professional Snagging Services in UAE',
-    description: 'Professional property inspection and snagging services across Dubai, Abu Dhabi, and UAE. Expert property snagging, pre-purchase inspections, and new build assessments. Contact +971 58 568 6852.',
-    keywords: 'property snagging UAE, property inspection Dubai, snagging services Abu Dhabi, pre-purchase inspection, new build snagging, villa inspection'
+    title: 'Snagging Company Dubai | Leading Property Inspection Services UAE',
+    description: 'Dubai\'s leading snagging company providing professional property inspection services across UAE. Expert property snagging services, pre-purchase inspections, and quality assessments. Contact +971 58 568 6852.',
+    keywords: 'snagging company dubai, property snagging UAE, property inspection Dubai, snagging services Abu Dhabi, pre-purchase inspection, new build snagging'
   },
   '/about': {
     title: 'About UrbanGrid - UAE\'s Leading Property Inspection Company',
