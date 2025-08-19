@@ -64,6 +64,19 @@ export const contactSubmissions = pgTable("contact_submissions", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+// Visitor tracking table
+export const visitorLogs = pgTable("visitor_logs", {
+  id: serial("id").primaryKey(),
+  ipAddress: varchar("ip_address", { length: 45 }).notNull(), // IPv6 can be up to 45 chars
+  userAgent: text("user_agent"),
+  path: varchar("path", { length: 500 }).notNull(),
+  method: varchar("method", { length: 10 }).notNull(),
+  statusCode: varchar("status_code", { length: 3 }).notNull(),
+  responseTime: varchar("response_time", { length: 20 }),
+  referer: text("referer"),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // Relations
 export const userRelations = relations(users, ({ many }) => ({
   blogPosts: many(blogPosts),
@@ -96,6 +109,11 @@ export const insertContactSubmissionSchema = createInsertSchema(contactSubmissio
   createdAt: true,
 });
 
+export const insertVisitorLogSchema = createInsertSchema(visitorLogs).omit({
+  id: true,
+  createdAt: true,
+});
+
 // Types
 export type UpsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
@@ -104,3 +122,5 @@ export type BlogPost = typeof blogPosts.$inferSelect;
 export type BlogPostWithAuthor = BlogPost & { author: User | null };
 export type InsertContactSubmission = z.infer<typeof insertContactSubmissionSchema>;
 export type ContactSubmission = typeof contactSubmissions.$inferSelect;
+export type InsertVisitorLog = z.infer<typeof insertVisitorLogSchema>;
+export type VisitorLog = typeof visitorLogs.$inferSelect;
