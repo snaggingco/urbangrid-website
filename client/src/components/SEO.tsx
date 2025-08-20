@@ -57,18 +57,18 @@ const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
   
   // Snagging Company Pages
   '/locations/dubai/snagging-company': {
-    title: 'Snagging Company Dubai - #1 Property Snagging Services | UrbanGrid',
-    description: "Dubai's leading snagging company providing professional property snagging services. Expert villa & apartment snagging across Dubai Marina, Downtown, Business Bay. Call +971585686852",
+    title: 'Snagging Company Dubai #1 - Professional Property Snagging Services',
+    description: "Snagging company Dubai #1 choice for property snagging services. Professional villa & apartment snagging across Dubai Marina, Downtown, Business Bay by expert snagging company. Call +971585686852",
     keywords: 'snagging company dubai, property snagging dubai, snagging services dubai, dubai snagging company, villa snagging dubai, apartment snagging dubai'
   },
   '/locations/abu-dhabi/snagging-company': {
-    title: 'Snagging Company Abu Dhabi - Professional Property Snagging | UrbanGrid',
-    description: "Abu Dhabi's premier snagging company offering expert property snagging services. Luxury villa & apartment snagging on Saadiyat Island, Yas Island, Al Reem Island. Call +971585686852",
+    title: 'Snagging Company Abu Dhabi - Premier Property Snagging Services',
+    description: "Snagging company Abu Dhabi offering expert property snagging services. Luxury villa & apartment snagging on Saadiyat Island, Yas Island, Al Reem Island by leading snagging company. Call +971585686852",
     keywords: 'snagging company abu dhabi, property snagging abu dhabi, abu dhabi snagging services, villa snagging abu dhabi, apartment snagging abu dhabi, luxury property snagging'
   },
   '/locations/sharjah/snagging-company': {
-    title: 'Snagging Company Sharjah - Expert Property Snagging Services | UrbanGrid',
-    description: "Sharjah's trusted snagging company providing comprehensive property snagging services. Family community & cultural district snagging in Al Zahia, Aljada, Kalba. Call +971585686852",
+    title: 'Snagging Company Sharjah - Expert Property Snagging Services',
+    description: "Snagging company Sharjah providing comprehensive property snagging services. Family community & cultural district snagging in Al Zahia, Aljada, Kalba by trusted snagging company. Call +971585686852",
     keywords: 'snagging company sharjah, property snagging sharjah, sharjah snagging services, villa snagging sharjah, apartment snagging sharjah, family community snagging'
   },
   
@@ -97,24 +97,24 @@ const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
   // Abu Dhabi High-Priority SEO Pages
   '/locations/abu-dhabi/property-inspection': {
     title: 'Property Inspection Abu Dhabi - Expert Property Assessment Services',
-    description: 'Professional property inspection services across Abu Dhabi\'s premium developments. From Al Reem Island to Saadiyat Island, ensure your property investment meets the highest standards.',
+    description: 'Property inspection Abu Dhabi services across premium developments. Professional property inspection from Al Reem Island to Saadiyat Island ensuring your property investment meets highest standards.',
     keywords: 'property inspection abu dhabi, abu dhabi property assessment, property snagging abu dhabi, abu dhabi inspection services'
   },
   '/locations/abu-dhabi/property-inspection-companies': {
     title: 'Property Inspection Companies Abu Dhabi - Top Rated Services',
-    description: 'Find Abu Dhabi\'s best property inspection companies. UrbanGrid leads with luxury property expertise across Saadiyat Island, Yas Island, Al Reem Island. RERA licensed inspectors.',
+    description: 'Property inspection companies Abu Dhabi - find the best. UrbanGrid leads with luxury property expertise across Saadiyat Island, Yas Island, Al Reem Island. RERA licensed property inspection.',
     keywords: 'property inspection companies abu dhabi, property inspection abu dhabi, abu dhabi property inspection companies, best property inspection company abu dhabi'
   },
   
   // Dubai Enhanced SEO Pages
   '/locations/dubai/property-inspection': {
     title: 'Property Inspection Dubai - Professional Property Assessment Services',
-    description: 'Expert property inspection services in Dubai. Pre-purchase inspections, new build assessments, rental property checks. RERA licensed inspectors covering all Dubai areas.',
+    description: 'Property inspection Dubai services by expert inspectors. Professional property inspection including pre-purchase inspections, new build assessments, rental property checks across all Dubai areas.',
     keywords: 'property inspection dubai, property inspection services dubai, dubai property inspection, property inspector dubai, pre purchase inspection dubai'
   },
   '/locations/dubai/property-inspection-companies': {
-    title: 'Property Inspection Companies Dubai - Top Rated Inspection Services',
-    description: 'Find Dubai\'s best property inspection companies. UrbanGrid leads with 15,000+ inspected properties, RERA certification, and same-day reports across all Dubai areas.',
+    title: 'Property Inspection Companies in Dubai - Top Rated Services',
+    description: 'Property inspection companies in Dubai - find the best. UrbanGrid leads with 15,000+ inspected properties, RERA certification, and same-day property inspection reports across Dubai.',
     keywords: 'property inspection companies in dubai, property inspection dubai, dubai property inspection companies, best property inspection company dubai'
   },
   
