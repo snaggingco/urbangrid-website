@@ -83,6 +83,13 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
+            <div className="mt-4 pt-4 border-t border-gray-700">
+              <Link href="/blog">
+                <span className="text-gray-300 hover:text-white transition-colors cursor-pointer text-sm font-medium">
+                  Latest Articles →
+                </span>
+              </Link>
+            </div>
           </div>
           
           {/* Contact Info */}

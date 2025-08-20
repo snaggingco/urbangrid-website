@@ -153,7 +153,7 @@ export default function BlogDetail() {
                       {post.author?.firstName} {post.author?.lastName}
                     </div>
                     <div className="text-sm text-text-grey">
-                      Published on {formatDate(post.createdAt!)}
+                      Published on {formatDate(post.createdAt!.toString())}
                     </div>
                   </div>
                 </div>
@@ -268,6 +268,33 @@ export default function BlogDetail() {
         </section>
       )}
 
+      {/* Call-to-Action Section */}
+      <section className="py-12 bg-brand-green text-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-2xl lg:text-3xl font-bold mb-4">
+              Need Professional Property Inspection Services?
+            </h2>
+            <p className="text-lg mb-6 text-green-100">
+              Get expert snagging and inspection services across Dubai, Abu Dhabi, and Sharjah. 
+              Professional reports delivered same day.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/services">
+                <Button className="bg-white text-brand-green hover:bg-gray-100 px-8 py-3">
+                  View Our Services
+                </Button>
+              </Link>
+              <Link href="/contact">
+                <Button variant="outline" className="border-white text-white hover:bg-white hover:text-brand-green px-8 py-3">
+                  Get Free Quote
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Related Posts */}
       {relatedPosts && relatedPosts.posts.length > 0 && (
         <section className="py-16 lg:py-20 bg-white">
@@ -309,7 +336,7 @@ export default function BlogDetail() {
                         )}
                         
                         <div className="text-sm text-gray-500">
-                          {formatDate(relatedPost.createdAt!)}
+                          {formatDate(relatedPost.createdAt!.toString())}
                         </div>
                       </CardContent>
                     </Card>

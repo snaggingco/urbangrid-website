@@ -130,6 +130,49 @@ export default function Blog() {
         </div>
       </section>
 
+      {/* Featured Services Section */}
+      <section className="py-12 bg-light-grey">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto text-center">
+            <h2 className="text-2xl lg:text-3xl font-bold text-brand-black mb-6">
+              Professional Property Inspection Services
+            </h2>
+            <p className="text-text-grey mb-8">
+              Discover our comprehensive property inspection and snagging services across the UAE
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <Link href="/services/property-snagging/new-build-snagging">
+                <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+                  <CardContent className="p-6 text-center">
+                    <i className="fas fa-home text-brand-green text-3xl mb-4"></i>
+                    <h3 className="font-semibold text-brand-black mb-2">New Build Snagging</h3>
+                    <p className="text-sm text-text-grey">From AED 1 / Sq.ft</p>
+                  </CardContent>
+                </Card>
+              </Link>
+              <Link href="/services/property-snagging/post-renovation-inspection">
+                <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+                  <CardContent className="p-6 text-center">
+                    <i className="fas fa-tools text-brand-green text-3xl mb-4"></i>
+                    <h3 className="font-semibold text-brand-black mb-2">Post-Renovation</h3>
+                    <p className="text-sm text-text-grey">From AED 1 / Sq.ft</p>
+                  </CardContent>
+                </Card>
+              </Link>
+              <Link href="/locations/dubai">
+                <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+                  <CardContent className="p-6 text-center">
+                    <i className="fas fa-map-marker-alt text-brand-green text-3xl mb-4"></i>
+                    <h3 className="font-semibold text-brand-black mb-2">Dubai Services</h3>
+                    <p className="text-sm text-text-grey">All Areas Covered</p>
+                  </CardContent>
+                </Card>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Blog Posts */}
       <section className="py-16 lg:py-20 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -202,7 +245,7 @@ export default function Blog() {
                       )}
                       
                       <div className="flex items-center justify-between text-sm text-gray-500">
-                        <span>{formatDate(post.createdAt!)}</span>
+                        <span>{formatDate(post.createdAt!.toString())}</span>
                         <Link href={`/blog/${post.slug}`}>
                           <a className="text-brand-green font-medium hover:underline">
                             Read More →
