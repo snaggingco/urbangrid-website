@@ -8,6 +8,20 @@ UrbanGrid is a modern, fully responsive property inspection and snagging company
 
 Preferred communication style: Simple, everyday language.
 
+## Recent Changes (December 2024)
+
+### Internal Linking SEO Optimization
+- Enhanced blog pages with keyword-rich internal links targeting main SEO terms
+- Added contextual linking from blog content to service pages using target keywords:
+  - "property snagging services" → New Build Snagging page
+  - "property inspection services UAE" → Main Services page  
+  - "snagging services Dubai" → Dubai-specific services
+  - "snagging company" → Company location pages
+- Updated breadcrumb navigation with keyword-rich anchor text
+- Enhanced footer navigation with SEO-focused link text
+- Added strategic CTA sections linking blog content to main service pages
+- Implemented location-specific cross-linking (Dubai, Abu Dhabi, Sharjah)
+
 ## System Architecture
 
 ### Frontend Architecture

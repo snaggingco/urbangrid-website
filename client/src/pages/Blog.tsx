@@ -83,10 +83,10 @@ export default function Blog() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl lg:text-5xl font-bold text-brand-black mb-6">
-              Property Insights & Expert Tips
+              Property Snagging Blog UAE & Expert Tips
             </h1>
             <p className="text-xl text-text-grey leading-relaxed">
-              Stay informed with the latest property inspection insights, market trends, and expert advice from our professional team.
+              Stay informed with the latest <Link href="/services/property-snagging/new-build-snagging" className="text-brand-green hover:underline font-medium">property snagging insights Dubai</Link>, UAE market trends, and expert advice from our professional <Link href="/locations/abu-dhabi/snagging-company" className="text-brand-green hover:underline font-medium">snagging company</Link> team.
             </p>
           </div>
         </div>
@@ -138,15 +138,15 @@ export default function Blog() {
               Professional Property Inspection Services
             </h2>
             <p className="text-text-grey mb-8">
-              Discover our comprehensive property inspection and snagging services across the UAE
+              Discover our comprehensive <Link href="/services" className="text-brand-green hover:underline font-medium">property inspection services UAE</Link> and professional <Link href="/services/property-snagging/new-build-snagging" className="text-brand-green hover:underline font-medium">snagging services Dubai</Link> across all Emirates
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <Link href="/services/property-snagging/new-build-snagging">
                 <Card className="hover:shadow-lg transition-shadow cursor-pointer">
                   <CardContent className="p-6 text-center">
                     <i className="fas fa-home text-brand-green text-3xl mb-4"></i>
-                    <h3 className="font-semibold text-brand-black mb-2">New Build Snagging</h3>
-                    <p className="text-sm text-text-grey">From AED 1 / Sq.ft</p>
+                    <h3 className="font-semibold text-brand-black mb-2">New Build Snagging Dubai</h3>
+                    <p className="text-sm text-text-grey">Professional Property Snagging - AED 1/Sq.ft</p>
                   </CardContent>
                 </Card>
               </Link>
@@ -154,17 +154,17 @@ export default function Blog() {
                 <Card className="hover:shadow-lg transition-shadow cursor-pointer">
                   <CardContent className="p-6 text-center">
                     <i className="fas fa-tools text-brand-green text-3xl mb-4"></i>
-                    <h3 className="font-semibold text-brand-black mb-2">Post-Renovation</h3>
-                    <p className="text-sm text-text-grey">From AED 1 / Sq.ft</p>
+                    <h3 className="font-semibold text-brand-black mb-2">Property Inspection UAE</h3>
+                    <p className="text-sm text-text-grey">Post-Renovation Snagging - AED 1/Sq.ft</p>
                   </CardContent>
                 </Card>
               </Link>
-              <Link href="/locations/dubai">
+              <Link href="/locations/dubai/snagging-company">
                 <Card className="hover:shadow-lg transition-shadow cursor-pointer">
                   <CardContent className="p-6 text-center">
                     <i className="fas fa-map-marker-alt text-brand-green text-3xl mb-4"></i>
-                    <h3 className="font-semibold text-brand-black mb-2">Dubai Services</h3>
-                    <p className="text-sm text-text-grey">All Areas Covered</p>
+                    <h3 className="font-semibold text-brand-black mb-2">Snagging Company Dubai</h3>
+                    <p className="text-sm text-text-grey">Leading Property Snagging Experts</p>
                   </CardContent>
                 </Card>
               </Link>

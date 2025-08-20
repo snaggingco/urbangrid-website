@@ -57,15 +57,41 @@ export default function Footer() {
           <div>
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              {quickLinks.map((link) => (
-                <li key={link.name}>
-                  <Link href={link.href}>
-                    <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">
-                      {link.name}
-                    </span>
-                  </Link>
-                </li>
-              ))}
+              <li>
+                <Link href="/">
+                  <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">
+                    Property Inspection UAE
+                  </span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/about">
+                  <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">
+                    About Snagging Company
+                  </span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/services">
+                  <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">
+                    Snagging Services Dubai
+                  </span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/blog">
+                  <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">
+                    Property Inspection Blog
+                  </span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact">
+                  <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">
+                    Contact Snagging Experts
+                  </span>
+                </Link>
+              </li>
             </ul>
           </div>
           
@@ -86,7 +112,13 @@ export default function Footer() {
             <div className="mt-4 pt-4 border-t border-gray-700">
               <Link href="/blog">
                 <span className="text-gray-300 hover:text-white transition-colors cursor-pointer text-sm font-medium">
-                  Latest Articles →
+                  Property Snagging Tips →
+                </span>
+              </Link>
+              <br />
+              <Link href="/locations/dubai">
+                <span className="text-gray-300 hover:text-white transition-colors cursor-pointer text-sm">
+                  Dubai Property Inspection
                 </span>
               </Link>
             </div>

@@ -111,11 +111,11 @@ export default function BlogDetail() {
             {/* Breadcrumb */}
             <nav className="flex items-center space-x-2 text-sm text-text-grey mb-8">
               <Link href="/">
-                <a className="hover:text-brand-green">Home</a>
+                <a className="hover:text-brand-green">Property Inspection UAE</a>
               </Link>
               <span>/</span>
               <Link href="/blog">
-                <a className="hover:text-brand-green">Blog</a>
+                <a className="hover:text-brand-green">Property Snagging Blog</a>
               </Link>
               <span>/</span>
               <span className="text-brand-green">{post.title}</span>
@@ -276,18 +276,18 @@ export default function BlogDetail() {
               Need Professional Property Inspection Services?
             </h2>
             <p className="text-lg mb-6 text-green-100">
-              Get expert snagging and inspection services across Dubai, Abu Dhabi, and Sharjah. 
-              Professional reports delivered same day.
+              Get expert <Link href="/services/property-snagging/new-build-snagging" className="text-white hover:underline font-medium">property snagging services</Link> across <Link href="/locations/dubai" className="text-white hover:underline font-medium">Dubai</Link>, <Link href="/locations/abu-dhabi" className="text-white hover:underline font-medium">Abu Dhabi</Link>, and <Link href="/locations/sharjah" className="text-white hover:underline font-medium">Sharjah</Link>. 
+              Professional <Link href="/services" className="text-white hover:underline font-medium">property inspection</Link> reports delivered same day.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/services">
                 <Button className="bg-white text-brand-green hover:bg-gray-100 px-8 py-3">
-                  View Our Services
+                  Property Inspection Services UAE
                 </Button>
               </Link>
               <Link href="/contact">
                 <Button variant="outline" className="border-white text-white hover:bg-white hover:text-brand-green px-8 py-3">
-                  Get Free Quote
+                  Get Snagging Quote Dubai
                 </Button>
               </Link>
             </div>
