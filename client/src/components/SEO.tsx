@@ -271,7 +271,7 @@ export default function SEO({
         "description": description,
         "provider": {
           "@type": "LocalBusiness",
-          "name": "UrbanGrid Property Snagging Inspections",
+          "name": "UrbanGrid Property Snagging Inspection",
           "telephone": "+971585686852",
           "email": "info@snagging.me",
           "url": "https://urbangrid.ae",
@@ -305,7 +305,7 @@ export default function SEO({
           }
         ],
         "serviceType": serviceCategory,
-        "category": "Property Inspection Services",
+        "category": "Property Snagging Inspection Services",
         "url": canonical,
         "offers": {
           "@type": "Offer",
@@ -376,7 +376,7 @@ export default function SEO({
         "description": description,
         "provider": {
           "@type": "LocalBusiness",
-          "name": "UrbanGrid Property Inspection",
+          "name": "UrbanGrid Property Snagging Inspection",
           "telephone": "+971585686852",
           "url": "https://urbangrid.ae"
         },
@@ -385,7 +385,7 @@ export default function SEO({
           "name": location.includes('dubai') ? "Dubai" : location.includes('abu-dhabi') ? "Abu Dhabi" : "UAE",
           "addressCountry": "AE"
         },
-        "serviceType": "Property Inspection",
+        "serviceType": "Property Snagging Inspection",
         "url": canonical
       };
       
