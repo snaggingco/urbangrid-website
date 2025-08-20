@@ -271,7 +271,7 @@ export default function SEO({
         "description": description,
         "provider": {
           "@type": "LocalBusiness",
-          "name": "UrbanGrid Property Inspection",
+          "name": "UrbanGrid Property Snagging Inspections",
           "telephone": "+971585686852",
           "email": "info@snagging.me",
           "url": "https://urbangrid.ae",
@@ -329,7 +329,7 @@ export default function SEO({
           },
           {
             "@type": "Question",
-            "name": "How long does the inspection take?",
+            "name": "How long does the snagging inspection take?",
             "acceptedAnswer": {
               "@type": "Answer",
               "text": "Inspection duration varies by service type and property size, typically ranging from 2-8 hours for comprehensive assessments."
@@ -337,7 +337,7 @@ export default function SEO({
           },
           {
             "@type": "Question",
-            "name": "Do you provide same-day reports?",
+            "name": "Do you provide same-day snagging reports?",
             "acceptedAnswer": {
               "@type": "Answer",
               "text": "Yes, we provide detailed inspection reports on the same day with photographic evidence and professional recommendations."
