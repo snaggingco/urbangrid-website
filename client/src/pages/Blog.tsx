@@ -86,7 +86,7 @@ export default function Blog() {
               Property Snagging Blog UAE & Expert Tips
             </h1>
             <p className="text-xl text-text-grey leading-relaxed">
-              Stay informed with the latest <Link href="/services/property-snagging/new-build-snagging" className="text-brand-green hover:underline font-medium">property snagging insights Dubai</Link>, UAE market trends, and expert advice from our professional <Link href="/locations/abu-dhabi/snagging-company" className="text-brand-green hover:underline font-medium">snagging company</Link> team.
+              Stay informed with the latest <Link href="/locations/dubai/property-inspection" className="text-brand-green hover:underline font-medium">property inspection dubai</Link> insights, UAE market trends, and expert advice from our professional <Link href="/locations/abu-dhabi/snagging-company" className="text-brand-green hover:underline font-medium">snagging company abu dhabi</Link> team.
             </p>
           </div>
         </div>
@@ -138,33 +138,33 @@ export default function Blog() {
               Professional Property Inspection Services
             </h2>
             <p className="text-text-grey mb-8">
-              Discover our comprehensive <Link href="/services" className="text-brand-green hover:underline font-medium">property inspection services UAE</Link> and professional <Link href="/services/property-snagging/new-build-snagging" className="text-brand-green hover:underline font-medium">snagging services Dubai</Link> across all Emirates
+              Discover our comprehensive <Link href="/locations/dubai/property-inspection" className="text-brand-green hover:underline font-medium">property inspection dubai</Link> services and professional <Link href="/locations/dubai/snagging-company" className="text-brand-green hover:underline font-medium">snagging company dubai</Link> expertise across all Emirates
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <Link href="/services/property-snagging/new-build-snagging">
-                <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-                  <CardContent className="p-6 text-center">
-                    <i className="fas fa-home text-brand-green text-3xl mb-4"></i>
-                    <h3 className="font-semibold text-brand-black mb-2">New Build Snagging Dubai</h3>
-                    <p className="text-sm text-text-grey">Professional Property Snagging - AED 1/Sq.ft</p>
-                  </CardContent>
-                </Card>
-              </Link>
-              <Link href="/services/property-snagging/post-renovation-inspection">
-                <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-                  <CardContent className="p-6 text-center">
-                    <i className="fas fa-tools text-brand-green text-3xl mb-4"></i>
-                    <h3 className="font-semibold text-brand-black mb-2">Property Inspection UAE</h3>
-                    <p className="text-sm text-text-grey">Post-Renovation Snagging - AED 1/Sq.ft</p>
-                  </CardContent>
-                </Card>
-              </Link>
               <Link href="/locations/dubai/snagging-company">
                 <Card className="hover:shadow-lg transition-shadow cursor-pointer">
                   <CardContent className="p-6 text-center">
-                    <i className="fas fa-map-marker-alt text-brand-green text-3xl mb-4"></i>
+                    <i className="fas fa-home text-brand-green text-3xl mb-4"></i>
                     <h3 className="font-semibold text-brand-black mb-2">Snagging Company Dubai</h3>
-                    <p className="text-sm text-text-grey">Leading Property Snagging Experts</p>
+                    <p className="text-sm text-text-grey">Professional Snagging Services - AED 1/Sq.ft</p>
+                  </CardContent>
+                </Card>
+              </Link>
+              <Link href="/locations/abu-dhabi/property-inspection">
+                <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+                  <CardContent className="p-6 text-center">
+                    <i className="fas fa-tools text-brand-green text-3xl mb-4"></i>
+                    <h3 className="font-semibold text-brand-black mb-2">Property Inspection Abu Dhabi</h3>
+                    <p className="text-sm text-text-grey">Expert Inspection Services - AED 1/Sq.ft</p>
+                  </CardContent>
+                </Card>
+              </Link>
+              <Link href="/locations/sharjah/snagging-company">
+                <Card className="hover:shadow-lg transition-shadow cursor-pointer">
+                  <CardContent className="p-6 text-center">
+                    <i className="fas fa-map-marker-alt text-brand-green text-3xl mb-4"></i>
+                    <h3 className="font-semibold text-brand-black mb-2">Snagging Company Sharjah</h3>
+                    <p className="text-sm text-text-grey">Leading Property Experts Sharjah</p>
                   </CardContent>
                 </Card>
               </Link>

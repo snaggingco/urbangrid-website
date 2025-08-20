@@ -72,9 +72,9 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/services">
+                <Link href="/locations/dubai/snagging-company">
                   <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">
-                    Snagging Services Dubai
+                    Snagging Company Dubai
                   </span>
                 </Link>
               </li>
@@ -116,9 +116,15 @@ export default function Footer() {
                 </span>
               </Link>
               <br />
-              <Link href="/locations/dubai">
+              <Link href="/locations/dubai/property-inspection">
                 <span className="text-gray-300 hover:text-white transition-colors cursor-pointer text-sm">
-                  Dubai Property Inspection
+                  Property Inspection Dubai
+                </span>
+              </Link>
+              <br />
+              <Link href="/locations/sharjah/property-inspection">
+                <span className="text-gray-300 hover:text-white transition-colors cursor-pointer text-sm">
+                  Property Inspection Sharjah
                 </span>
               </Link>
             </div>

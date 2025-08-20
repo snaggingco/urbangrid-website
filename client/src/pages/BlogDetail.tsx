@@ -276,18 +276,18 @@ export default function BlogDetail() {
               Need Professional Property Inspection Services?
             </h2>
             <p className="text-lg mb-6 text-green-100">
-              Get expert <Link href="/services/property-snagging/new-build-snagging" className="text-white hover:underline font-medium">property snagging services</Link> across <Link href="/locations/dubai" className="text-white hover:underline font-medium">Dubai</Link>, <Link href="/locations/abu-dhabi" className="text-white hover:underline font-medium">Abu Dhabi</Link>, and <Link href="/locations/sharjah" className="text-white hover:underline font-medium">Sharjah</Link>. 
-              Professional <Link href="/services" className="text-white hover:underline font-medium">property inspection</Link> reports delivered same day.
+              Get expert services from the leading <Link href="/locations/dubai/snagging-company" className="text-white hover:underline font-medium">snagging company dubai</Link>, <Link href="/locations/abu-dhabi/snagging-company" className="text-white hover:underline font-medium">snagging company abu dhabi</Link>, and <Link href="/locations/sharjah/snagging-company" className="text-white hover:underline font-medium">snagging company sharjah</Link>. 
+              Professional <Link href="/locations/dubai/property-inspection" className="text-white hover:underline font-medium">property inspection dubai</Link> reports delivered same day.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/services">
+              <Link href="/locations/dubai/property-inspection">
                 <Button className="bg-white text-brand-green hover:bg-gray-100 px-8 py-3">
-                  Property Inspection Services UAE
+                  Property Inspection Dubai
                 </Button>
               </Link>
-              <Link href="/contact">
+              <Link href="/locations/abu-dhabi/property-inspection">
                 <Button variant="outline" className="border-white text-white hover:bg-white hover:text-brand-green px-8 py-3">
-                  Get Snagging Quote Dubai
+                  Property Inspection Abu Dhabi
                 </Button>
               </Link>
             </div>
