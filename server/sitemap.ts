@@ -77,18 +77,23 @@ export function getSitemapUrls(baseUrl: string, blogPosts: Array<{slug: string, 
     { loc: `${baseUrl}/locations/dubai/apartment-inspection`, priority: 0.6, changefreq: 'monthly' },
     { loc: `${baseUrl}/locations/dubai/dlp-snagging`, priority: 0.6, changefreq: 'monthly' },
 
-    // Location-specific service pages - Abu Dhabi
-    { loc: `${baseUrl}/locations/abu-dhabi/property-inspection`, priority: 0.6, changefreq: 'monthly' },
+    // Abu Dhabi High-Priority SEO Pages
+    { loc: `${baseUrl}/locations/abu-dhabi/property-inspection`, priority: 0.8, changefreq: 'monthly' },
+    { loc: `${baseUrl}/locations/abu-dhabi/property-inspection-companies`, priority: 0.8, changefreq: 'monthly' },
 
-    // Snagging Company Pages - High Priority
-    { loc: `${baseUrl}/locations/dubai/snagging-company`, priority: 0.9, changefreq: 'monthly' },
-    { loc: `${baseUrl}/locations/abu-dhabi/snagging-company`, priority: 0.9, changefreq: 'monthly' },
-    { loc: `${baseUrl}/locations/sharjah/snagging-company`, priority: 0.9, changefreq: 'monthly' },
+    // Dubai Enhanced SEO Pages
+    { loc: `${baseUrl}/locations/dubai/property-inspection`, priority: 0.8, changefreq: 'monthly' },
+    { loc: `${baseUrl}/locations/dubai/property-inspection-companies`, priority: 0.8, changefreq: 'monthly' },
 
     // Location-specific service pages - Sharjah
     { loc: `${baseUrl}/locations/sharjah/new-build-snagging`, priority: 0.6, changefreq: 'monthly' },
     { loc: `${baseUrl}/locations/sharjah/villa-snagging`, priority: 0.6, changefreq: 'monthly' },
     { loc: `${baseUrl}/locations/sharjah/apartment-inspection`, priority: 0.6, changefreq: 'monthly' },
+
+    // Snagging Company Pages - High Priority
+    { loc: `${baseUrl}/locations/dubai/snagging-company`, priority: 0.9, changefreq: 'monthly' },
+    { loc: `${baseUrl}/locations/abu-dhabi/snagging-company`, priority: 0.9, changefreq: 'monthly' },
+    { loc: `${baseUrl}/locations/sharjah/snagging-company`, priority: 0.9, changefreq: 'monthly' },
   ];
 
   // Add blog posts

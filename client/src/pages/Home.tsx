@@ -183,10 +183,10 @@ export default function Home() {
         {/* Hero Content */}
         <div className={`relative z-10 text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000 -translate-y-16 sm:-translate-y-8 lg:translate-y-0 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-            Your Trusted Property Inspection & Snagging Experts
+            Dubai's #1 Snagging Company & Property Inspection Experts
           </h1>
           <p className="text-xl sm:text-2xl text-gray-200 leading-relaxed">
-            Protecting quality, value, and your peace of mind in Dubai, Abu Dhabi, Sharjah and across UAE.
+            Leading snagging company in Dubai, Abu Dhabi & Sharjah. Professional property inspection services protecting your investment across UAE.
           </p>
         </div>
       </section>

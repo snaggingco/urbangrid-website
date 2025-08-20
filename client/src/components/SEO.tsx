@@ -100,6 +100,23 @@ const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
     description: 'Professional property inspection services across Abu Dhabi\'s premium developments. From Al Reem Island to Saadiyat Island, ensure your property investment meets the highest standards.',
     keywords: 'property inspection abu dhabi, abu dhabi property assessment, property snagging abu dhabi, abu dhabi inspection services'
   },
+  '/locations/abu-dhabi/property-inspection-companies': {
+    title: 'Property Inspection Companies Abu Dhabi - Top Rated Services',
+    description: 'Find Abu Dhabi\'s best property inspection companies. UrbanGrid leads with luxury property expertise across Saadiyat Island, Yas Island, Al Reem Island. RERA licensed inspectors.',
+    keywords: 'property inspection companies abu dhabi, property inspection abu dhabi, abu dhabi property inspection companies, best property inspection company abu dhabi'
+  },
+  
+  // Dubai Enhanced SEO Pages
+  '/locations/dubai/property-inspection': {
+    title: 'Property Inspection Dubai - Professional Property Assessment Services',
+    description: 'Expert property inspection services in Dubai. Pre-purchase inspections, new build assessments, rental property checks. RERA licensed inspectors covering all Dubai areas.',
+    keywords: 'property inspection dubai, property inspection services dubai, dubai property inspection, property inspector dubai, pre purchase inspection dubai'
+  },
+  '/locations/dubai/property-inspection-companies': {
+    title: 'Property Inspection Companies Dubai - Top Rated Inspection Services',
+    description: 'Find Dubai\'s best property inspection companies. UrbanGrid leads with 15,000+ inspected properties, RERA certification, and same-day reports across all Dubai areas.',
+    keywords: 'property inspection companies in dubai, property inspection dubai, dubai property inspection companies, best property inspection company dubai'
+  },
   
   // Property Snagging Services
   '/services/property-snagging/new-build-snagging': {

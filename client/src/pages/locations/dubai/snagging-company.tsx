@@ -168,6 +168,59 @@ export default function SnaggingCompanyDubai() {
           </div>
         </section>
 
+        {/* FAQ Section */}
+        <section className="py-16 lg:py-20 bg-light-grey">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl lg:text-4xl font-bold text-brand-black mb-12 text-center">
+              Frequently Asked Questions - Snagging Company Dubai
+            </h2>
+            <div className="max-w-4xl mx-auto space-y-6">
+              <div className="bg-white p-6 rounded-lg shadow-sm">
+                <h3 className="text-lg font-semibold text-brand-black mb-3">What makes UrbanGrid the best snagging company in Dubai?</h3>
+                <p className="text-text-grey">UrbanGrid is Dubai's leading snagging company with 15,000+ properties inspected, RERA certification, same-day reports, and established relationships with major developers like Emaar, DAMAC, and Nakheel for efficient issue resolution.</p>
+              </div>
+              <div className="bg-white p-6 rounded-lg shadow-sm">
+                <h3 className="text-lg font-semibold text-brand-black mb-3">How much does snagging cost in Dubai?</h3>
+                <p className="text-text-grey">Dubai snagging costs vary by property type: apartments from AED 1,200, villas from AED 2,800, and commercial properties from AED 3,500. All inspections include comprehensive reports and developer communication.</p>
+              </div>
+              <div className="bg-white p-6 rounded-lg shadow-sm">
+                <h3 className="text-lg font-semibold text-brand-black mb-3">Which Dubai areas do you cover for snagging services?</h3>
+                <p className="text-text-grey">We provide snagging services across all Dubai areas including Dubai Marina, Downtown Dubai, Business Bay, JLT, Palm Jumeirah, Emirates Hills, Arabian Ranches, Dubai Hills, and all other major developments.</p>
+              </div>
+              <div className="bg-white p-6 rounded-lg shadow-sm">
+                <h3 className="text-lg font-semibold text-brand-black mb-3">How long does the snagging process take in Dubai?</h3>
+                <p className="text-text-grey">Dubai snagging inspections typically take 3-6 hours depending on property size. We deliver comprehensive reports within 24 hours and coordinate with developers for defect rectification.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Dubai Areas Coverage */}
+        <section className="py-16 lg:py-20 bg-white">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 className="text-3xl lg:text-4xl font-bold text-brand-black mb-12 text-center">
+              Dubai Snagging Company Coverage Areas
+            </h2>
+            <div className="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {[
+                "Dubai Marina", "Downtown Dubai", "Business Bay", "JLT", "DIFC", "Palm Jumeirah",
+                "Emirates Hills", "Arabian Ranches", "Dubai Hills", "JBR", "City Walk", "Dubai Creek Harbour",
+                "Dubai South", "Al Furjan", "Motor City", "Sports City", "Studio City", "Media City",
+                "Internet City", "Knowledge Village", "Academic City", "International City", "Dragon City", "Silicon Oasis"
+              ].map((area, index) => (
+                <div key={index} className="bg-light-grey p-3 rounded text-center text-sm font-medium hover:bg-brand-green hover:text-white transition-colors">
+                  {area}
+                </div>
+              ))}
+            </div>
+            <div className="text-center mt-8">
+              <p className="text-text-grey">
+                <strong>24/7 Emergency Snagging Services Available</strong> - Covering all Dubai communities and developments
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* CTA Section */}
         <section className="py-16 lg:py-20 bg-brand-green text-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">

@@ -54,6 +54,9 @@ import PrePurchaseInspectionDubai from "@/pages/locations/dubai/pre-purchase-ins
 
 // Abu Dhabi High-Priority SEO Pages
 import PropertyInspectionAbuDhabi from "@/pages/locations/abu-dhabi/property-inspection";
+import PropertyInspectionCompaniesAbuDhabi from "@/pages/locations/abu-dhabi/property-inspection-companies";
+import PropertyInspectionDubai from "@/pages/locations/dubai/property-inspection";
+import PropertyInspectionCompaniesDubai from "@/pages/locations/dubai/property-inspection-companies";
 
 // New Snagging Company Pages
 import SnaggingCompanyDubai from "@/pages/locations/dubai/snagging-company";
@@ -155,6 +158,11 @@ function Router() {
 
           {/* High-Priority SEO Pages - Abu Dhabi */}
           <Route path="/locations/abu-dhabi/property-inspection" component={PropertyInspectionAbuDhabi} />
+          <Route path="/locations/abu-dhabi/property-inspection-companies" component={PropertyInspectionCompaniesAbuDhabi} />
+
+          {/* Dubai Additional SEO Pages */}
+          <Route path="/locations/dubai/property-inspection" component={PropertyInspectionDubai} />
+          <Route path="/locations/dubai/property-inspection-companies" component={PropertyInspectionCompaniesDubai} />
 
           {/* Snagging Company Pages */}
           <Route path="/locations/dubai/snagging-company" component={SnaggingCompanyDubai} />
