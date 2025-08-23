@@ -6,6 +6,7 @@ import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
+import { trackConversion } from "@/lib/analytics";
 
 export default function ConsultationForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -32,6 +33,9 @@ export default function ConsultationForm() {
         description: "Thank you! We'll contact you soon for your free consultation.",
         variant: "default",
       });
+
+      // Track conversion for Google Ads
+      trackConversion();
 
       // Reset form
       setFormData({

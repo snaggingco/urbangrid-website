@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
+import { trackConversion } from "@/lib/analytics";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 
@@ -46,6 +47,9 @@ export default function ScrollTriggeredForm() {
       description: "Thank you! We'll contact you soon to help make your move-in defect-free!",
       variant: "default",
     });
+
+    // Track conversion for Google Ads
+    trackConversion();
 
     // Reset form and close modal immediately
     const submissionData = {

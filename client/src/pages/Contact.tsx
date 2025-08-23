@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
+import { trackConversion } from "@/lib/analytics";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -46,6 +47,9 @@ export default function Contact() {
         description: "Thank you for your message. We'll get back to you soon!",
         variant: "default",
       });
+
+      // Track conversion for Google Ads
+      trackConversion();
 
       reset();
     } catch (error) {
