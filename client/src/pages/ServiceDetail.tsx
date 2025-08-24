@@ -581,9 +581,9 @@ const servicesData: Record<string, ServiceData> = {
   "thermographic-survey": {
     slug: "thermographic-survey",
     title: "Thermographic Survey",
-    description: "Advanced thermal imaging inspections to detect energy losses, moisture intrusion, and electrical issues invisible to conventional inspection methods.",
+    description: "Advanced thermal imaging inspections following ASHRAE standards to detect energy losses, moisture intrusion, and NFPA 70 electrical compliance issues invisible to conventional inspection methods.",
     image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
-    longDescription: "Our Thermographic Survey service utilizes advanced thermal imaging technology to detect energy losses, moisture intrusion, and electrical issues that are invisible to conventional inspection methods. This cutting-edge service provides detailed analysis of building performance and identifies hidden problems before they become costly repairs.",
+    longDescription: "Our Thermographic Survey service utilizes advanced thermal imaging technology following ASHRAE Standard 180 guidelines to detect energy losses, moisture intrusion, and NFPA 70 electrical compliance issues that are invisible to conventional inspection methods. This cutting-edge service provides detailed ASTM-compliant analysis of building performance and identifies hidden problems before they become costly repairs.",
     features: [
       "Thermal imaging analysis and evaluation",
       "Energy efficiency assessment and optimization",
@@ -667,9 +667,9 @@ const servicesData: Record<string, ServiceData> = {
   "structural-survey": {
     slug: "structural-survey",
     title: "Structural Survey",
-    description: "Detailed structural engineering assessment examining building integrity, load-bearing elements, and structural compliance with UAE safety standards and building codes.",
+    description: "Detailed structural engineering assessment following ASTM E2018 standards, examining building integrity, load-bearing elements, and structural compliance with NFPA safety codes and UAE building regulations.",
     image: "https://images.unsplash.com/photo-1581094613018-d1db5d0b5b30?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
-    longDescription: "Our Structural Survey service provides detailed structural engineering assessment examining building integrity, load-bearing elements, and structural compliance with UAE safety standards and building codes. This critical service ensures structural safety and regulatory compliance while identifying potential structural issues and risks.",
+    longDescription: "Our Structural Survey service provides detailed structural engineering assessment following ASTM E2018 Property Condition Assessment standards, examining building integrity, load-bearing elements, and structural compliance with NFPA fire safety codes and UAE building regulations. This critical service ensures structural safety and regulatory compliance while identifying potential structural issues and risks.",
     features: [
       "Structural integrity assessment and analysis",
       "Load-bearing analysis and evaluation",

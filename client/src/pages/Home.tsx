@@ -242,7 +242,7 @@ export default function Home() {
               Our Professional Services
             </h2>
             <p className="text-lg text-text-grey max-w-2xl mx-auto">
-              Comprehensive property inspection and snagging services across the UAE, ensuring your investment meets the highest standards.
+              Comprehensive property inspection and snagging services across the UAE, following NFPA, ASHRAE, and ASTM international standards to ensure your investment meets the highest quality benchmarks.
             </p>
           </div>
           
@@ -307,10 +307,10 @@ export default function Home() {
                 Why Choose UrbanGrid?
               </h2>
               <p className="text-lg text-text-grey mb-6 leading-relaxed">
-                With over a decade of experience in the UAE property market, UrbanGrid is your trusted partner for comprehensive property inspections and snagging services. Our certified team of experts ensures that every detail is meticulously examined.
+                With over a decade of experience in the UAE property market, UrbanGrid is your trusted partner for comprehensive property inspections and snagging services. Our certified team follows international standards including NFPA, ASHRAE, and ASTM guidelines to ensure every detail is meticulously examined.
               </p>
               <p className="text-text-grey mb-8 leading-relaxed">
-                We serve clients across Dubai, Abu Dhabi, Sharjah, and the entire UAE, providing peace of mind through thorough, professional inspections that protect your investment and ensure quality standards are met.
+                We serve clients across Dubai, Abu Dhabi, Sharjah, and the entire UAE, providing peace of mind through thorough, professional inspections that comply with NFPA fire safety codes, ASHRAE HVAC standards, and ASTM material testing protocols.
               </p>
               <Link href="/about">
                 <Button className="bg-brand-green text-white hover:bg-opacity-90">
@@ -357,6 +357,118 @@ export default function Home() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* International Standards Section */}
+      <section className="py-16 lg:py-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl font-bold text-brand-black mb-4">
+              International Standards We Follow
+            </h2>
+            <p className="text-lg text-text-grey max-w-3xl mx-auto">
+              Our property inspections strictly adhere to internationally recognized standards including NFPA, ASHRAE, and ASTM guidelines, ensuring the highest quality assessments for fire safety, HVAC systems, and structural integrity.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* NFPA Standards */}
+            <Card className="bg-light-grey rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
+              <CardContent className="p-8 text-center">
+                <div className="bg-red-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <i className="fas fa-fire-extinguisher text-red-600 text-2xl"></i>
+                </div>
+                <h3 className="text-xl font-semibold text-brand-black mb-4">NFPA Standards</h3>
+                <p className="text-text-grey mb-4">
+                  Following NFPA 70 (National Electrical Code), NFPA 72 (Fire Alarm Systems), NFPA 101 (Life Safety Code), and NFPA 25 (Fire Protection Systems) for comprehensive fire safety inspections.
+                </p>
+                <a 
+                  href="https://www.nfpa.org" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-brand-green font-medium hover:underline"
+                >
+                  Learn More About NFPA →
+                </a>
+              </CardContent>
+            </Card>
+
+            {/* ASHRAE Standards */}
+            <Card className="bg-light-grey rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
+              <CardContent className="p-8 text-center">
+                <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <i className="fas fa-wind text-blue-600 text-2xl"></i>
+                </div>
+                <h3 className="text-xl font-semibold text-brand-black mb-4">ASHRAE Standards</h3>
+                <p className="text-text-grey mb-4">
+                  Implementing ASHRAE Standard 180 for building commissioning and ASHRAE 62.1 for ventilation standards to ensure optimal indoor air quality and HVAC system performance.
+                </p>
+                <a 
+                  href="https://www.ashrae.org" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-brand-green font-medium hover:underline"
+                >
+                  Learn More About ASHRAE →
+                </a>
+              </CardContent>
+            </Card>
+
+            {/* ASTM Standards */}
+            <Card className="bg-light-grey rounded-lg shadow-md hover:shadow-lg transition-all duration-300">
+              <CardContent className="p-8 text-center">
+                <div className="bg-green-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <i className="fas fa-cogs text-green-600 text-2xl"></i>
+                </div>
+                <h3 className="text-xl font-semibold text-brand-black mb-4">ASTM Standards</h3>
+                <p className="text-text-grey mb-4">
+                  Utilizing ASTM E2018 for Property Condition Assessments and ASTM standards for material testing, ensuring structural integrity and building performance evaluations.
+                </p>
+                <a 
+                  href="https://www.astm.org" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-brand-green font-medium hover:underline"
+                >
+                  Learn More About ASTM →
+                </a>
+              </CardContent>
+            </Card>
+          </div>
+          
+          {/* Standards FAQ */}
+          <div className="mt-12 max-w-4xl mx-auto">
+            <h3 className="text-2xl font-bold text-brand-black text-center mb-8">
+              Why International Standards Matter in Property Inspection
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-light-grey p-6 rounded-lg">
+                <h4 className="font-semibold text-brand-black mb-2">What does NFPA 101 cover in building inspections?</h4>
+                <p className="text-text-grey text-sm">
+                  NFPA 101 Life Safety Code addresses fire protection requirements, exit routes, emergency lighting, and life safety systems to ensure occupant safety in buildings.
+                </p>
+              </div>
+              <div className="bg-light-grey p-6 rounded-lg">
+                <h4 className="font-semibold text-brand-black mb-2">How does ASHRAE Standard 180 impact inspections?</h4>
+                <p className="text-text-grey text-sm">
+                  ASHRAE 180 provides guidelines for building commissioning processes, ensuring HVAC systems operate efficiently and meet design specifications.
+                </p>
+              </div>
+              <div className="bg-light-grey p-6 rounded-lg">
+                <h4 className="font-semibold text-brand-black mb-2">What is ASTM E2018 for Property Assessments?</h4>
+                <p className="text-text-grey text-sm">
+                  ASTM E2018 standardizes property condition assessments, providing consistent methodology for evaluating building systems and components.
+                </p>
+              </div>
+              <div className="bg-light-grey p-6 rounded-lg">
+                <h4 className="font-semibold text-brand-black mb-2">Why follow NFPA 72 for fire alarm systems?</h4>
+                <p className="text-text-grey text-sm">
+                  NFPA 72 ensures fire detection and alarm systems are properly installed, tested, and maintained according to national safety standards.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
