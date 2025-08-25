@@ -301,7 +301,7 @@ export default function SEO({
           "aggregateRating": {
             "@type": "AggregateRating",
             "ratingValue": "4.9",
-            "reviewCount": "200+"
+            "reviewCount": 200
           }
         },
         "areaServed": [
