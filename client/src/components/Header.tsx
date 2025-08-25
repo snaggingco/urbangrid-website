@@ -28,7 +28,7 @@ export default function Header({ isAdmin = false }: HeaderProps) {
     { name: 'Services', href: '/services' },
     { name: 'Blog', href: '/blog' },
     { name: 'Broker Referrals', href: '/broker-referrals' },
-    { name: 'Jobs & Career', href: '/careers' },
+    { name: 'Career', href: '/careers' },
     { name: 'Contact', href: '/contact' },
   ];
 
