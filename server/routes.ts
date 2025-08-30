@@ -576,6 +576,82 @@ Crawl-delay: 1`;
     }
   });
 
+  // Location-specific SEO data for server-side rendering
+  const locationSEOData: { [key: string]: { title: string; description: string; keywords: string } } = {
+    '/locations/abu-dhabi/property-inspection-companies': {
+      title: 'Property Inspection Companies Abu Dhabi - Top Rated Services',
+      description: 'Property inspection companies Abu Dhabi - find the best. UrbanGrid leads with luxury property expertise across Saadiyat Island, Yas Island, Al Reem Island. RERA licensed property inspection.',
+      keywords: 'property inspection companies abu dhabi, property inspection abu dhabi, abu dhabi property inspection companies, best property inspection company abu dhabi'
+    },
+    '/locations/dubai/property-inspection-companies': {
+      title: 'Property Inspection Companies in Dubai - Top Rated Services',
+      description: 'Property inspection companies in Dubai - find the best. UrbanGrid leads with 15,000+ inspected properties, RERA certification, and same-day property inspection reports across Dubai.',
+      keywords: 'property inspection companies in dubai, property inspection dubai, dubai property inspection companies, best property inspection company dubai'
+    },
+    '/locations/abu-dhabi/property-inspection': {
+      title: 'Property Inspection Abu Dhabi - Expert Property Assessment Services',
+      description: 'Property inspection Abu Dhabi services across premium developments. Professional property inspection from Al Reem Island to Saadiyat Island ensuring your property investment meets highest standards.',
+      keywords: 'property inspection abu dhabi, abu dhabi property assessment, property snagging abu dhabi, abu dhabi inspection services'
+    },
+    '/locations/dubai/property-inspection': {
+      title: 'Property Inspection Dubai - Professional Property Assessment Services',
+      description: 'Property inspection Dubai services by expert inspectors. Professional property inspection including pre-purchase inspections, new build assessments, rental property checks across all Dubai areas.',
+      keywords: 'property inspection dubai, property inspection services dubai, dubai property inspection, property inspector dubai, pre purchase inspection dubai'
+    }
+  };
+
+  // Server-side rendered location pages for SEO (fix canonical tag issue)
+  app.get('/locations/:emirate/:service', (req, res, next) => {
+    const { emirate, service } = req.params;
+    const routePath = `/locations/${emirate}/${service}`;
+    const seoData = locationSEOData[routePath];
+
+    if (!seoData) {
+      return next(); // Let Vite handle unknown routes
+    }
+
+    // Generate HTML with proper SEO meta tags and canonical URL
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${seoData.title}</title>
+    <meta name="description" content="${seoData.description}">
+    <meta name="keywords" content="${seoData.keywords}">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://urbangrid.ae${routePath}">
+    
+    <!-- Open Graph tags -->
+    <meta property="og:title" content="${seoData.title}">
+    <meta property="og:description" content="${seoData.description}">
+    <meta property="og:url" content="https://urbangrid.ae${routePath}">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://urbangrid.ae/og-image.jpg">
+    
+    <!-- Twitter Card tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="${seoData.title}">
+    <meta name="twitter:description" content="${seoData.description}">
+    <meta name="twitter:image" content="https://urbangrid.ae/og-image.jpg">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>`;
+
+    res.setHeader('Content-Type', 'text/html');
+    res.send(html);
+  });
+
   const httpServer = createServer(app);
   return httpServer;
 }
