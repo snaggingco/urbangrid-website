@@ -456,7 +456,11 @@ This application was submitted through the UrbanGrid careers page.
     try {
       const protocol = req.get('x-forwarded-proto') || req.protocol;
       const host = req.get('host');
-      const baseUrl = `${protocol}://${host}`;
+      
+      // Use production domain in production
+      const baseUrl = process.env.NODE_ENV === 'production' 
+        ? 'https://urbangrid.ae'
+        : `${protocol}://${host}`;
 
       // Get published blog posts for sitemap
       const blogPosts = await storage.getBlogPosts({
@@ -464,7 +468,10 @@ This application was submitted through the UrbanGrid careers page.
         limit: 1000 // Get all published posts
       });
 
-      const urls = getSitemapUrls(baseUrl, blogPosts);
+      const urls = getSitemapUrls(baseUrl, blogPosts.map(post => ({
+        slug: post.slug,
+        updatedAt: post.updatedAt || new Date()
+      })));
       const sitemap = generateSitemap(urls);
 
       res.setHeader('Content-Type', 'application/xml');
@@ -479,7 +486,11 @@ This application was submitted through the UrbanGrid careers page.
   app.get('/robots.txt', (req, res) => {
     const protocol = req.get('x-forwarded-proto') || req.protocol;
     const host = req.get('host');
-    const baseUrl = `${protocol}://${host}`;
+    
+    // Use production domain in production
+    const baseUrl = process.env.NODE_ENV === 'production' 
+      ? 'https://urbangrid.ae'
+      : `${protocol}://${host}`;
 
     const robotsTxt = `User-agent: *
 Allow: /
@@ -496,6 +507,73 @@ Crawl-delay: 1`;
 
     res.setHeader('Content-Type', 'text/plain');
     res.send(robotsTxt);
+  });
+
+  // Server-side rendered blog pages for SEO
+  app.get('/blog/:slug', async (req, res, next) => {
+    try {
+      const { slug } = req.params;
+      const post = await storage.getBlogPostBySlug(slug);
+
+      if (!post || post.status !== 'published') {
+        return next(); // Let Vite handle 404
+      }
+
+      // Generate basic HTML with meta tags for SEO
+      const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>${post.title} | UrbanGrid Property Inspection</title>
+    <meta name="description" content="${post.excerpt || post.title}">
+    <meta name="keywords" content="${post.tags ? post.tags.join(', ') : 'property inspection, snagging, UAE'}">
+    <meta property="og:title" content="${post.title}">
+    <meta property="og:description" content="${post.excerpt || post.title}">
+    <meta property="og:url" content="https://urbangrid.ae/blog/${post.slug}">
+    <meta property="og:type" content="article">
+    ${post.featuredImage ? `<meta property="og:image" content="${post.featuredImage}">` : ''}
+    <link rel="canonical" href="https://urbangrid.ae/blog/${post.slug}">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "${post.title}",
+      "description": "${post.excerpt || post.title}",
+      "author": {
+        "@type": "Organization",
+        "name": "UrbanGrid Property Inspection"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "UrbanGrid Property Inspection",
+        "url": "https://urbangrid.ae"
+      },
+      "datePublished": "${post.createdAt}",
+      "dateModified": "${post.updatedAt || post.createdAt}",
+      "url": "https://urbangrid.ae/blog/${post.slug}"
+    }
+    </script>
+</head>
+<body>
+    <div id="root">
+        <main>
+            <article>
+                <h1>${post.title}</h1>
+                <div>${post.content.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>
+            </article>
+        </main>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+</body>
+</html>`;
+
+      res.setHeader('Content-Type', 'text/html');
+      res.send(html);
+    } catch (error) {
+      console.error("Error serving blog page:", error);
+      next(); // Let Vite handle the error
+    }
   });
 
   const httpServer = createServer(app);
