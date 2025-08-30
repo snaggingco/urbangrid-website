@@ -13,9 +13,9 @@ interface SEOProps {
 // SEO data for each route
 const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
   '/': {
-    title: 'Snagging Company Dubai #1 - Professional Property Snagging Services',
-    description: 'Professional property inspection and snagging services across Dubai, Abu Dhabi, and UAE. Expert property snagging, pre-purchase inspections, and new build assessments. Contact +971 58 568 6852.',
-    keywords: 'property snagging UAE, property inspection Dubai, snagging services Abu Dhabi, pre-purchase inspection, new build snagging, villa inspection'
+    title: 'UrbanGrid Property Inspection - Dubai\'s Leading Snagging Company',
+    description: 'UrbanGrid Property Inspection - Professional property snagging and inspection services across Dubai, Abu Dhabi, and UAE. Expert property snagging, pre-purchase inspections, and new build assessments. Contact +971 58 568 6852.',
+    keywords: 'UrbanGrid Property Inspection, property snagging UAE, property inspection Dubai, snagging services Abu Dhabi, pre-purchase inspection, new build snagging, villa inspection'
   },
   '/about': {
     title: 'About UrbanGrid - UAE\'s Leading Property Inspection Company',
@@ -275,6 +275,50 @@ export default function SEO({
     // Update canonical URL
     updateLinkTag('canonical', canonical);
     
+    // Add Organization schema for homepage
+    if (location === '/') {
+      const organizationSchema = {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "UrbanGrid Property Inspection",
+        "alternateName": "UrbanGrid",
+        "url": "https://urbangrid.ae",
+        "logo": "https://urbangrid.ae/logo.png",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": "+971585686852",
+          "contactType": "customer service",
+          "email": "info@snagging.me"
+        },
+        "address": {
+          "@type": "PostalAddress",
+          "addressCountry": "AE",
+          "addressRegion": "Dubai",
+          "addressLocality": "Dubai"
+        },
+        "sameAs": [
+          "https://urbangrid.ae"
+        ],
+        "description": "Professional property inspection and snagging services across UAE",
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.9",
+          "reviewCount": 200
+        }
+      };
+
+      const existingOrgSchema = document.querySelector('#organization-schema');
+      if (existingOrgSchema) {
+        existingOrgSchema.remove();
+      }
+
+      const orgScript = document.createElement('script');
+      orgScript.id = 'organization-schema';
+      orgScript.type = 'application/ld+json';
+      orgScript.textContent = JSON.stringify(organizationSchema);
+      document.head.appendChild(orgScript);
+    }
+
     // Add comprehensive structured data for service pages
     if (location.includes('/services/')) {
       const serviceCategory = location.includes('property-snagging') ? 'Property Snagging' : 
