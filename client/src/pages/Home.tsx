@@ -170,11 +170,11 @@ export default function Home() {
     <>
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center bg-gray-900 mt-8 lg:mt-12">
-        {/* Background Image with Overlay */}
+        {/* Background Image with Overlay - Optimized for LCP */}
         <div 
           className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80')`
+            backgroundImage: `url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&h=1080&q=75')`
           }}
         >
         </div>
@@ -207,17 +207,21 @@ export default function Home() {
             <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
               <img 
                 src={internachi1}
+                loading="lazy"
+                width="93"
+                height="80"
                 alt="InterNACHI International Association of Certified Home Inspectors Certification" 
                 className="h-20 lg:h-24 w-auto object-contain mx-auto"
-                loading="lazy"
               />
             </div>
             <div className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
               <img 
                 src={internachi2}
+                loading="lazy"
+                width="80"
+                height="80"
                 alt="InterNACHI Professional Certification Badge" 
                 className="h-20 lg:h-24 w-auto object-contain mx-auto"
-                loading="lazy"
               />
             </div>
           </div>
