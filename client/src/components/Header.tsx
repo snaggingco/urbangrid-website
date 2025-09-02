@@ -106,7 +106,7 @@ export default function Header({ isAdmin = false }: HeaderProps) {
                       Admin Portal
                     </DropdownMenuItem>
                     <DropdownMenuItem 
-                      onClick={() => window.location.href = '/inspector/login'}
+                      onClick={() => window.location.href = 'https://urbangrid-snagging.replit.app'}
                       className="flex items-center gap-2 cursor-pointer"
                     >
                       <Search className="h-4 w-4 text-brand-green" />
@@ -168,7 +168,7 @@ export default function Header({ isAdmin = false }: HeaderProps) {
                               className="w-full border-brand-green text-brand-green hover:bg-brand-green hover:text-white flex items-center gap-2"
                               onClick={() => {
                                 setIsMobileMenuOpen(false);
-                                window.location.href = '/inspector/login';
+                                window.location.href = 'https://urbangrid-snagging.replit.app';
                               }}
                             >
                               <Search className="h-4 w-4" />
