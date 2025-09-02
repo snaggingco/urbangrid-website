@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Menu } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Menu, ChevronDown, Shield, Search } from "lucide-react";
 
 interface HeaderProps {
   isAdmin?: boolean;
@@ -72,7 +73,7 @@ export default function Header({ isAdmin = false }: HeaderProps) {
           
           {/* Admin Section */}
           <div className="flex items-center space-x-4">
-            {/* Admin Login/Logout */}
+            {/* Login/Logout Section */}
             {isAdmin ? (
               <Button 
                 size="sm"
@@ -84,14 +85,35 @@ export default function Header({ isAdmin = false }: HeaderProps) {
               </Button>
             ) : (
               <>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="border-brand-green text-brand-green hover:bg-brand-green hover:text-white hidden md:block"
-                  onClick={() => window.location.href = '/api/admin/login'}
-                >
-                  Admin Login
-                </Button>
+                {/* Desktop Dual Login Dropdown */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      className="border-brand-green text-brand-green hover:bg-brand-green hover:text-white hidden md:flex items-center gap-2"
+                    >
+                      Login
+                      <ChevronDown className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuItem 
+                      onClick={() => window.location.href = '/api/admin/login'}
+                      className="flex items-center gap-2 cursor-pointer"
+                    >
+                      <Shield className="h-4 w-4 text-brand-green" />
+                      Admin Portal
+                    </DropdownMenuItem>
+                    <DropdownMenuItem 
+                      onClick={() => window.location.href = '/inspector/login'}
+                      className="flex items-center gap-2 cursor-pointer"
+                    >
+                      <Search className="h-4 w-4 text-brand-green" />
+                      Inspector Portal
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
                 
                 {/* Mobile menu - only show when not admin */}
                 <div className="md:hidden">
@@ -124,17 +146,36 @@ export default function Header({ isAdmin = false }: HeaderProps) {
                           </Link>
                         ))}
                         
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="border-brand-green text-brand-green hover:bg-brand-green hover:text-white mt-4"
-                          onClick={() => {
-                            setIsMobileMenuOpen(false);
-                            window.location.href = '/api/admin/login';
-                          }}
-                        >
-                          Admin Login
-                        </Button>
+                        {/* Mobile Login Options */}
+                        <div className="border-t pt-4 mt-4">
+                          <p className="text-sm font-medium text-text-grey mb-3">Login Options</p>
+                          <div className="space-y-2">
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="w-full border-brand-green text-brand-green hover:bg-brand-green hover:text-white flex items-center gap-2"
+                              onClick={() => {
+                                setIsMobileMenuOpen(false);
+                                window.location.href = '/api/admin/login';
+                              }}
+                            >
+                              <Shield className="h-4 w-4" />
+                              Admin Portal
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              className="w-full border-brand-green text-brand-green hover:bg-brand-green hover:text-white flex items-center gap-2"
+                              onClick={() => {
+                                setIsMobileMenuOpen(false);
+                                window.location.href = '/inspector/login';
+                              }}
+                            >
+                              <Search className="h-4 w-4" />
+                              Inspector Portal
+                            </Button>
+                          </div>
+                        </div>
                       </nav>
                     </SheetContent>
                   </Sheet>

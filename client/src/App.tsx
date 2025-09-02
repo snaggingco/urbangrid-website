@@ -20,6 +20,7 @@ import Login from "@/pages/Login";
 import Dashboard from "@/pages/admin/Dashboard";
 import AddBlog from "@/pages/admin/AddBlog";
 import ManageBlogs from "@/pages/admin/ManageBlogs";
+import ManageInspectors from "@/pages/admin/ManageInspectors";
 import NotFound from "@/pages/not-found";
 
 // Location Pages
@@ -186,6 +187,7 @@ function Router() {
               <Route path="/admin" component={Dashboard} />
               <Route path="/admin/add-blog" component={AddBlog} />
               <Route path="/admin/manage-blogs" component={ManageBlogs} />
+              <Route path="/admin/manage-inspectors" component={ManageInspectors} />
             </>
           )}
           <Route component={NotFound} />

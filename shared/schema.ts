@@ -64,6 +64,19 @@ export const contactSubmissions = pgTable("contact_submissions", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+// Inspectors table for inspector authentication
+export const inspectors = pgTable("inspectors", {
+  id: serial("id").primaryKey(),
+  username: varchar("username", { length: 100 }).notNull().unique(),
+  passwordHash: varchar("password_hash", { length: 255 }).notNull(),
+  fullName: varchar("full_name", { length: 255 }).notNull(),
+  email: varchar("email", { length: 255 }).notNull().unique(),
+  phone: varchar("phone", { length: 50 }),
+  isActive: boolean("is_active").default(true),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 // Visitor tracking table
 export const visitorLogs = pgTable("visitor_logs", {
   id: serial("id").primaryKey(),
@@ -114,6 +127,12 @@ export const insertVisitorLogSchema = createInsertSchema(visitorLogs).omit({
   createdAt: true,
 });
 
+export const insertInspectorSchema = createInsertSchema(inspectors).omit({
+  id: true,
+  createdAt: true,
+  updatedAt: true,
+});
+
 // Types
 export type UpsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
@@ -124,3 +143,5 @@ export type InsertContactSubmission = z.infer<typeof insertContactSubmissionSche
 export type ContactSubmission = typeof contactSubmissions.$inferSelect;
 export type InsertVisitorLog = z.infer<typeof insertVisitorLogSchema>;
 export type VisitorLog = typeof visitorLogs.$inferSelect;
+export type InsertInspector = z.infer<typeof insertInspectorSchema>;
+export type Inspector = typeof inspectors.$inferSelect;

@@ -125,6 +125,16 @@ export default function Dashboard() {
                 Manage Blogs
               </a>
             </Link>
+            <Link href="/admin/manage-inspectors">
+              <a className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                location === '/admin/manage-inspectors' 
+                  ? 'bg-brand-green text-white' 
+                  : 'text-text-grey hover:text-brand-green hover:bg-gray-100'
+              }`}>
+                <i className="fas fa-users mr-2"></i>
+                Manage Inspectors
+              </a>
+            </Link>
           </nav>
         </div>
 
@@ -142,6 +152,13 @@ export default function Dashboard() {
               <Button variant="outline" className="border-brand-green text-brand-green hover:bg-brand-green hover:text-white">
                 <i className="fas fa-list mr-2"></i>
                 Manage Blog Posts
+              </Button>
+            </Link>
+            
+            <Link href="/admin/manage-inspectors">
+              <Button variant="outline" className="border-brand-green text-brand-green hover:bg-brand-green hover:text-white">
+                <i className="fas fa-users mr-2"></i>
+                Manage Inspectors
               </Button>
             </Link>
           </div>

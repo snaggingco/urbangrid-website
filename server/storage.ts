@@ -2,6 +2,7 @@ import {
   users,
   blogPosts,
   contactSubmissions,
+  inspectors,
   type User,
   type UpsertUser,
   type BlogPost,
@@ -9,6 +10,8 @@ import {
   type InsertBlogPost,
   type InsertContactSubmission,
   type ContactSubmission,
+  type InsertInspector,
+  type Inspector,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, ilike, or, sql, count } from "drizzle-orm";
@@ -45,6 +48,18 @@ export interface IStorage {
     offset?: number;
   }): Promise<ContactSubmission[]>;
   markContactSubmissionAsRead(id: number): Promise<boolean>;
+  
+  // Inspector operations
+  createInspector(inspector: InsertInspector): Promise<Inspector>;
+  getInspector(id: number): Promise<Inspector | undefined>;
+  getInspectorByUsername(username: string): Promise<Inspector | undefined>;
+  getInspectors(options?: {
+    isActive?: boolean;
+    limit?: number;
+    offset?: number;
+  }): Promise<Inspector[]>;
+  updateInspector(id: number, inspector: Partial<InsertInspector>): Promise<Inspector | undefined>;
+  deleteInspector(id: number): Promise<boolean>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -234,6 +249,71 @@ export class DatabaseStorage implements IStorage {
       .set({ isRead: true })
       .where(eq(contactSubmissions.id, id));
     return (result.rowCount ?? 0) > 0;
+  }
+
+  // Inspector operations
+  async createInspector(inspector: InsertInspector): Promise<Inspector> {
+    const [inspectorRecord] = await db.insert(inspectors).values({
+      ...inspector,
+      updatedAt: new Date(),
+    }).returning();
+    return inspectorRecord;
+  }
+
+  async getInspector(id: number): Promise<Inspector | undefined> {
+    const [inspector] = await db.select().from(inspectors).where(eq(inspectors.id, id));
+    return inspector;
+  }
+
+  async getInspectorByUsername(username: string): Promise<Inspector | undefined> {
+    const [inspector] = await db.select().from(inspectors).where(eq(inspectors.username, username));
+    return inspector;
+  }
+
+  async getInspectors(options?: {
+    isActive?: boolean;
+    limit?: number;
+    offset?: number;
+  }): Promise<Inspector[]> {
+    let query = db.select().from(inspectors);
+
+    const conditions = [];
+    if (options?.isActive !== undefined) {
+      conditions.push(eq(inspectors.isActive, options.isActive));
+    }
+
+    if (conditions.length > 0) {
+      query = query.where(and(...conditions));
+    }
+
+    query = query.orderBy(desc(inspectors.createdAt));
+
+    if (options?.limit) {
+      query = query.limit(options.limit);
+    }
+    if (options?.offset) {
+      query = query.offset(options.offset);
+    }
+
+    return await query;
+  }
+
+  async updateInspector(id: number, inspector: Partial<InsertInspector>): Promise<Inspector | undefined> {
+    const [updated] = await db.update(inspectors)
+      .set({
+        ...inspector,
+        updatedAt: new Date(),
+      })
+      .where(eq(inspectors.id, id))
+      .returning();
+    return updated;
+  }
+
+  async deleteInspector(id: number): Promise<boolean> {
+    const [deleted] = await db.delete(inspectors)
+      .where(eq(inspectors.id, id))
+      .returning();
+    return !!deleted;
   }
 }
 

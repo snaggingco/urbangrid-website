@@ -1,0 +1,166 @@
+Create a comprehensive dual login system for UrbanGrid that supports both Admin and Inspector authentication with proper authentication flow before redirection:
+### 1. Header Component Updates
+Replace the current single "Admin Login" button in the Header component with a "Login" dropdown button that offers two login options:
+**Dropdown Menu Structure:**
+- Main button: "Login" (replaces current "Admin Login")
+- Dropdown options:
+  - "Admin Portal" → Existing admin login flow (`/api/admin/login`)
+  - "Inspector Portal" → New inspector login flow (`/inspector/login`)
+**Design Requirements:**
+- Use consistent brand colors (brand-green: #10B981)
+- Maintain responsive design for both desktop and mobile
+- Include appropriate icons (admin icon + inspector icon)
+- Dropdown should close after selection
+- Handle both internal login and post-auth external redirect
+### 2. Inspector Authentication Flow (Critical Update)
+**Step-by-Step Inspector Login Process:**
+1. User clicks "Inspector Portal" from header dropdown
+2. Redirect to internal inspector login page (`/inspector/login`)
+3. Inspector enters credentials (username: "shahbas", password: "Shahbas@123#")
+4. Backend validates credentials against inspector database
+5. **Only after successful authentication**, redirect to external inspector app: `https://urbangrid-snagging.replit.app`
+6. Pass authentication token or session data to external app if needed
+**No Direct Redirection:**
+- Inspector portal option should NOT directly redirect to external URL
+- Must authenticate first, then redirect upon successful login
+- Implement proper session management for inspectors
+### 3. Backend Authentication System Updates
+**Database Schema:**
+- Add new `inspectors` table with fields: id, username, password_hash, full_name, email, phone, is_active, created_at, updated_at
+- Create default inspector account: username "shahbas", password "Shahbas@123#" (properly hashed)
+**Authentication Routes:**
+- Add `/api/inspector/login` endpoint for inspector authentication
+- Add `/inspector/login` page route for inspector login form
+- Add inspector session management with proper session cookies
+- Update `/api/auth/user` to handle both admin and inspector sessions
+- Add `/api/inspector/logout` for inspector logout
+**Inspector Login Page (`/inspector/login`):**
+- Create dedicated inspector login page similar to admin login
+- Form with username and password fields
+- Submit to `/api/inspector/login` endpoint
+- On success: redirect to `https://urbangrid-snagging.replit.app`
+- On failure: show error message and keep on login page
+- Include "Back to Website" link
+### 4. Admin Dashboard Enhancement
+**Inspector Management Interface:**
+Add new section to admin dashboard with:
+- "Manage Inspectors" tab in admin navigation
+- Inspector list view showing all inspector accounts
+- Add new inspector form with fields:
+  - Full Name (required)
+  - Username (required, unique)
+  - Email (required)
+  - Phone (optional)
+  - Password (required, minimum 8 characters)
+  - Confirm Password (required)
+  - Active Status (checkbox, default: true)
+**Inspector Management Features:**
+- Create new inspector accounts
+- Edit existing inspector details (except username)
+- Reset inspector passwords
+- Activate/deactivate inspector accounts
+- View inspector login history (basic)
+### 5. Authentication Backend Implementation
+**Inspector Authentication Logic:**
+```typescript
+// Inspector login route
+app.post('/api/inspector/login', async (req, res) => {
+  // Validate inspector credentials against database
+  // Create inspector session
+  // Return success with redirect URL to external app
+  // Handle authentication errors properly
+});
+// Inspector authentication middleware
+function isInspectorAuthenticated(req, res, next) {
+  // Check inspector session validity
+  // Allow access to inspector-specific routes
+}
+Session Management:
+
+Separate session handling for inspectors and admins
+Use different session keys to avoid conflicts
+Implement proper session expiration
+Clear sessions on logout
+6. Mobile Responsiveness
+Mobile Sheet Menu Updates:
+
+Update mobile navigation sheet to include the same dual login dropdown
+Ensure proper spacing and touch targets for mobile users
+Maintain consistent styling across all screen sizes
+Handle authentication flow properly on mobile
+7. Security Considerations
+Password Requirements:
+
+Minimum 8 characters for new inspector accounts
+Must include uppercase, lowercase, number, and special character
+Hash passwords using bcrypt with salt rounds of 10
+Secure session management for inspector accounts
+Rate limiting on login attempts
+8. Inspector Login Page Design
+Inspector Login Form (/inspector/login):
+
+Similar styling to existing admin login page
+UrbanGrid branding and colors
+Username and password fields
+"Login to Inspector Portal" submit button
+Error handling for invalid credentials
+Success message before redirect
+"Back to Website" navigation link
+9. Authentication Error Handling
+Inspector Login Errors:
+
+Invalid credentials → Show error message, stay on login page
+Account deactivated → Show "Account deactivated" message
+Server errors → Show generic error message
+Network errors → Show "Please try again" message
+10. Post-Authentication Flow
+Successful Inspector Login:
+
+Validate credentials in backend
+Create inspector session
+Return success response to frontend
+Frontend shows success message (optional)
+Redirect to external inspector app: https://urbangrid-snagging.replit.app
+External app can verify session if integration is needed
+11. Default Inspector Account Setup
+Initial Database Seed:
+
+Username: "shahbas"
+Password: "Shahbas@123#" (hashed with bcrypt)
+Full Name: "Shahbas Inspector"
+Email: "shahbas@urbangrid.ae"
+Active: true
+Created automatically in database migration
+12. Admin Interface Navigation Updates
+Updated Admin Navigation:
+
+Dashboard (existing)
+Add Blog (existing)
+Manage Blogs (existing)
+NEW: Manage Inspectors (new tab with full CRUD operations)
+13. Implementation Steps
+Phase 1: Authentication Infrastructure
+
+Update Header component with dual login dropdown
+Create inspector database table and migration
+Implement inspector login page (/inspector/login)
+Add inspector authentication routes
+Phase 2: Admin Management Tools
+
+Create inspector management interface in admin dashboard
+Implement CRUD operations for inspector accounts
+Add password reset functionality
+Test all authentication flows
+Phase 3: Security & Polish
+
+Add rate limiting and security measures
+Implement proper error handling
+Add mobile responsive design
+Test cross-device compatibility
+Key Authentication Flow Summary:
+Admin Login: Header → /api/admin/login → Admin Dashboard
+Inspector Login: Header → /inspector/login → Authenticate → External App Redirect
+No direct external redirects without authentication
+Proper session management for both user types
+Secure password handling and validation
+This ensures that inspectors must authenticate before being redirected to the external inspector application, maintaining security and proper access control.

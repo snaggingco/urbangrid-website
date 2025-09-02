@@ -2,7 +2,9 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupLocalAuth } from "./adminAuth";
-import { insertBlogPostSchema, insertContactSubmissionSchema } from "@shared/schema";
+import { setupInspectorAuth } from "./inspectorAuth";
+import { insertBlogPostSchema, insertContactSubmissionSchema, insertInspectorSchema } from "@shared/schema";
+import bcrypt from "bcryptjs";
 import { z } from "zod";
 import nodemailer from "nodemailer";
 import { generateSitemap, getSitemapUrls } from "./sitemap";
@@ -65,9 +67,11 @@ function isAdminAuthenticated(req: any, res: any, next: any) {
 export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
   setupLocalAuth(app);
+  setupInspectorAuth(app);
 
-  // Auth routes - only local admin auth
-  app.get('/api/auth/user', async (req: any, res) => {
+  // Note: Inspector auth user endpoint is handled in inspectorAuth.ts
+  // This endpoint is overridden by setupInspectorAuth for dual authentication
+  app.get('/api/auth/user-backup', async (req: any, res) => {
     try {
       // Check if user is authenticated via local admin auth
       if (req.isAuthenticated() && req.user?.claims?.sub === 'super-admin') {
@@ -246,6 +250,154 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error deleting blog post:", error);
       res.status(500).json({ message: "Failed to delete blog post" });
+    }
+  });
+
+  // Protected inspector routes (admin only)
+  app.get('/api/admin/inspectors', isAdminAuthenticated, async (req: any, res) => {
+    try {
+      const { page = '1', limit = '10', isActive } = req.query;
+      const pageNum = parseInt(page as string);
+      const limitNum = parseInt(limit as string);
+      const offset = (pageNum - 1) * limitNum;
+
+      const inspectors = await storage.getInspectors({
+        isActive: isActive === 'true' ? true : isActive === 'false' ? false : undefined,
+        limit: limitNum,
+        offset,
+      });
+
+      // Get total count for pagination
+      const allInspectors = await storage.getInspectors({
+        isActive: isActive === 'true' ? true : isActive === 'false' ? false : undefined,
+      });
+
+      res.json({
+        inspectors,
+        total: allInspectors.length,
+        page: pageNum,
+        pages: Math.ceil(allInspectors.length / limitNum),
+      });
+    } catch (error) {
+      console.error("Error fetching inspectors:", error);
+      res.status(500).json({ message: "Failed to fetch inspectors" });
+    }
+  });
+
+  app.get('/api/admin/inspectors/:id', isAdminAuthenticated, async (req: any, res) => {
+    try {
+      const { id } = req.params;
+      const inspector = await storage.getInspector(parseInt(id));
+
+      if (!inspector) {
+        return res.status(404).json({ message: "Inspector not found" });
+      }
+
+      // Remove password hash from response
+      const { passwordHash, ...inspectorData } = inspector;
+      res.json(inspectorData);
+    } catch (error) {
+      console.error("Error fetching inspector:", error);
+      res.status(500).json({ message: "Failed to fetch inspector" });
+    }
+  });
+
+  app.post('/api/admin/inspectors', isAdminAuthenticated, async (req: any, res) => {
+    try {
+      // Validate password requirements
+      const passwordSchema = z.string()
+        .min(8, "Password must be at least 8 characters")
+        .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+        .regex(/[a-z]/, "Password must contain at least one lowercase letter")
+        .regex(/[0-9]/, "Password must contain at least one number")
+        .regex(/[^A-Za-z0-9]/, "Password must contain at least one special character");
+
+      const { password, confirmPassword, ...inspectorData } = req.body;
+
+      // Validate password
+      passwordSchema.parse(password);
+
+      // Check password confirmation
+      if (password !== confirmPassword) {
+        return res.status(400).json({ message: "Passwords do not match" });
+      }
+
+      // Hash password
+      const passwordHash = bcrypt.hashSync(password, 10);
+
+      const validatedData = insertInspectorSchema.parse({
+        ...inspectorData,
+        passwordHash,
+      });
+
+      const inspector = await storage.createInspector(validatedData);
+
+      // Remove password hash from response
+      const { passwordHash: _, ...responseData } = inspector;
+      res.status(201).json(responseData);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid data", errors: error.errors });
+      }
+      console.error("Error creating inspector:", error);
+      res.status(500).json({ message: "Failed to create inspector" });
+    }
+  });
+
+  app.put('/api/admin/inspectors/:id', isAdminAuthenticated, async (req: any, res) => {
+    try {
+      const { id } = req.params;
+      const { password, confirmPassword, ...updateData } = req.body;
+
+      // If password is being updated, validate it
+      if (password) {
+        const passwordSchema = z.string()
+          .min(8, "Password must be at least 8 characters")
+          .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
+          .regex(/[a-z]/, "Password must contain at least one lowercase letter")
+          .regex(/[0-9]/, "Password must contain at least one number")
+          .regex(/[^A-Za-z0-9]/, "Password must contain at least one special character");
+
+        passwordSchema.parse(password);
+
+        if (password !== confirmPassword) {
+          return res.status(400).json({ message: "Passwords do not match" });
+        }
+
+        updateData.passwordHash = bcrypt.hashSync(password, 10);
+      }
+
+      const inspector = await storage.updateInspector(parseInt(id), updateData);
+
+      if (!inspector) {
+        return res.status(404).json({ message: "Inspector not found" });
+      }
+
+      // Remove password hash from response
+      const { passwordHash: _, ...responseData } = inspector;
+      res.json(responseData);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid data", errors: error.errors });
+      }
+      console.error("Error updating inspector:", error);
+      res.status(500).json({ message: "Failed to update inspector" });
+    }
+  });
+
+  app.delete('/api/admin/inspectors/:id', isAdminAuthenticated, async (req: any, res) => {
+    try {
+      const { id } = req.params;
+      const success = await storage.deleteInspector(parseInt(id));
+
+      if (!success) {
+        return res.status(404).json({ message: "Inspector not found" });
+      }
+
+      res.json({ message: "Inspector deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting inspector:", error);
+      res.status(500).json({ message: "Failed to delete inspector" });
     }
   });
 
