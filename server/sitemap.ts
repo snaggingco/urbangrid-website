@@ -94,13 +94,33 @@ export function getSitemapUrls(baseUrl: string, blogPosts: Array<{slug: string, 
     { loc: `${baseUrl}/locations/dubai/snagging-company`, priority: 0.9, changefreq: 'monthly' },
     { loc: `${baseUrl}/locations/abu-dhabi/snagging-company`, priority: 0.9, changefreq: 'monthly' },
     { loc: `${baseUrl}/locations/sharjah/snagging-company`, priority: 0.9, changefreq: 'monthly' },
+
+    // Snagging Cost Pages - High Priority for SEO
+    { loc: `${baseUrl}/locations/dubai/snagging-cost`, priority: 0.9, changefreq: 'monthly' },
+    { loc: `${baseUrl}/locations/abu-dhabi/snagging-cost`, priority: 0.9, changefreq: 'monthly' },
+    { loc: `${baseUrl}/locations/sharjah/snagging-cost`, priority: 0.9, changefreq: 'monthly' },
+
+    // Additional Abu Dhabi Service Pages
+    { loc: `${baseUrl}/locations/abu-dhabi/new-build-snagging`, priority: 0.7, changefreq: 'monthly' },
+    { loc: `${baseUrl}/locations/abu-dhabi/villa-snagging`, priority: 0.7, changefreq: 'monthly' },
+    { loc: `${baseUrl}/locations/abu-dhabi/apartment-inspection`, priority: 0.7, changefreq: 'monthly' },
+
+    // Additional Sharjah Service Pages  
+    { loc: `${baseUrl}/locations/sharjah/new-build-snagging`, priority: 0.7, changefreq: 'monthly' },
+    { loc: `${baseUrl}/locations/sharjah/villa-snagging`, priority: 0.7, changefreq: 'monthly' },
+    { loc: `${baseUrl}/locations/sharjah/apartment-inspection`, priority: 0.7, changefreq: 'monthly' },
+
+    // High-value blog posts
+    { loc: `${baseUrl}/blog/snagging-dubai-cost-2025-complete-pricing-guide`, priority: 0.8, changefreq: 'monthly' },
+    { loc: `${baseUrl}/blog/property-inspection-abu-dhabi-complete-guide`, priority: 0.8, changefreq: 'monthly' },
+    { loc: `${baseUrl}/blog/snagging-company-sharjah-professional-services`, priority: 0.8, changefreq: 'monthly' },
   ];
 
   // Add blog posts
   blogPosts.forEach(post => {
     urls.push({
       loc: `${baseUrl}/blog/${post.slug}`,
-      priority: 0.5,
+      priority: 0.6,
       changefreq: 'weekly',
       lastmod: post.updatedAt.toISOString().split('T')[0]
     });
