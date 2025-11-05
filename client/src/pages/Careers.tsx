@@ -323,47 +323,7 @@ export default function Careers() {
           </div>
         </section>
 
-        {/* Current Openings Section */}
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl lg:text-4xl font-bold text-brand-black mb-4">
-                Current Openings
-              </h2>
-              <p className="text-lg text-text-grey">
-                We're actively recruiting for the following positions
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-              <Card className="border-l-4 border-l-brand-green">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold text-brand-black mb-2">Senior Property Inspector</h3>
-                  <p className="text-text-grey mb-4">Dubai, Abu Dhabi | Full-time</p>
-                  <ul className="text-sm text-text-grey space-y-1">
-                    <li>• 5+ years property inspection experience</li>
-                    <li>• InterNACHI or equivalent certification preferred</li>
-                    <li>• UAE driving license required</li>
-                    <li>• Fluent in English, Arabic is a plus</li>
-                  </ul>
-                </CardContent>
-              </Card>
-
-              <Card className="border-l-4 border-l-brand-green">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold text-brand-black mb-2">Snagging Specialist</h3>
-                  <p className="text-text-grey mb-4">Sharjah, Ajman | Full-time</p>
-                  <ul className="text-sm text-text-grey space-y-1">
-                    <li>• 3+ years construction or inspection experience</li>
-                    <li>• Knowledge of UAE building codes</li>
-                    <li>• Strong attention to detail</li>
-                    <li>• Tech-savvy with inspection software</li>
-                  </ul>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
+        
       </main>
 
       <Footer />
