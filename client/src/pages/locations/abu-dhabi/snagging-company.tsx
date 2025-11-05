@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
@@ -14,7 +13,7 @@ export default function SnaggingCompanyAbuDhabi() {
     },
     {
       title: "Villa Snagging Abu Dhabi",
-      description: "Comprehensive villa inspections in Abu Dhabi's exclusive communities", 
+      description: "Comprehensive villa inspections in Abu Dhabi's exclusive communities",
       link: "/locations/abu-dhabi/villa-snagging",
       areas: ["Al Reef", "Al Ghadeer", "Bloom Gardens", "Shams Abu Dhabi"]
     },
@@ -28,22 +27,22 @@ export default function SnaggingCompanyAbuDhabi() {
 
   return (
     <>
-      <SEO 
+      <SEO
         title="Snagging Company Abu Dhabi - Professional Property Snagging | UrbanGrid"
         description="Abu Dhabi's premier snagging company offering expert property snagging services. Luxury villa & apartment snagging on Saadiyat Island, Yas Island, Al Reem Island. Call +971585686852"
         keywords="snagging company abu dhabi, property snagging abu dhabi, abu dhabi snagging services, villa snagging abu dhabi, apartment snagging abu dhabi, luxury property snagging"
       />
-      
+
       <div className="pt-16 lg:pt-20">
         {/* Hero Section */}
         <section className="py-16 lg:py-20 bg-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto text-center">
               <h1 className="text-4xl lg:text-5xl font-bold text-brand-black mb-6">
-                Abu Dhabi's Premier Snagging Company
+                Snagging Company Abu Dhabi - #1 Property Snagging Services
               </h1>
               <p className="text-xl text-text-grey leading-relaxed mb-8">
-                UrbanGrid is Abu Dhabi's most trusted snagging company, specializing in luxury property inspections across the capital's premium developments. From Saadiyat Island cultural districts to Yas Island entertainment hubs, we ensure your investment meets the highest standards.
+                UrbanGrid is Abu Dhabi's leading snagging company, providing professional property snagging services across all Abu Dhabi developments. As the most trusted snagging company in Abu Dhabi, we specialize in luxury property inspections from Saadiyat Island to Yas Island, Al Reem Island, and beyond. Expert property snagging Abu Dhabi services ensuring your capital investment meets the highest standards.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/contact">
@@ -51,7 +50,7 @@ export default function SnaggingCompanyAbuDhabi() {
                     Get Abu Dhabi Snagging Quote
                   </Button>
                 </Link>
-                <a 
+                <a
                   href="tel:+971585686852"
                   className="inline-flex items-center bg-transparent border-2 border-brand-green text-brand-green px-8 py-3 rounded-md font-semibold hover:bg-brand-green hover:text-white transition-colors"
                 >
@@ -149,7 +148,7 @@ export default function SnaggingCompanyAbuDhabi() {
                   Schedule Abu Dhabi Inspection
                 </Button>
               </Link>
-              <a 
+              <a
                 href="https://wa.me/971585686852?text=Hello! I need professional snagging services in Abu Dhabi."
                 target="_blank"
                 rel="noopener noreferrer"

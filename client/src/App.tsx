@@ -42,11 +42,13 @@ import DubaiDLPSnagging from "@/pages/locations/dubai/dlp-snagging";
 import AbuDhabiNewBuildSnagging from "@/pages/locations/abu-dhabi/new-build-snagging";
 import AbuDhabiVillaSnagging from "@/pages/locations/abu-dhabi/villa-snagging";
 import AbuDhabiApartmentInspection from "@/pages/locations/abu-dhabi/apartment-inspection";
+import AbuDhabiSnaggingCost from "@/pages/locations/abu-dhabi/snagging-cost";
 
 // Sharjah Location + Service Pages
 import SharjahNewBuildSnagging from "@/pages/locations/sharjah/new-build-snagging";
 import SharjahVillaSnagging from "@/pages/locations/sharjah/villa-snagging";
 import SharjahApartmentInspection from "@/pages/locations/sharjah/apartment-inspection";
+import SharjahSnaggingCost from "@/pages/locations/sharjah/snagging-cost";
 
 // Dubai High-Priority SEO Pages
 import PropertySnaggingDubai from "@/pages/locations/dubai/property-snagging";
@@ -156,6 +158,8 @@ function Router() {
           {/* High-Priority SEO Pages - Dubai */}
           <Route path="/locations/dubai/property-snagging" component={PropertySnaggingDubai} />
           <Route path="/locations/dubai/snagging-cost" component={SnaggingCostDubai} />
+        <Route path="/locations/abu-dhabi/snagging-cost" component={AbuDhabiSnaggingCost} />
+        <Route path="/locations/sharjah/snagging-cost" component={SharjahSnaggingCost} />
           <Route path="/locations/dubai/property-snagging-services" component={PropertySnaggingServicesDubai} />
           <Route path="/locations/dubai/pre-purchase-inspection" component={PrePurchaseInspectionDubai} />
 

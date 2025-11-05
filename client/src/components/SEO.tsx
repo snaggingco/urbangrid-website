@@ -105,6 +105,16 @@ const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
     description: 'Property inspection companies Abu Dhabi - find the best. UrbanGrid leads with luxury property expertise across Saadiyat Island, Yas Island, Al Reem Island. RERA licensed property inspection.',
     keywords: 'property inspection companies abu dhabi, property inspection abu dhabi, abu dhabi property inspection companies, best property inspection company abu dhabi'
   },
+  '/locations/abu-dhabi/snagging-cost': {
+    title: 'Snagging Cost Abu Dhabi - Transparent Property Snagging Prices',
+    description: 'Clear snagging cost Abu Dhabi pricing. Professional property snagging services from AED 1,200. Transparent rates, same-day reports across Saadiyat, Yas, Al Reem Island.',
+    keywords: 'snagging cost abu dhabi, snagging abu dhabi cost, property snagging prices abu dhabi, abu dhabi snagging rates, snagging company abu dhabi prices'
+  },
+  '/locations/sharjah/snagging-cost': {
+    title: 'Snagging Cost Sharjah - Affordable Property Snagging Prices',
+    description: 'Competitive snagging cost Sharjah pricing. Professional property snagging from AED 1,000. Family-friendly rates across Al Zahia, Aljada, University City.',
+    keywords: 'snagging cost sharjah, snagging sharjah cost, property snagging prices sharjah, sharjah snagging rates, snagging company sharjah prices'
+  },
   
   // Dubai Enhanced SEO Pages
   '/locations/dubai/property-inspection': {

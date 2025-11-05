@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";  
 import { Link } from "wouter";
@@ -33,17 +32,17 @@ export default function SnaggingCompanySharjah() {
         description="Sharjah's trusted snagging company providing comprehensive property snagging services. Family community & cultural district snagging in Al Zahia, Aljada, Kalba. Call +971585686852"
         keywords="snagging company sharjah, property snagging sharjah, sharjah snagging services, villa snagging sharjah, apartment snagging sharjah, family community snagging"
       />
-      
+
       <div className="pt-16 lg:pt-20">
         {/* Hero Section */}
         <section className="py-16 lg:py-20 bg-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-4xl mx-auto text-center">
               <h1 className="text-4xl lg:text-5xl font-bold text-brand-black mb-6">
-                Sharjah's Trusted Snagging Company
+                Snagging Company Sharjah - Professional Property Snagging Services
               </h1>
               <p className="text-xl text-text-grey leading-relaxed mb-8">
-                UrbanGrid is Sharjah's leading snagging company, providing expert property inspection services across the emirate. From family communities like Al Zahia to coastal developments in Kalba, we ensure your Sharjah property investment is thoroughly protected.
+                UrbanGrid is Sharjah's premier snagging company, providing comprehensive property snagging services across all Sharjah developments. As the most trusted snagging company in Sharjah, we offer expert property snagging Sharjah services for Al Zahia, Aljada, University City, and coastal developments. Professional snagging company Sharjah ensuring your cultural emirate investment is thoroughly protected.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/contact">
