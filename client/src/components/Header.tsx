@@ -168,7 +168,7 @@ export default function Header({ isAdmin = false }: HeaderProps) {
                               className="w-full border-brand-green text-brand-green hover:bg-brand-green hover:text-white flex items-center gap-2"
                               onClick={() => {
                                 setIsMobileMenuOpen(false);
-                                window.location.href = 'https://urbangrid-snagging.replit.app';
+                                window.location.href = 'https://arban-inspect.replit.app';
                               }}
                             >
                               <Search className="h-4 w-4" />
