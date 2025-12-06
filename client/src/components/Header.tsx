@@ -106,7 +106,7 @@ export default function Header({ isAdmin = false }: HeaderProps) {
                       Admin Portal
                     </DropdownMenuItem>
                     <DropdownMenuItem 
-                      onClick={() => window.location.href = 'https://urbangrid-snagging.replit.app'}
+                      onClick={() => window.location.href = 'https://arban-inspect.replit.app'}
                       className="flex items-center gap-2 cursor-pointer"
                     >
                       <Search className="h-4 w-4 text-brand-green" />
