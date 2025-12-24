@@ -8,15 +8,15 @@ export default function SnaggingCostAbuDhabi() {
   const pricingTiers = [
     {
       type: "Studio/1BR Apartment",
-      size: "Up to 800 sq ft",
-      price: "From AED 1,200",
+      size: "Up to 700 sq ft",
+      price: "Minimum AED 700",
       duration: "2-3 hours",
       features: ["Complete snagging inspection", "MEP systems check", "Interior finishes review", "Same-day report", "Developer liaison"]
     },
     {
       type: "2-3BR Apartment",
-      size: "800-1,500 sq ft", 
-      price: "From AED 1,800",
+      size: "700-1,500 sq ft", 
+      price: "From AED 1 / Sq.ft",
       duration: "3-4 hours",
       features: ["Comprehensive snagging", "Structural assessment", "All systems testing", "Quality benchmarking", "Premium reporting"],
       popular: true
@@ -24,7 +24,7 @@ export default function SnaggingCostAbuDhabi() {
     {
       type: "Villa/Townhouse",
       size: "1,500+ sq ft",
-      price: "From AED 3,500",
+      price: "From AED 1.5 / Sq.ft",
       duration: "4-6 hours", 
       features: ["Full villa snagging", "Exterior inspection", "Pool assessment", "Smart systems check", "Luxury reporting"]
     }
@@ -49,7 +49,7 @@ export default function SnaggingCostAbuDhabi() {
                 Get clear, upfront snagging cost in Abu Dhabi. Professional property snagging services across Saadiyat Island, Yas Island, Al Reem Island with transparent pricing and no hidden fees.
               </p>
               <div className="bg-brand-green text-white p-4 rounded-lg inline-block mb-8">
-                <p className="text-lg font-semibold">From AED 1,200 | Transparent Pricing | Same-Day Reports</p>
+                <p className="text-lg font-semibold">Minimum AED 700 | From AED 1 / Sq.ft | Same-Day Reports</p>
               </div>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link href="/contact">

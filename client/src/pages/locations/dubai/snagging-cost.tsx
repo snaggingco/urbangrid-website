@@ -6,14 +6,14 @@ export default function SnaggingCostDubai() {
   const pricingTiers = [
     {
       type: "Studio/1BR Apartment",
-      size: "Up to 800 sq ft",
-      price: "From AED 1 / Sq.ft",
+      size: "Up to 700 sq ft",
+      price: "Minimum AED 700",
       duration: "2-3 hours",
       features: ["Basic snagging inspection", "MEP systems check", "Interior finishes review", "Same-day report", "Developer communication"]
     },
     {
       type: "2-3BR Apartment",
-      size: "800-1,500 sq ft", 
+      size: "700-1,500 sq ft", 
       price: "From AED 1 / Sq.ft",
       duration: "3-4 hours",
       features: ["Comprehensive snagging", "Structural assessment", "All systems testing", "Quality benchmarking", "Detailed photography"],
@@ -72,7 +72,7 @@ export default function SnaggingCostDubai() {
               Get clear, upfront pricing for professional snagging services in Dubai. No hidden fees, competitive rates, and exceptional value for comprehensive property inspections across all Dubai communities.
             </p>
             <div className="bg-brand-green text-white p-4 rounded-lg inline-block mb-8">
-              <p className="text-lg font-semibold">From AED 1 / Sq.ft | Free Quotes | Same-Day Reports</p>
+              <p className="text-lg font-semibold">Minimum AED 700 | From AED 1 / Sq.ft | Free Quotes</p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact">
