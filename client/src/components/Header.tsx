@@ -44,12 +44,12 @@ export default function Header({ isAdmin = false }: HeaderProps) {
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/">
-              <div 
-                className="text-2xl font-bold text-brand-green cursor-pointer"
+              <img 
+                src="/company-logo.png" 
+                alt="UrbanGrid Property Inspection"
+                className="h-12 lg:h-14 w-auto cursor-pointer hover:opacity-80 transition-opacity"
                 onClick={() => window.scrollTo(0, 0)}
-              >
-                UrbanGrid
-              </div>
+              />
             </Link>
           </div>
 
