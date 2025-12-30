@@ -293,7 +293,7 @@ export default function SEO({
         "name": "UrbanGrid Property Inspection",
         "alternateName": "UrbanGrid",
         "url": "https://urbangrid.ae",
-        "logo": "https://urbangrid.ae/logo.png",
+        "logo": "https://urbangrid.ae/logo.svg",
         "contactPoint": {
           "@type": "ContactPoint",
           "telephone": "+971585686852",
