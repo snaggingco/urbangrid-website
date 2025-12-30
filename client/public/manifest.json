@@ -33,9 +33,9 @@
   ],
   "screenshots": [
     {
-      "src": "/screenshot.png",
-      "sizes": "540x720",
-      "type": "image/png"
+      "src": "/og-image.jpg",
+      "sizes": "1200x630",
+      "type": "image/jpeg"
     }
   ],
   "shortcuts": [
@@ -64,13 +64,6 @@
           "type": "image/svg+xml"
         }
       ]
-    }
-  ],
-  "screenshots": [
-    {
-      "src": "/og-image.jpg",
-      "sizes": "1200x630",
-      "type": "image/jpeg"
     }
   ]
 }
