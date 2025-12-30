@@ -10,12 +10,6 @@
   "theme_color": "#064E3B",
   "icons": [
     {
-      "src": "/company-logo.png",
-      "sizes": "any",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
       "src": "/favicon.svg",
       "sizes": "any",
       "type": "image/svg+xml",
