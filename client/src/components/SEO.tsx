@@ -360,12 +360,7 @@ export default function SEO({
         ],
         "serviceType": serviceCategory,
         "category": "Property Snagging Inspection Services",
-        "url": canonical,
-        "offers": {
-          "@type": "Offer",
-          "availability": "https://schema.org/InStock",
-          "priceValidUntil": new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0]
-        }
+        "url": canonical
       };
 
       // Add FAQ schema for service pages
