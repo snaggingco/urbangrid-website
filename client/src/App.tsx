@@ -24,9 +24,6 @@ import ManageInspectors from "@/pages/admin/ManageInspectors";
 import NotFound from "@/pages/not-found";
 
 // Location Pages
-import Dubai from "@/pages/locations/Dubai";
-import AbuDhabi from "@/pages/locations/AbuDhabi";
-import Sharjah from "@/pages/locations/Sharjah";
 import Ajman from "@/pages/locations/Ajman";
 import RasAlKhaimah from "@/pages/locations/RasAlKhaimah";
 import Fujairah from "@/pages/locations/Fujairah";
@@ -130,10 +127,8 @@ function Router() {
           <Route path="/careers" component={Careers} />
           <Route path="/contact" component={Contact} />
           <Route path="/broker-referrals" component={BrokerReferrals} />
+          
           {/* Location Pages */}
-          <Route path="/locations/dubai" component={Dubai} />
-          <Route path="/locations/abu-dhabi" component={AbuDhabi} />
-          <Route path="/locations/sharjah" component={Sharjah} />
           <Route path="/locations/ajman" component={Ajman} />
           <Route path="/locations/ras-al-khaimah" component={RasAlKhaimah} />
           <Route path="/locations/fujairah" component={Fujairah} />
@@ -176,14 +171,10 @@ function Router() {
           <Route path="/locations/abu-dhabi/snagging-company" component={SnaggingCompanyAbuDhabi} />
           <Route path="/locations/sharjah/snagging-company" component={SnaggingCompanySharjah} />
 
-          {/* Location Pages */}
-          <Route path="/locations/dubai" component={Dubai} />
-          <Route path="/locations/abu-dhabi" component={AbuDhabi} />
-          <Route path="/locations/sharjah" component={Sharjah} />
-          <Route path="/locations/ajman" component={Ajman} />
-          <Route path="/locations/ras-al-khaimah" component={RasAlKhaimah} />
-          <Route path="/locations/fujairah" component={Fujairah} />
-          <Route path="/locations/umm-al-quwain" component={UmmAlQuwain} />
+          {/* Redirect Generic Location Pages to Specific Pages */}
+          <Route path="/locations/dubai" component={PropertyInspectionDubai} />
+          <Route path="/locations/abu-dhabi" component={PropertyInspectionAbuDhabi} />
+          <Route path="/locations/sharjah" component={SnaggingCompanySharjah} />
 
           {/* Admin routes - protected for authenticated admin users */}
           {isAdmin && (

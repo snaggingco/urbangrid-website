@@ -38,23 +38,6 @@ const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
     keywords: 'property inspection blog UAE, snagging tips Dubai, property market insights, inspection advice'
   },
   
-  // Location Pages
-  '/locations/dubai': {
-    title: 'Dubai Property Inspection Services - Professional Snagging | UrbanGrid',
-    description: 'Professional property inspection and snagging services in Dubai. Covering all Dubai communities with expert pre-purchase inspections, new build snagging, and villa assessments.',
-    keywords: 'Dubai property inspection, property snagging Dubai, Dubai snagging services, Dubai property assessment, snagging company dubai'
-  },
-  '/locations/abu-dhabi': {
-    title: 'Abu Dhabi Property Inspection Services - Expert Snagging | UrbanGrid',
-    description: 'Professional property inspection services in Abu Dhabi. Expert snagging for Al Reem Island, Saadiyat Island, Yas Island, and all Abu Dhabi developments.',
-    keywords: 'Abu Dhabi property inspection, property snagging Abu Dhabi, Abu Dhabi snagging services, snagging company abu dhabi'
-  },
-  '/locations/sharjah': {
-    title: 'Sharjah Property Inspection Services - Professional Snagging | UrbanGrid',
-    description: 'Expert property inspection and snagging services in Sharjah. Comprehensive property assessments for residential and commercial properties across Sharjah.',
-    keywords: 'Sharjah property inspection, property snagging Sharjah, Sharjah snagging services, snagging company sharjah'
-  },
-  
   // Snagging Company Pages
   '/locations/dubai/snagging-company': {
     title: 'Snagging Company Dubai #1 - Professional Property Snagging Services',
