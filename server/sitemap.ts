@@ -90,10 +90,10 @@ export function getSitemapUrls(baseUrl: string, blogPosts: Array<{slug: string, 
     { loc: `${baseUrl}/locations/sharjah/villa-snagging`, priority: 0.6, changefreq: 'monthly' },
     { loc: `${baseUrl}/locations/sharjah/apartment-inspection`, priority: 0.6, changefreq: 'monthly' },
 
-    // Snagging Company Pages - High Priority
-    { loc: `${baseUrl}/locations/dubai/snagging-company`, priority: 0.9, changefreq: 'monthly' },
-    { loc: `${baseUrl}/locations/abu-dhabi/snagging-company`, priority: 0.9, changefreq: 'monthly' },
-    { loc: `${baseUrl}/locations/sharjah/snagging-company`, priority: 0.9, changefreq: 'monthly' },
+    // Snagging Company Pages - Highest Priority for Target Keywords
+    { loc: `${baseUrl}/locations/dubai/snagging-company`, priority: 1.0, changefreq: 'weekly' },
+    { loc: `${baseUrl}/locations/abu-dhabi/snagging-company`, priority: 0.95, changefreq: 'weekly' },
+    { loc: `${baseUrl}/locations/sharjah/snagging-company`, priority: 0.95, changefreq: 'weekly' },
 
     // Snagging Cost Pages - High Priority for SEO
     { loc: `${baseUrl}/locations/dubai/snagging-cost`, priority: 0.9, changefreq: 'monthly' },

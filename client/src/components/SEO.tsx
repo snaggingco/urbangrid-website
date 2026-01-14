@@ -13,9 +13,9 @@ interface SEOProps {
 // SEO data for each route
 const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
   '/': {
-    title: 'UrbanGrid Property Inspection - Dubai\'s Leading Snagging Company',
-    description: 'Professional property snagging & inspection services across Dubai, Abu Dhabi, UAE. Expert pre-purchase inspections, new build snagging, villa assessments. Call +971 58 568 6852.',
-    keywords: 'UrbanGrid Property Inspection, property snagging UAE, property inspection Dubai, snagging services Abu Dhabi, pre-purchase inspection, new build snagging, villa inspection',
+    title: 'UrbanGrid Property Inspection UAE | Snagging & Inspection Services',
+    description: 'UAE\'s trusted property inspection company. Professional snagging services across Dubai, Abu Dhabi, Sharjah. RERA certified, same-day reports. Call +971 58 568 6852.',
+    keywords: 'UrbanGrid, property inspection UAE, property snagging UAE, snagging services Dubai Abu Dhabi Sharjah, pre-purchase inspection, new build snagging, villa inspection',
     ogImage: 'https://urbangrid.ae/og-image.jpg'
   },
   '/about': {
@@ -45,9 +45,9 @@ const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
   
   // Snagging Company Pages
   '/locations/dubai/snagging-company': {
-    title: 'Snagging Company Dubai #1 - Professional Property Snagging Services',
-    description: "Dubai's #1 snagging company for villa & apartment snagging across Dubai Marina, Downtown, Business Bay. Expert property snagging services. Call +971585686852.",
-    keywords: 'snagging company dubai, property snagging dubai, snagging services dubai, dubai snagging company, villa snagging dubai, apartment snagging dubai',
+    title: 'Best Snagging Company Dubai | 15,000+ Properties Inspected | UrbanGrid',
+    description: "Dubai's #1 rated snagging company with 15,000+ properties inspected. RERA certified, same-day reports, 98% satisfaction. Villa & apartment snagging from AED 1,200. Call +971585686852.",
+    keywords: 'snagging company dubai, best snagging company dubai, property snagging dubai, snagging services dubai, villa snagging dubai, apartment snagging dubai, RERA certified snagging',
     ogImage: 'https://urbangrid.ae/og-image.jpg'
   },
   '/locations/abu-dhabi/snagging-company': {

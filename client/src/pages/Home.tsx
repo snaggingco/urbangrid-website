@@ -473,6 +473,82 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Location Services Section - Key Internal Linking */}
+      <section className="py-16 lg:py-20 bg-light-grey">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl lg:text-4xl font-bold text-brand-black mb-4">
+              Snagging Services Across UAE
+            </h2>
+            <p className="text-lg text-text-grey max-w-3xl mx-auto">
+              Professional property snagging and inspection services in Dubai, Abu Dhabi, Sharjah and all Emirates
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <Card className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-brand-green">
+              <CardContent className="p-8 text-center">
+                <div className="bg-brand-green/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <i className="fas fa-building text-brand-green text-2xl"></i>
+                </div>
+                <h3 className="text-xl font-bold text-brand-black mb-3">Dubai</h3>
+                <p className="text-text-grey mb-4 text-sm">
+                  15,000+ properties inspected across Dubai Marina, Downtown, Business Bay, Palm Jumeirah and all Dubai areas.
+                </p>
+                <Link href="/locations/dubai/snagging-company">
+                  <Button className="bg-brand-green text-white hover:bg-opacity-90 w-full">
+                    Snagging Company Dubai
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-brand-green">
+              <CardContent className="p-8 text-center">
+                <div className="bg-brand-green/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <i className="fas fa-mosque text-brand-green text-2xl"></i>
+                </div>
+                <h3 className="text-xl font-bold text-brand-black mb-3">Abu Dhabi</h3>
+                <p className="text-text-grey mb-4 text-sm">
+                  Luxury property snagging on Saadiyat Island, Yas Island, Al Reem Island and all Abu Dhabi developments.
+                </p>
+                <Link href="/locations/abu-dhabi/snagging-company">
+                  <Button className="bg-brand-green text-white hover:bg-opacity-90 w-full">
+                    Snagging Company Abu Dhabi
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-brand-green">
+              <CardContent className="p-8 text-center">
+                <div className="bg-brand-green/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <i className="fas fa-home text-brand-green text-2xl"></i>
+                </div>
+                <h3 className="text-xl font-bold text-brand-black mb-3">Sharjah</h3>
+                <p className="text-text-grey mb-4 text-sm">
+                  Family community snagging services in Al Zahia, Aljada, Tilal City and all Sharjah developments.
+                </p>
+                <Link href="/locations/sharjah/snagging-company">
+                  <Button className="bg-brand-green text-white hover:bg-opacity-90 w-full">
+                    Snagging Company Sharjah
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          </div>
+          
+          <div className="text-center mt-8">
+            <p className="text-text-grey">
+              Also serving <Link href="/locations/ajman" className="text-brand-green hover:underline font-medium">Ajman</Link>, 
+              <Link href="/locations/ras-al-khaimah" className="text-brand-green hover:underline font-medium ml-1">Ras Al Khaimah</Link>, 
+              <Link href="/locations/fujairah" className="text-brand-green hover:underline font-medium ml-1">Fujairah</Link>, and 
+              <Link href="/locations/umm-al-quwain" className="text-brand-green hover:underline font-medium ml-1">Umm Al Quwain</Link>
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Banner Section */}
       <section className="py-16 lg:py-20 bg-brand-green text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
