@@ -9,6 +9,7 @@ async function getUniqueVisitorsLast24Hours(): Promise<{
   uniqueIps: string[];
   totalVisits: number;
   topPages: { path: string; count: number }[];
+  googleAdsIps: string[];
 }> {
   const twentyFourHoursAgo = new Date(Date.now() - TWENTY_FOUR_HOURS);
 
@@ -16,6 +17,16 @@ async function getUniqueVisitorsLast24Hours(): Promise<{
     .selectDistinct({ ipAddress: visitorLogs.ipAddress })
     .from(visitorLogs)
     .where(gte(visitorLogs.createdAt, twentyFourHoursAgo));
+
+  const googleAdsIpsResult = await db
+    .selectDistinct({ ipAddress: visitorLogs.ipAddress })
+    .from(visitorLogs)
+    .where(
+      and(
+        gte(visitorLogs.createdAt, twentyFourHoursAgo),
+        sql`${visitorLogs.path} LIKE '%utm_source=google%'`
+      )
+    );
 
   const totalVisitsResult = await db
     .select({ count: sql<number>`count(*)` })
@@ -46,6 +57,7 @@ async function getUniqueVisitorsLast24Hours(): Promise<{
     uniqueIps: uniqueIpsResult.map((r) => r.ipAddress),
     totalVisits: Number(totalVisitsResult[0]?.count || 0),
     topPages: topPagesResult.map((r) => ({ path: r.path, count: r.count })),
+    googleAdsIps: googleAdsIpsResult.map((r) => r.ipAddress),
   };
 }
 
@@ -58,7 +70,7 @@ async function sendVisitorReport() {
   }
 
   try {
-    const { uniqueIps, totalVisits, topPages } = await getUniqueVisitorsLast24Hours();
+    const { uniqueIps, totalVisits, topPages, googleAdsIps } = await getUniqueVisitorsLast24Hours();
 
     const now = new Date();
     const yesterday = new Date(Date.now() - TWENTY_FOUR_HOURS);
@@ -78,6 +90,13 @@ async function sendVisitorReport() {
       .map(
         (p, i) =>
           `<tr><td style="padding: 8px; border-bottom: 1px solid #eee;">${i + 1}</td><td style="padding: 8px; border-bottom: 1px solid #eee;">${p.path}</td><td style="padding: 8px; border-bottom: 1px solid #eee; text-align: center;">${p.count}</td></tr>`
+      )
+      .join("");
+
+    const googleAdsIpsHtml = googleAdsIps
+      .map(
+        (ip) =>
+          `<tr><td style="padding: 6px 12px; border-bottom: 1px solid #eee; font-family: monospace; color: #064E3B; font-weight: bold;">${ip}</td></tr>`
       )
       .join("");
 
@@ -103,14 +122,23 @@ async function sendVisitorReport() {
         <div style="padding: 20px;">
           <div style="display: flex; gap: 20px; margin-bottom: 30px;">
             <div style="flex: 1; background: #064E3B; color: white; padding: 20px; border-radius: 8px; text-align: center;">
-              <div style="font-size: 36px; font-weight: bold;">${uniqueIps.length}</div>
-              <div>Unique Visitors</div>
+              <div style="font-size: 36px; font-weight: bold;">${googleAdsIps.length}</div>
+              <div>Google Ads Visitors</div>
             </div>
             <div style="flex: 1; background: #1a1a1a; color: white; padding: 20px; border-radius: 8px; text-align: center;">
-              <div style="font-size: 36px; font-weight: bold;">${totalVisits}</div>
-              <div>Total Page Views</div>
+              <div style="font-size: 36px; font-weight: bold;">${uniqueIps.length}</div>
+              <div>Total Unique Visitors</div>
             </div>
           </div>
+
+          ${googleAdsIps.length > 0 ? `
+          <h2 style="color: #064E3B; border-bottom: 2px solid #064E3B; padding-bottom: 10px;">Google Ads Visitor IPs</h2>
+          <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; background-color: #f0fdf4;">
+            <tbody>
+              ${googleAdsIpsHtml}
+            </tbody>
+          </table>
+          ` : ''}
           
           <h2 style="color: #064E3B; border-bottom: 2px solid #064E3B; padding-bottom: 10px;">Top 10 Pages</h2>
           <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">
@@ -126,7 +154,7 @@ async function sendVisitorReport() {
             </tbody>
           </table>
           
-          <h2 style="color: #064E3B; border-bottom: 2px solid #064E3B; padding-bottom: 10px;">Unique Visitor IP Addresses (${uniqueIps.length})</h2>
+          <h2 style="color: #064E3B; border-bottom: 2px solid #064E3B; padding-bottom: 10px;">All Unique Visitor IPs (${uniqueIps.length})</h2>
           <table style="width: 100%; border-collapse: collapse;">
             <tbody>
               ${uniqueIpsHtml || '<tr><td style="padding: 10px; text-align: center;">No visitors in this period</td></tr>'}
