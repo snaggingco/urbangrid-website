@@ -1,9 +1,133 @@
+import { useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import SEO from "@/components/SEO";
 
 export default function SnaggingCompanyAbuDhabi() {
+  useEffect(() => {
+    const localBusinessSchema = {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "@id": "https://urbangrid.ae/locations/abu-dhabi/snagging-company",
+      "name": "UrbanGrid Snagging Company Abu Dhabi",
+      "description": "Abu Dhabi's premier snagging company specializing in luxury property inspections on Saadiyat Island, Yas Island, and Al Reem Island.",
+      "url": "https://urbangrid.ae/locations/abu-dhabi/snagging-company",
+      "telephone": "+971585686852",
+      "email": "info@snagging.me",
+      "priceRange": "AED 1,500 - AED 4,000",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Abu Dhabi",
+        "addressRegion": "Abu Dhabi",
+        "addressCountry": "AE"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "24.4539",
+        "longitude": "54.3773"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.9",
+        "reviewCount": "85",
+        "bestRating": "5"
+      },
+      "areaServed": [
+        "Saadiyat Island", "Yas Island", "Al Reem Island", "Al Maryah Island",
+        "Al Reef", "Al Ghadeer", "Bloom Gardens", "Corniche Area", "Al Raha Beach"
+      ]
+    };
+
+    const serviceSchema = {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Property Snagging Services Abu Dhabi",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "UrbanGrid Snagging Company Abu Dhabi"
+      },
+      "serviceType": "Property Snagging",
+      "areaServed": {
+        "@type": "City",
+        "name": "Abu Dhabi",
+        "addressCountry": "AE"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Abu Dhabi Snagging Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Luxury Property Snagging Abu Dhabi",
+              "description": "Premium snagging for high-end developments on Saadiyat and Yas Island"
+            },
+            "price": "1500",
+            "priceCurrency": "AED"
+          },
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Villa Snagging Abu Dhabi",
+              "description": "Comprehensive villa inspections in Abu Dhabi's exclusive communities"
+            },
+            "price": "3000",
+            "priceCurrency": "AED"
+          }
+        ]
+      }
+    };
+
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What areas in Abu Dhabi do you cover for snagging?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We cover all Abu Dhabi areas including Saadiyat Island, Yas Island, Al Reem Island, Al Maryah Island, Al Reef, Al Ghadeer, Bloom Gardens, Corniche Area, Al Raha Beach, Masdar City, and Khalifa City."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much does snagging cost in Abu Dhabi?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Abu Dhabi snagging prices start from AED 1,500 for apartments. Luxury villa snagging on Saadiyat and Yas Island starts from AED 3,000. All prices include comprehensive inspection and detailed digital report."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you specialize in luxury property snagging?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, UrbanGrid specializes in luxury property snagging across Abu Dhabi's premium developments including Saadiyat Island cultural district, Yas Island waterfront properties, and Al Reem Island high-rises."
+          }
+        }
+      ]
+    };
+
+    const existingSchemas = document.querySelectorAll('[data-abudhabi-snagging-schema]');
+    existingSchemas.forEach(el => el.remove());
+
+    [localBusinessSchema, serviceSchema, faqSchema].forEach((schema) => {
+      const script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.setAttribute('data-abudhabi-snagging-schema', 'true');
+      script.textContent = JSON.stringify(schema);
+      document.head.appendChild(script);
+    });
+
+    return () => {
+      const schemas = document.querySelectorAll('[data-abudhabi-snagging-schema]');
+      schemas.forEach(el => el.remove());
+    };
+  }, []);
   const services = [
     {
       title: "Luxury Property Snagging Abu Dhabi",
