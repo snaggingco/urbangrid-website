@@ -3,7 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { setupLocalAuth } from "./adminAuth";
 import { setupInspectorAuth } from "./inspectorAuth";
-import { insertBlogPostSchema, insertContactSubmissionSchema, insertInspectorSchema } from "@shared/schema";
+import { insertBlogPostSchema, insertContactSubmissionSchema, insertInspectorSchema, insertConversionLogSchema } from "@shared/schema";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
 import nodemailer from "nodemailer";
@@ -90,6 +90,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching user:", error);
       res.status(500).json({ message: "Failed to fetch user" });
+    }
+  });
+
+  // Conversion tracking
+  app.post('/api/track-conversion', async (req, res) => {
+    try {
+      const validatedData = insertConversionLogSchema.parse({
+        ...req.body,
+        ipAddress: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+      });
+      const log = await storage.logConversion(validatedData);
+      res.status(201).json(log);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid data", errors: error.errors });
+      }
+      console.error("Error tracking conversion:", error);
+      res.status(500).json({ message: "Failed to track conversion" });
     }
   });
 

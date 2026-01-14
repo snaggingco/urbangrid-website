@@ -3,6 +3,7 @@ import {
   blogPosts,
   contactSubmissions,
   inspectors,
+  conversionLogs,
   type User,
   type UpsertUser,
   type BlogPost,
@@ -12,6 +13,8 @@ import {
   type ContactSubmission,
   type InsertInspector,
   type Inspector,
+  type InsertConversionLog,
+  type ConversionLog,
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, ilike, or, sql, count } from "drizzle-orm";
@@ -60,6 +63,9 @@ export interface IStorage {
   }): Promise<Inspector[]>;
   updateInspector(id: number, inspector: Partial<InsertInspector>): Promise<Inspector | undefined>;
   deleteInspector(id: number): Promise<boolean>;
+
+  // Conversion operations
+  logConversion(log: InsertConversionLog): Promise<ConversionLog>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -314,6 +320,12 @@ export class DatabaseStorage implements IStorage {
       .where(eq(inspectors.id, id))
       .returning();
     return !!deleted;
+  }
+
+  // Conversion operations
+  async logConversion(log: InsertConversionLog): Promise<ConversionLog> {
+    const [conversionLog] = await db.insert(conversionLogs).values(log).returning();
+    return conversionLog;
   }
 }
 

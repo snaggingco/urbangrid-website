@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { trackConversion } from "@/lib/analytics";
 
 export default function FloatingButtons() {
   const [showPulse, setShowPulse] = useState(true);
@@ -45,6 +46,7 @@ export default function FloatingButtons() {
               href="https://wa.me/971585686852?text=Hello%20UrbanGrid%2C%20I%27m%20interested%20in%20your%20property%20inspection%20services.%20Please%20provide%20me%20with%20more%20information."
               target="_blank"
               rel="noopener noreferrer"
+              onClick={() => trackConversion('whatsapp_click')}
               className={`floating-button-desktop bg-green-500 hover:bg-green-600 text-white w-14 h-14 rounded-full shadow-lg transition-all duration-300 hover:scale-110 group flex items-center justify-center ${
                 showPulse ? 'animate-pulse-glow-desktop' : ''
               }`}
@@ -110,6 +112,7 @@ export default function FloatingButtons() {
                 href="https://wa.me/971585686852?text=Hello%20UrbanGrid%2C%20I%27m%20interested%20in%20your%20property%20inspection%20services.%20Please%20provide%20me%20with%20more%20information."
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => trackConversion('whatsapp_click')}
                 className="bg-green-500 hover:bg-green-600 text-white w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:scale-105 flex items-center justify-center"
                 aria-label="Contact us on WhatsApp"
               >

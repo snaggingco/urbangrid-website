@@ -1,6 +1,6 @@
 import { db } from "./db";
-import { visitorLogs } from "@shared/schema";
-import { sql, gte, and } from "drizzle-orm";
+import { visitorLogs, conversionLogs } from "@shared/schema";
+import { sql, gte, and, eq } from "drizzle-orm";
 import nodemailer from "nodemailer";
 
 const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
@@ -10,6 +10,8 @@ async function getUniqueVisitorsLast24Hours(): Promise<{
   totalVisits: number;
   topPages: { path: string; count: number }[];
   googleAdsIps: string[];
+  whatsappClicks: number;
+  whatsappAdsClicks: number;
 }> {
   const twentyFourHoursAgo = new Date(Date.now() - TWENTY_FOUR_HOURS);
 
@@ -32,6 +34,27 @@ async function getUniqueVisitorsLast24Hours(): Promise<{
     .select({ count: sql<number>`count(*)` })
     .from(visitorLogs)
     .where(gte(visitorLogs.createdAt, twentyFourHoursAgo));
+
+  const whatsappClicksResult = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(conversionLogs)
+    .where(
+      and(
+        gte(conversionLogs.createdAt, twentyFourHoursAgo),
+        eq(conversionLogs.conversionType, 'whatsapp_click')
+      )
+    );
+
+  const whatsappAdsClicksResult = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(conversionLogs)
+    .where(
+      and(
+        gte(conversionLogs.createdAt, twentyFourHoursAgo),
+        eq(conversionLogs.conversionType, 'whatsapp_click'),
+        sql`${conversionLogs.path} LIKE '%utm_source=google%'`
+      )
+    );
 
   const topPagesResult = await db
     .select({
@@ -58,6 +81,8 @@ async function getUniqueVisitorsLast24Hours(): Promise<{
     totalVisits: Number(totalVisitsResult[0]?.count || 0),
     topPages: topPagesResult.map((r) => ({ path: r.path, count: r.count })),
     googleAdsIps: googleAdsIpsResult.map((r) => r.ipAddress),
+    whatsappClicks: Number(whatsappClicksResult[0]?.count || 0),
+    whatsappAdsClicks: Number(whatsappAdsClicksResult[0]?.count || 0),
   };
 }
 
@@ -70,7 +95,7 @@ async function sendVisitorReport() {
   }
 
   try {
-    const { uniqueIps, totalVisits, topPages, googleAdsIps } = await getUniqueVisitorsLast24Hours();
+    const { uniqueIps, totalVisits, topPages, googleAdsIps, whatsappClicks, whatsappAdsClicks } = await getUniqueVisitorsLast24Hours();
 
     const now = new Date();
     const yesterday = new Date(Date.now() - TWENTY_FOUR_HOURS);
@@ -120,14 +145,23 @@ async function sendVisitorReport() {
         </div>
         
         <div style="padding: 20px;">
-          <div style="display: flex; gap: 20px; margin-bottom: 30px;">
-            <div style="flex: 1; background: #064E3B; color: white; padding: 20px; border-radius: 8px; text-align: center;">
-              <div style="font-size: 36px; font-weight: bold;">${googleAdsIps.length}</div>
-              <div>Google Ads Visitors</div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
+            <div style="background: #25D366; color: white; padding: 20px; border-radius: 8px; text-align: center;">
+              <div style="font-size: 36px; font-weight: bold;">${whatsappClicks}</div>
+              <div style="font-size: 14px;">WhatsApp Clicks</div>
+              <div style="font-size: 11px; margin-top: 5px; opacity: 0.9;">(${whatsappAdsClicks} from Google Ads)</div>
             </div>
-            <div style="flex: 1; background: #1a1a1a; color: white; padding: 20px; border-radius: 8px; text-align: center;">
+            <div style="background: #4285F4; color: white; padding: 20px; border-radius: 8px; text-align: center;">
+              <div style="font-size: 36px; font-weight: bold;">${googleAdsIps.length}</div>
+              <div style="font-size: 14px;">Ads Visitors (IPs)</div>
+            </div>
+            <div style="background: #1a1a1a; color: white; padding: 20px; border-radius: 8px; text-align: center;">
               <div style="font-size: 36px; font-weight: bold;">${uniqueIps.length}</div>
-              <div>Total Unique Visitors</div>
+              <div style="font-size: 14px;">Total Visitors</div>
+            </div>
+            <div style="background: #064E3B; color: white; padding: 20px; border-radius: 8px; text-align: center;">
+              <div style="font-size: 36px; font-weight: bold;">${totalVisits}</div>
+              <div style="font-size: 14px;">Total Page Views</div>
             </div>
           </div>
 

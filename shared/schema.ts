@@ -90,6 +90,15 @@ export const visitorLogs = pgTable("visitor_logs", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+// WhatsApp tracking table
+export const conversionLogs = pgTable("conversion_logs", {
+  id: serial("id").primaryKey(),
+  conversionType: varchar("conversion_type", { length: 50 }).notNull(), // 'whatsapp_click', 'call_click', etc.
+  ipAddress: varchar("ip_address", { length: 45 }),
+  path: varchar("path", { length: 500 }),
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
 // Relations
 export const userRelations = relations(users, ({ many }) => ({
   blogPosts: many(blogPosts),
@@ -133,6 +142,11 @@ export const insertInspectorSchema = createInsertSchema(inspectors).omit({
   updatedAt: true,
 });
 
+export const insertConversionLogSchema = createInsertSchema(conversionLogs).omit({
+  id: true,
+  createdAt: true,
+});
+
 // Types
 export type UpsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
@@ -145,3 +159,5 @@ export type InsertVisitorLog = z.infer<typeof insertVisitorLogSchema>;
 export type VisitorLog = typeof visitorLogs.$inferSelect;
 export type InsertInspector = z.infer<typeof insertInspectorSchema>;
 export type Inspector = typeof inspectors.$inferSelect;
+export type InsertConversionLog = z.infer<typeof insertConversionLogSchema>;
+export type ConversionLog = typeof conversionLogs.$inferSelect;
