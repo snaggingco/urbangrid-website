@@ -191,7 +191,7 @@ export default function Blog() {
                       
                       <h2 className="text-xl font-semibold text-brand-black mb-3 hover:text-brand-green transition-colors">
                         <Link href={`/blog/${post.slug}`}>
-                          <a>{post.title}</a>
+                          {post.title}
                         </Link>
                       </h2>
                       
@@ -203,10 +203,8 @@ export default function Blog() {
                       
                       <div className="flex items-center justify-between text-sm text-gray-500">
                         <span>{formatDate(post.createdAt!.toString())}</span>
-                        <Link href={`/blog/${post.slug}`}>
-                          <a className="text-brand-green font-medium hover:underline">
-                            Read More →
-                          </a>
+                        <Link href={`/blog/${post.slug}`} className="text-brand-green font-medium hover:underline">
+                          Read More →
                         </Link>
                       </div>
                       
