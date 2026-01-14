@@ -130,49 +130,6 @@ export default function Blog() {
         </div>
       </section>
 
-      {/* Featured Services Section */}
-      <section className="py-12 bg-light-grey">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-2xl lg:text-3xl font-bold text-brand-black mb-6">
-              Professional Property Inspection Services
-            </h2>
-            <p className="text-text-grey mb-8">
-              Discover our comprehensive <Link href="/locations/dubai/property-inspection" className="text-brand-green hover:underline font-medium">property inspection dubai</Link> services and professional <Link href="/locations/dubai/snagging-company" className="text-brand-green hover:underline font-medium">snagging company dubai</Link> expertise across all Emirates
-            </p>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <Link href="/locations/dubai/snagging-company">
-                <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-                  <CardContent className="p-6 text-center">
-                    <i className="fas fa-home text-brand-green text-3xl mb-4"></i>
-                    <h3 className="font-semibold text-brand-black mb-2">Snagging Company Dubai</h3>
-                    <p className="text-sm text-text-grey">Professional Snagging Services - AED 1/Sq.ft</p>
-                  </CardContent>
-                </Card>
-              </Link>
-              <Link href="/locations/abu-dhabi/property-inspection">
-                <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-                  <CardContent className="p-6 text-center">
-                    <i className="fas fa-tools text-brand-green text-3xl mb-4"></i>
-                    <h3 className="font-semibold text-brand-black mb-2">Property Inspection Abu Dhabi</h3>
-                    <p className="text-sm text-text-grey">Expert Inspection Services - AED 1/Sq.ft</p>
-                  </CardContent>
-                </Card>
-              </Link>
-              <Link href="/locations/sharjah/snagging-company">
-                <Card className="hover:shadow-lg transition-shadow cursor-pointer">
-                  <CardContent className="p-6 text-center">
-                    <i className="fas fa-map-marker-alt text-brand-green text-3xl mb-4"></i>
-                    <h3 className="font-semibold text-brand-black mb-2">Snagging Company Sharjah</h3>
-                    <p className="text-sm text-text-grey">Leading Property Experts Sharjah</p>
-                  </CardContent>
-                </Card>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Blog Posts */}
       <section className="py-16 lg:py-20 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
