@@ -1,9 +1,115 @@
+import { useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";  
 import { Link } from "wouter";
 import SEO from "@/components/SEO";
 
 export default function SnaggingCompanySharjah() {
+  useEffect(() => {
+    const localBusinessSchema = {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "@id": "https://urbangrid.ae/locations/sharjah/snagging-company",
+      "name": "UrbanGrid Snagging Company Sharjah",
+      "description": "Sharjah's most trusted snagging company providing expert property inspections in Al Zahia, Aljada, and coastal developments.",
+      "url": "https://urbangrid.ae/locations/sharjah/snagging-company",
+      "telephone": "+971585686852",
+      "email": "info@snagging.me",
+      "priceRange": "AED 1,200 - AED 3,500",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Sharjah",
+        "addressRegion": "Sharjah",
+        "addressCountry": "AE"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "25.3463",
+        "longitude": "55.4209"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "reviewCount": "45",
+        "bestRating": "5"
+      },
+      "areaServed": [
+        "Al Zahia", "Aljada", "Tilal City", "Sharjah Waterfront",
+        "Al Majaz", "Al Qasimia", "University City", "Al Khan", "Kalba"
+      ]
+    };
+
+    const serviceSchema = {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "name": "Property Snagging Services Sharjah",
+      "provider": {
+        "@type": "LocalBusiness",
+        "name": "UrbanGrid Snagging Company Sharjah"
+      },
+      "serviceType": "Property Snagging",
+      "areaServed": {
+        "@type": "City",
+        "name": "Sharjah",
+        "addressCountry": "AE"
+      },
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Sharjah Snagging Services",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "Service",
+              "name": "Family Community Snagging Sharjah",
+              "description": "Specialized snagging for Sharjah's family-oriented developments"
+            },
+            "price": "1200",
+            "priceCurrency": "AED"
+          }
+        ]
+      }
+    };
+
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Which areas in Sharjah do you cover for property snagging?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We provide snagging services across all Sharjah developments including Al Zahia, Aljada, Tilal City, Sharjah Waterfront, Al Majaz, Al Qasimia, University City, Al Khan, Khorfakkan, and Kalba."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is the cost of snagging in Sharjah?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sharjah snagging services start from AED 1,200 for residential units. We offer competitive pricing for family communities and cultural district properties."
+          }
+        }
+      ]
+    };
+
+    const existingSchemas = document.querySelectorAll('[data-sharjah-snagging-schema]');
+    existingSchemas.forEach(el => el.remove());
+
+    [localBusinessSchema, serviceSchema, faqSchema].forEach((schema) => {
+      const script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.setAttribute('data-sharjah-snagging-schema', 'true');
+      script.textContent = JSON.stringify(schema);
+      document.head.appendChild(script);
+    });
+
+    return () => {
+      const schemas = document.querySelectorAll('[data-sharjah-snagging-schema]');
+      schemas.forEach(el => el.remove());
+    };
+  }, []);
   const services = [
     {
       title: "Family Community Snagging",
