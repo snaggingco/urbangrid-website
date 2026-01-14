@@ -3,6 +3,7 @@ import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { db } from "./db";
 import { visitorLogs } from "@shared/schema";
+import { startVisitorReportScheduler } from "./visitorReport";
 
 const app = express();
 
@@ -116,5 +117,8 @@ app.use((req, res, next) => {
     reusePort: true,
   }, () => {
     log(`serving on port ${port}`);
+    
+    // Start the daily visitor report scheduler
+    startVisitorReportScheduler();
   });
 })();
