@@ -1,0 +1,50 @@
+npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+npm warn deprecated @esbuild-kit/esm-loader@2.6.5: Merged into tsx: https://tsx.is
+npm warn deprecated @esbuild-kit/core-utils@3.3.2: Merged into tsx: https://tsx.is
+
+added 836 packages, and audited 837 packages in 12s
+
+184 packages are looking for funding
+  run `npm fund` for details
+
+20 vulnerabilities (4 low, 9 moderate, 7 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+npm notice
+npm notice New major version of npm available! 10.9.3 -> 11.7.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.7.0
+npm notice To update run: npm install -g npm@11.7.0
+npm notice
+
+> rest-express@1.0.0 build
+> vite build && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist
+
+vite v5.4.19 building for production...
+transforming...
+Browserslist: browsers data (caniuse-lite) is 15 months old. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+✓ 2203 modules transformed.
+rendering chunks...
+computing gzip size...
+../dist/public/index.html                            7.98 kB │ gzip:   2.53 kB
+../dist/public/assets/internachi2-CW6M2-V2.webp    149.77 kB
+../dist/public/assets/internachi-urRAxLMC.webp     216.76 kB
+../dist/public/assets/index-DtKvebxZ.css           108.95 kB │ gzip:  17.09 kB
+../dist/public/assets/index-OHnG1hoE.js          1,437.96 kB │ gzip: 371.77 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 6.43s
+
+  dist/index.js  53.6kb
+
+⚡ Done in 5ms
