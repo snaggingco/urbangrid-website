@@ -1,8 +1,13 @@
-# UrbanGrid Property Inspection Website
+# UrbanGrid Group Website
 
 ## Overview
 
-UrbanGrid is a modern, fully responsive property inspection and snagging company website built for the UAE market. The application provides professional property inspection services across Dubai, Abu Dhabi, Sharjah, and other Emirates. It features a comprehensive content management system for blog posts, service information, and client inquiries, designed to establish trust and authority in the property inspection industry.
+UrbanGrid Group is a diversified UAE property conglomerate website with three divisions:
+1. **UrbanGrid Advanced** (`/advanced-systems`) - Swimming Pool Covers, PDLC Smart Films, Movable Pool Floors
+2. **UrbanGrid Realty** (`/realty`) - Property Brokerage & Management
+3. **UrbanGrid Consulting** (`/consulting`) - Property Snagging & Technical Inspection Services (original business)
+
+The homepage (`/`) serves as a corporate Group portal linking to the three divisions. The original snagging-focused homepage is preserved at `/snagging`. All existing SEO pages, blog posts, and location pages remain at their original URLs to preserve search rankings.
 
 ## User Preferences
 

@@ -1,10 +1,16 @@
 import { Link } from "wouter";
 
 export default function Footer() {
+  const divisions = [
+    { name: 'UrbanGrid Advanced', href: '/advanced-systems' },
+    { name: 'UrbanGrid Realty', href: '/realty' },
+    { name: 'UrbanGrid Consulting', href: '/consulting' },
+  ];
+
   const quickLinks = [
     { name: 'Home', href: '/' },
     { name: 'About Us', href: '/about' },
-    { name: 'Our Services', href: '/services' },
+    { name: 'All Services', href: '/services' },
     { name: 'Blog', href: '/blog' },
     { name: 'Contact', href: '/contact' },
   ];
@@ -24,9 +30,10 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div>
-            <div className="text-2xl font-bold text-white mb-4">UrbanGrid</div>
+            <div className="text-2xl font-bold text-white mb-1">UrbanGrid</div>
+            <div className="text-xs text-gray-400 mb-4">Advanced Systems &bull; Realty &bull; Consulting</div>
             <p className="text-gray-300 mb-4">
-              Professional property inspection and snagging services across the UAE. Your trusted partner for quality assurance and peace of mind.
+              A diversified property group offering advanced technology solutions, real estate services, and professional property inspection across the UAE.
             </p>
             <div className="flex space-x-4">
               <a 
@@ -53,45 +60,31 @@ export default function Footer() {
             </div>
           </div>
           
-          {/* Quick Links */}
+          {/* Divisions */}
           <div>
+            <h3 className="text-lg font-semibold mb-4">Our Divisions</h3>
+            <ul className="space-y-2 mb-6">
+              {divisions.map((division) => (
+                <li key={division.name}>
+                  <Link href={division.href}>
+                    <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">
+                      {division.name}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              <li>
-                <Link href="/">
-                  <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">
-                    Property Inspection UAE
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/about">
-                  <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">
-                    About Snagging Company
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/locations/dubai/snagging-company">
-                  <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">
-                    Snagging Company Dubai
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/blog">
-                  <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">
-                    Property Inspection Blog
-                  </span>
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact">
-                  <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">
-                    Contact Snagging Experts
-                  </span>
-                </Link>
-              </li>
+              {quickLinks.map((link) => (
+                <li key={link.name}>
+                  <Link href={link.href}>
+                    <span className="text-gray-300 hover:text-white transition-colors cursor-pointer">
+                      {link.name}
+                    </span>
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
           
@@ -165,7 +158,7 @@ export default function Footer() {
         {/* Copyright */}
         <div className="border-t border-gray-700 mt-8 pt-8 text-center">
           <p className="text-gray-300 text-sm">
-            © 2024 UrbanGrid Property Inspection Services. All rights reserved.
+            © 2024 UrbanGrid Group. All rights reserved. Advanced Systems &bull; Realty &bull; Consulting
           </p>
         </div>
       </div>
