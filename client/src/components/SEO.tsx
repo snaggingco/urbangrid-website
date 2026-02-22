@@ -13,33 +13,9 @@ interface SEOProps {
 // SEO data for each route
 const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
   '/': {
-    title: 'UrbanGrid Group - Advanced Systems, Realty & Consulting | UAE',
-    description: 'UrbanGrid Group - UAE\'s diversified property conglomerate. Advanced technology systems (pool covers, smart films), real estate brokerage & management, and certified property inspection & snagging services across Dubai, Abu Dhabi, Sharjah. Call +971 58 568 6852.',
-    keywords: 'UrbanGrid Group, swimming pool covers UAE, PDLC smart film Dubai, movable pool floor, real estate brokerage Dubai, property management UAE, property snagging Dubai, property inspection UAE',
-    ogImage: 'https://urbangrid.ae/og-image.jpg'
-  },
-  '/advanced-systems': {
-    title: 'UrbanGrid Advanced - Swimming Pool Covers, PDLC Smart Films, Movable Pool Floors | UAE',
-    description: 'Cutting-edge architectural technology solutions for luxury properties in UAE. Automatic swimming pool covers, PDLC switchable smart films, and hydraulic movable pool floors. Call +971 58 568 6852.',
-    keywords: 'swimming pool covers Dubai, automatic pool covers UAE, PDLC smart film Dubai, switchable glass film UAE, movable pool floor Dubai, hydraulic pool floor UAE, smart glass Dubai, pool safety covers',
-    ogImage: 'https://urbangrid.ae/og-image.jpg'
-  },
-  '/realty': {
-    title: 'UrbanGrid Realty - Property Brokerage & Management Services | Dubai UAE',
-    description: 'Full-spectrum real estate services in Dubai, Abu Dhabi & UAE. Property brokerage, asset management, and investment advisory backed by technical due diligence expertise. Call +971 58 568 6852.',
-    keywords: 'real estate brokerage Dubai, property management UAE, property investment Dubai, real estate agent Dubai, property for sale Dubai, property management Abu Dhabi, investment advisory UAE',
-    ogImage: 'https://urbangrid.ae/og-image.jpg'
-  },
-  '/consulting': {
-    title: 'UrbanGrid Consulting - #1 Snagging Company Dubai | Property Inspection UAE',
-    description: 'Dubai\'s leading snagging company & property inspection experts. NFPA, ASHRAE & ASTM certified. 40,000+ properties inspected across Dubai, Abu Dhabi, Sharjah. Call +971 58 568 6852.',
-    keywords: 'snagging company dubai, property inspection UAE, property snagging Dubai, snagging services Abu Dhabi Sharjah, RERA certified snagging, pre-purchase inspection, new build snagging',
-    ogImage: 'https://urbangrid.ae/og-image.jpg'
-  },
-  '/snagging': {
-    title: 'Snagging Company Dubai #1 - Professional Property Snagging Services | UrbanGrid',
-    description: 'NFPA, ASHRAE & ASTM certified snagging company UAE providing professional property inspection services across Dubai, Abu Dhabi, Sharjah. Following international standards including NFPA 101, ASHRAE 180, ASTM E2018. Call +971585686852.',
-    keywords: 'property snagging dubai, property inspection UAE, NFPA standards, ASHRAE certified, ASTM E2018, snagging services, pre-purchase inspection, new build snagging, villa inspection, apartment snagging',
+    title: 'UrbanGrid Property Inspection UAE | Snagging & Inspection Services',
+    description: 'UAE\'s trusted property inspection company. Professional snagging services across Dubai, Abu Dhabi, Sharjah. RERA certified, same-day reports. Call +971 58 568 6852.',
+    keywords: 'UrbanGrid, property inspection UAE, property snagging UAE, snagging services Dubai Abu Dhabi Sharjah, pre-purchase inspection, new build snagging, villa inspection',
     ogImage: 'https://urbangrid.ae/og-image.jpg'
   },
   '/about': {
@@ -315,7 +291,7 @@ export default function SEO({
       const organizationSchema = {
         "@context": "https://schema.org",
         "@type": "Organization",
-        "name": "UrbanGrid Group",
+        "name": "UrbanGrid Property Inspection",
         "alternateName": "UrbanGrid",
         "url": "https://urbangrid.ae",
         "logo": "https://urbangrid.ae/logo.svg",
@@ -334,7 +310,7 @@ export default function SEO({
         "sameAs": [
           "https://urbangrid.ae"
         ],
-        "description": "UAE's diversified property group offering advanced technology systems, real estate services, and professional property inspection",
+        "description": "Professional property inspection and snagging services across UAE",
         "aggregateRating": {
           "@type": "AggregateRating",
           "ratingValue": "4.9",

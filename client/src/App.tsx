@@ -7,11 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useEffect } from "react";
 
 // Pages
-import GroupHome from "@/pages/GroupHome";
 import Home from "@/pages/Home";
-import AdvancedSystems from "@/pages/AdvancedSystems";
-import Realty from "@/pages/Realty";
-import Consulting from "@/pages/Consulting";
 import About from "@/pages/About";
 import Services from "@/pages/Services";
 import ServiceDetail from "@/pages/ServiceDetail";
@@ -98,11 +94,7 @@ function Router() {
       <Header isAdmin={isAdmin} />
       <main>
         <Switch>
-          <Route path="/" component={GroupHome} />
-          <Route path="/consulting" component={Consulting} />
-          <Route path="/advanced-systems" component={AdvancedSystems} />
-          <Route path="/realty" component={Realty} />
-          <Route path="/snagging" component={Home} />
+          <Route path="/" component={Home} />
           <Route path="/about" component={About} />
           <Route path="/services" component={Services} />
           {/* Service Detail Routes - All 16 Services */}

@@ -25,11 +25,11 @@ export default function Header({ isAdmin = false }: HeaderProps) {
 
   const navigation = [
     { name: 'Home', href: '/' },
-    { name: 'Advanced Systems', href: '/advanced-systems' },
-    { name: 'Realty', href: '/realty' },
-    { name: 'Consulting', href: '/consulting' },
-    { name: 'Blog', href: '/blog' },
     { name: 'About', href: '/about' },
+    { name: 'Services', href: '/services' },
+    { name: 'Blog', href: '/blog' },
+    { name: 'Broker Referrals', href: '/broker-referrals' },
+    { name: 'Career', href: '/careers' },
     { name: 'Contact', href: '/contact' },
   ];
 
@@ -48,7 +48,7 @@ export default function Header({ isAdmin = false }: HeaderProps) {
                 className="text-2xl font-bold text-brand-green cursor-pointer"
                 onClick={() => window.scrollTo(0, 0)}
               >
-                UrbanGrid<span className="text-xs font-normal text-text-grey ml-1 hidden sm:inline">Group</span>
+                UrbanGrid
               </div>
             </Link>
           </div>

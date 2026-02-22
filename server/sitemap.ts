@@ -35,10 +35,6 @@ export function getSitemapUrls(baseUrl: string, blogPosts: Array<{slug: string, 
   const urls: SitemapUrl[] = [
     // Core pages
     { loc: `${baseUrl}/`, priority: 1.0, changefreq: 'weekly' },
-    { loc: `${baseUrl}/advanced-systems`, priority: 0.95, changefreq: 'weekly' },
-    { loc: `${baseUrl}/realty`, priority: 0.95, changefreq: 'weekly' },
-    { loc: `${baseUrl}/consulting`, priority: 0.95, changefreq: 'weekly' },
-    { loc: `${baseUrl}/snagging`, priority: 0.9, changefreq: 'weekly' },
     { loc: `${baseUrl}/about`, priority: 0.9, changefreq: 'monthly' },
     { loc: `${baseUrl}/services`, priority: 0.9, changefreq: 'weekly' },
     { loc: `${baseUrl}/contact`, priority: 0.8, changefreq: 'monthly' },

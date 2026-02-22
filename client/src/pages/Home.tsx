@@ -4,7 +4,6 @@ import ConsultationForm from "@/components/ConsultationForm";
 import ScrollTriggeredForm from "@/components/ScrollTriggeredForm";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import SEO from "@/components/SEO";
 import internachi1 from "@assets/internachi.webp";
 import internachi2 from "@assets/internachi2.webp";
 
@@ -169,7 +168,6 @@ export default function Home() {
 
   return (
     <>
-      <SEO />
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center bg-gray-900 mt-8 lg:mt-12">
         {/* Background Image with Overlay */}
