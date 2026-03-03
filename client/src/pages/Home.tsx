@@ -7,6 +7,62 @@ import { Card, CardContent } from "@/components/ui/card";
 import internachi1 from "@assets/internachi.webp";
 import internachi2 from "@assets/internachi2.webp";
 
+import { 
+  ShieldCheck, 
+  Search, 
+  Home as HomeIcon, 
+  ClipboardCheck, 
+  Building2, 
+  Hammer, 
+  Thermometer, 
+  ArrowRight
+} from "lucide-react";
+
+const homeServices = [
+  {
+    title: "New Build Snagging",
+    description: "Comprehensive inspection for new properties to identify construction defects before handover.",
+    icon: <ShieldCheck className="w-8 h-8 text-brand-green" />,
+    link: "/services/property-snagging/new-build-snagging",
+    category: "Property Snagging"
+  },
+  {
+    title: "Secondary Market Inspection",
+    description: "Detailed pre-purchase survey for existing properties to uncover hidden issues and structural concerns.",
+    icon: <Search className="w-8 h-8 text-brand-green" />,
+    link: "/services/property-snagging/secondary-market",
+    category: "Property Snagging"
+  },
+  {
+    title: "Thermal Imaging",
+    description: "Non-invasive infrared technology to detect heat loss, moisture, and electrical hotspots.",
+    icon: <Thermometer className="w-8 h-8 text-brand-green" />,
+    link: "/services/technical-inspections/thermographic-survey",
+    category: "Technical"
+  },
+  {
+    title: "DLP Snagging",
+    description: "End of Defect Liability Period inspection to ensure all warrantied issues are resolved.",
+    icon: <ClipboardCheck className="w-8 h-8 text-brand-green" />,
+    link: "/services/property-snagging/dlp-snagging",
+    category: "Property Snagging"
+  },
+  {
+    title: "RERA Reserve Fund Study",
+    description: "Specialized financial and technical audits for owners associations and developers.",
+    icon: <Building2 className="w-8 h-8 text-brand-green" />,
+    link: "/services/rera-services/reserve-fund-study",
+    category: "RERA"
+  },
+  {
+    title: "Post-Renovation Audit",
+    description: "Quality assurance inspection after construction or remodeling works are completed.",
+    icon: <Hammer className="w-8 h-8 text-brand-green" />,
+    link: "/services/property-snagging/post-renovation-inspection",
+    category: "Property Snagging"
+  }
+];
+
 export default function Home() {
   const [isVisible, setIsVisible] = useState(false);
   const [activeTab, setActiveTab] = useState<keyof typeof serviceCategories>('property-snagging');
@@ -234,65 +290,38 @@ export default function Home() {
       {/* Free Consultation Form */}
       <ConsultationForm />
 
-      {/* Services Teaser Section */}
-      <section className="py-16 lg:py-20 bg-light-grey">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-brand-black mb-4">
-              Our Professional Services
-            </h2>
-            <p className="text-lg text-text-grey max-w-2xl mx-auto">
-              Comprehensive property inspection and snagging services across the UAE, following NFPA, ASHRAE, and ASTM international standards to ensure your investment meets the highest quality benchmarks.
-            </p>
-          </div>
-          
-          {/* Service Tabs */}
-          <div className="mb-8">
-            <div className="flex flex-wrap justify-center gap-2 bg-white rounded-lg p-2 shadow-sm">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.key}
-                  onClick={() => setActiveTab(tab.key as keyof typeof serviceCategories)}
-                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200 ${
-                    activeTab === tab.key
-                      ? 'bg-brand-green text-white'
-                      : 'text-text-grey hover:text-brand-green hover:bg-gray-50'
-                  }`}
-                >
-                  {tab.label}
-                </button>
-              ))}
-            </div>
-          </div>
-          
-          {/* Active Tab Description */}
-          <div className="text-center mb-8">
-            <h3 className="text-2xl font-semibold text-brand-black mb-2">
-              {serviceCategories[activeTab].title}
-            </h3>
-            <p className="text-text-grey">
-              {serviceCategories[activeTab].subtitle}
+      {/* Stylish Services Section */}
+      <section className="py-24 bg-slate-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-sm font-bold tracking-widest text-brand-green uppercase mb-4">Our Expertise</h2>
+            <h3 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">Premium Inspection Services</h3>
+            <p className="text-lg text-slate-600">
+              We combine international engineering standards with advanced technology to protect your UAE property investments.
             </p>
           </div>
 
-          {/* Services Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {currentServices.map((service) => (
-              <Card key={service.id} className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                <CardContent className="p-8 text-center">
-                  <div className="service-icon">
-                    <i className={service.icon}></i>
+            {homeServices.map((service, index) => (
+              <Link key={index} href={service.link}>
+                <div className="group relative bg-white p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-500 border border-slate-100 overflow-hidden cursor-pointer h-full">
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-brand-green/5 rounded-bl-full transform translate-x-8 -translate-y-8 group-hover:translate-x-4 group-hover:-translate-y-4 transition-transform duration-500"></div>
+                  
+                  <div className="mb-6 inline-flex p-4 rounded-xl bg-brand-green/10 group-hover:bg-brand-green group-hover:scale-110 transition-all duration-500 transform">
+                    <div className="group-hover:text-white transition-colors duration-500">
+                      {service.icon}
+                    </div>
                   </div>
-                  <h3 className="text-xl font-semibold text-brand-black mb-3">{service.title}</h3>
-                  <p className="text-text-grey mb-6 leading-relaxed">{service.description}</p>
-                  <Link href={`/services/${serviceCategories[activeTab].categorySlug}/${service.slug}`}>
-                    <span className="inline-flex items-center text-brand-green font-medium hover:underline transition-colors cursor-pointer">
-                      Learn More About {service.title}
-                      <i className="fas fa-arrow-right ml-2 text-sm"></i>
-                    </span>
-                  </Link>
-                </CardContent>
-              </Card>
+
+                  <span className="block text-xs font-bold text-brand-green uppercase tracking-wider mb-2">{service.category}</span>
+                  <h4 className="text-2xl font-bold text-slate-900 mb-4 group-hover:text-brand-green transition-colors">{service.title}</h4>
+                  <p className="text-slate-600 leading-relaxed mb-6">{service.description}</p>
+                  
+                  <div className="flex items-center text-brand-green font-bold text-sm uppercase tracking-tight group-hover:gap-2 transition-all">
+                    Learn More <ArrowRight className="w-4 h-4 ml-1 opacity-0 group-hover:opacity-100 transition-all" />
+                  </div>
+                </div>
+              </Link>
             ))}
           </div>
         </div>
