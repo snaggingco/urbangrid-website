@@ -32,41 +32,6 @@ import Dubai from "@/pages/locations/Dubai";
 import AbuDhabi from "@/pages/locations/AbuDhabi";
 import Sharjah from "@/pages/locations/Sharjah";
 
-// Dubai Location + Service Pages
-import DubaiNewBuildSnagging from "@/pages/locations/dubai/new-build-snagging";
-import DubaiVillaSnagging from "@/pages/locations/dubai/villa-snagging";
-import DubaiApartmentInspection from "@/pages/locations/dubai/apartment-inspection";
-import DubaiDLPSnagging from "@/pages/locations/dubai/dlp-snagging";
-
-// Abu Dhabi Location + Service Pages
-import AbuDhabiNewBuildSnagging from "@/pages/locations/abu-dhabi/new-build-snagging";
-import AbuDhabiVillaSnagging from "@/pages/locations/abu-dhabi/villa-snagging";
-import AbuDhabiApartmentInspection from "@/pages/locations/abu-dhabi/apartment-inspection";
-import AbuDhabiSnaggingCost from "@/pages/locations/abu-dhabi/snagging-cost";
-
-// Sharjah Location + Service Pages
-import SharjahNewBuildSnagging from "@/pages/locations/sharjah/new-build-snagging";
-import SharjahVillaSnagging from "@/pages/locations/sharjah/villa-snagging";
-import SharjahApartmentInspection from "@/pages/locations/sharjah/apartment-inspection";
-import SharjahSnaggingCost from "@/pages/locations/sharjah/snagging-cost";
-
-// Dubai High-Priority SEO Pages
-import PropertySnaggingDubai from "@/pages/locations/dubai/property-snagging";
-import SnaggingCostDubai from "@/pages/locations/dubai/snagging-cost";
-import PropertySnaggingServicesDubai from "@/pages/locations/dubai/property-snagging-services";
-import PrePurchaseInspectionDubai from "@/pages/locations/dubai/pre-purchase-inspection";
-
-// Abu Dhabi High-Priority SEO Pages
-import PropertyInspectionAbuDhabi from "@/pages/locations/abu-dhabi/property-inspection";
-import PropertyInspectionCompaniesAbuDhabi from "@/pages/locations/abu-dhabi/property-inspection-companies";
-import PropertyInspectionDubai from "@/pages/locations/dubai/property-inspection";
-import PropertyInspectionCompaniesDubai from "@/pages/locations/dubai/property-inspection-companies";
-
-// New Snagging Company Pages
-import SnaggingCompanyDubai from "@/pages/locations/dubai/snagging-company";
-import SnaggingCompanyAbuDhabi from "@/pages/locations/abu-dhabi/snagging-company";
-import SnaggingCompanySharjah from "@/pages/locations/sharjah/snagging-company";
-
 // Components
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -132,52 +97,23 @@ function Router() {
           <Route path="/broker-referrals" component={BrokerReferrals} />
           
           {/* Location Pages */}
+          <Route path="/locations/dubai" component={Dubai} />
+          <Route path="/locations/abu-dhabi" component={AbuDhabi} />
+          <Route path="/locations/sharjah" component={Sharjah} />
           <Route path="/locations/ajman" component={Ajman} />
           <Route path="/locations/ras-al-khaimah" component={RasAlKhaimah} />
           <Route path="/locations/fujairah" component={Fujairah} />
           <Route path="/locations/umm-al-quwain" component={UmmAlQuwain} />
 
-          {/* Dubai Location + Service Pages */}
-          <Route path="/locations/dubai/new-build-snagging" component={DubaiNewBuildSnagging} />
-          <Route path="/locations/dubai/villa-snagging" component={DubaiVillaSnagging} />
-          <Route path="/locations/dubai/apartment-inspection" component={DubaiApartmentInspection} />
-          <Route path="/locations/dubai/dlp-snagging" component={DubaiDLPSnagging} />
-
-          {/* Abu Dhabi Location + Service Pages */}
-          <Route path="/locations/abu-dhabi/new-build-snagging" component={AbuDhabiNewBuildSnagging} />
-          <Route path="/locations/abu-dhabi/villa-snagging" component={AbuDhabiVillaSnagging} />
-          <Route path="/locations/abu-dhabi/apartment-inspection" component={AbuDhabiApartmentInspection} />
-
-          {/* Sharjah Location + Service Pages */}
-          <Route path="/locations/sharjah/new-build-snagging" component={SharjahNewBuildSnagging} />
-          <Route path="/locations/sharjah/villa-snagging" component={SharjahVillaSnagging} />
-          <Route path="/locations/sharjah/apartment-inspection" component={SharjahApartmentInspection} />
-
-          {/* High-Priority SEO Pages - Dubai */}
-          <Route path="/locations/dubai/property-snagging" component={PropertySnaggingDubai} />
-          <Route path="/locations/dubai/snagging-cost" component={SnaggingCostDubai} />
-        <Route path="/locations/abu-dhabi/snagging-cost" component={AbuDhabiSnaggingCost} />
-        <Route path="/locations/sharjah/snagging-cost" component={SharjahSnaggingCost} />
-          <Route path="/locations/dubai/property-snagging-services" component={PropertySnaggingServicesDubai} />
-          <Route path="/locations/dubai/pre-purchase-inspection" component={PrePurchaseInspectionDubai} />
-
-          {/* High-Priority SEO Pages - Abu Dhabi */}
-          <Route path="/locations/abu-dhabi/property-inspection" component={PropertyInspectionAbuDhabi} />
-          <Route path="/locations/abu-dhabi/property-inspection-companies" component={PropertyInspectionCompaniesAbuDhabi} />
-
-          {/* Dubai Additional SEO Pages */}
-          <Route path="/locations/dubai/property-inspection" component={PropertyInspectionDubai} />
-          <Route path="/locations/dubai/property-inspection-companies" component={PropertyInspectionCompaniesDubai} />
-
-          {/* Snagging Company Pages */}
-          <Route path="/locations/dubai/snagging-company" component={SnaggingCompanyDubai} />
-          <Route path="/locations/abu-dhabi/snagging-company" component={SnaggingCompanyAbuDhabi} />
-          <Route path="/locations/sharjah/snagging-company" component={SnaggingCompanySharjah} />
-
-          {/* Redirect Generic Location Pages to Specific Pages */}
-          <Route path="/locations/dubai" component={Dubai} />
-          <Route path="/locations/abu-dhabi" component={AbuDhabi} />
-          <Route path="/locations/sharjah" component={Sharjah} />
+          {/* SEO Redirects / Aliases */}
+          <Route path="/locations/dubai/snagging-company" component={Dubai} />
+          <Route path="/locations/abu-dhabi/snagging-company" component={AbuDhabi} />
+          <Route path="/locations/sharjah/snagging-company" component={Sharjah} />
+          <Route path="/locations/dubai/property-inspection" component={Dubai} />
+          <Route path="/locations/abu-dhabi/property-inspection" component={AbuDhabi} />
+          <Route path="/locations/dubai/snagging-cost" component={Dubai} />
+          <Route path="/locations/abu-dhabi/snagging-cost" component={AbuDhabi} />
+          <Route path="/locations/sharjah/snagging-cost" component={Sharjah} />
 
           {/* Admin routes - protected for authenticated admin users */}
           {isAdmin && (
