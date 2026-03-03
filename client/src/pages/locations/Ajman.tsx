@@ -37,11 +37,20 @@ export default function Ajman() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl lg:text-5xl font-bold text-brand-black mb-6">
-              Property Snagging & Inspection Services in Ajman
+              Best Snagging Company in Ajman | Professional Property Inspection
             </h1>
-            <p className="text-xl text-text-grey leading-relaxed mb-8">
-              Ajman's reliable property inspection company offering comprehensive snagging services across the emirate. From downtown developments to coastal properties, we ensure thorough protection for your Ajman real estate investment.
+            <p className="text-xl text-text-grey leading-relaxed mb-8 text-left">
+              UrbanGrid is Ajman's leading snagging company, providing expert property inspections for villas and apartments. We ensure your investment in Ajman's growing communities is protected by international engineering standards.
             </p>
+            <div className="bg-green-50 p-4 rounded-lg mb-8 border border-brand-green/20 text-left">
+              <h3 className="font-bold text-brand-green mb-2">Ajman Inspection Specialists:</h3>
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                <li className="flex items-center"><i className="fas fa-check text-brand-green mr-2"></i> Comprehensive Interior & Exterior Snagging</li>
+                <li className="flex items-center"><i className="fas fa-certificate text-brand-green mr-2"></i> ASTM & NFPA Standard Inspections</li>
+                <li className="flex items-center"><i className="fas fa-shield-alt text-brand-green mr-2"></i> 15,000+ UAE Properties Inspected</li>
+                <li className="flex items-center"><i className="fas fa-file-invoice text-brand-green mr-2"></i> 24-Hour Digital Report Delivery</li>
+              </ul>
+            </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact">
                 <Button className="bg-brand-green text-white hover:bg-opacity-90 px-8 py-3">
