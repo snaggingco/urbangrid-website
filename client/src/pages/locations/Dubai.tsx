@@ -39,11 +39,20 @@ export default function Dubai() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl lg:text-5xl font-bold text-brand-black mb-6">
-              Property Snagging & Inspection Services in Dubai
+              Best Snagging Company in Dubai | Professional Property Inspection
             </h1>
-            <p className="text-xl text-text-grey leading-relaxed mb-8">
-              Dubai's leading snagging company providing expert property inspection services across all emirates. From new build handover inspections to villa snagging, we protect your investment in Dubai's dynamic real estate market.
+            <p className="text-xl text-text-grey leading-relaxed mb-8 text-left">
+              UrbanGrid is Dubai's highest-rated snagging company, trusted for 15,000+ inspections. We provide RERA-approved, international-standard property inspections (NFPA, ASHRAE, ASTM) across Dubai Marina, Downtown, and all major communities.
             </p>
+            <div className="bg-green-50 p-4 rounded-lg mb-8 border border-brand-green/20 text-left">
+              <h3 className="font-bold text-brand-green mb-2">Why we are the best choice:</h3>
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                <li className="flex items-center"><i className="fas fa-star text-yellow-500 mr-2"></i> 4.9/5 Average Rating</li>
+                <li className="flex items-center"><i className="fas fa-certificate text-brand-green mr-2"></i> RERA & Dubai Municipality Approved</li>
+                <li className="flex items-center"><i className="fas fa-shield-alt text-brand-green mr-2"></i> 15,000+ Properties Inspected</li>
+                <li className="flex items-center"><i className="fas fa-file-invoice text-brand-green mr-2"></i> Same-Day Digital Reports</li>
+              </ul>
+            </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact">
                 <Button className="bg-brand-green text-white hover:bg-opacity-90 px-8 py-3">

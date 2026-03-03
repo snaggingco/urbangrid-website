@@ -38,11 +38,20 @@ export default function AbuDhabi() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl lg:text-5xl font-bold text-brand-black mb-6">
-              Property Snagging & Inspection Services in Abu Dhabi
+              Best Snagging Company in Abu Dhabi | Property Inspection Experts
             </h1>
-            <p className="text-xl text-text-grey leading-relaxed mb-8">
-              Abu Dhabi's premier snagging company providing comprehensive property inspection services across the capital. From luxury villa inspections to apartment snagging, we ensure your Abu Dhabi property investment is protected.
+            <p className="text-xl text-text-grey leading-relaxed mb-8 text-left">
+              UrbanGrid is Abu Dhabi's premier snagging company, delivering international-standard (ASTM E2018) property inspections for luxury villas and apartments on Saadiyat, Yas Island, and across the capital.
             </p>
+            <div className="bg-green-50 p-4 rounded-lg mb-8 border border-brand-green/20 text-left">
+              <h3 className="font-bold text-brand-green mb-2">Abu Dhabi Inspection Excellence:</h3>
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                <li className="flex items-center"><i className="fas fa-check text-brand-green mr-2"></i> Aldar & Bloom Preferred Standards</li>
+                <li className="flex items-center"><i className="fas fa-microscope text-brand-green mr-2"></i> Thermal Imaging Included</li>
+                <li className="flex items-center"><i className="fas fa-users text-brand-green mr-2"></i> 15,000+ UAE Inspections</li>
+                <li className="flex items-center"><i className="fas fa-bolt text-brand-green mr-2"></i> Instant Quote & 24hr Reporting</li>
+              </ul>
+            </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact">
                 <Button className="bg-brand-green text-white hover:bg-opacity-90 px-8 py-3">

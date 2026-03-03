@@ -38,11 +38,20 @@ export default function Sharjah() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl lg:text-5xl font-bold text-brand-black mb-6">
-              Property Snagging & Inspection Services in Sharjah
+              Best Snagging Company in Sharjah | Professional Inspections
             </h1>
-            <p className="text-xl text-text-grey leading-relaxed mb-8">
-              Sharjah's trusted property inspection company providing comprehensive snagging services across the emirate. From cultural district properties to beachfront developments, we ensure your Sharjah investment is thoroughly protected.
+            <p className="text-xl text-text-grey leading-relaxed mb-8 text-left">
+              UrbanGrid provides Sharjah's most trusted snagging services, ensuring compliance with international engineering standards for new villas and apartments in Al Zahia, Aljada, and beyond.
             </p>
+            <div className="bg-green-50 p-4 rounded-lg mb-8 border border-brand-green/20 text-left">
+              <h3 className="font-bold text-brand-green mb-2">Trusted in Sharjah:</h3>
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+                <li className="flex items-center"><i className="fas fa-map-marker-alt text-brand-green mr-2"></i> Local Sharjah Expertise</li>
+                <li className="flex items-center"><i className="fas fa-hard-hat text-brand-green mr-2"></i> Certified Civil Engineers</li>
+                <li className="flex items-center"><i className="fas fa-history text-brand-green mr-2"></i> 10+ Years UAE Experience</li>
+                <li className="flex items-center"><i className="fas fa-mobile-alt text-brand-green mr-2"></i> Comprehensive Digital Reports</li>
+              </ul>
+            </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact">
                 <Button className="bg-brand-green text-white hover:bg-opacity-90 px-8 py-3">
