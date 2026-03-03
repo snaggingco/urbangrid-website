@@ -2,60 +2,58 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 
-export default function AbuDhabi() {
-  const services = [
+export default function PropertyInspectionAbuDhabi() {
+  const abuDhabiAreas = [
+    "Corniche Area", "Al Reem Island", "Saadiyat Island", "Yas Island",
+    "Al Raha Beach", "Masdar City", "Al Reef", "Khalifa City",
+    "Mohammed Bin Zayed City", "Al Shamkha", "Al Ghadeer", "Shams Abu Dhabi"
+  ];
+
+  const inspectionTypes = [
     {
-      title: "Property Inspection Abu Dhabi",
-      description: "Expert property inspections for Abu Dhabi's luxury developments including Saadiyat Island and Yas Island",
-      link: "/services/secondary-market",
-      areas: ["Saadiyat Island", "Yas Island", "Al Reem Island", "Corniche Area"]
+      title: "New Build Property Inspection",
+      description: "Pre-handover inspections for new developments in Abu Dhabi",
+      price: "From AED 1 / Sq.ft",
+      features: ["Pre-handover assessment", "Structural integrity check", "MEP systems testing", "Quality compliance review", "Developer coordination"]
     },
     {
-      title: "Snagging Company Abu Dhabi",
-      description: "Professional snagging services for new developments across Abu Dhabi's premium residential areas",
-      link: "/services/new-build-snagging",
-      areas: ["Al Raha Beach", "Khalifa City", "Mohammed Bin Zayed City", "Masdar City"]
+      title: "Pre-Purchase Property Inspection",
+      description: "Comprehensive inspection before buying property in Abu Dhabi",
+      price: "From AED 1 / Sq.ft",
+      features: ["Investment protection", "Market value assessment", "Condition evaluation", "Risk identification", "Purchase recommendation"]
     },
     {
-      title: "Home Inspection Abu Dhabi",
-      description: "Comprehensive villa and apartment inspections in Abu Dhabi's established and emerging communities",
-      link: "/services/move-in-move-out",
-      areas: ["Al Reef", "Al Ghadeer", "Bloom Gardens", "Shams Abu Dhabi"]
+      title: "Villa Property Inspection",
+      description: "Specialized villa inspection services across Abu Dhabi",
+      price: "From AED 1 / Sq.ft",
+      features: ["Complete villa assessment", "Exterior & landscape", "Pool & amenities", "Smart home systems", "Premium reporting"]
     }
   ];
 
-  const areas = [
-    "Saadiyat Island", "Yas Island", "Al Reem Island", "Corniche Area", "Al Raha Beach",
-    "Khalifa City", "Mohammed Bin Zayed City", "Masdar City", "Al Reef", "Al Ghadeer",
-    "Bloom Gardens", "Shams Abu Dhabi", "Reem Island", "Al Maryah Island", "Tourist Club Area",
-    "Al Bateen", "Khalidiyah", "Al Manhal", "Al Karamah", "Al Mushrif", "Al Shamkha"
+  const majorDevelopers = [
+    { name: "Aldar Properties", projects: "Al Reem Island, Yas Island, Saadiyat" },
+    { name: "Abu Dhabi Investment Council", projects: "Corniche, Central District" },
+    { name: "Sorouh Real Estate", projects: "Al Reef, Shams Abu Dhabi" },
+    { name: "Eagle Hills", projects: "Al Maryah Island developments" },
+    { name: "Mubadala", projects: "Masdar City, Saadiyat Island" }
   ];
 
   return (
     <div className="pt-16 lg:pt-20">
-      {/* Hero Section */}
+      {/* Hero Section - Targeting "property inspection abu dhabi" */}
       <section className="py-16 lg:py-20 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto text-center">
             <h1 className="text-4xl lg:text-5xl font-bold text-brand-black mb-6">
-              Best Snagging Company in Abu Dhabi | Property Inspection Experts
+              Property Inspection Abu Dhabi: Expert Property Assessment Services
             </h1>
-            <p className="text-xl text-text-grey leading-relaxed mb-8 text-left">
-              UrbanGrid is Abu Dhabi's premier snagging company, delivering international-standard (ASTM E2018) property inspections for luxury villas and apartments on Saadiyat, Yas Island, and across the capital.
+            <p className="text-xl text-text-grey leading-relaxed mb-8">
+              Professional property inspection services across Abu Dhabi's premium developments. From Al Reem Island to Saadiyat Island, ensure your property investment meets the highest standards with comprehensive inspection reports.
             </p>
-            <div className="bg-green-50 p-4 rounded-lg mb-8 border border-brand-green/20 text-left">
-              <h3 className="font-bold text-brand-green mb-2">Abu Dhabi Inspection Excellence:</h3>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
-                <li className="flex items-center"><i className="fas fa-check text-brand-green mr-2"></i> Aldar & Bloom Preferred Standards</li>
-                <li className="flex items-center"><i className="fas fa-microscope text-brand-green mr-2"></i> Thermal Imaging Included</li>
-                <li className="flex items-center"><i className="fas fa-users text-brand-green mr-2"></i> 15,000+ UAE Inspections</li>
-                <li className="flex items-center"><i className="fas fa-bolt text-brand-green mr-2"></i> Instant Quote & 24hr Reporting</li>
-              </ul>
-            </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact">
                 <Button className="bg-brand-green text-white hover:bg-opacity-90 px-8 py-3">
-                  Get Free Quote in Abu Dhabi
+                  Get Abu Dhabi Inspection Quote
                 </Button>
               </Link>
               <a 
@@ -63,40 +61,49 @@ export default function AbuDhabi() {
                 className="inline-flex items-center bg-transparent border-2 border-brand-green text-brand-green px-8 py-3 rounded-md font-semibold hover:bg-brand-green hover:text-white transition-colors"
               >
                 <i className="fas fa-phone mr-2"></i>
-                Call Abu Dhabi: +971585686852
+                Call Abu Dhabi: +971 58 568 6852
+              </a>
+              <a 
+                href="https://wa.me/971585686852?text=Hello! I need property inspection services in Abu Dhabi."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center bg-green-500 text-white px-8 py-3 rounded-md font-semibold hover:bg-green-600 transition-colors"
+              >
+                <i className="fab fa-whatsapp mr-2"></i>
+                WhatsApp Abu Dhabi Team
               </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Services Section */}
+      {/* Inspection Services */}
       <section className="py-16 lg:py-20 bg-light-grey">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl lg:text-4xl font-bold text-brand-black mb-12 text-center">
-            Abu Dhabi Property Inspection Services
-          </h2>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-brand-black mb-4">
+              Abu Dhabi Property Inspection Services
+            </h2>
+            <p className="text-lg text-text-grey max-w-2xl mx-auto">
+              Comprehensive property inspection services tailored for Abu Dhabi's unique property market and development standards.
+            </p>
+          </div>
+          
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {services.map((service, index) => (
-              <Card key={index} className="bg-white hover:shadow-lg transition-all duration-300">
+            {inspectionTypes.map((service, index) => (
+              <Card key={index} className="h-full">
                 <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold text-brand-black mb-4">{service.title}</h3>
+                  <h3 className="text-xl font-semibold text-brand-black mb-3">{service.title}</h3>
                   <p className="text-text-grey mb-4">{service.description}</p>
-                  <div className="mb-4">
-                    <h4 className="font-medium text-brand-black mb-2">Key Areas:</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {service.areas.map((area, i) => (
-                        <span key={i} className="bg-brand-green text-white px-2 py-1 rounded text-xs">
-                          {area}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                  <Link href={service.link}>
-                    <Button variant="outline" className="border-brand-green text-brand-green hover:bg-brand-green hover:text-white w-full">
-                      Learn More
-                    </Button>
-                  </Link>
+                  <div className="text-2xl font-bold text-brand-green mb-4">{service.price}</div>
+                  <ul className="space-y-2">
+                    {service.features.map((feature, fIndex) => (
+                      <li key={fIndex} className="flex items-center text-sm text-text-grey">
+                        <i className="fas fa-check text-brand-green mr-2"></i>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
                 </CardContent>
               </Card>
             ))}
@@ -104,162 +111,200 @@ export default function AbuDhabi() {
         </div>
       </section>
 
-      {/* Abu Dhabi Market Expertise */}
+      {/* Abu Dhabi Coverage Areas */}
       <section className="py-16 lg:py-20 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl lg:text-4xl font-bold text-brand-black mb-6">
-                Abu Dhabi Property Market Expertise
-              </h2>
-              <div className="space-y-4">
-                <div className="flex items-start">
-                  <i className="fas fa-building text-brand-green mr-3 mt-1"></i>
-                  <div>
-                    <h3 className="font-semibold text-brand-black">Luxury Development Focus</h3>
-                    <p className="text-text-grey">Specialized in high-end developments on Saadiyat Island, Yas Island, and Al Reem Island with premium finishing standards.</p>
-                  </div>
-                </div>
-                <div className="flex items-start">
-                  <i className="fas fa-certificate text-brand-green mr-3 mt-1"></i>
-                  <div>
-                    <h3 className="font-semibold text-brand-black">Government Approved</h3>
-                    <p className="text-text-grey">Licensed by Abu Dhabi authorities and familiar with local building codes and developer requirements.</p>
-                  </div>
-                </div>
-                <div className="flex items-start">
-                  <i className="fas fa-clock text-brand-green mr-3 mt-1"></i>
-                  <div>
-                    <h3 className="font-semibold text-brand-black">24-Hour Service</h3>
-                    <p className="text-text-grey">Quick response times for urgent inspections and same-day reports for Abu Dhabi properties.</p>
-                  </div>
-                </div>
-                <div className="flex items-start">
-                  <i className="fas fa-handshake text-brand-green mr-3 mt-1"></i>
-                  <div>
-                    <h3 className="font-semibold text-brand-black">Developer Relations</h3>
-                    <p className="text-text-grey">Strong relationships with major Abu Dhabi developers including Aldar, Bloom Properties, and RAK Properties.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div>
-              <img 
-                src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" 
-                alt="Abu Dhabi property inspection services" 
-                className="rounded-lg shadow-lg w-full"
-              />
-            </div>
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-brand-black mb-4">
+              Property Inspection Coverage Across Abu Dhabi
+            </h2>
+            <p className="text-lg text-text-grey max-w-2xl mx-auto">
+              Professional property inspection services available in all major Abu Dhabi districts and developments.
+            </p>
           </div>
-        </div>
-      </section>
-
-      {/* Abu Dhabi Areas */}
-      <section className="py-16 lg:py-20 bg-light-grey">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl lg:text-4xl font-bold text-brand-black mb-12 text-center">
-            Abu Dhabi Communities We Serve
-          </h2>
-          <p className="text-lg text-text-grey text-center mb-8 max-w-3xl mx-auto">
-            Our Abu Dhabi property inspection experts cover all major residential communities, from island developments to mainland communities, ensuring comprehensive property snagging services.
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {areas.map((area, index) => (
-              <div key={index} className="bg-white p-3 rounded-lg text-center shadow-sm hover:shadow-md transition-shadow">
-                <span className="text-sm font-medium text-brand-black">{area}</span>
+          
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-12">
+            {abuDhabiAreas.map((area, index) => (
+              <div key={index} className="bg-light-grey p-4 rounded-lg text-center">
+                <h3 className="font-semibold text-brand-black text-sm">{area}</h3>
               </div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* Abu Dhabi Property Guide */}
-      <section className="py-16 lg:py-20 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl lg:text-4xl font-bold text-brand-black mb-8 text-center">
-              Abu Dhabi Property Investment Guide
-            </h2>
-            <div className="prose prose-lg max-w-none text-text-grey">
-              <h3 className="text-xl font-semibold text-brand-black mb-4">Abu Dhabi's Growing Real Estate Market</h3>
-              <p className="mb-6">
-                Abu Dhabi's real estate market has seen significant growth, particularly in luxury segments on <strong>Saadiyat Island</strong> and <strong>Yas Island</strong>. With major cultural projects like the Louvre and Guggenheim, property values continue to appreciate, making professional snagging inspection crucial for protecting investments.
-              </p>
-              
-              <h3 className="text-xl font-semibold text-brand-black mb-4">Key Inspection Areas in Abu Dhabi Properties</h3>
-              <ul className="list-disc pl-6 mb-6">
-                <li><strong>Coastal Property Considerations:</strong> Salt air corrosion and waterproofing in beachfront developments</li>
-                <li><strong>Smart Home Integration:</strong> Advanced technology systems in luxury Abu Dhabi developments</li>
-                <li><strong>Energy Efficiency:</strong> Sustainability features and LEED compliance in new projects</li>
-                <li><strong>Community Facilities:</strong> Shared amenities and infrastructure quality assessments</li>
-              </ul>
-
-              <h3 className="text-xl font-semibold text-brand-black mb-4">Popular Abu Dhabi Developments</h3>
-              <p className="mb-6">
-                From the cultural district of <strong>Saadiyat Island</strong> to the entertainment hub of <strong>Yas Island</strong>, Abu Dhabi offers diverse investment opportunities. Our snagging experts are familiar with the unique characteristics of each development, ensuring comprehensive property inspections tailored to specific community standards.
-              </p>
-            </div>
-            
-            <div className="text-center mt-8">
-              <Link href="/about">
-                <Button variant="outline" className="border-brand-green text-brand-green hover:bg-brand-green hover:text-white">
-                  Learn About Our Abu Dhabi Team
-                </Button>
-              </Link>
+          
+          <div className="text-center">
+            <h3 className="text-xl font-semibold text-brand-black mb-6">Major Developer Coverage</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {majorDevelopers.map((developer, index) => (
+                <div key={index} className="bg-light-grey p-6 rounded-lg">
+                  <h4 className="font-semibold text-brand-black mb-2">{developer.name}</h4>
+                  <p className="text-text-grey text-sm">{developer.projects}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* External Resources */}
+      {/* Abu Dhabi Property Market Expertise */}
       <section className="py-16 lg:py-20 bg-light-grey">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-brand-black mb-8 text-center">
-            Abu Dhabi Property Resources
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card>
-              <CardContent className="p-6 text-center">
-                <h3 className="font-semibold text-brand-black mb-4">Abu Dhabi Municipality</h3>
-                <p className="text-text-grey mb-4">Official building regulations and urban planning for Abu Dhabi properties.</p>
-                <a 
-                  href="https://www.adm.gov.ae" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-brand-green hover:underline"
-                >
-                  Visit Abu Dhabi Municipality
-                </a>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-6 text-center">
-                <h3 className="font-semibold text-brand-black mb-4">Aldar Properties</h3>
-                <p className="text-text-grey mb-4">Leading developer in Abu Dhabi with major projects across the emirate.</p>
-                <a 
-                  href="https://www.aldar.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-brand-green hover:underline"
-                >
-                  Visit Aldar Properties
-                </a>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardContent className="p-6 text-center">
-                <h3 className="font-semibold text-brand-black mb-4">Department of Urban Planning</h3>
-                <p className="text-text-grey mb-4">Abu Dhabi's master planning and development guidelines.</p>
-                <a 
-                  href="https://dmt.gov.ae" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="text-brand-green hover:underline"
-                >
-                  Visit Planning Department
-                </a>
-              </CardContent>
-            </Card>
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-brand-black mb-4">
+                Abu Dhabi Property Market Expertise
+              </h2>
+              <p className="text-lg text-text-grey">
+                Deep understanding of Abu Dhabi's property landscape, regulations, and development standards.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="flex items-start">
+                <div className="bg-brand-green text-white p-3 rounded-full mr-4 flex-shrink-0">
+                  <i className="fas fa-building"></i>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-brand-black mb-2">Development Knowledge</h3>
+                  <p className="text-text-grey">Extensive experience with Abu Dhabi's major developments from luxury islands to city center properties.</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start">
+                <div className="bg-brand-green text-white p-3 rounded-full mr-4 flex-shrink-0">
+                  <i className="fas fa-gavel"></i>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-brand-black mb-2">Regulatory Compliance</h3>
+                  <p className="text-text-grey">Up-to-date knowledge of Abu Dhabi Municipality regulations and ADDC standards for properties.</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start">
+                <div className="bg-brand-green text-white p-3 rounded-full mr-4 flex-shrink-0">
+                  <i className="fas fa-thermometer-half"></i>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-brand-black mb-2">Climate Considerations</h3>
+                  <p className="text-text-grey">Specialized knowledge of how Abu Dhabi's climate affects property systems and materials.</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start">
+                <div className="bg-brand-green text-white p-3 rounded-full mr-4 flex-shrink-0">
+                  <i className="fas fa-chart-line"></i>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-brand-black mb-2">Market Trends</h3>
+                  <p className="text-text-grey">Current insights into Abu Dhabi property market values, investment opportunities, and quality standards.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Inspection Process */}
+      <section className="py-16 lg:py-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-brand-black mb-4">
+              Our Abu Dhabi Property Inspection Process
+            </h2>
+            <p className="text-lg text-text-grey max-w-2xl mx-auto">
+              Systematic inspection approach ensuring comprehensive coverage of all property aspects specific to Abu Dhabi standards.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="bg-brand-green text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i className="fas fa-calendar-check text-2xl"></i>
+              </div>
+              <h3 className="text-lg font-semibold text-brand-black mb-2">1. Scheduling</h3>
+              <p className="text-text-grey text-sm">Book your Abu Dhabi property inspection at your convenience with flexible timing</p>
+            </div>
+            
+            <div className="text-center">
+              <div className="bg-brand-green text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i className="fas fa-search-plus text-2xl"></i>
+              </div>
+              <h3 className="text-lg font-semibold text-brand-black mb-2">2. Comprehensive Inspection</h3>
+              <p className="text-text-grey text-sm">Thorough property assessment covering structure, systems, finishes, and compliance</p>
+            </div>
+            
+            <div className="text-center">
+              <div className="bg-brand-green text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i className="fas fa-clipboard-list text-2xl"></i>
+              </div>
+              <h3 className="text-lg font-semibold text-brand-black mb-2">3. Detailed Reporting</h3>
+              <p className="text-text-grey text-sm">Professional inspection report with photos, recommendations, and priority actions</p>
+            </div>
+            
+            <div className="text-center">
+              <div className="bg-brand-green text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                <i className="fas fa-users text-2xl"></i>
+              </div>
+              <h3 className="text-lg font-semibold text-brand-black mb-2">4. Follow-up Support</h3>
+              <p className="text-text-grey text-sm">Ongoing support for defect resolution and developer communication</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why Choose UrbanGrid Abu Dhabi */}
+      <section className="py-16 lg:py-20 bg-light-grey">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold text-brand-black mb-4">
+                Why Choose UrbanGrid for Abu Dhabi Property Inspections
+              </h2>
+              <p className="text-lg text-text-grey">
+                Abu Dhabi's trusted property inspection specialists with local expertise and proven results.
+              </p>
+            </div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="flex items-start">
+                <div className="bg-brand-green text-white p-3 rounded-full mr-4 flex-shrink-0">
+                  <i className="fas fa-map-marked-alt"></i>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-brand-black mb-2">Local Abu Dhabi Expertise</h3>
+                  <p className="text-text-grey">Deep knowledge of Abu Dhabi property market, developers, and common issues across different areas.</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start">
+                <div className="bg-brand-green text-white p-3 rounded-full mr-4 flex-shrink-0">
+                  <i className="fas fa-certificate"></i>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-brand-black mb-2">Certified Professionals</h3>
+                  <p className="text-text-grey">Licensed and certified inspection experts with extensive Abu Dhabi property experience.</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start">
+                <div className="bg-brand-green text-white p-3 rounded-full mr-4 flex-shrink-0">
+                  <i className="fas fa-bolt"></i>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-brand-black mb-2">Rapid Response</h3>
+                  <p className="text-text-grey">Same-day inspections available with reports delivered within hours for urgent decisions.</p>
+                </div>
+              </div>
+              
+              <div className="flex items-start">
+                <div className="bg-brand-green text-white p-3 rounded-full mr-4 flex-shrink-0">
+                  <i className="fas fa-tools"></i>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-brand-black mb-2">Advanced Technology</h3>
+                  <p className="text-text-grey">State-of-the-art inspection equipment for accurate assessments and detailed documentation.</p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -268,19 +313,23 @@ export default function AbuDhabi() {
       <section className="py-16 lg:py-20 bg-brand-green text-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl lg:text-4xl font-bold mb-6">
-            Professional Property Inspection in Abu Dhabi
+            Ready for Your Abu Dhabi Property Inspection?
           </h2>
           <p className="text-xl mb-8 text-green-100 max-w-2xl mx-auto">
-            Secure your Abu Dhabi property investment with expert snagging and inspection services. Our local team understands the unique requirements of Abu Dhabi's luxury developments.
+            Protect your Abu Dhabi property investment with professional inspection services. Contact us today for expert assessment.
           </p>
+          
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact">
-              <Button className="bg-white text-brand-green hover:bg-gray-100 px-8 py-3">
-                Schedule Abu Dhabi Inspection
-              </Button>
-            </Link>
             <a 
-              href="https://wa.me/971585686852?text=Hello! I need property inspection services in Abu Dhabi."
+              href="tel:+971585686852"
+              className="inline-flex items-center bg-white text-brand-green px-8 py-3 rounded-md font-semibold hover:bg-gray-100 transition-colors"
+            >
+              <i className="fas fa-phone mr-2"></i>
+              Call Abu Dhabi: +971 58 568 6852
+            </a>
+            
+            <a 
+              href="https://wa.me/971585686852?text=Hello%20UrbanGrid%2C%20I%20need%20property%20inspection%20services%20in%20Abu%20Dhabi.%20Please%20provide%20more%20information."
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-semibold hover:bg-white hover:text-brand-green transition-colors"

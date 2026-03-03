@@ -28,6 +28,9 @@ import Ajman from "@/pages/locations/Ajman";
 import RasAlKhaimah from "@/pages/locations/RasAlKhaimah";
 import Fujairah from "@/pages/locations/Fujairah";
 import UmmAlQuwain from "@/pages/locations/UmmAlQuwain";
+import Dubai from "@/pages/locations/Dubai";
+import AbuDhabi from "@/pages/locations/AbuDhabi";
+import Sharjah from "@/pages/locations/Sharjah";
 
 // Dubai Location + Service Pages
 import DubaiNewBuildSnagging from "@/pages/locations/dubai/new-build-snagging";
@@ -172,9 +175,9 @@ function Router() {
           <Route path="/locations/sharjah/snagging-company" component={SnaggingCompanySharjah} />
 
           {/* Redirect Generic Location Pages to Specific Pages */}
-          <Route path="/locations/dubai" component={PropertyInspectionDubai} />
-          <Route path="/locations/abu-dhabi" component={PropertyInspectionAbuDhabi} />
-          <Route path="/locations/sharjah" component={SnaggingCompanySharjah} />
+          <Route path="/locations/dubai" component={Dubai} />
+          <Route path="/locations/abu-dhabi" component={AbuDhabi} />
+          <Route path="/locations/sharjah" component={Sharjah} />
 
           {/* Admin routes - protected for authenticated admin users */}
           {isAdmin && (
