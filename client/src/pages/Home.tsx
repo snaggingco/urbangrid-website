@@ -4,6 +4,13 @@ import ConsultationForm from "@/components/ConsultationForm";
 import ScrollTriggeredForm from "@/components/ScrollTriggeredForm";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { ChevronDown, Globe, Home as HomeIcon, Layout, Shield, Zap } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import internachi1 from "@assets/internachi.webp";
 import internachi2 from "@assets/internachi2.webp";
 
@@ -18,6 +25,7 @@ export default function Home() {
   const serviceCategories = {
     'property-snagging': {
       title: 'Property Snagging',
+      icon: <HomeIcon className="w-4 h-4 mr-2" />,
       subtitle: 'Comprehensive property inspection and snagging services',
       categorySlug: 'property-snagging',
       services: [
@@ -67,6 +75,7 @@ export default function Home() {
     },
     'rera-services': {
       title: 'RERA Services',
+      icon: <Shield className="w-4 h-4 mr-2" />,
       subtitle: 'Professional regulatory compliance and assessment services',
       categorySlug: 'rera-services',
       services: [
@@ -108,7 +117,8 @@ export default function Home() {
       ]
     },
     'technical-inspections': {
-      title: 'Other Technical Inspections',
+      title: 'Technical Inspections',
+      icon: <Zap className="w-4 h-4 mr-2" />,
       subtitle: 'Specialized technical assessments and surveys',
       categorySlug: 'technical-inspections',
       services: [
@@ -178,16 +188,50 @@ export default function Home() {
           }}
         >
         </div>
-        <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div className="absolute inset-0 bg-black/60"></div>
         
         {/* Hero Content */}
-        <div className={`relative z-10 text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000 -translate-y-16 sm:-translate-y-8 lg:translate-y-0 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-            UAE's #1 Snagging Company & Property Inspection Experts
+        <div className={`relative z-10 text-center max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight tracking-tight">
+            UAE's #1 Snagging & <span className="text-brand-green">Inspection Experts</span>
           </h1>
-          <p className="text-xl sm:text-2xl text-gray-200 leading-relaxed">
-            Leading snagging company in Dubai, Abu Dhabi, Sharjah & Ajman. Professional property inspection services protecting your investment across UAE.
+          <p className="text-xl sm:text-2xl text-gray-200 mb-10 max-w-3xl mx-auto leading-relaxed">
+            Professional property inspection services in Dubai, Abu Dhabi, Sharjah & Ajman. Protecting your investment across the UAE.
           </p>
+
+          {/* Interactive Service Dropdowns */}
+          <div className="flex flex-wrap justify-center gap-4 mt-8">
+            {Object.entries(serviceCategories).map(([key, category]) => (
+              <DropdownMenu key={key}>
+                <DropdownMenuTrigger asChild>
+                  <Button 
+                    variant="outline" 
+                    className="bg-white/10 border-white/20 text-white hover:bg-white hover:text-brand-black transition-all px-6 py-6 text-lg rounded-xl backdrop-blur-md flex items-center gap-2 group"
+                  >
+                    {category.icon}
+                    {category.title}
+                    <ChevronDown className="w-4 h-4 ml-1 group-data-[state=open]:rotate-180 transition-transform" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-64 bg-white/95 backdrop-blur-md border-brand-green/20 rounded-xl p-2 shadow-2xl">
+                  {category.services.map((service) => (
+                    <DropdownMenuItem key={service.id} className="focus:bg-brand-green/10 focus:text-brand-green cursor-pointer rounded-lg py-3 px-4">
+                      <Link href={`/services/${category.categorySlug}/${service.slug}`} className="w-full flex items-center justify-between group">
+                        <span className="font-medium text-sm">{service.title}</span>
+                        <ChevronDown className="-rotate-90 w-3 h-3 opacity-0 group-hover:opacity-100 transition-all translate-x-1" />
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ))}
+          </div>
+
+          <div className="mt-12 flex flex-wrap justify-center gap-8 text-white/60 text-sm font-medium">
+            <div className="flex items-center gap-2"><Shield className="w-4 h-4 text-brand-green" /> RERA Approved</div>
+            <div className="flex items-center gap-2"><Globe className="w-4 h-4 text-brand-green" /> International Standards</div>
+            <div className="flex items-center gap-2"><Layout className="w-4 h-4 text-brand-green" /> 15,000+ Inspections</div>
+          </div>
         </div>
       </section>
 
@@ -495,10 +539,8 @@ export default function Home() {
                 <p className="text-text-grey mb-4 text-sm">
                   15,000+ properties inspected across Dubai Marina, Downtown, Business Bay, Palm Jumeirah and all Dubai areas.
                 </p>
-                <Link href="/locations/dubai/snagging-company">
-                  <Button className="bg-brand-green text-white hover:bg-opacity-90 w-full">
-                    Snagging Company Dubai
-                  </Button>
+                <Link href="/locations/dubai">
+                  <span className="text-brand-green font-semibold hover:underline cursor-pointer">Explore Dubai Services</span>
                 </Link>
               </CardContent>
             </Card>
@@ -510,12 +552,10 @@ export default function Home() {
                 </div>
                 <h3 className="text-xl font-bold text-brand-black mb-3">Abu Dhabi</h3>
                 <p className="text-text-grey mb-4 text-sm">
-                  Luxury property snagging on Saadiyat Island, Yas Island, Al Reem Island and all Abu Dhabi developments.
+                  Comprehensive villa and apartment snagging in Saadiyat Island, Yas Island, Al Reem and the entire capital.
                 </p>
-                <Link href="/locations/abu-dhabi/snagging-company">
-                  <Button className="bg-brand-green text-white hover:bg-opacity-90 w-full">
-                    Snagging Company Abu Dhabi
-                  </Button>
+                <Link href="/locations/abu-dhabi">
+                  <span className="text-brand-green font-semibold hover:underline cursor-pointer">Explore Abu Dhabi Services</span>
                 </Link>
               </CardContent>
             </Card>
@@ -523,67 +563,48 @@ export default function Home() {
             <Card className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 border-2 border-transparent hover:border-brand-green">
               <CardContent className="p-8 text-center">
                 <div className="bg-brand-green/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <i className="fas fa-home text-brand-green text-2xl"></i>
+                  <i className="fas fa-university text-brand-green text-2xl"></i>
                 </div>
                 <h3 className="text-xl font-bold text-brand-black mb-3">Sharjah</h3>
                 <p className="text-text-grey mb-4 text-sm">
-                  Family community snagging services in Al Zahia, Aljada, Tilal City and all Sharjah developments.
+                  Professional inspections for Sharjah residential communities, new developments and heritage properties.
                 </p>
-                <Link href="/locations/sharjah/snagging-company">
-                  <Button className="bg-brand-green text-white hover:bg-opacity-90 w-full">
-                    Snagging Company Sharjah
-                  </Button>
+                <Link href="/locations/sharjah">
+                  <span className="text-brand-green font-semibold hover:underline cursor-pointer">Explore Sharjah Services</span>
                 </Link>
               </CardContent>
             </Card>
           </div>
-          
-          <div className="text-center mt-8">
-            <p className="text-text-grey">
-              Also serving <Link href="/locations/ajman" className="text-brand-green hover:underline font-medium">Ajman</Link>, 
-              <Link href="/locations/ras-al-khaimah" className="text-brand-green hover:underline font-medium ml-1">Ras Al Khaimah</Link>, 
-              <Link href="/locations/fujairah" className="text-brand-green hover:underline font-medium ml-1">Fujairah</Link>, and 
-              <Link href="/locations/umm-al-quwain" className="text-brand-green hover:underline font-medium ml-1">Umm Al Quwain</Link>
-            </p>
-          </div>
         </div>
       </section>
 
-      {/* CTA Banner Section */}
+      {/* Final CTA Section */}
       <section className="py-16 lg:py-20 bg-brand-green text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-3xl mx-auto">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-6">
-              Ready to Protect Your Property Investment?
-            </h2>
-            <p className="text-xl mb-8 text-green-100">
-              Get expert property inspection and snagging services from UAE's most trusted professionals. Contact us today for a free consultation.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a 
-                href="tel:+971585686852" 
-                className="inline-flex items-center bg-white text-brand-green px-8 py-3 rounded-md font-semibold hover:bg-gray-100 transition-colors"
-              >
-                <i className="fas fa-phone mr-2"></i>
-                Call Now: +971 58 568 6852
-              </a>
-              
-              <a 
-                href="https://wa.me/971585686852?text=Hello%20UrbanGrid%2C%20I%27m%20interested%20in%20your%20property%20inspection%20services.%20Please%20provide%20me%20with%20more%20information." 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-semibold hover:bg-white hover:text-brand-green transition-colors"
-              >
-                <i className="fab fa-whatsapp mr-2"></i>
-                WhatsApp Us
-              </a>
-            </div>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl lg:text-5xl font-bold mb-6">
+            Ready to Protect Your Property Investment?
+          </h2>
+          <p className="text-xl mb-10 text-green-100 max-w-2xl mx-auto leading-relaxed">
+            Whether you're in Dubai, Abu Dhabi, or anywhere in the UAE, our experts are ready to provide the most thorough property inspection and snagging service available.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link href="/contact">
+              <Button size="lg" className="bg-white text-brand-green hover:bg-gray-100 px-10 py-4 text-lg font-bold">
+                Get a Free Quote
+              </Button>
+            </Link>
+            <a 
+              href="tel:+971585686852"
+              className="inline-flex items-center justify-center bg-transparent border-2 border-white text-white px-10 py-4 rounded-md font-bold text-lg hover:bg-white hover:text-brand-green transition-all"
+            >
+              <i className="fas fa-phone mr-3"></i>
+              Call Now: +971 58 568 6852
+            </a>
           </div>
         </div>
       </section>
 
-      {/* Scroll Triggered Form */}
+      {/* Floating CTA component */}
       <ScrollTriggeredForm />
     </>
   );
