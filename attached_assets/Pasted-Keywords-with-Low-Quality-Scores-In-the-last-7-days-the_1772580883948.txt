@@ -1,0 +1,28 @@
+Keywords with Low Quality Scores
+In the last 7 days, the following keywords have a Quality Score of 3 or lower:
+
+"best snagging company dubai" (QS: 1)
+"snagging company abu dhabi" (QS: 1)
+"snagging company sharjah" (QS: 1)
+"snagging dubai cost" (QS: 2)
+"snagging sharjah" (QS: 2)
+"snagging companies in UAE" (QS: 2)
+"property inspection dubai" (QS: 3)
+"snagging company dubai" (QS: 3)
+"snagging dubai" (QS: 3)
+"snagging in dubai" (QS: 3)
+Recommendations to Improve Your Quality Score
+Quality Score is determined by expected click-through rate, ad relevance, and landing page experience. Here are some actionable recommendations to improve these components for your low-scoring keywords:
+
+Create More Specific Ad Groups:
+Currently, your "Snagging" ad group contains a mix of general, location-specific, and cost-related keywords. By splitting these into more focused ad groups, you can write more relevant ad copy. For example:
+Ad Group: "Snagging Cost" with keywords like "snagging dubai cost". Your ad copy here could directly address pricing.
+Ad Group: "Snagging Abu Dhabi" with keywords like "snagging company abu dhabi" and ads that specifically mention your services in that area.
+Enhance Ad Copy and Landing Page Alignment:
+For a keyword like "best snagging company dubai," your ad and landing page need to strongly convey why UrbanGrid is the best. Consider including:
+Testimonials or review scores directly in the ad copy.
+A landing page that highlights your RERA license, international certifications, and the 15,000+ properties inspected.
+Utilize Ad Extensions:
+If you aren't already, use ad extensions to provide more information and improve click-through rate. Sitelink extensions could point to pages like "Our Services in Abu Dhabi," "Request a Quote," or "View Sample Reports."
+Refine with Negative Keywords:
+Ensure you have a comprehensive list of negative keywords to filter out irrelevant searches. This will help improve your click-through rate by showing your ads to a more qualified audience.
