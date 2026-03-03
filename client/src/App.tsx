@@ -105,15 +105,10 @@ function Router() {
           <Route path="/locations/fujairah" component={Fujairah} />
           <Route path="/locations/umm-al-quwain" component={UmmAlQuwain} />
 
-          {/* SEO Redirects / Aliases */}
-          <Route path="/locations/dubai/snagging-company" component={Dubai} />
-          <Route path="/locations/abu-dhabi/snagging-company" component={AbuDhabi} />
-          <Route path="/locations/sharjah/snagging-company" component={Sharjah} />
-          <Route path="/locations/dubai/property-inspection" component={Dubai} />
-          <Route path="/locations/abu-dhabi/property-inspection" component={AbuDhabi} />
-          <Route path="/locations/dubai/snagging-cost" component={Dubai} />
-          <Route path="/locations/abu-dhabi/snagging-cost" component={AbuDhabi} />
-          <Route path="/locations/sharjah/snagging-cost" component={Sharjah} />
+          {/* SEO Aliases - All pointing to the main optimized Emirate page */}
+          <Route path="/locations/dubai/:any*" component={Dubai} />
+          <Route path="/locations/abu-dhabi/:any*" component={AbuDhabi} />
+          <Route path="/locations/sharjah/:any*" component={Sharjah} />
 
           {/* Admin routes - protected for authenticated admin users */}
           {isAdmin && (
