@@ -17,6 +17,7 @@ import internachi2 from "@assets/internachi2.webp";
 export default function Home() {
   const [isVisible, setIsVisible] = useState(false);
   const [counts, setCounts] = useState({ inspections: 0, cities: 0, rating: 0 });
+  const [activeTab, setActiveTab] = useState<keyof typeof serviceCategories>('property-snagging');
 
   useEffect(() => {
     setIsVisible(true);
