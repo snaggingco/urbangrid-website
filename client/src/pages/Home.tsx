@@ -224,8 +224,9 @@ export default function Home() {
                 <DropdownMenuTrigger asChild>
                   <Button 
                     variant="outline" 
-                    className="bg-white/10 border-white/20 text-white hover:bg-white hover:text-brand-black transition-all px-4 py-3 md:px-6 md:py-6 text-sm md:text-lg rounded-xl backdrop-blur-md flex items-center gap-2 group w-full sm:w-auto justify-between sm:justify-center"
+                    className="bg-white/10 border-white/20 text-white hover:bg-white hover:text-brand-black transition-all px-4 py-3 md:px-6 md:py-6 text-sm md:text-lg rounded-xl backdrop-blur-md flex items-center gap-2 group w-full sm:w-auto justify-between sm:justify-center relative overflow-hidden"
                   >
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-shimmer" />
                     <div className="flex items-center gap-2">
                       {category.icon}
                       <span className="whitespace-nowrap">{category.title}</span>

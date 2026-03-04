@@ -401,6 +401,16 @@
     animation: pulse-soft 3s ease-in-out infinite;
   }
 
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+
+  .animate-shimmer {
+    animation: shimmer 2s infinite;
+  }
+
   /* Enhanced shadow and glow effects for mobile */
   .floating-button {
     box-shadow: 
