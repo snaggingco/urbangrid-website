@@ -21,6 +21,16 @@ export default function ScrollTriggeredForm() {
   const { toast } = useToast();
 
   useEffect(() => {
+    // Check if shown in the last 24 hours using localStorage
+    const lastShown = localStorage.getItem('scroll_form_last_shown');
+    const now = new Date().getTime();
+    const oneDay = 24 * 60 * 60 * 1000;
+
+    if (lastShown && now - parseInt(lastShown) < oneDay) {
+      setHasShown(true);
+      return;
+    }
+
     const handleScroll = () => {
       if (hasShown) return;
 
@@ -31,6 +41,7 @@ export default function ScrollTriggeredForm() {
       if (scrollPercentage >= 50) {
         setIsVisible(true);
         setHasShown(true);
+        localStorage.setItem('scroll_form_last_shown', now.toString());
       }
     };
 
