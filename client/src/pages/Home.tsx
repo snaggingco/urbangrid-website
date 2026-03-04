@@ -210,8 +210,15 @@ export default function Home() {
         
         {/* Hero Content */}
         <div className={`relative z-10 text-center max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green/20 border border-brand-green/30 text-brand-green text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-6">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-green opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-green"></span>
+            </span>
+            Available Now Across UAE
+          </div>
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight tracking-tight animate-pulse-soft">
-            UAE's #1 Snagging & <span className="text-brand-white">Inspection Experts</span>
+            UAE's #1 Snagging & <span className="text-brand-green">Inspection Experts</span>
           </h1>
           <p className="text-xl sm:text-2xl text-gray-200 mb-10 max-w-3xl mx-auto leading-relaxed">
             Professional property inspection services in Dubai, Abu Dhabi, Sharjah & Ajman. Protecting your investment across the UAE.
@@ -224,14 +231,14 @@ export default function Home() {
                 <DropdownMenuTrigger asChild>
                   <Button 
                     variant="outline" 
-                    className="bg-white/10 border-white/20 text-white hover:bg-white hover:text-brand-black transition-all px-4 py-3 md:px-6 md:py-6 text-sm md:text-lg rounded-xl backdrop-blur-md flex items-center gap-2 group w-full sm:w-auto justify-between sm:justify-center relative overflow-hidden"
+                    className="bg-white/10 border-white/20 text-white hover:bg-white hover:text-brand-black transition-all px-4 py-3 md:px-6 md:py-6 text-sm md:text-lg rounded-xl backdrop-blur-md flex items-center gap-2 group w-full sm:w-auto justify-between sm:justify-center relative overflow-hidden active:scale-95 touch-manipulation"
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-shimmer" />
                     <div className="flex items-center gap-2">
                       {category.icon}
-                      <span className="whitespace-nowrap">{category.title}</span>
+                      <span className="whitespace-nowrap font-semibold">{category.title}</span>
                     </div>
-                    <ChevronDown className="w-4 h-4 ml-1 group-data-[state=open]:rotate-180 transition-transform" />
+                    <ChevronDown className="w-5 h-5 ml-1 group-data-[state=open]:rotate-180 transition-transform" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-64 bg-white/95 backdrop-blur-md border-brand-green/20 rounded-xl p-2 shadow-2xl">

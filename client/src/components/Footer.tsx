@@ -45,14 +45,14 @@ export default function Footer() {
           </div>
           
           {/* Quick Links */}
-          <div>
+          <div className="md:col-span-1">
             <h3 className="text-lg font-bold mb-6 pb-2 border-b border-brand-green/30 inline-block">Quick Links</h3>
             <ul className="space-y-4">
-              <li><Link href="/"><span className="text-gray-400 hover:text-brand-green transition-colors cursor-pointer flex items-center"><i className="fas fa-chevron-right text-[10px] mr-2 text-brand-green/50"></i>Home</span></Link></li>
-              <li><Link href="/about"><span className="text-gray-400 hover:text-brand-green transition-colors cursor-pointer flex items-center"><i className="fas fa-chevron-right text-[10px] mr-2 text-brand-green/50"></i>About UrbanGrid</span></Link></li>
-              <li><Link href="/services"><span className="text-gray-400 hover:text-brand-green transition-colors cursor-pointer flex items-center"><i className="fas fa-chevron-right text-[10px] mr-2 text-brand-green/50"></i>Our Services</span></Link></li>
-              <li><Link href="/blog"><span className="text-gray-400 hover:text-brand-green transition-colors cursor-pointer flex items-center"><i className="fas fa-chevron-right text-[10px] mr-2 text-brand-green/50"></i>Inspection Insights</span></Link></li>
-              <li><Link href="/contact"><span className="text-gray-400 hover:text-brand-green transition-colors cursor-pointer flex items-center"><i className="fas fa-chevron-right text-[10px] mr-2 text-brand-green/50"></i>Book Inspection</span></Link></li>
+              <li><Link href="/"><span className="text-gray-400 hover:text-brand-green transition-colors cursor-pointer flex items-center py-2 md:py-0"><i className="fas fa-chevron-right text-[10px] mr-2 text-brand-green/50"></i>Home</span></Link></li>
+              <li><Link href="/about"><span className="text-gray-400 hover:text-brand-green transition-colors cursor-pointer flex items-center py-2 md:py-0"><i className="fas fa-chevron-right text-[10px] mr-2 text-brand-green/50"></i>About UrbanGrid</span></Link></li>
+              <li><Link href="/services"><span className="text-gray-400 hover:text-brand-green transition-colors cursor-pointer flex items-center py-2 md:py-0"><i className="fas fa-chevron-right text-[10px] mr-2 text-brand-green/50"></i>Our Services</span></Link></li>
+              <li><Link href="/blog"><span className="text-gray-400 hover:text-brand-green transition-colors cursor-pointer flex items-center py-2 md:py-0"><i className="fas fa-chevron-right text-[10px] mr-2 text-brand-green/50"></i>Inspection Insights</span></Link></li>
+              <li><Link href="/contact"><span className="text-gray-400 hover:text-brand-green transition-colors cursor-pointer flex items-center py-2 md:py-0"><i className="fas fa-chevron-right text-[10px] mr-2 text-brand-green/50"></i>Book Inspection</span></Link></li>
             </ul>
           </div>
           
