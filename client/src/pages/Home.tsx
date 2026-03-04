@@ -217,31 +217,6 @@ export default function Home() {
             Professional property inspection services in Dubai, Abu Dhabi, Sharjah & Ajman. Protecting your investment across the UAE.
           </p>
 
-          {/* Floating Live Stats */}
-          <div className="mt-4 flex flex-wrap justify-center gap-6 md:gap-12">
-            <div className="relative group p-6 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-brand-green/50 transition-all duration-500 hover:-translate-y-2">
-              <div className="text-3xl md:text-5xl font-extrabold text-brand-green mb-1 animate-pulse">
-                {counts.inspections.toLocaleString()}+
-              </div>
-              <div className="text-white/60 text-xs uppercase tracking-widest font-semibold">Properties Inspected</div>
-              <div className="absolute -top-2 -right-2 w-8 h-8 bg-brand-green/20 rounded-full blur-xl animate-bounce"></div>
-            </div>
-
-            <div className="relative group p-6 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-brand-green/50 transition-all duration-500 hover:-translate-y-2">
-              <div className="text-3xl md:text-5xl font-extrabold text-white mb-1">
-                {counts.cities}
-              </div>
-              <div className="text-white/60 text-xs uppercase tracking-widest font-semibold">Emirates Covered</div>
-            </div>
-
-            <div className="relative group p-6 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-brand-green/50 transition-all duration-500 hover:-translate-y-2">
-              <div className="text-3xl md:text-5xl font-extrabold text-brand-green mb-1 flex items-center justify-center gap-2">
-                {counts.rating} <span className="text-sm text-white/40">/ 5</span>
-              </div>
-              <div className="text-white/60 text-xs uppercase tracking-widest font-semibold">Client Rating</div>
-            </div>
-          </div>
-
           {/* Interactive Service Dropdowns */}
           <div className="flex flex-wrap justify-center gap-4 mt-8">
             {Object.entries(serviceCategories).map(([key, category]) => (
@@ -269,11 +244,41 @@ export default function Home() {
               </DropdownMenu>
             ))}
           </div>
+        </div>
 
-          <div className="mt-12 flex flex-wrap justify-center gap-8 text-white/60 text-sm font-medium">
-            <div className="flex items-center gap-2 hover:text-white transition-colors"><Shield className="w-4 h-4 text-brand-green" /> RERA Approved</div>
-            <div className="flex items-center gap-2 hover:text-white transition-colors"><Globe className="w-4 h-4 text-brand-green" /> International Standards</div>
-            <div className="flex items-center gap-2 hover:text-white transition-colors"><Layout className="w-4 h-4 text-brand-green" /> Certified Engineers</div>
+        {/* Hero Bottom Stats Banner */}
+        <div className="absolute bottom-0 left-0 right-0 bg-brand-black/60 backdrop-blur-xl border-t border-white/10 z-20 py-6">
+          <div className="container mx-auto px-4">
+            <div className="flex flex-wrap justify-center items-center gap-x-12 gap-y-4">
+              <div className="flex flex-col items-center md:items-start">
+                <span className="text-brand-green text-2xl md:text-3xl font-bold leading-none">{counts.inspections.toLocaleString()}+</span>
+                <span className="text-white/60 text-[10px] uppercase tracking-widest font-semibold mt-1">Properties Inspected</span>
+              </div>
+              <div className="w-px h-8 bg-white/10 hidden md:block"></div>
+              <div className="flex flex-col items-center md:items-start">
+                <span className="text-white text-2xl md:text-3xl font-bold leading-none">{counts.cities}</span>
+                <span className="text-white/60 text-[10px] uppercase tracking-widest font-semibold mt-1">Emirates Covered</span>
+              </div>
+              <div className="w-px h-8 bg-white/10 hidden md:block"></div>
+              <div className="flex flex-col items-center md:items-start">
+                <div className="flex items-center gap-2">
+                  <span className="text-brand-green text-2xl md:text-3xl font-bold leading-none">{counts.rating}</span>
+                  <div className="flex text-yellow-500 text-xs">
+                    <i className="fas fa-star"></i>
+                    <i className="fas fa-star"></i>
+                    <i className="fas fa-star"></i>
+                    <i className="fas fa-star"></i>
+                    <i className="fas fa-star"></i>
+                  </div>
+                </div>
+                <span className="text-white/60 text-[10px] uppercase tracking-widest font-semibold mt-1">Client Satisfaction</span>
+              </div>
+              <div className="w-px h-8 bg-white/10 hidden lg:block"></div>
+              <div className="hidden lg:flex items-center gap-6 text-white/40 text-[10px] uppercase tracking-widest font-bold">
+                <div className="flex items-center gap-2"><Shield className="w-3 h-3 text-brand-green" /> RERA Approved</div>
+                <div className="flex items-center gap-2"><Globe className="w-3 h-3 text-brand-green" /> Intl Standards</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
