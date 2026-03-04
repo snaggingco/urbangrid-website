@@ -218,16 +218,18 @@ export default function Home() {
           </p>
 
           {/* Interactive Service Dropdowns */}
-          <div className="flex flex-wrap justify-center gap-4 mt-8">
+          <div className="flex flex-wrap justify-center gap-3 mt-8">
             {Object.entries(serviceCategories).map(([key, category]) => (
               <DropdownMenu key={key}>
                 <DropdownMenuTrigger asChild>
                   <Button 
                     variant="outline" 
-                    className="bg-white/10 border-white/20 text-white hover:bg-white hover:text-brand-black transition-all px-6 py-6 text-lg rounded-xl backdrop-blur-md flex items-center gap-2 group"
+                    className="bg-white/10 border-white/20 text-white hover:bg-white hover:text-brand-black transition-all px-4 py-3 md:px-6 md:py-6 text-sm md:text-lg rounded-xl backdrop-blur-md flex items-center gap-2 group w-full sm:w-auto justify-between sm:justify-center"
                   >
-                    {category.icon}
-                    {category.title}
+                    <div className="flex items-center gap-2">
+                      {category.icon}
+                      <span className="whitespace-nowrap">{category.title}</span>
+                    </div>
                     <ChevronDown className="w-4 h-4 ml-1 group-data-[state=open]:rotate-180 transition-transform" />
                   </Button>
                 </DropdownMenuTrigger>
