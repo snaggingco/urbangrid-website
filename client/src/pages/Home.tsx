@@ -22,7 +22,7 @@ export default function Home() {
   useEffect(() => {
     setIsVisible(true);
     // Animate numbers
-    const duration = 2000;
+    const duration = 1500;
     const steps = 50;
     const interval = duration / steps;
     let step = 0;
@@ -197,44 +197,46 @@ export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center bg-gray-900 mt-8 lg:mt-12">
-        {/* Background Image with Overlay */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80')`
-          }}
-        >
-        </div>
-        <div className="absolute inset-0 bg-black/60"></div>
+      <section className="relative h-screen flex items-center justify-center bg-[#021a14] mt-8 lg:mt-12 overflow-hidden">
+        {/* Modern Abstract Background Elements */}
+        <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_70%_20%,#064E3B_0%,transparent_50%)] opacity-40"></div>
+        <div className="absolute bottom-0 left-0 w-full h-full bg-[radial-gradient(circle_at_20%_80%,#064E3B_0%,transparent_50%)] opacity-30"></div>
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
         
         {/* Hero Content */}
         <div className={`relative z-10 text-center max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green/10 border border-brand-green/20 text-brand-green text-xs font-bold uppercase tracking-widest mb-6">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-green opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-green"></span>
+            </span>
+            UAE's Trusted Inspection Partner
+          </div>
+          
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight tracking-tight">
             UAE's #1 Snagging & <span className="text-brand-green">Inspection Experts</span>
           </h1>
-          <p className="text-xl sm:text-2xl text-gray-200 mb-10 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl sm:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed">
             Professional property inspection services in Dubai, Abu Dhabi, Sharjah & Ajman. Protecting your investment across the UAE.
           </p>
 
           {/* Floating Live Stats */}
-          <div className="mt-6 flex flex-wrap justify-center gap-4 md:gap-8">
-            <div className="relative group p-3 md:p-4 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-brand-green/50 transition-all duration-500 hover:-translate-y-1">
+          <div className="mt-4 flex flex-wrap justify-center gap-4 md:gap-8">
+            <div className="relative group p-3 md:p-4 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-brand-green/50 transition-all duration-500 hover:-translate-y-1 shadow-2xl">
               <div className="text-2xl md:text-3xl font-extrabold text-brand-green mb-0.5 animate-pulse">
                 {counts.inspections.toLocaleString()}+
               </div>
               <div className="text-white/60 text-[10px] uppercase tracking-widest font-semibold">Inspected</div>
-              <div className="absolute -top-1 -right-1 w-4 h-4 bg-brand-green/20 rounded-full blur-lg animate-bounce"></div>
             </div>
 
-            <div className="relative group p-3 md:p-4 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-brand-green/50 transition-all duration-500 hover:-translate-y-1">
+            <div className="relative group p-3 md:p-4 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-brand-green/50 transition-all duration-500 hover:-translate-y-1 shadow-2xl">
               <div className="text-2xl md:text-3xl font-extrabold text-white mb-0.5">
                 {counts.cities}
               </div>
               <div className="text-white/60 text-[10px] uppercase tracking-widest font-semibold">Emirates</div>
             </div>
 
-            <div className="relative group p-3 md:p-4 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-brand-green/50 transition-all duration-500 hover:-translate-y-1">
+            <div className="relative group p-3 md:p-4 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-brand-green/50 transition-all duration-500 hover:-translate-y-1 shadow-2xl">
               <div className="text-2xl md:text-3xl font-extrabold text-brand-green mb-0.5 flex items-center justify-center gap-1">
                 {counts.rating} <span className="text-xs text-white/40">/ 5</span>
               </div>
@@ -243,22 +245,22 @@ export default function Home() {
           </div>
 
           {/* Interactive Service Dropdowns */}
-          <div className="flex flex-wrap justify-center gap-4 mt-8">
+          <div className="flex flex-wrap justify-center gap-4 mt-10">
             {Object.entries(serviceCategories).map(([key, category]) => (
               <DropdownMenu key={key}>
                 <DropdownMenuTrigger asChild>
                   <Button 
                     variant="outline" 
-                    className="bg-white/10 border-white/20 text-white hover:bg-white hover:text-brand-black transition-all px-6 py-6 text-lg rounded-xl backdrop-blur-md flex items-center gap-2 group"
+                    className="bg-brand-green/5 border-white/10 text-white hover:bg-brand-green hover:border-brand-green transition-all px-6 py-6 text-lg rounded-xl backdrop-blur-md flex items-center gap-2 group shadow-lg"
                   >
                     {category.icon}
                     {category.title}
                     <ChevronDown className="w-4 h-4 ml-1 group-data-[state=open]:rotate-180 transition-transform" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-64 bg-white/95 backdrop-blur-md border-brand-green/20 rounded-xl p-2 shadow-2xl">
+                <DropdownMenuContent className="w-64 bg-[#0a1f1a] backdrop-blur-xl border-brand-green/30 rounded-xl p-2 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
                   {category.services.map((service) => (
-                    <DropdownMenuItem key={service.id} className="focus:bg-brand-green/10 focus:text-brand-green cursor-pointer rounded-lg py-3 px-4">
+                    <DropdownMenuItem key={service.id} className="focus:bg-brand-green/20 focus:text-white text-gray-300 cursor-pointer rounded-lg py-3 px-4 transition-colors">
                       <Link href={`/services/${category.categorySlug}/${service.slug}`} className="w-full flex items-center justify-between group">
                         <span className="font-medium text-sm">{service.title}</span>
                         <ChevronDown className="-rotate-90 w-3 h-3 opacity-0 group-hover:opacity-100 transition-all translate-x-1" />
@@ -270,10 +272,10 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="mt-12 flex flex-wrap justify-center gap-8 text-white/60 text-sm font-medium">
-            <div className="flex items-center gap-2 hover:text-white transition-colors"><Shield className="w-4 h-4 text-brand-green" /> RERA Approved</div>
-            <div className="flex items-center gap-2 hover:text-white transition-colors"><Globe className="w-4 h-4 text-brand-green" /> International Standards</div>
-            <div className="flex items-center gap-2 hover:text-white transition-colors"><Layout className="w-4 h-4 text-brand-green" /> Certified Engineers</div>
+          <div className="mt-12 flex flex-wrap justify-center gap-8 text-white/40 text-sm font-medium">
+            <div className="flex items-center gap-2 hover:text-brand-green transition-colors cursor-default"><Shield className="w-4 h-4 text-brand-green/60" /> RERA Approved</div>
+            <div className="flex items-center gap-2 hover:text-brand-green transition-colors cursor-default"><Globe className="w-4 h-4 text-brand-green/60" /> International Standards</div>
+            <div className="flex items-center gap-2 hover:text-brand-green transition-colors cursor-default"><Layout className="w-4 h-4 text-brand-green/60" /> Certified Engineers</div>
           </div>
         </div>
       </section>
