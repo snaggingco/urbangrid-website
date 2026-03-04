@@ -210,8 +210,8 @@ export default function Home() {
         
         {/* Hero Content */}
         <div className={`relative z-10 text-center max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight tracking-tight">
-            UAE's #1 Snagging & <span className="text-brand-white">Inspection Experts</span>
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight tracking-tight animate-pulse-soft">
+            UAE's #1 Snagging & <span className="text-brand-green">Inspection Experts</span>
           </h1>
           <p className="text-xl sm:text-2xl text-gray-200 mb-10 max-w-3xl mx-auto leading-relaxed">
             Professional property inspection services in Dubai, Abu Dhabi, Sharjah & Ajman. Protecting your investment across the UAE.
