@@ -248,9 +248,9 @@ export default function Home() {
           </div>
           
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight tracking-tight">
-            UAE's #1 Snagging & <span className="text-brand-green">Inspection Experts</span>
+            UAE's #1 Snagging & <span className="text-white">Inspection Experts</span>
           </h1>
-          <p className="text-xl sm:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl sm:text-2xl text-white mb-10 max-w-3xl mx-auto leading-relaxed">
             Professional property inspection services in Dubai, Abu Dhabi, Sharjah & Ajman. Protecting your investment across the UAE.
           </p>
 
@@ -264,8 +264,8 @@ export default function Home() {
                     className="bg-brand-green/5 border-white/10 text-white hover:bg-brand-green hover:border-brand-green transition-all px-6 py-6 text-lg rounded-xl backdrop-blur-md flex items-center gap-2 group shadow-lg"
                   >
                     {category.icon}
-                    {category.title}
-                    <ChevronDown className="w-4 h-4 ml-1 group-data-[state=open]:rotate-180 transition-transform" />
+                    <span className="text-white">{category.title}</span>
+                    <ChevronDown className="w-4 h-4 ml-1 group-data-[state=open]:rotate-180 transition-transform text-white" />
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-64 bg-[#0a1f1a] backdrop-blur-xl border-brand-green/30 rounded-xl p-2 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
@@ -282,10 +282,10 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="mt-12 flex flex-wrap justify-center gap-8 text-white/40 text-sm font-medium">
-            <div className="flex items-center gap-2 hover:text-brand-green transition-colors cursor-default"><Shield className="w-4 h-4 text-brand-white/60" /> RERA Approved</div>
-            <div className="flex items-center gap-2 hover:text-brand-green transition-colors cursor-default"><Globe className="w-4 h-4 text-brand-white/60" /> International Standards</div>
-            <div className="flex items-center gap-2 hover:text-brand-green transition-colors cursor-default"><Layout className="w-4 h-4 text-brand-green/60" /> Certified Engineers</div>
+          <div className="mt-12 flex flex-wrap justify-center gap-8 text-white text-sm font-medium">
+            <div className="flex items-center gap-2 hover:text-brand-green transition-colors cursor-default"><Shield className="w-4 h-4 text-white" /> RERA Approved</div>
+            <div className="flex items-center gap-2 hover:text-brand-green transition-colors cursor-default"><Globe className="w-4 h-4 text-white" /> International Standards</div>
+            <div className="flex items-center gap-2 hover:text-brand-green transition-colors cursor-default"><Layout className="w-4 h-4 text-white" /> Certified Engineers</div>
           </div>
         </div>
       </section>
