@@ -203,6 +203,44 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 w-full h-full bg-[radial-gradient(circle_at_20%_80%,#064E3B_0%,transparent_50%)] opacity-30"></div>
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
         
+        {/* Bottom Bar Stats - Fixed at the bottom of the hero section */}
+        <div className="absolute bottom-0 left-0 w-full bg-black/40 backdrop-blur-md border-t border-white/10 py-4 z-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
+              <div className="flex items-center gap-3 group">
+                <div className="text-2xl md:text-3xl font-extrabold text-brand-green animate-pulse">
+                  {counts.inspections.toLocaleString()}+
+                </div>
+                <div className="text-white/40 text-[10px] uppercase tracking-widest font-bold leading-tight text-left">
+                  Properties<br/>Inspected
+                </div>
+              </div>
+
+              <div className="w-px h-8 bg-white/10 hidden md:block"></div>
+
+              <div className="flex items-center gap-3 group">
+                <div className="text-2xl md:text-3xl font-extrabold text-white">
+                  {counts.cities}
+                </div>
+                <div className="text-white/40 text-[10px] uppercase tracking-widest font-bold leading-tight text-left">
+                  Emirates<br/>Covered
+                </div>
+              </div>
+
+              <div className="w-px h-8 bg-white/10 hidden md:block"></div>
+
+              <div className="flex items-center gap-3 group">
+                <div className="text-2xl md:text-3xl font-extrabold text-brand-green flex items-center gap-1">
+                  {counts.rating} <span className="text-xs text-white/20">/ 5</span>
+                </div>
+                <div className="text-white/40 text-[10px] uppercase tracking-widest font-bold leading-tight text-left">
+                  Client<br/>Rating
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Hero Content */}
         <div className={`relative z-10 text-center max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green/10 border border-brand-green/20 text-brand-green text-xs font-bold uppercase tracking-widest mb-6">
@@ -220,32 +258,8 @@ export default function Home() {
             Professional property inspection services in Dubai, Abu Dhabi, Sharjah & Ajman. Protecting your investment across the UAE.
           </p>
 
-          {/* Floating Live Stats */}
-          <div className="mt-4 flex flex-wrap justify-center gap-4 md:gap-8">
-            <div className="relative group p-3 md:p-4 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-brand-green/50 transition-all duration-500 hover:-translate-y-1 shadow-2xl">
-              <div className="text-2xl md:text-3xl font-extrabold text-brand-green mb-0.5 animate-pulse">
-                {counts.inspections.toLocaleString()}+
-              </div>
-              <div className="text-white/60 text-[10px] uppercase tracking-widest font-semibold">Inspected</div>
-            </div>
-
-            <div className="relative group p-3 md:p-4 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-brand-green/50 transition-all duration-500 hover:-translate-y-1 shadow-2xl">
-              <div className="text-2xl md:text-3xl font-extrabold text-white mb-0.5">
-                {counts.cities}
-              </div>
-              <div className="text-white/60 text-[10px] uppercase tracking-widest font-semibold">Emirates</div>
-            </div>
-
-            <div className="relative group p-3 md:p-4 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-brand-green/50 transition-all duration-500 hover:-translate-y-1 shadow-2xl">
-              <div className="text-2xl md:text-3xl font-extrabold text-brand-green mb-0.5 flex items-center justify-center gap-1">
-                {counts.rating} <span className="text-xs text-white/40">/ 5</span>
-              </div>
-              <div className="text-white/60 text-[10px] uppercase tracking-widest font-semibold">Rating</div>
-            </div>
-          </div>
-
           {/* Interactive Service Dropdowns */}
-          <div className="flex flex-wrap justify-center gap-4 mt-10">
+          <div className="flex flex-wrap justify-center gap-4 mt-2">
             {Object.entries(serviceCategories).map(([key, category]) => (
               <DropdownMenu key={key}>
                 <DropdownMenuTrigger asChild>
@@ -272,7 +286,7 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="mt-12 flex flex-wrap justify-center gap-8 text-white/40 text-sm font-medium">
+          <div className="mt-12 mb-20 flex flex-wrap justify-center gap-8 text-white/40 text-sm font-medium">
             <div className="flex items-center gap-2 hover:text-brand-green transition-colors cursor-default"><Shield className="w-4 h-4 text-brand-green/60" /> RERA Approved</div>
             <div className="flex items-center gap-2 hover:text-brand-green transition-colors cursor-default"><Globe className="w-4 h-4 text-brand-green/60" /> International Standards</div>
             <div className="flex items-center gap-2 hover:text-brand-green transition-colors cursor-default"><Layout className="w-4 h-4 text-brand-green/60" /> Certified Engineers</div>
