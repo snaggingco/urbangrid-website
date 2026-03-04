@@ -16,10 +16,27 @@ import internachi2 from "@assets/internachi2.webp";
 
 export default function Home() {
   const [isVisible, setIsVisible] = useState(false);
-  const [activeTab, setActiveTab] = useState<keyof typeof serviceCategories>('property-snagging');
+  const [counts, setCounts] = useState({ inspections: 0, cities: 0, rating: 0 });
 
   useEffect(() => {
     setIsVisible(true);
+    // Animate numbers
+    const duration = 2000;
+    const steps = 50;
+    const interval = duration / steps;
+    let step = 0;
+
+    const timer = setInterval(() => {
+      step++;
+      setCounts({
+        inspections: Math.floor((15000 / steps) * step),
+        cities: Math.floor((7 / steps) * step),
+        rating: Math.min(4.9, parseFloat(((4.9 / steps) * step).toFixed(1)))
+      });
+      if (step >= steps) clearInterval(timer);
+    }, interval);
+
+    return () => clearInterval(timer);
   }, []);
 
   const serviceCategories = {
@@ -199,6 +216,31 @@ export default function Home() {
             Professional property inspection services in Dubai, Abu Dhabi, Sharjah & Ajman. Protecting your investment across the UAE.
           </p>
 
+          {/* Floating Live Stats */}
+          <div className="mt-4 flex flex-wrap justify-center gap-6 md:gap-12">
+            <div className="relative group p-6 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-brand-green/50 transition-all duration-500 hover:-translate-y-2">
+              <div className="text-3xl md:text-5xl font-extrabold text-brand-green mb-1 animate-pulse">
+                {counts.inspections.toLocaleString()}+
+              </div>
+              <div className="text-white/60 text-xs uppercase tracking-widest font-semibold">Properties Inspected</div>
+              <div className="absolute -top-2 -right-2 w-8 h-8 bg-brand-green/20 rounded-full blur-xl animate-bounce"></div>
+            </div>
+
+            <div className="relative group p-6 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-brand-green/50 transition-all duration-500 hover:-translate-y-2">
+              <div className="text-3xl md:text-5xl font-extrabold text-white mb-1">
+                {counts.cities}
+              </div>
+              <div className="text-white/60 text-xs uppercase tracking-widest font-semibold">Emirates Covered</div>
+            </div>
+
+            <div className="relative group p-6 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-brand-green/50 transition-all duration-500 hover:-translate-y-2">
+              <div className="text-3xl md:text-5xl font-extrabold text-brand-green mb-1 flex items-center justify-center gap-2">
+                {counts.rating} <span className="text-sm text-white/40">/ 5</span>
+              </div>
+              <div className="text-white/60 text-xs uppercase tracking-widest font-semibold">Client Rating</div>
+            </div>
+          </div>
+
           {/* Interactive Service Dropdowns */}
           <div className="flex flex-wrap justify-center gap-4 mt-8">
             {Object.entries(serviceCategories).map(([key, category]) => (
@@ -228,9 +270,9 @@ export default function Home() {
           </div>
 
           <div className="mt-12 flex flex-wrap justify-center gap-8 text-white/60 text-sm font-medium">
-            <div className="flex items-center gap-2"><Shield className="w-4 h-4 text-brand-green" /> RERA Approved</div>
-            <div className="flex items-center gap-2"><Globe className="w-4 h-4 text-brand-green" /> International Standards</div>
-            <div className="flex items-center gap-2"><Layout className="w-4 h-4 text-brand-green" /> 15,000+ Inspections</div>
+            <div className="flex items-center gap-2 hover:text-white transition-colors"><Shield className="w-4 h-4 text-brand-green" /> RERA Approved</div>
+            <div className="flex items-center gap-2 hover:text-white transition-colors"><Globe className="w-4 h-4 text-brand-green" /> International Standards</div>
+            <div className="flex items-center gap-2 hover:text-white transition-colors"><Layout className="w-4 h-4 text-brand-green" /> Certified Engineers</div>
           </div>
         </div>
       </section>
