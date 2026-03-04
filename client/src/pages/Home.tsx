@@ -204,7 +204,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
         
         {/* Bottom Bar Stats - Fixed at the bottom of the hero section */}
-        <div className="absolute bottom-0 left-0 w-full bg-black/90 backdrop-blur-3xl border-t border-brand-green/20 py-10 z-[100] shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
+        <div className="absolute bottom-0 left-0 w-full bg-black/90 backdrop-blur-3xl border-t border-brand-green/20 py-50 z-[60] shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex flex-wrap justify-center items-center gap-12 md:gap-40">
               <div className="flex items-center gap-6 group">
@@ -238,7 +238,7 @@ export default function Home() {
         </div>
 
         {/* Hero Content */}
-        <div className={`relative z-10 text-center max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-32 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className={`relative z-[110] text-center max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-32 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green/10 border border-brand-green/20 text-brand-green text-xs font-bold uppercase tracking-widest mb-6">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-green opacity-75"></span>
@@ -268,7 +268,7 @@ export default function Home() {
                     <ChevronDown className="w-4 h-4 ml-1 group-data-[state=open]:rotate-180 transition-transform text-white" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-64 bg-[#0a1f1a] backdrop-blur-xl border-brand-green/30 rounded-xl p-2 shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+                <DropdownMenuContent className="w-64 bg-[#0a1f1a] backdrop-blur-xl border-brand-green/30 rounded-xl p-2 shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[200]">
                   {category.services.map((service) => (
                     <DropdownMenuItem key={service.id} className="focus:bg-brand-green/20 focus:text-white text-gray-300 cursor-pointer rounded-lg py-3 px-4 transition-colors">
                       <Link href={`/services/${category.categorySlug}/${service.slug}`} className="w-full flex items-center justify-between group">
@@ -282,10 +282,10 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="mt-12 flex flex-wrap justify-center gap-8 text-white text-sm font-medium">
-            <div className="flex items-center gap-2 hover:text-brand-green transition-colors cursor-default"><Shield className="w-4 h-4 text-white" /> RERA Approved</div>
-            <div className="flex items-center gap-2 hover:text-brand-green transition-colors cursor-default"><Globe className="w-4 h-4 text-white" /> International Standards</div>
-            <div className="flex items-center gap-2 hover:text-brand-green transition-colors cursor-default"><Layout className="w-4 h-4 text-white" /> Certified Engineers</div>
+          <div className="mt-12 flex flex-wrap justify-center gap-8 text-white/40 text-sm font-medium">
+            <div className="flex items-center gap-2 hover:text-brand-green transition-colors cursor-default"><Shield className="w-4 h-4 text-brand-white/60" /> RERA Approved</div>
+            <div className="flex items-center gap-2 hover:text-brand-green transition-colors cursor-default"><Globe className="w-4 h-4 text-brand-white/60" /> International Standards</div>
+            <div className="flex items-center gap-2 hover:text-brand-green transition-colors cursor-default"><Layout className="w-4 h-4 text-brand-green/60" /> Certified Engineers</div>
           </div>
         </div>
       </section>
