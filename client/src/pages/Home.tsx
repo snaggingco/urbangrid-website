@@ -218,30 +218,30 @@ export default function Home() {
             Professional property inspection services in Dubai, Abu Dhabi, Sharjah & Ajman. Protecting your investment across the UAE.
           </p>
 
-          <div className="flex flex-col items-center gap-6 mt-8">
-            <Link href="/contact">
+          <div className="flex flex-col items-center gap-4 mt-8 px-4 w-full">
+            <Link href="/contact" className="w-full sm:w-auto">
               <Button 
                 size="lg"
-                className="bg-brand-green text-white hover:bg-emerald-700 transition-all px-12 py-8 text-xl rounded-xl shadow-2xl shadow-brand-green/20 group relative overflow-hidden active:scale-95"
+                className="bg-brand-green text-white hover:bg-emerald-700 transition-all px-6 py-4 sm:px-12 sm:py-8 text-sm sm:text-xl rounded-xl shadow-2xl shadow-brand-green/20 group relative overflow-hidden active:scale-95 w-full"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer" />
-                <span className="flex items-center gap-3 font-bold">
-                  Book Your Inspection Now
+                <span className="flex items-center justify-center gap-2 sm:gap-3 font-bold">
+                  Book Inspection
                   <i className="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
                 </span>
               </Button>
             </Link>
 
-            <div className="flex flex-wrap justify-center gap-4">
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-4 max-w-xs sm:max-w-none">
               {Object.entries(serviceCategories).map(([key, category]) => (
                 <DropdownMenu key={key}>
                   <DropdownMenuTrigger asChild>
                     <button 
-                      className="text-white/70 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/5"
+                      className="text-white/40 hover:text-white transition-colors text-[10px] sm:text-sm font-medium flex items-center gap-1.5 px-2.5 py-1 rounded-full hover:bg-white/5"
                     >
                       {category.icon}
                       {category.title}
-                      <ChevronDown className="w-3 h-3 opacity-50" />
+                      <ChevronDown className="w-2 h-2 opacity-30" />
                     </button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-64 bg-white/95 backdrop-blur-md border-brand-green/20 rounded-xl p-2 shadow-2xl">
