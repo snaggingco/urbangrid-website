@@ -29,7 +29,7 @@ export default function Footer() {
               Urban<span className="text-brand-green">Grid</span>
             </div>
             <p className="text-gray-400 leading-relaxed">
-              UAE's premier property inspection and snagging company. Delivering international engineering standards across all seven Emirates with 15,000+ properties inspected.
+              UAE's premier property inspection and snagging company. Delivering international engineering standards across all seven Emirates with 40,000+ properties inspected.
             </p>
             <div className="flex space-x-5">
               <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-brand-green transition-all group" aria-label="Facebook">
@@ -99,6 +99,7 @@ export default function Footer() {
                 </div>
                 <a href="mailto:info@urbangrid.ae" className="text-gray-400 hover:text-white transition-colors text-sm font-medium">
                   info@urbangrid.ae
+                  info@snagging.me
                 </a>
               </div>
             </div>

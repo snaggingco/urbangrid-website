@@ -210,49 +210,53 @@ export default function Home() {
         
         {/* Hero Content */}
         <div className={`relative z-10 text-center max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green/20 border border-brand-green/30 text-brand-green text-[10px] sm:text-xs font-bold uppercase tracking-widest mb-6">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-green opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-green"></span>
-            </span>
-            Available Now Across UAE
-          </div>
+          
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight tracking-tight animate-pulse-soft">
-            UAE's #1 Snagging & <span className="text-brand-green">Inspection Experts</span>
+            UAE's #1 Snagging & <span className="text-brand-white">Inspection Experts</span>
           </h1>
           <p className="text-xl sm:text-2xl text-gray-200 mb-10 max-w-3xl mx-auto leading-relaxed">
             Professional property inspection services in Dubai, Abu Dhabi, Sharjah & Ajman. Protecting your investment across the UAE.
           </p>
 
-          {/* Interactive Service Dropdowns */}
-          <div className="flex flex-wrap justify-center gap-3 mt-8">
-            {Object.entries(serviceCategories).map(([key, category]) => (
-              <DropdownMenu key={key}>
-                <DropdownMenuTrigger asChild>
-                  <Button 
-                    variant="outline" 
-                    className="bg-white/10 border-white/20 text-white hover:bg-white hover:text-brand-black transition-all px-4 py-3 md:px-6 md:py-6 text-sm md:text-lg rounded-xl backdrop-blur-md flex items-center gap-2 group w-full sm:w-auto justify-between sm:justify-center relative overflow-hidden active:scale-95 touch-manipulation"
-                  >
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-shimmer" />
-                    <div className="flex items-center gap-2">
+          <div className="flex flex-col items-center gap-6 mt-8">
+            <Link href="/contact">
+              <Button 
+                size="lg"
+                className="bg-brand-green text-white hover:bg-emerald-700 transition-all px-12 py-8 text-xl rounded-xl shadow-2xl shadow-brand-green/20 group relative overflow-hidden active:scale-95"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer" />
+                <span className="flex items-center gap-3 font-bold">
+                  Book Your Inspection Now
+                  <i className="fas fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                </span>
+              </Button>
+            </Link>
+
+            <div className="flex flex-wrap justify-center gap-4">
+              {Object.entries(serviceCategories).map(([key, category]) => (
+                <DropdownMenu key={key}>
+                  <DropdownMenuTrigger asChild>
+                    <button 
+                      className="text-white/70 hover:text-white transition-colors text-sm font-medium flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/5"
+                    >
                       {category.icon}
-                      <span className="whitespace-nowrap font-semibold">{category.title}</span>
-                    </div>
-                    <ChevronDown className="w-5 h-5 ml-1 group-data-[state=open]:rotate-180 transition-transform" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-64 bg-white/95 backdrop-blur-md border-brand-green/20 rounded-xl p-2 shadow-2xl">
-                  {category.services.map((service) => (
-                    <DropdownMenuItem key={service.id} className="focus:bg-brand-green/10 focus:text-brand-green cursor-pointer rounded-lg py-3 px-4">
-                      <Link href={`/services/${category.categorySlug}/${service.slug}`} className="w-full flex items-center justify-between group">
-                        <span className="font-medium text-sm">{service.title}</span>
-                        <ChevronDown className="-rotate-90 w-3 h-3 opacity-0 group-hover:opacity-100 transition-all translate-x-1" />
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ))}
+                      {category.title}
+                      <ChevronDown className="w-3 h-3 opacity-50" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-64 bg-white/95 backdrop-blur-md border-brand-green/20 rounded-xl p-2 shadow-2xl">
+                    {category.services.map((service) => (
+                      <DropdownMenuItem key={service.id} className="focus:bg-brand-green/10 focus:text-brand-green cursor-pointer rounded-lg py-3 px-4">
+                        <Link href={`/services/${category.categorySlug}/${service.slug}`} className="w-full flex items-center justify-between group">
+                          <span className="font-medium text-sm">{service.title}</span>
+                          <ChevronDown className="-rotate-90 w-3 h-3 opacity-0 group-hover:opacity-100 transition-all translate-x-1" />
+                        </Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ))}
+            </div>
           </div>
         </div>
 
