@@ -197,43 +197,39 @@ export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center bg-[#021a14] mt-8 lg:mt-12 overflow-hidden">
+      <section className="relative h-screen min-h-[700px] flex items-center justify-center bg-[#021a14] overflow-hidden">
         {/* Modern Abstract Background Elements */}
         <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_70%_20%,#064E3B_0%,transparent_50%)] opacity-40"></div>
         <div className="absolute bottom-0 left-0 w-full h-full bg-[radial-gradient(circle_at_20%_80%,#064E3B_0%,transparent_50%)] opacity-30"></div>
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
         
         {/* Bottom Bar Stats - Fixed at the bottom of the hero section */}
-        <div className="absolute bottom-0 left-0 w-full bg-black/40 backdrop-blur-md border-t border-white/10 py-4 z-20">
+        <div className="absolute bottom-0 left-0 w-full bg-black/90 backdrop-blur-3xl border-t border-brand-green/20 py-10 z-[100] shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
-              <div className="flex items-center gap-3 group">
-                <div className="text-2xl md:text-3xl font-extrabold text-brand-green animate-pulse">
+            <div className="flex flex-wrap justify-center items-center gap-12 md:gap-40">
+              <div className="flex items-center gap-6 group">
+                <div className="text-4xl md:text-6xl font-black text-brand-green drop-shadow-[0_0_25px_rgba(6,78,59,0.8)] tracking-tighter">
                   {counts.inspections.toLocaleString()}+
                 </div>
-                <div className="text-white/40 text-[10px] uppercase tracking-widest font-bold leading-tight text-left">
+                <div className="text-white/90 text-[13px] uppercase tracking-[0.3em] font-black leading-tight text-left border-l-2 border-brand-green/30 pl-4">
                   Properties<br/>Inspected
                 </div>
               </div>
 
-              <div className="w-px h-8 bg-white/10 hidden md:block"></div>
-
-              <div className="flex items-center gap-3 group">
-                <div className="text-2xl md:text-3xl font-extrabold text-white">
+              <div className="flex items-center gap-6 group">
+                <div className="text-4xl md:text-6xl font-black text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)] tracking-tighter">
                   {counts.cities}
                 </div>
-                <div className="text-white/40 text-[10px] uppercase tracking-widest font-bold leading-tight text-left">
+                <div className="text-white/90 text-[13px] uppercase tracking-[0.3em] font-black leading-tight text-left border-l-2 border-white/20 pl-4">
                   Emirates<br/>Covered
                 </div>
               </div>
 
-              <div className="w-px h-8 bg-white/10 hidden md:block"></div>
-
-              <div className="flex items-center gap-3 group">
-                <div className="text-2xl md:text-3xl font-extrabold text-brand-green flex items-center gap-1">
-                  {counts.rating} <span className="text-xs text-white/20">/ 5</span>
+              <div className="flex items-center gap-6 group">
+                <div className="text-4xl md:text-6xl font-black text-brand-green drop-shadow-[0_0_25px_rgba(6,78,59,0.8)] tracking-tighter flex items-baseline gap-1">
+                  {counts.rating} <span className="text-xl text-white/20 font-bold">/ 5</span>
                 </div>
-                <div className="text-white/40 text-[10px] uppercase tracking-widest font-bold leading-tight text-left">
+                <div className="text-white/90 text-[13px] uppercase tracking-[0.3em] font-black leading-tight text-left border-l-2 border-brand-green/30 pl-4">
                   Client<br/>Rating
                 </div>
               </div>
@@ -242,7 +238,7 @@ export default function Home() {
         </div>
 
         {/* Hero Content */}
-        <div className={`relative z-10 text-center max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+        <div className={`relative z-10 text-center max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-32 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green/10 border border-brand-green/20 text-brand-green text-xs font-bold uppercase tracking-widest mb-6">
             <span className="relative flex h-2 w-2">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-green opacity-75"></span>
@@ -286,9 +282,9 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="mt-12 mb-20 flex flex-wrap justify-center gap-8 text-white/40 text-sm font-medium">
-            <div className="flex items-center gap-2 hover:text-brand-green transition-colors cursor-default"><Shield className="w-4 h-4 text-brand-green/60" /> RERA Approved</div>
-            <div className="flex items-center gap-2 hover:text-brand-green transition-colors cursor-default"><Globe className="w-4 h-4 text-brand-green/60" /> International Standards</div>
+          <div className="mt-12 flex flex-wrap justify-center gap-8 text-white/40 text-sm font-medium">
+            <div className="flex items-center gap-2 hover:text-brand-green transition-colors cursor-default"><Shield className="w-4 h-4 text-brand-white/60" /> RERA Approved</div>
+            <div className="flex items-center gap-2 hover:text-brand-green transition-colors cursor-default"><Globe className="w-4 h-4 text-brand-white/60" /> International Standards</div>
             <div className="flex items-center gap-2 hover:text-brand-green transition-colors cursor-default"><Layout className="w-4 h-4 text-brand-green/60" /> Certified Engineers</div>
           </div>
         </div>
