@@ -218,27 +218,27 @@ export default function Home() {
           </p>
 
           {/* Floating Live Stats */}
-          <div className="mt-4 flex flex-wrap justify-center gap-6 md:gap-12">
-            <div className="relative group p-6 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-brand-green/50 transition-all duration-500 hover:-translate-y-2">
-              <div className="text-3xl md:text-5xl font-extrabold text-brand-green mb-1 animate-pulse">
+          <div className="mt-6 flex flex-wrap justify-center gap-4 md:gap-8">
+            <div className="relative group p-3 md:p-4 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-brand-green/50 transition-all duration-500 hover:-translate-y-1">
+              <div className="text-2xl md:text-3xl font-extrabold text-brand-green mb-0.5 animate-pulse">
                 {counts.inspections.toLocaleString()}+
               </div>
-              <div className="text-white/60 text-xs uppercase tracking-widest font-semibold">Properties Inspected</div>
-              <div className="absolute -top-2 -right-2 w-8 h-8 bg-brand-green/20 rounded-full blur-xl animate-bounce"></div>
+              <div className="text-white/60 text-[10px] uppercase tracking-widest font-semibold">Inspected</div>
+              <div className="absolute -top-1 -right-1 w-4 h-4 bg-brand-green/20 rounded-full blur-lg animate-bounce"></div>
             </div>
 
-            <div className="relative group p-6 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-brand-green/50 transition-all duration-500 hover:-translate-y-2">
-              <div className="text-3xl md:text-5xl font-extrabold text-white mb-1">
+            <div className="relative group p-3 md:p-4 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-brand-green/50 transition-all duration-500 hover:-translate-y-1">
+              <div className="text-2xl md:text-3xl font-extrabold text-white mb-0.5">
                 {counts.cities}
               </div>
-              <div className="text-white/60 text-xs uppercase tracking-widest font-semibold">Emirates Covered</div>
+              <div className="text-white/60 text-[10px] uppercase tracking-widest font-semibold">Emirates</div>
             </div>
 
-            <div className="relative group p-6 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-brand-green/50 transition-all duration-500 hover:-translate-y-2">
-              <div className="text-3xl md:text-5xl font-extrabold text-brand-green mb-1 flex items-center justify-center gap-2">
-                {counts.rating} <span className="text-sm text-white/40">/ 5</span>
+            <div className="relative group p-3 md:p-4 rounded-xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-brand-green/50 transition-all duration-500 hover:-translate-y-1">
+              <div className="text-2xl md:text-3xl font-extrabold text-brand-green mb-0.5 flex items-center justify-center gap-1">
+                {counts.rating} <span className="text-xs text-white/40">/ 5</span>
               </div>
-              <div className="text-white/60 text-xs uppercase tracking-widest font-semibold">Client Rating</div>
+              <div className="text-white/60 text-[10px] uppercase tracking-widest font-semibold">Rating</div>
             </div>
           </div>
 
