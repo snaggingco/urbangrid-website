@@ -22,7 +22,7 @@ export default function Home() {
   useEffect(() => {
     setIsVisible(true);
     // Animate numbers
-    const duration = 1500;
+    const duration = 2000;
     const steps = 50;
     const interval = duration / steps;
     let step = 0;
@@ -197,80 +197,68 @@ export default function Home() {
   return (
     <>
       {/* Hero Section */}
-      <section className="relative h-screen min-h-[700px] flex items-center justify-center bg-[#021a14] overflow-hidden">
-        {/* Modern Abstract Background Elements */}
-        <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_70%_20%,#064E3B_0%,transparent_50%)] opacity-40"></div>
-        <div className="absolute bottom-0 left-0 w-full h-full bg-[radial-gradient(circle_at_20%_80%,#064E3B_0%,transparent_50%)] opacity-30"></div>
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10"></div>
-        
-        {/* Bottom Bar Stats - Fixed at the bottom of the hero section */}
-        <div className="absolute bottom-0 left-0 w-full bg-black/90 backdrop-blur-3xl border-t border-brand-green/20 py-50 z-[60] shadow-[0_-20px_50px_rgba(0,0,0,0.5)]">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-wrap justify-center items-center gap-12 md:gap-40">
-              <div className="flex items-center gap-6 group">
-                <div className="text-4xl md:text-6xl font-black text-brand-green drop-shadow-[0_0_25px_rgba(6,78,59,0.8)] tracking-tighter">
-                  {counts.inspections.toLocaleString()}+
-                </div>
-                <div className="text-white/90 text-[13px] uppercase tracking-[0.3em] font-black leading-tight text-left border-l-2 border-brand-green/30 pl-4">
-                  Properties<br/>Inspected
-                </div>
-              </div>
-
-              <div className="flex items-center gap-6 group">
-                <div className="text-4xl md:text-6xl font-black text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.2)] tracking-tighter">
-                  {counts.cities}
-                </div>
-                <div className="text-white/90 text-[13px] uppercase tracking-[0.3em] font-black leading-tight text-left border-l-2 border-white/20 pl-4">
-                  Emirates<br/>Covered
-                </div>
-              </div>
-
-              <div className="flex items-center gap-6 group">
-                <div className="text-4xl md:text-6xl font-black text-brand-green drop-shadow-[0_0_25px_rgba(6,78,59,0.8)] tracking-tighter flex items-baseline gap-1">
-                  {counts.rating} <span className="text-xl text-white/20 font-bold">/ 5</span>
-                </div>
-                <div className="text-white/90 text-[13px] uppercase tracking-[0.3em] font-black leading-tight text-left border-l-2 border-brand-green/30 pl-4">
-                  Client<br/>Rating
-                </div>
-              </div>
-            </div>
-          </div>
+      <section className="relative h-screen flex items-center justify-center bg-gray-900 mt-8 lg:mt-12">
+        {/* Background Image with Overlay */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=800&q=80')`
+          }}
+        >
         </div>
-
+        <div className="absolute inset-0 bg-black/60"></div>
+        
         {/* Hero Content */}
-        <div className={`relative z-[110] text-center max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-32 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-green/10 border border-brand-green/20 text-brand-green text-xs font-bold uppercase tracking-widest mb-6">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-green opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-green"></span>
-            </span>
-            UAE's Trusted Inspection Partner
-          </div>
-          
+        <div className={`relative z-10 text-center max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white mb-6 leading-tight tracking-tight">
-            UAE's #1 Snagging & <span className="text-white">Inspection Experts</span>
+            UAE's #1 Snagging & <span className="text-brand-green">Inspection Experts</span>
           </h1>
-          <p className="text-xl sm:text-2xl text-white mb-10 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl sm:text-2xl text-gray-200 mb-10 max-w-3xl mx-auto leading-relaxed">
             Professional property inspection services in Dubai, Abu Dhabi, Sharjah & Ajman. Protecting your investment across the UAE.
           </p>
 
+          {/* Floating Live Stats */}
+          <div className="mt-4 flex flex-wrap justify-center gap-6 md:gap-12">
+            <div className="relative group p-6 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-brand-green/50 transition-all duration-500 hover:-translate-y-2">
+              <div className="text-3xl md:text-5xl font-extrabold text-brand-green mb-1 animate-pulse">
+                {counts.inspections.toLocaleString()}+
+              </div>
+              <div className="text-white/60 text-xs uppercase tracking-widest font-semibold">Properties Inspected</div>
+              <div className="absolute -top-2 -right-2 w-8 h-8 bg-brand-green/20 rounded-full blur-xl animate-bounce"></div>
+            </div>
+
+            <div className="relative group p-6 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-brand-green/50 transition-all duration-500 hover:-translate-y-2">
+              <div className="text-3xl md:text-5xl font-extrabold text-white mb-1">
+                {counts.cities}
+              </div>
+              <div className="text-white/60 text-xs uppercase tracking-widest font-semibold">Emirates Covered</div>
+            </div>
+
+            <div className="relative group p-6 rounded-2xl bg-white/5 backdrop-blur-xl border border-white/10 hover:border-brand-green/50 transition-all duration-500 hover:-translate-y-2">
+              <div className="text-3xl md:text-5xl font-extrabold text-brand-green mb-1 flex items-center justify-center gap-2">
+                {counts.rating} <span className="text-sm text-white/40">/ 5</span>
+              </div>
+              <div className="text-white/60 text-xs uppercase tracking-widest font-semibold">Client Rating</div>
+            </div>
+          </div>
+
           {/* Interactive Service Dropdowns */}
-          <div className="flex flex-wrap justify-center gap-4 mt-2">
+          <div className="flex flex-wrap justify-center gap-4 mt-8">
             {Object.entries(serviceCategories).map(([key, category]) => (
               <DropdownMenu key={key}>
                 <DropdownMenuTrigger asChild>
                   <Button 
                     variant="outline" 
-                    className="bg-brand-green/5 border-white/10 text-white hover:bg-brand-green hover:border-brand-green transition-all px-6 py-6 text-lg rounded-xl backdrop-blur-md flex items-center gap-2 group shadow-lg"
+                    className="bg-white/10 border-white/20 text-white hover:bg-white hover:text-brand-black transition-all px-6 py-6 text-lg rounded-xl backdrop-blur-md flex items-center gap-2 group"
                   >
                     {category.icon}
-                    <span className="text-white">{category.title}</span>
-                    <ChevronDown className="w-4 h-4 ml-1 group-data-[state=open]:rotate-180 transition-transform text-white" />
+                    {category.title}
+                    <ChevronDown className="w-4 h-4 ml-1 group-data-[state=open]:rotate-180 transition-transform" />
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-64 bg-[#0a1f1a] backdrop-blur-xl border-brand-green/30 rounded-xl p-2 shadow-[0_20px_50px_rgba(0,0,0,0.5)] z-[200]">
+                <DropdownMenuContent className="w-64 bg-white/95 backdrop-blur-md border-brand-green/20 rounded-xl p-2 shadow-2xl">
                   {category.services.map((service) => (
-                    <DropdownMenuItem key={service.id} className="focus:bg-brand-green/20 focus:text-white text-gray-300 cursor-pointer rounded-lg py-3 px-4 transition-colors">
+                    <DropdownMenuItem key={service.id} className="focus:bg-brand-green/10 focus:text-brand-green cursor-pointer rounded-lg py-3 px-4">
                       <Link href={`/services/${category.categorySlug}/${service.slug}`} className="w-full flex items-center justify-between group">
                         <span className="font-medium text-sm">{service.title}</span>
                         <ChevronDown className="-rotate-90 w-3 h-3 opacity-0 group-hover:opacity-100 transition-all translate-x-1" />
@@ -282,10 +270,10 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="mt-12 flex flex-wrap justify-center gap-8 text-white/40 text-sm font-medium">
-            <div className="flex items-center gap-2 hover:text-brand-green transition-colors cursor-default"><Shield className="w-4 h-4 text-brand-white/60" /> RERA Approved</div>
-            <div className="flex items-center gap-2 hover:text-brand-green transition-colors cursor-default"><Globe className="w-4 h-4 text-brand-white/60" /> International Standards</div>
-            <div className="flex items-center gap-2 hover:text-brand-green transition-colors cursor-default"><Layout className="w-4 h-4 text-brand-green/60" /> Certified Engineers</div>
+          <div className="mt-12 flex flex-wrap justify-center gap-8 text-white/60 text-sm font-medium">
+            <div className="flex items-center gap-2 hover:text-white transition-colors"><Shield className="w-4 h-4 text-brand-green" /> RERA Approved</div>
+            <div className="flex items-center gap-2 hover:text-white transition-colors"><Globe className="w-4 h-4 text-brand-green" /> International Standards</div>
+            <div className="flex items-center gap-2 hover:text-white transition-colors"><Layout className="w-4 h-4 text-brand-green" /> Certified Engineers</div>
           </div>
         </div>
       </section>

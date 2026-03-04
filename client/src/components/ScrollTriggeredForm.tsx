@@ -24,14 +24,6 @@ export default function ScrollTriggeredForm() {
     const handleScroll = () => {
       if (hasShown) return;
 
-      // Check if shown in the last 24 hours
-      const lastShown = localStorage.getItem('last_popup_shown');
-      const now = new Date().getTime();
-      if (lastShown && (now - parseInt(lastShown)) < 24 * 60 * 60 * 1000) {
-        setHasShown(true);
-        return;
-      }
-
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
       const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
       const scrollPercentage = (scrollTop / scrollHeight) * 100;
@@ -39,7 +31,6 @@ export default function ScrollTriggeredForm() {
       if (scrollPercentage >= 50) {
         setIsVisible(true);
         setHasShown(true);
-        localStorage.setItem('last_popup_shown', new Date().getTime().toString());
       }
     };
 
