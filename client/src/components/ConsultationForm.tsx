@@ -35,7 +35,7 @@ export default function ConsultationForm() {
       });
 
       // Track conversion for Google Ads
-      trackConversion();
+      trackConversion('lead_form');
 
       // Reset form
       setFormData({

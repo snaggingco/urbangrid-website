@@ -10,11 +10,23 @@ declare global {
 // Track Google Ads conversion event
 export const trackConversion = (type: string = 'conversion') => {
   if (typeof window !== 'undefined' && window.gtag) {
-    window.gtag('event', 'conversion', {
-      'send_to': 'AW-11443889137/L_xgCJG38ogbEPHH79Aq',
-      'value': 1.0,
-      'currency': 'AED'
-    });
+    // Lead Form Submission
+    if (type === 'lead_form') {
+      window.gtag('event', 'conversion', {
+        'send_to': 'AW-11443889137/L_xgCJG38ogbEPHH79Aq',
+        'value': 1.0,
+        'currency': 'AED'
+      });
+    }
+    
+    // Call Click
+    if (type === 'call_click') {
+      window.gtag('event', 'conversion', {
+        'send_to': 'AW-11443889137/k-VpCJ7S4YAbEPHH79Aq',
+        'value': 1.0,
+        'currency': 'AED'
+      });
+    }
   }
   
   // Also track in our own database

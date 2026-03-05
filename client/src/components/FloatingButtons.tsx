@@ -71,6 +71,7 @@ export default function FloatingButtons() {
           <div className="relative">
             <a
               href="tel:+971585686852"
+              onClick={() => trackConversion('call_click')}
               className={`floating-button-desktop bg-brand-green hover:bg-opacity-90 text-white w-14 h-14 rounded-full shadow-lg transition-all duration-300 hover:scale-110 group flex items-center justify-center gtm-call-button ${
                 showPulse ? 'animate-pulse-glow-desktop' : ''
               }`}
@@ -120,6 +121,7 @@ export default function FloatingButtons() {
               </a>
               <a
                 href="tel:+971585686852"
+                onClick={() => trackConversion('call_click')}
                 className="bg-brand-green hover:bg-opacity-90 text-white w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:scale-105 flex items-center justify-center gtm-call-button"
                 aria-label="Call us"
               >
