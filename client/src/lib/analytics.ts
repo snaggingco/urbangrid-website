@@ -28,6 +28,15 @@ export const trackConversion = (type: string = 'conversion') => {
       });
     }
 
+    // WhatsApp Click
+    if (type === 'whatsapp_click') {
+      window.gtag('event', 'conversion', {
+        'send_to': 'AW-11443889137/L_xgCJG38ogbEPHH79Aq', // Using the active lead label as requested or fallback
+        'value': 1.0,
+        'currency': 'AED'
+      });
+    }
+
     // Backup: Send a generic event that GTM can also listen for
     window.gtag('event', type, {
       'event_category': 'engagement',
