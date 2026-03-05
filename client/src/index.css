@@ -315,7 +315,7 @@
     margin-right: 4px;
   }
 
-  /* Consultation specific phone input */
+  /* Consultation specific phone input - DARK */
   .consultation-phone-input-wrapper {
     width: 100%;
   }
@@ -346,6 +346,55 @@
     outline: none;
     flex: 1;
     min-width: 0;
+  }
+
+  /* Consultation specific phone input - LIGHT */
+  .consultation-phone-input-wrapper-light {
+    width: 100%;
+  }
+
+  .consultation-phone-input-light {
+    width: 100%;
+    height: 48px;
+    border-bottom: 1px solid #e4e4e7; /* zinc-200 */
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    transition: border-color 0.2s;
+  }
+
+  .consultation-phone-input-light:focus-within {
+    border-color: var(--brand-green);
+  }
+
+  .consultation-phone-input-light .PhoneInputInput {
+    height: 100%;
+    padding: 0 8px;
+    border: none;
+    border-radius: 0;
+    font-size: 14px;
+    background-color: transparent;
+    color: #18181b; /* zinc-900 */
+    outline: none;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .consultation-phone-input-light .PhoneInputCountrySelect {
+    border: none;
+    background: transparent;
+    color: #18181b;
+    margin-right: 4px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 4px;
+  }
+
+  .consultation-phone-input-light .PhoneInputCountrySelectArrow {
+    color: #a1a1aa; /* zinc-400 */
+    margin-left: 4px;
   }
 
   .consultation-phone-input .PhoneInputCountrySelect {
