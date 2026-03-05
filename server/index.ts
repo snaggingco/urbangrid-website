@@ -7,22 +7,10 @@ import { startVisitorReportScheduler } from "./visitorReport";
 
 const app = express();
 
-// Health check endpoint for Cloud Run
+// Health check endpoint — must be before all other middleware
+// Cloud Run (and Replit autoscale) probe this path over plain HTTP
 app.get("/health", (_req, res) => {
   res.status(200).send("OK");
-});
-
-// HTTPS enforcement middleware
-app.use((req, res, next) => {
-  // Skip redirect for health checks
-  if (req.path === "/health") {
-    return next();
-  }
-  // Check if request is not secure and not in development
-  if (req.header('x-forwarded-proto') !== 'https' && process.env.NODE_ENV === 'production') {
-    return res.redirect(301, `https://${req.header('host')}${req.url}`);
-  }
-  next();
 });
 
 // Security headers middleware
@@ -38,6 +26,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use((req, res, next) => {
+  // Skip all logging/tracking for health check probes
+  if (req.path === "/health") return next();
+
   const start = Date.now();
   const path = req.path;
   let capturedJsonResponse: Record<string, any> | undefined = undefined;
