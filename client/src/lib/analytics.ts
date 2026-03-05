@@ -27,6 +27,12 @@ export const trackConversion = (type: string = 'conversion') => {
         'currency': 'AED'
       });
     }
+
+    // Backup: Send a generic event that GTM can also listen for
+    window.gtag('event', type, {
+      'event_category': 'engagement',
+      'event_label': type
+    });
   }
   
   // Also track in our own database
