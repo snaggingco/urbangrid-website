@@ -13,7 +13,7 @@ export const trackConversion = (type: string = 'conversion') => {
     // Lead Form Submission
     if (type === 'lead_form') {
       window.gtag('event', 'conversion', {
-        'send_to': 'AW-17030202594/L_xgCJG38ogbEPHH79Aq',
+        'send_to': 'AW-11443889137/L_xgCJG38ogbEPHH79Aq',
         'value': 1.0,
         'currency': 'AED'
       });
@@ -22,7 +22,7 @@ export const trackConversion = (type: string = 'conversion') => {
     // Call Click
     if (type === 'call_click') {
       window.gtag('event', 'conversion', {
-        'send_to': 'AW-17030202594/AAjKCJLTn4McEPHH79Aq',
+        'send_to': 'AW-11443889137/AAjKCJLTn4McEPHH79Aq',
         'value': 1.0,
         'currency': 'AED'
       });
@@ -31,7 +31,7 @@ export const trackConversion = (type: string = 'conversion') => {
     // WhatsApp Click
     if (type === 'whatsapp_click') {
       window.gtag('event', 'conversion', {
-        'send_to': 'AW-17030202594/L_xgCJG38ogbEPHH79Aq', // Using the active lead label as requested or fallback
+        'send_to': 'AW-11443889137/L_xgCJG38ogbEPHH79Aq', // Using the active lead label as requested or fallback
         'value': 1.0,
         'currency': 'AED'
       });
