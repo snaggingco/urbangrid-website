@@ -10,7 +10,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { trackConversion } from "@/lib/analytics";
-import { MapPin, Phone, Mail, Clock, ArrowRight } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, MessageSquare, ArrowRight } from "lucide-react";
+import { SiWhatsapp } from "react-icons/si";
 
 const contactSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
@@ -72,136 +73,169 @@ export default function Contact() {
     "General Enquiry"
   ];
 
+  const serviceAreas = [
+    "Dubai",
+    "Abu Dhabi", 
+    "Sharjah",
+    "Ajman",
+    "Ras Al Khaimah",
+    "Fujairah",
+    "Umm Al Quwain"
+  ];
+
   return (
-    <div className="bg-white">
+    <div className="pt-16">
       {/* Hero Section */}
-      <section className="relative min-h-[80vh] flex items-center pt-20 bg-zinc-950">
-        <div 
-          className="absolute inset-0 opacity-40 bg-cover bg-center" 
-          style={{ backgroundImage: `url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=1000&q=80')` }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/60 via-zinc-950 to-zinc-950" />
-        
-        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 w-full">
-          <p className="text-[10px] sm:text-xs font-semibold tracking-[0.3em] text-brand-green uppercase mb-6">Contact</p>
-          <h1 className="text-6xl sm:text-7xl lg:text-[7rem] xl:text-[8rem] font-bold leading-[0.95] tracking-tight text-white max-w-4xl">
-            Get In <span className="text-brand-green">Touch</span>
+      <section className="pt-24 pb-20 bg-zinc-950">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+          <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Contact</p>
+          <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold text-white leading-tight mb-6">
+            Get In Touch
           </h1>
-          <p className="mt-8 text-lg text-zinc-400 font-light max-w-xl leading-relaxed">
+          <p className="text-sm text-zinc-400 leading-relaxed max-w-2xl">
             Ready to schedule your property inspection? Contact our team of experts today for professional service across the UAE.
           </p>
         </div>
       </section>
 
-      {/* Main Content */}
-      <section className="py-28 lg:py-40 bg-white">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 lg:gap-32">
-            
+      {/* Contact Form and Information */}
+      <section className="py-24 lg:py-32 bg-white">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-start">
             {/* Contact Information */}
             <div>
-              <p className="text-[10px] sm:text-xs font-semibold tracking-[0.3em] text-brand-green uppercase mb-6">INFORMATION</p>
-              <h2 className="text-4xl sm:text-5xl font-bold text-zinc-900 mb-16">How to reach us.</h2>
+              <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">INFORMATION</p>
+              <h2 className="text-4xl font-bold text-zinc-900 mb-12">How to reach us.</h2>
               
-              <div className="space-y-16">
-                <div className="flex items-start gap-8">
-                  <MapPin className="w-6 h-6 text-brand-green shrink-0 mt-1" />
+              <div className="space-y-12">
+                <div className="flex items-start gap-6">
+                  <div className="mt-1">
+                    <MapPin className="w-5 h-5 text-brand-green" />
+                  </div>
                   <div>
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-bold mb-3">Office Address</p>
-                    <p className="text-xl text-zinc-900 font-medium leading-tight">Office 1205, Business Bay,<br />Dubai, UAE</p>
+                    <p className="text-[10px] uppercase tracking-[0.18em] text-zinc-400 font-medium mb-1">Office Address</p>
+                    <p className="text-sm text-zinc-900 font-medium">Office 1205, Business Bay, Dubai, UAE</p>
                   </div>
                 </div>
                 
-                <div className="flex items-start gap-8">
-                  <Phone className="w-6 h-6 text-brand-green shrink-0 mt-1" />
+                <div className="flex items-start gap-6">
+                  <div className="mt-1">
+                    <Phone className="w-5 h-5 text-brand-green" />
+                  </div>
                   <div>
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-bold mb-3">Phone Number</p>
-                    <a href="tel:+971585686852" className="text-xl text-zinc-900 font-medium hover:text-brand-green transition-colors leading-tight">+971 58 568 6852</a>
+                    <p className="text-[10px] uppercase tracking-[0.18em] text-zinc-400 font-medium mb-1">Phone Number</p>
+                    <a href="tel:+971585686852" className="text-sm text-zinc-900 font-medium hover:text-brand-green transition-colors">+971 58 568 6852</a>
                   </div>
                 </div>
                 
-                <div className="flex items-start gap-8">
-                  <Mail className="w-6 h-6 text-brand-green shrink-0 mt-1" />
+                <div className="flex items-start gap-6">
+                  <div className="mt-1">
+                    <Mail className="w-5 h-5 text-brand-green" />
+                  </div>
                   <div>
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-bold mb-3">Email Address</p>
-                    <a href="mailto:info@snagging.me" className="text-xl text-zinc-900 font-medium hover:text-brand-green transition-colors leading-tight">info@snagging.me</a>
+                    <p className="text-[10px] uppercase tracking-[0.18em] text-zinc-400 font-medium mb-1">Email Address</p>
+                    <a href="mailto:info@snagging.me" className="text-sm text-zinc-900 font-medium hover:text-brand-green transition-colors">info@snagging.me</a>
                   </div>
                 </div>
                 
-                <div className="flex items-start gap-8">
-                  <Clock className="w-6 h-6 text-brand-green shrink-0 mt-1" />
+                <div className="flex items-start gap-6">
+                  <div className="mt-1">
+                    <Clock className="w-5 h-5 text-brand-green" />
+                  </div>
                   <div>
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-bold mb-3">Working Hours</p>
-                    <p className="text-lg text-zinc-900 font-medium leading-relaxed">
-                      Sun - Thu: 08:00 AM - 06:00 PM<br />
-                      Fri - Sat: By Appointment
+                    <p className="text-[10px] uppercase tracking-[0.18em] text-zinc-400 font-medium mb-1">Working Hours</p>
+                    <p className="text-sm text-zinc-900 font-medium leading-relaxed">
+                      Sunday - Thursday: 8:00 AM - 6:00 PM<br />
+                      Friday - Saturday: By Appointment
                     </p>
                   </div>
                 </div>
               </div>
 
-              <div className="mt-24 pt-12 border-t border-zinc-100">
-                <div className="flex flex-wrap gap-12">
-                  <a href="tel:+971585686852" className="group flex items-center gap-3 text-xs font-bold tracking-widest text-brand-green">
-                    CALL NOW <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                  </a>
-                  <a href="https://wa.me/971585686852" className="group flex items-center gap-3 text-xs font-bold tracking-widest text-brand-green">
-                    WHATSAPP <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                  </a>
-                </div>
+              <div className="mt-20">
+                <p className="text-[10px] uppercase tracking-[0.18em] text-zinc-400 font-medium mb-6">Service Areas</p>
+                <p className="text-sm text-zinc-500 leading-relaxed max-w-sm">
+                  {serviceAreas.join(", ")}
+                </p>
+              </div>
+
+              <div className="mt-12 flex flex-wrap gap-4">
+                <a
+                  href="tel:+971585686852"
+                  className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all"
+                >
+                  CALL NOW <ArrowRight className="w-3 h-3" />
+                </a>
+                <a
+                  href="https://wa.me/971585686852"
+                  className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all"
+                >
+                  WHATSAPP <ArrowRight className="w-3 h-3" />
+                </a>
               </div>
             </div>
             
             {/* Contact Form */}
-            <div className="bg-zinc-50 p-10 lg:p-16 relative">
-              <div className="absolute top-0 right-0 w-24 h-1 bg-brand-green" />
-              <p className="text-[10px] sm:text-xs font-semibold tracking-[0.3em] text-brand-green uppercase mb-6">ENQUIRY</p>
-              <h2 className="text-3xl font-bold text-zinc-900 mb-12">Send a message.</h2>
+            <div className="bg-zinc-50 p-10 lg:p-16 border border-zinc-100">
+              <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">ENQUIRY</p>
+              <h2 className="text-3xl font-bold text-zinc-900 mb-10">Send a message.</h2>
               
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-10">
-                <div className="space-y-4">
-                  <Label htmlFor="name" className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold">Full Name *</Label>
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
+                <div className="space-y-2">
+                  <Label htmlFor="name" className="text-[10px] uppercase tracking-wide text-zinc-400 font-semibold">
+                    Full Name *
+                  </Label>
                   <Input
                     id="name"
                     {...register("name")}
                     placeholder="Enter your name"
-                    className="rounded-none border-0 border-b border-zinc-200 focus:border-brand-green bg-transparent h-14 px-0 shadow-none text-base"
+                    className={`rounded-none border-zinc-200 focus:border-brand-green bg-white h-12 ${errors.name ? "border-red-500" : ""}`}
                   />
-                  {errors.name && <p className="text-red-500 text-[10px] uppercase tracking-wider">{errors.name.message}</p>}
+                  {errors.name && (
+                    <p className="text-red-500 text-[10px] mt-1 uppercase tracking-wider">{errors.name.message}</p>
+                  )}
                 </div>
                 
-                <div className="space-y-4">
-                  <Label htmlFor="email" className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold">Email Address *</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="email" className="text-[10px] uppercase tracking-wide text-zinc-400 font-semibold">
+                    Email Address *
+                  </Label>
                   <Input
                     id="email"
                     type="email"
                     {...register("email")}
                     placeholder="Enter your email"
-                    className="rounded-none border-0 border-b border-zinc-200 focus:border-brand-green bg-transparent h-14 px-0 shadow-none text-base"
+                    className={`rounded-none border-zinc-200 focus:border-brand-green bg-white h-12 ${errors.email ? "border-red-500" : ""}`}
                   />
-                  {errors.email && <p className="text-red-500 text-[10px] uppercase tracking-wider">{errors.email.message}</p>}
+                  {errors.email && (
+                    <p className="text-red-500 text-[10px] mt-1 uppercase tracking-wider">{errors.email.message}</p>
+                  )}
                 </div>
                 
-                <div className="space-y-4">
-                  <Label htmlFor="phone" className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold">Phone Number</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="phone" className="text-[10px] uppercase tracking-wide text-zinc-400 font-semibold">
+                    Phone Number
+                  </Label>
                   <Input
                     id="phone"
                     type="tel"
                     {...register("phone")}
                     placeholder="Enter your phone number"
-                    className="rounded-none border-0 border-b border-zinc-200 focus:border-brand-green bg-transparent h-14 px-0 shadow-none text-base"
+                    className="rounded-none border-zinc-200 focus:border-brand-green bg-white h-12"
                   />
                 </div>
                 
-                <div className="space-y-4">
-                  <Label htmlFor="enquiryType" className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold">Enquiry Type</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="enquiryType" className="text-[10px] uppercase tracking-wide text-zinc-400 font-semibold">
+                    Enquiry Type
+                  </Label>
                   <Select onValueChange={(value) => setValue("enquiryType", value)}>
-                    <SelectTrigger className="rounded-none border-0 border-b border-zinc-200 focus:border-brand-green bg-transparent h-14 px-0 shadow-none text-base">
+                    <SelectTrigger className="rounded-none border-zinc-200 focus:border-brand-green bg-white h-12">
                       <SelectValue placeholder="Select enquiry type" />
                     </SelectTrigger>
-                    <SelectContent className="rounded-none border-zinc-100">
+                    <SelectContent className="rounded-none">
                       {enquiryTypes.map((type) => (
-                        <SelectItem key={type} value={type} className="rounded-none focus:bg-zinc-50 focus:text-brand-green">
+                        <SelectItem key={type} value={type} className="rounded-none">
                           {type}
                         </SelectItem>
                       ))}
@@ -209,22 +243,26 @@ export default function Contact() {
                   </Select>
                 </div>
                 
-                <div className="space-y-4">
-                  <Label htmlFor="message" className="text-[10px] uppercase tracking-widest text-zinc-400 font-bold">Message *</Label>
+                <div className="space-y-2">
+                  <Label htmlFor="message" className="text-[10px] uppercase tracking-wide text-zinc-400 font-semibold">
+                    Message *
+                  </Label>
                   <Textarea
                     id="message"
                     {...register("message")}
-                    rows={4}
+                    rows={5}
                     placeholder="Tell us about your property inspection needs..."
-                    className="rounded-none border-0 border-b border-zinc-200 focus:border-brand-green bg-transparent px-0 shadow-none text-base resize-none"
+                    className={`rounded-none border-zinc-200 focus:border-brand-green bg-white resize-none ${errors.message ? "border-red-500" : ""}`}
                   />
-                  {errors.message && <p className="text-red-500 text-[10px] uppercase tracking-wider">{errors.message.message}</p>}
+                  {errors.message && (
+                    <p className="text-red-500 text-[10px] mt-1 uppercase tracking-wider">{errors.message.message}</p>
+                  )}
                 </div>
                 
                 <Button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full bg-brand-green text-white hover:bg-opacity-90 rounded-none h-16 font-bold tracking-widest text-xs transition-all"
+                  className="w-full bg-brand-green text-white hover:bg-opacity-90 rounded-none h-14 font-semibold tracking-widest text-xs"
                 >
                   {isLoading ? "SENDING..." : "SEND MESSAGE"}
                 </Button>
@@ -235,31 +273,29 @@ export default function Contact() {
       </section>
 
       {/* Map Section */}
-      <section className="py-28 lg:py-40 bg-zinc-50 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-20">
+      <section className="py-24 lg:py-32 bg-zinc-50">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
             <div>
-              <p className="text-[10px] sm:text-xs font-semibold tracking-[0.3em] text-brand-green uppercase mb-6">LOCATION</p>
-              <h2 className="text-4xl font-bold text-zinc-900 mb-8 leading-tight">Our Office.</h2>
-              <p className="text-lg text-zinc-500 font-light leading-relaxed">
+              <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">LOCATION</p>
+              <h2 className="text-3xl font-bold text-zinc-900 mb-6">Our Office.</h2>
+              <p className="text-sm text-zinc-500 leading-relaxed">
                 Visit us at our office in the heart of Business Bay, Dubai. We are located centrally to serve all seven emirates efficiently.
               </p>
             </div>
             
-            <div className="lg:col-span-2 relative">
-              <div className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-brand-green/20 -translate-x-4 -translate-y-4" />
-              <div className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-brand-green/20 translate-x-4 translate-y-4" />
-              <div className="border border-zinc-200 p-1 bg-white relative z-10">
+            <div className="lg:col-span-2">
+              <div className="border border-zinc-200 p-1 bg-white">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3610.231048063958!2d55.26356331501744!3d25.188447583901076!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f43348a67e24b%3A0xff45e502e1ceb7e2!2sBusiness%20Bay%2C%20Dubai%20-%20United%20Arab%20Emirates!5e0!3m2!1sen!2s!4v1635789123456!5m2!1sen!2s"
                   width="100%"
-                  height="500"
+                  height="450"
                   style={{ border: 0 }}
                   allowFullScreen
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   title="UrbanGrid Office Location"
-                  className="grayscale hover:grayscale-0 transition-all duration-700"
+                  className="grayscale"
                 ></iframe>
               </div>
             </div>
@@ -267,23 +303,31 @@ export default function Contact() {
         </div>
       </section>
 
-      {/* Final CTA */}
-      <section className="py-28 lg:py-40 bg-zinc-950 text-white text-center">
-        <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-10 leading-tight">
-            Ready to secure your <span className="text-brand-green">investment?</span>
+      {/* CTA Section */}
+      <section className="py-24 lg:py-32 bg-zinc-950 text-white">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 text-center">
+          <h2 className="text-4xl lg:text-5xl font-bold mb-8">
+            Ready to Schedule <br />Your Inspection?
           </h2>
-          <p className="text-lg text-zinc-400 font-light mb-16 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-sm text-zinc-400 mb-12 max-w-2xl mx-auto leading-relaxed">
             Don't wait – protect your property investment with professional inspection services from UAE's most trusted experts.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-12 justify-center items-center">
-            <a href="tel:+971585686852" className="group flex items-center gap-4 text-xs font-bold tracking-[0.2em] text-brand-green">
-              CALL NOW <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-2" />
+          <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
+            <a 
+              href="tel:+971585686852"
+              className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all"
+            >
+              CALL NOW <ArrowRight className="w-3 h-3" />
             </a>
-            <div className="w-1 h-1 rounded-full bg-zinc-800 hidden sm:block" />
-            <a href="https://wa.me/971585686852" target="_blank" rel="noopener noreferrer" className="group flex items-center gap-4 text-xs font-bold tracking-[0.2em] text-brand-green">
-              WHATSAPP US <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-2" />
+            
+            <a 
+              href="https://wa.me/971585686852"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all"
+            >
+              WHATSAPP US <ArrowRight className="w-3 h-3" />
             </a>
           </div>
         </div>

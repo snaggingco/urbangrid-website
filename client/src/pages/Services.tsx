@@ -1,7 +1,7 @@
 import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import SEO from "@/components/SEO";
 
 export default function Services() {
   const [activeSection, setActiveSection] = useState<keyof typeof serviceCategories>('property-snagging');
@@ -21,7 +21,9 @@ export default function Services() {
             "Complete structural assessment",
             "MEP systems inspection",
             "Finishing quality evaluation",
-            "Compliance verification"
+            "Compliance verification",
+            "Detailed defect report",
+            "Follow-up inspections"
           ],
           duration: "3-6 hours",
           price: "From AED 1 / Sq.ft"
@@ -36,7 +38,9 @@ export default function Services() {
             "Renovation work quality check",
             "Material compliance verification",
             "Safety standards assessment",
-            "Workmanship evaluation"
+            "Workmanship evaluation",
+            "Before/after comparison",
+            "Warranty documentation"
           ],
           duration: "3-6 hours",
           price: "From AED 1 / Sq.ft"
@@ -51,7 +55,9 @@ export default function Services() {
             "Pre-warranty expiry inspection",
             "Comprehensive defect catalog",
             "Developer liaison support",
-            "Rectification tracking"
+            "Rectification tracking",
+            "Legal documentation",
+            "Multiple follow-ups"
           ],
           duration: "1-2 hours",
           price: "From AED 0.5 / Sq.ft"
@@ -66,7 +72,9 @@ export default function Services() {
             "Comprehensive condition report",
             "Photo documentation",
             "Damage assessment",
-            "Security deposit protection"
+            "Security deposit protection",
+            "Legal compliance",
+            "Tenant/landlord mediation"
           ],
           duration: "1-2 hours",
           price: "From AED 500"
@@ -81,7 +89,9 @@ export default function Services() {
             "Pre-purchase inspection",
             "Market value assessment",
             "Hidden defect detection",
-            "Maintenance requirement analysis"
+            "Maintenance requirement analysis",
+            "Negotiation support",
+            "Investment protection"
           ],
           duration: "3-5 hours",
           price: "From AED 1 / Sq.ft"
@@ -96,7 +106,9 @@ export default function Services() {
             "Quality control auditing",
             "Progress milestone verification",
             "Compliance monitoring",
-            "Standards enforcement"
+            "Standards enforcement",
+            "Client satisfaction assurance",
+            "Reputation protection"
           ],
           duration: "Depending on project",
           price: "Custom Quote"
@@ -117,7 +129,9 @@ export default function Services() {
             "Long-term capital planning",
             "RERA compliance assessment",
             "Financial projection modeling",
-            "Asset lifecycle analysis"
+            "Asset lifecycle analysis",
+            "Regulatory documentation",
+            "Stakeholder consultation"
           ],
           duration: "Custom",
           price: "Custom Quote"
@@ -132,7 +146,9 @@ export default function Services() {
             "Fair cost distribution analysis",
             "RERA guideline compliance",
             "Common area assessment",
-            "Usage pattern analysis"
+            "Usage pattern analysis",
+            "Transparent reporting",
+            "Dispute resolution support"
           ],
           duration: "Custom",
           price: "Custom Quote"
@@ -147,7 +163,9 @@ export default function Services() {
             "Insurance valuation compliance",
             "Current market cost analysis",
             "Regulatory requirement adherence",
-            "Risk assessment integration"
+            "Risk assessment integration",
+            "Professional certification",
+            "Annual review recommendations"
           ],
           duration: "Custom",
           price: "Custom Quote"
@@ -162,7 +180,9 @@ export default function Services() {
             "Plan compliance verification",
             "RERA requirement assessment",
             "Completion status documentation",
-            "Regulatory liaison support"
+            "Regulatory liaison support",
+            "Handover readiness certification",
+            "Non-compliance identification"
           ],
           duration: "Custom",
           price: "Custom Quote"
@@ -177,7 +197,9 @@ export default function Services() {
             "Comprehensive condition analysis",
             "Regulatory reporting compliance",
             "Maintenance planning integration",
-            "Asset condition documentation"
+            "Asset condition documentation",
+            "Risk identification",
+            "Improvement recommendations"
           ],
           duration: "Custom",
           price: "Custom Quote"
@@ -198,7 +220,9 @@ export default function Services() {
             "Investment risk assessment",
             "Technical compliance verification",
             "Structural integrity analysis",
-            "Systems performance evaluation"
+            "Systems performance evaluation",
+            "Market value correlation",
+            "Professional recommendations"
           ],
           duration: "Custom",
           price: "Custom Quote"
@@ -213,7 +237,9 @@ export default function Services() {
             "Pre-construction documentation",
             "Post-construction comparison",
             "Impact assessment analysis",
-            "Legal documentation support"
+            "Legal documentation support",
+            "Photographic evidence",
+            "Expert witness testimony"
           ],
           duration: "Custom",
           price: "Custom Quote"
@@ -228,7 +254,9 @@ export default function Services() {
             "Thermal imaging analysis",
             "Energy efficiency assessment",
             "Moisture detection",
-            "Electrical system evaluation"
+            "Electrical system evaluation",
+            "Building envelope testing",
+            "Performance optimization"
           ],
           duration: "Custom",
           price: "Custom Quote"
@@ -243,7 +271,9 @@ export default function Services() {
             "Acoustic level measurement",
             "Regulatory compliance testing",
             "Environmental impact analysis",
-            "Habitability assessment"
+            "Habitability assessment",
+            "Mitigation recommendations",
+            "Expert reporting"
           ],
           duration: "Custom",
           price: "Custom Quote"
@@ -258,7 +288,9 @@ export default function Services() {
             "Structural integrity assessment",
             "Load-bearing analysis",
             "Building code compliance",
-            "Safety standard verification"
+            "Safety standard verification",
+            "Risk identification",
+            "Remediation planning"
           ],
           duration: "Custom",
           price: "Custom Quote"
@@ -274,51 +306,33 @@ export default function Services() {
   ];
 
   return (
-    <div className="bg-white">
-      <SEO 
-        title="Professional Services | UrbanGrid UAE"
-        description="Comprehensive property inspection and snagging services across the UAE, ensuring your investment meets the highest standards of quality and compliance."
-      />
-      
+    <div className="pt-16">
       {/* Hero Section */}
-      <section className="relative min-h-[80vh] flex items-center pt-20">
-        <div 
-          className="absolute inset-0 bg-cover bg-center" 
-          style={{ backgroundImage: `url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=1000&q=80')` }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-zinc-950/90 via-zinc-950/60 to-transparent" />
-        
-        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 w-full">
-          <p className="text-[10px] sm:text-xs font-semibold tracking-[0.3em] text-brand-green uppercase mb-6">
+      <section className="pt-24 pb-16 bg-zinc-950">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+          <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">
             Services
           </p>
-          <h1 className="text-6xl sm:text-7xl lg:text-[7rem] xl:text-[8rem] font-bold leading-[0.95] tracking-tight text-white mb-8">
-            Professional<br />Services
+          <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold text-white leading-tight mb-6">
+            Our Professional Services
           </h1>
-          <p className="text-base sm:text-lg text-zinc-300 leading-relaxed font-light max-w-2xl">
+          <p className="text-sm text-zinc-400 leading-relaxed max-w-2xl">
             Comprehensive property inspection and snagging services across the UAE, ensuring your investment meets the highest standards of quality and compliance.
           </p>
-          <div className="mt-12">
-            <Link href="/contact">
-              <Button className="bg-brand-green hover:bg-brand-green/90 text-white rounded-none h-14 px-10 text-[10px] uppercase tracking-[0.2em] font-bold">
-                Free Consultation
-              </Button>
-            </Link>
-          </div>
         </div>
       </section>
 
-      {/* Services Navigation & List */}
-      <section className="py-28 lg:py-40 bg-white">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
+      {/* Services Sections */}
+      <section className="py-24 lg:py-32 bg-white">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
           {/* Section Navigation */}
-          <div className="mb-24 border-b border-zinc-100 overflow-x-auto">
-            <div className="flex gap-12 whitespace-nowrap">
+          <div className="mb-16 border-b border-zinc-100">
+            <div className="flex flex-wrap gap-8">
               {sections.map((section) => (
                 <button
                   key={section.key}
                   onClick={() => setActiveSection(section.key as keyof typeof serviceCategories)}
-                  className={`pb-6 text-[10px] uppercase tracking-[0.2em] font-bold transition-all relative ${
+                  className={`pb-4 text-[10px] uppercase tracking-[0.18em] font-semibold transition-all relative ${
                     activeSection === section.key
                       ? 'text-zinc-900'
                       : 'text-zinc-400 hover:text-zinc-600'
@@ -326,73 +340,76 @@ export default function Services() {
                 >
                   {section.label}
                   {activeSection === section.key && (
-                    <div className="absolute bottom-0 left-0 w-full h-1 bg-brand-green" />
+                    <div className="absolute bottom-0 left-0 w-full h-0.5 bg-brand-green" />
                   )}
                 </button>
               ))}
             </div>
           </div>
-
+          
           {/* Active Section Header */}
-          <div className="grid lg:grid-cols-2 gap-12 mb-24">
+          <div className="grid lg:grid-cols-2 gap-8 mb-20 items-start">
             <div>
-              <p className="text-[10px] sm:text-xs font-semibold tracking-[0.3em] text-brand-green uppercase mb-6">
+              <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">
                 {serviceCategories[activeSection].title}
               </p>
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-zinc-900 leading-tight">
-                Specialized Technical Solutions
+              <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight">
+                Specialized Solutions
               </h2>
             </div>
-            <div className="flex items-end">
-              <p className="text-lg text-zinc-500 font-light leading-relaxed">
-                {serviceCategories[activeSection].subtitle}
-              </p>
-            </div>
+            <p className="text-sm text-zinc-500 leading-relaxed pt-2">
+              {serviceCategories[activeSection].subtitle}
+            </p>
           </div>
 
-          {/* Service List - Dramatic Numbered List */}
-          <div className="divide-y divide-zinc-100 border-t border-zinc-100">
+          {/* Services List - Numbered Editorial List */}
+          <div className="divide-y divide-zinc-200 border-t border-zinc-200">
             {serviceCategories[activeSection].services.map((service, index) => (
-              <div key={service.id} className="group py-16">
-                <div className="grid lg:grid-cols-[100px_1fr_1.5fr_auto] gap-12 items-start">
-                  <span className="text-6xl font-bold text-zinc-100 leading-none group-hover:text-brand-green/10 transition-colors">
-                    {String(index + 1).padStart(2, '0')}
+              <div key={service.id} className="group py-12">
+                <div className="grid lg:grid-cols-[80px_1fr_1.5fr_auto] gap-8 items-start">
+                  <span className="text-[10px] font-bold tracking-[0.25em] text-zinc-300 mt-1">
+                    {String(index + 1).padStart(3, '0')}
                   </span>
                   
                   <div>
-                    <h3 className="text-2xl font-bold text-zinc-900 mb-4 group-hover:text-brand-green transition-colors">
+                    <h3 className="text-lg font-bold text-zinc-900 mb-2">
                       {service.title}
                     </h3>
-                    <div className="flex flex-wrap gap-6 mt-6">
-                      <div className="flex items-center text-[10px] uppercase tracking-widest text-zinc-400">
-                        <i className="fas fa-clock mr-3 text-brand-green"></i>
+                    <div className="flex flex-wrap gap-4 mt-4">
+                      <div className="flex items-center text-[10px] uppercase tracking-wider text-zinc-400">
+                        <i className="fas fa-clock mr-2 text-brand-green/50"></i>
                         {service.duration}
                       </div>
-                      <div className="flex items-center text-[10px] uppercase tracking-widest text-zinc-400">
-                        <i className="fas fa-tag mr-3 text-brand-green"></i>
+                      <div className="flex items-center text-[10px] uppercase tracking-wider text-zinc-400">
+                        <i className="fas fa-tag mr-2 text-brand-green/50"></i>
                         {service.price}
                       </div>
                     </div>
                   </div>
 
-                  <div className="lg:px-12">
-                    <p className="text-base text-zinc-500 font-light leading-relaxed mb-8">
+                  <div className="lg:px-8">
+                    <p className="text-sm text-zinc-500 leading-relaxed mb-6">
                       {service.description}
                     </p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-8">
-                      {service.features.map((feature, idx) => (
-                        <div key={idx} className="flex items-start text-[10px] text-zinc-400 uppercase tracking-widest">
-                          <span className="text-brand-green mr-3">/</span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
+                      {service.features.slice(0, 4).map((feature, idx) => (
+                        <div key={idx} className="flex items-start text-[10px] text-zinc-400 uppercase tracking-tight">
+                          <span className="text-brand-green mr-2">/</span>
                           {feature}
                         </div>
                       ))}
                     </div>
                   </div>
 
-                  <div className="flex lg:flex-col justify-end gap-6 h-full">
+                  <div className="flex flex-col sm:flex-row lg:flex-col gap-4">
                     <Link href={`/services/${activeSection}/${service.slug}`}>
-                      <a className="inline-flex items-center gap-3 text-[10px] font-bold uppercase tracking-[0.2em] text-brand-green hover:gap-5 transition-all group/link">
-                        Details <i className="fas fa-arrow-right text-[8px]"></i>
+                      <a className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all whitespace-nowrap">
+                        View Details <i className="fas fa-arrow-right text-[8px]"></i>
+                      </a>
+                    </Link>
+                    <Link href="/contact">
+                      <a className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-400 hover:text-zinc-900 transition-all whitespace-nowrap">
+                        Inquiry <i className="fas fa-envelope text-[8px]"></i>
                       </a>
                     </Link>
                   </div>
@@ -403,52 +420,24 @@ export default function Services() {
         </div>
       </section>
 
-      {/* Cinematic Quote/Callout Block */}
-      <section className="relative py-32 lg:py-48 overflow-hidden bg-zinc-950">
-        <div className="absolute inset-0 opacity-20">
-          <img 
-            src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80" 
-            alt="Chapter break" 
-            className="w-full h-full object-cover"
-          />
-        </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-zinc-950 via-zinc-950/80 to-zinc-950" />
-        
-        <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 text-center">
-          <p className="text-[10px] font-semibold tracking-[0.3em] text-brand-green uppercase mb-8">
-            Expertise
-          </p>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-[1.1] tracking-tight max-w-4xl mx-auto italic">
-            "Our technical standards aren't just a benchmark—they're our promise of absolute property integrity across the UAE."
-          </h2>
-          <div className="mt-12 flex justify-center items-center gap-4">
-            <div className="h-[1px] w-12 bg-zinc-800" />
-            <span className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-bold">UrbanGrid Technical Division</span>
-            <div className="h-[1px] w-12 bg-zinc-800" />
-          </div>
-        </div>
-      </section>
-
-      {/* Method Section */}
-      <section className="py-28 lg:py-40 bg-zinc-50">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
-          <div className="grid lg:grid-cols-2 gap-20 mb-32">
+      {/* Process Section */}
+      <section className="py-24 lg:py-32 bg-zinc-50">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+          <div className="grid lg:grid-cols-2 gap-16 mb-24">
             <div>
-              <p className="text-[10px] sm:text-xs font-semibold tracking-[0.3em] text-brand-green uppercase mb-6">
-                Methodology
+              <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">
+                Our Methodology
               </p>
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-zinc-900 leading-tight">
-                A systematic approach to property excellence.
+              <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight">
+                A systematic approach to excellence.
               </h2>
             </div>
-            <div className="flex items-end">
-              <p className="text-lg text-zinc-500 font-light leading-relaxed">
-                We follow a rigorous, step-by-step process to ensure that every inspection is conducted with the highest degree of professionalism and technical accuracy.
-              </p>
-            </div>
+            <p className="text-sm text-zinc-500 leading-relaxed pt-2">
+              We follow a rigorous, step-by-step process to ensure that every inspection is conducted with the highest degree of professionalism and technical accuracy.
+            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-16 gap-y-24">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-16">
             {[
               { step: "01", title: "Consultation", text: "Initial technical discussion to understand specific property requirements." },
               { step: "02", title: "Inspection", text: "Comprehensive on-site examination using advanced diagnostic tools." },
@@ -456,12 +445,12 @@ export default function Services() {
               { step: "04", title: "Follow-up", text: "Ongoing technical support and verification of rectification work." }
             ].map((item, idx) => (
               <div key={idx} className="relative">
-                <span className="text-8xl font-bold text-zinc-200/50 absolute -top-12 -left-4 z-0">
+                <span className="text-5xl font-bold text-zinc-100 absolute -top-8 -left-2 z-0">
                   {item.step}
                 </span>
                 <div className="relative z-10">
-                  <h3 className="text-xl font-bold text-zinc-900 mb-6">{item.title}</h3>
-                  <p className="text-base text-zinc-500 font-light leading-relaxed">
+                  <h3 className="text-lg font-bold text-zinc-900 mb-4">{item.title}</h3>
+                  <p className="text-sm text-zinc-500 leading-relaxed">
                     {item.text}
                   </p>
                 </div>
@@ -472,29 +461,29 @@ export default function Services() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-28 lg:py-40 bg-brand-green text-white">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+      <section className="py-24 lg:py-32 bg-brand-green text-white">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <p className="text-[10px] font-semibold tracking-[0.3em] text-white/60 uppercase mb-6">
+              <p className="text-[10px] font-semibold tracking-[0.25em] text-white/60 uppercase mb-4">
                 Get Started
               </p>
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-8 leading-tight text-white">
+              <h2 className="text-4xl lg:text-5xl font-bold mb-6 leading-tight text-white">
                 Ready to Schedule Your Inspection?
               </h2>
-              <p className="text-white/70 text-lg font-light leading-relaxed max-w-md">
+              <p className="text-white/70 text-sm leading-relaxed max-w-md">
                 Protect your property investment with professional inspection services from UAE's most trusted technical experts.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-6 lg:justify-end">
               <Link href="/contact">
-                <Button className="bg-white text-brand-green hover:bg-zinc-100 rounded-none h-16 px-12 text-[10px] uppercase tracking-[0.2em] font-bold">
+                <Button className="bg-white text-brand-green hover:bg-zinc-100 rounded-none h-14 px-10 text-[10px] uppercase tracking-[0.2em] font-bold">
                   Free Consultation
                 </Button>
               </Link>
               <a
                 href="tel:+971585686852"
-                className="inline-flex items-center justify-center border border-white/30 text-white h-16 px-12 text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-green transition-all"
+                className="inline-flex items-center justify-center border border-white/30 text-white h-14 px-10 text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-green transition-all"
               >
                 +971 58 568 6852
               </a>

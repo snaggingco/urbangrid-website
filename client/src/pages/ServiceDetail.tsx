@@ -1,5 +1,6 @@
 import { useParams, Link } from "wouter";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import NotFound from "@/pages/not-found";
 import SEO from "@/components/SEO";
 
@@ -719,89 +720,97 @@ export default function ServiceDetail() {
 
   const service = servicesData[slug];
 
+  const categoryDisplayNames = {
+    'property-snagging': 'Property Snagging',
+    'rera-services': 'RERA Services', 
+    'technical-inspections': 'Technical Inspections'
+  };
+
+  const categoryName = categoryDisplayNames[category as keyof typeof categoryDisplayNames] || 'Services';
+
   return (
     <>
       <SEO 
         title={`${service.title} - UrbanGrid UAE`}
         description={service.description}
       />
-      
-      <div className="bg-white">
+      <div className="pt-16">
         {/* Hero Section */}
-        <section className="relative min-h-[90vh] flex items-center pt-20">
-          <div 
-            className="absolute inset-0 bg-cover bg-center" 
-            style={{ backgroundImage: `url(${service.image})` }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-zinc-950/95 via-zinc-950/60 to-transparent" />
-          
-          <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 w-full">
-            <p className="text-[10px] sm:text-xs font-semibold tracking-[0.3em] text-brand-green uppercase mb-6">
-              {category?.replace('-', ' ') || 'Service Detail'}
-            </p>
-            <h1 className="text-6xl sm:text-7xl lg:text-[7rem] xl:text-[8rem] font-bold leading-[0.95] tracking-tight text-white mb-8">
-              {service.title.split(' ').map((word, i) => (
-                <span key={i}>
-                  {word}{i === 2 ? <br /> : ' '}
-                </span>
-              ))}
-            </h1>
-            <p className="text-base sm:text-lg text-zinc-300 leading-relaxed font-light max-w-2xl">
-              {service.description}
-            </p>
-          </div>
-        </section>
-
-        {/* Metadata Strip */}
-        <section className="bg-zinc-950 py-12 border-y border-zinc-900">
-          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 mb-2">Duration</p>
-                <p className="text-white text-lg font-bold">{service.duration}</p>
-              </div>
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 mb-2">Investment</p>
-                <p className="text-white text-lg font-bold">{service.price}</p>
-              </div>
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 mb-2">Location</p>
-                <p className="text-white text-lg font-bold">UAE Nationwide</p>
-              </div>
-              <div>
-                <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 mb-2">Availability</p>
-                <p className="text-brand-green text-lg font-bold">Available Now</p>
+        <section className="pt-24 pb-16 bg-zinc-950">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="flex flex-col gap-6">
+              <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase">
+                Service Details
+              </p>
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight">
+                {service.title}
+              </h1>
+              <div className="flex flex-wrap gap-8 mt-4 pt-8 border-t border-zinc-800">
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.25em] text-zinc-500 mb-2">Duration</p>
+                  <p className="text-white font-bold">{service.duration}</p>
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.25em] text-zinc-500 mb-2">Investment</p>
+                  <p className="text-white font-bold">{service.price}</p>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
-        {/* Overview & Features Section */}
-        <section className="py-28 lg:py-40 bg-white">
-          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
+        {/* Overview & Image Section */}
+        <section className="py-24 lg:py-32 bg-white">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="grid lg:grid-cols-2 gap-16 items-start">
+              <div>
+                <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Overview</p>
+                <h2 className="text-4xl font-bold text-zinc-900 mb-8 leading-tight">Professional Property Assessment</h2>
+                <p className="text-sm text-zinc-500 leading-relaxed mb-8">
+                  {service.longDescription}
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {service.includes.map((item, idx) => (
+                    <div key={idx} className="flex items-center gap-3 py-3 border-b border-zinc-100">
+                      <div className="w-1.5 h-1.5 bg-brand-green"></div>
+                      <span className="text-[10px] uppercase tracking-wider text-zinc-600 font-bold">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="aspect-[4/3] overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
+                <img 
+                  src={service.image} 
+                  alt={service.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Features & Benefits - Editorial 2-col */}
+        <section className="py-24 lg:py-32 bg-zinc-50">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
             <div className="grid lg:grid-cols-2 gap-24">
               <div>
-                <p className="text-[10px] sm:text-xs font-semibold tracking-[0.3em] text-brand-green uppercase mb-6">
-                  Overview
-                </p>
-                <h2 className="text-4xl sm:text-5xl font-bold text-zinc-900 leading-tight mb-10">
-                  Comprehensive Property Integrity
-                </h2>
-                <div className="prose prose-zinc prose-lg">
-                  <p className="text-zinc-500 font-light leading-relaxed">
-                    {service.longDescription}
-                  </p>
+                <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-8">Key Features</p>
+                <div className="divide-y divide-zinc-200">
+                  {service.features.map((feature, idx) => (
+                    <div key={idx} className="py-6 flex gap-6 items-start group">
+                      <span className="text-[10px] font-bold text-zinc-300 mt-1">{String(idx + 1).padStart(2, '0')}</span>
+                      <p className="text-sm text-zinc-600 font-medium group-hover:text-zinc-900 transition-colors">{feature}</p>
+                    </div>
+                  ))}
                 </div>
               </div>
               <div>
-                <p className="text-[10px] sm:text-xs font-semibold tracking-[0.3em] text-brand-green uppercase mb-6">
-                  Key Features
-                </p>
-                <div className="grid gap-4">
-                  {service.features.map((feature, idx) => (
-                    <div key={idx} className="flex items-center gap-6 p-6 border border-zinc-100 group hover:border-brand-green/20 transition-all">
-                      <div className="w-2 h-2 bg-brand-green shrink-0"></div>
-                      <span className="text-sm font-bold text-zinc-900 uppercase tracking-widest">{feature}</span>
+                <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-8">Strategic Benefits</p>
+                <div className="space-y-6">
+                  {service.benefits.map((benefit, idx) => (
+                    <div key={idx} className="flex items-start gap-4">
+                      <span className="text-brand-green mt-1">→</span>
+                      <p className="text-sm text-zinc-500 leading-relaxed">{benefit}</p>
                     </div>
                   ))}
                 </div>
@@ -811,100 +820,85 @@ export default function ServiceDetail() {
         </section>
 
         {/* Process Section */}
-        <section className="py-28 lg:py-40 bg-zinc-950">
-          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
-            <div className="mb-24">
-              <p className="text-[10px] sm:text-xs font-semibold tracking-[0.3em] text-brand-green uppercase mb-6">
-                Methodology
-              </p>
-              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
-                Our Technical Process
-              </h2>
+        <section className="py-24 lg:py-32 bg-white">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="mb-20">
+              <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Methodology</p>
+              <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight">Our Technical Process</h2>
             </div>
-            
-            <div className="divide-y divide-zinc-900">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
               {service.process.map((step, idx) => (
-                <div key={idx} className="grid lg:grid-cols-[150px_1fr] gap-12 py-12 items-center group">
-                  <span className="text-7xl font-bold text-zinc-900 group-hover:text-zinc-800 transition-colors">
-                    {String(idx + 1).padStart(2, '0')}
-                  </span>
-                  <div>
-                    <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-brand-green transition-colors">{step}</h3>
-                    <p className="text-zinc-400 text-base font-light max-w-3xl">
-                      Executing our standard protocols for {service.title.toLowerCase()} to ensure absolute precision and regulatory compliance throughout the inspection lifecycle.
-                    </p>
-                  </div>
+                <div key={idx} className="pt-8 border-t border-zinc-200 relative group">
+                  <span className="text-[10px] font-bold text-zinc-300 absolute top-4 right-0">{String(idx + 1).padStart(2, '0')}</span>
+                  <p className="text-sm text-zinc-600 leading-relaxed font-medium">{step}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
 
-        {/* Benefits Section */}
-        <section className="py-28 lg:py-40 bg-white">
-          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 text-center">
-            <p className="text-[10px] sm:text-xs font-semibold tracking-[0.3em] text-brand-green uppercase mb-6">
-              Impact
-            </p>
-            <h2 className="text-4xl sm:text-5xl font-bold text-zinc-900 leading-tight mb-24 max-w-4xl mx-auto">
-              Strategic advantages for property owners and investors.
-            </h2>
-            <div className="grid md:grid-cols-3 gap-16">
-              {service.benefits.map((benefit, idx) => (
-                <div key={idx} className="text-center group">
-                  <div className="text-brand-green mb-8 flex justify-center">
-                    <div className="w-12 h-[1px] bg-brand-green/30"></div>
-                  </div>
-                  <p className="text-lg text-zinc-500 font-light leading-relaxed px-4 group-hover:text-zinc-900 transition-colors">
-                    {benefit}
+        {/* FAQ Section - Clean Editorial Style */}
+        <section className="py-24 lg:py-32 bg-zinc-50">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="max-w-3xl">
+              <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Inquiry & FAQ</p>
+              <h2 className="text-4xl font-bold text-zinc-900 mb-16 leading-tight">Frequently Asked Questions</h2>
+              
+              <div className="divide-y divide-zinc-200">
+                <div className="py-10">
+                  <h3 className="text-lg font-bold text-zinc-900 mb-4">
+                    What are the costs for {service.title.toLowerCase()}?
+                  </h3>
+                  <p className="text-sm text-zinc-500 leading-relaxed">
+                    Our {service.title.toLowerCase()} services start from {service.price}. Final pricing depends on property size, location, and specific requirements. Contact us for a free, no-obligation quote tailored to your needs.
                   </p>
                 </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* Includes Section */}
-        <section className="py-24 bg-zinc-50 border-y border-zinc-100">
-          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
-            <div className="flex flex-col md:flex-row items-center gap-12">
-              <div className="shrink-0">
-                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-400">What's Included</p>
-              </div>
-              <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-                {service.includes.map((item, idx) => (
-                  <div key={idx} className="px-6 py-3 bg-white border border-zinc-200 text-[10px] font-bold uppercase tracking-widest text-zinc-600">
-                    {item}
-                  </div>
-                ))}
+                
+                <div className="py-10">
+                  <h3 className="text-lg font-bold text-zinc-900 mb-4">
+                    How long does the {service.title.toLowerCase()} process take?
+                  </h3>
+                  <p className="text-sm text-zinc-500 leading-relaxed">
+                    Typically takes {service.duration}. We provide same-day reports with detailed findings, photographs, and professional recommendations. Urgent inspections can be arranged within 24 hours.
+                  </p>
+                </div>
+                
+                <div className="py-10">
+                  <h3 className="text-lg font-bold text-zinc-900 mb-4">
+                    Do you provide services across all UAE emirates?
+                  </h3>
+                  <p className="text-sm text-zinc-500 leading-relaxed">
+                    Yes, we provide comprehensive {service.title.toLowerCase()} services across Dubai, Abu Dhabi, Sharjah, Ajman, Fujairah, Ras Al Khaimah, and Umm Al Quwain. Our certified team ensures consistent quality standards nationwide.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
         {/* CTA Section */}
-        <section className="py-28 lg:py-40 bg-brand-green text-white">
-          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
-            <div className="grid lg:grid-cols-2 gap-16 items-center">
+        <section className="py-24 lg:py-32 bg-brand-green text-white">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
               <div>
-                <p className="text-[10px] font-semibold tracking-[0.3em] text-white/60 uppercase mb-6">
+                <p className="text-[10px] font-semibold tracking-[0.25em] text-white/60 uppercase mb-4">
                   Engagement
                 </p>
-                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-8 leading-tight">
+                <h2 className="text-4xl lg:text-5xl font-bold mb-6 leading-tight">
                   Ready to Schedule Your {service.title}?
                 </h2>
-                <p className="text-white/70 text-lg font-light leading-relaxed max-w-md">
-                  Secure your property investment with our certified technical experts.
+                <p className="text-white/70 text-sm leading-relaxed max-w-md">
+                  Get expert technical assessment across Dubai, Abu Dhabi, Sharjah and all UAE. Same-day reports, competitive pricing, RERA certified professionals.
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-6 lg:justify-end">
                 <Link href="/contact">
-                  <Button className="bg-white text-brand-green hover:bg-zinc-100 rounded-none h-16 px-12 text-[10px] uppercase tracking-[0.2em] font-bold">
+                  <Button className="bg-white text-brand-green hover:bg-zinc-100 rounded-none h-14 px-10 text-[10px] uppercase tracking-[0.2em] font-bold">
                     Book Inspection
                   </Button>
                 </Link>
                 <Link href="/services">
-                  <a className="inline-flex items-center justify-center border border-white/30 text-white h-16 px-12 text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-green transition-all">
+                  <a className="inline-flex items-center justify-center border border-white/30 text-white h-14 px-10 text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-green transition-all">
                     All Services
                   </a>
                 </Link>

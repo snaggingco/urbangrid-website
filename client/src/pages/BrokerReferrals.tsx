@@ -153,31 +153,28 @@ ${formData.message}`,
       
       <main>
         {/* Hero Section */}
-        <section className="relative min-h-[80vh] flex items-center pt-20">
-          <div className="absolute inset-0 bg-zinc-950" />
-          <div className="absolute inset-0 bg-gradient-to-b from-brand-green/10 via-transparent to-transparent opacity-50" />
-          <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 w-full">
-            <div className="max-w-4xl">
-              <p className="text-[10px] sm:text-xs font-semibold tracking-[0.3em] text-brand-green uppercase mb-6">Partnerships</p>
-              <h1 className="text-6xl sm:text-7xl lg:text-[7rem] xl:text-[8rem] font-bold leading-[0.95] tracking-tight text-white mb-8">
-                Partner with <br />UAE's <span className="text-brand-green">Leading <br />Inspectors</span>
-              </h1>
-              <p className="text-base sm:text-lg text-zinc-400 leading-relaxed font-light max-w-2xl">
-                Join our exclusive broker referral program and earn competitive commissions while providing your clients with world-class property inspection services.
-              </p>
-            </div>
+        <section className="pt-32 pb-20 bg-zinc-950 text-white">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 text-center">
+            <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Partnerships</p>
+            <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold text-white leading-tight mb-6">
+              Partner with UAE's <br className="hidden md:block" />
+              <span className="text-brand-green">Leading Inspectors</span>
+            </h1>
+            <p className="text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed">
+              Join our exclusive broker referral program and earn competitive commissions while providing your clients with world-class property inspection services.
+            </p>
           </div>
         </section>
 
-        {/* Stats Strip - Dramatic */}
-        <section className="bg-zinc-950 border-y border-zinc-900">
-          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-0 divide-y md:divide-y-0 md:divide-x divide-zinc-900">
+        {/* Benefits Section - Stats Strip Style */}
+        <section className="bg-white border-b border-zinc-100">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-0 divide-y md:divide-y-0 md:divide-x divide-zinc-100">
               {benefits.map((benefit, index) => (
-                <div key={index} className="py-20 md:px-12 first:pl-0 last:pr-0">
-                  <div className="text-6xl lg:text-7xl font-bold text-brand-green leading-none mb-4">{benefit.value}</div>
-                  <div className="text-[10px] font-semibold tracking-[0.2em] text-zinc-500 uppercase">{benefit.title}</div>
-                  <p className="text-sm text-zinc-600 mt-6 leading-relaxed font-light">{benefit.description}</p>
+                <div key={index} className="py-12 md:px-8 first:pl-0 last:pr-0">
+                  <div className="text-3xl font-bold text-zinc-900 mb-1">{benefit.value}</div>
+                  <div className="text-[10px] font-semibold tracking-[0.18em] text-zinc-400 uppercase mb-4">{benefit.title}</div>
+                  <p className="text-xs text-zinc-500 leading-relaxed">{benefit.description}</p>
                 </div>
               ))}
             </div>
@@ -185,35 +182,35 @@ ${formData.message}`,
         </section>
 
         {/* How It Works Section */}
-        <section className="py-28 lg:py-40 bg-white">
-          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
-            <div className="grid lg:grid-cols-2 gap-20 lg:gap-32 items-start mb-24">
+        <section className="py-24 lg:py-32 bg-white">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="grid lg:grid-cols-2 gap-16 items-start mb-20">
               <div>
-                <p className="text-[10px] sm:text-xs font-semibold tracking-[0.3em] text-brand-green uppercase mb-6">Process</p>
-                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-zinc-900 leading-tight">
-                  Simple Steps to <br />Start Earning
+                <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Process</p>
+                <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight">
+                  Simple Steps to <br /> Start Earning
                 </h2>
               </div>
-              <div className="space-y-0 divide-y divide-zinc-100">
-                <div className="flex gap-10 py-12">
-                  <span className="text-6xl font-bold text-zinc-100 leading-none shrink-0">01</span>
+              <div className="space-y-12">
+                <div className="flex gap-8 pb-12 border-b border-zinc-100">
+                  <span className="text-4xl font-bold text-zinc-100">01</span>
                   <div>
-                    <h3 className="text-xl font-bold text-zinc-900 mb-4">Refer Your Client</h3>
-                    <p className="text-base text-zinc-500 leading-relaxed font-light">Simply share our contact details or submit a referral through our partnership portal.</p>
+                    <h3 className="text-lg font-bold text-zinc-900 mb-2">Refer Your Client</h3>
+                    <p className="text-sm text-zinc-500 leading-relaxed">Simply share our contact details or submit a referral through our partnership portal.</p>
                   </div>
                 </div>
-                <div className="flex gap-10 py-12">
-                  <span className="text-6xl font-bold text-zinc-100 leading-none shrink-0">02</span>
+                <div className="flex gap-8 pb-12 border-b border-zinc-100">
+                  <span className="text-4xl font-bold text-zinc-100">02</span>
                   <div>
-                    <h3 className="text-xl font-bold text-zinc-900 mb-4">Professional Inspection</h3>
-                    <p className="text-base text-zinc-500 leading-relaxed font-light">We handle the inspection, detailed reporting, and exceptional client service.</p>
+                    <h3 className="text-lg font-bold text-zinc-900 mb-2">Professional Inspection</h3>
+                    <p className="text-sm text-zinc-500 leading-relaxed">We handle the inspection, detailed reporting, and exceptional client service.</p>
                   </div>
                 </div>
-                <div className="flex gap-10 py-12">
-                  <span className="text-6xl font-bold text-zinc-100 leading-none shrink-0">03</span>
+                <div className="flex gap-8">
+                  <span className="text-4xl font-bold text-zinc-100">03</span>
                   <div>
-                    <h3 className="text-xl font-bold text-zinc-900 mb-4">Earn Commission</h3>
-                    <p className="text-base text-zinc-500 leading-relaxed font-light">Receive your commission within 7 days of the completed inspection service.</p>
+                    <h3 className="text-lg font-bold text-zinc-900 mb-2">Earn Commission</h3>
+                    <p className="text-sm text-zinc-500 leading-relaxed">Receive your commission within 7 days of the completed inspection service.</p>
                   </div>
                 </div>
               </div>
@@ -222,46 +219,46 @@ ${formData.message}`,
         </section>
 
         {/* Form Section */}
-        <section className="py-28 lg:py-40 bg-zinc-50">
-          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
-            <div className="grid lg:grid-cols-2 gap-20 lg:gap-32">
+        <section className="py-24 lg:py-32 bg-zinc-50">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="grid lg:grid-cols-2 gap-16">
               <div>
-                <p className="text-[10px] sm:text-xs font-semibold tracking-[0.3em] text-brand-green uppercase mb-6">Application</p>
-                <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-zinc-900 leading-tight mb-10">
-                  Broker Partnership <br />Application
+                <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Application</p>
+                <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight mb-8">
+                  Broker Partnership Application
                 </h2>
-                <p className="text-lg text-zinc-500 leading-relaxed font-light mb-12">
+                <p className="text-sm text-zinc-500 leading-relaxed mb-8">
                   Join hundreds of successful agents already earning with UrbanGrid. Fill out the form and our team will contact you within 24 hours to discuss partnership terms.
                 </p>
                 
-                <div className="grid grid-cols-2 gap-8">
-                  <div className="p-10 bg-white border border-zinc-100 shadow-sm">
-                    <div className="text-5xl font-bold text-brand-green mb-3">25%</div>
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-semibold">Max Commission</p>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-6 border border-zinc-200 bg-white">
+                    <div className="text-2xl font-bold text-brand-green mb-1">25%</div>
+                    <p className="text-[10px] uppercase tracking-wider text-zinc-400 font-semibold">Max Commission</p>
                   </div>
-                  <div className="p-10 bg-white border border-zinc-100 shadow-sm">
-                    <div className="text-5xl font-bold text-brand-green mb-3">7 Days</div>
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-semibold">Payment Terms</p>
+                  <div className="p-6 border border-zinc-200 bg-white">
+                    <div className="text-2xl font-bold text-brand-green mb-1">7 Days</div>
+                    <p className="text-[10px] uppercase tracking-wider text-zinc-400 font-semibold">Payment Terms</p>
                   </div>
                 </div>
               </div>
 
-              <div className="bg-white p-8 lg:p-16 border border-zinc-100 shadow-sm">
-                <form onSubmit={handleSubmit} className="space-y-10">
-                  <div className="grid md:grid-cols-2 gap-8">
+              <div className="bg-white p-8 lg:p-12 border border-zinc-100">
+                <form onSubmit={handleSubmit} className="space-y-8">
+                  <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <Label htmlFor="name" className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 mb-3 block font-semibold">Full Name *</Label>
+                      <Label htmlFor="name" className="text-[10px] uppercase tracking-wide text-zinc-400 mb-2 block">Full Name *</Label>
                       <Input
                         id="name"
                         value={formData.name}
                         onChange={(e) => handleInputChange("name", e.target.value)}
                         placeholder="Your full name"
                         required
-                        className="rounded-none border-zinc-200 focus:border-brand-green h-14 bg-zinc-50/50"
+                        className="rounded-none border-zinc-200 focus:border-brand-green h-12"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="email" className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 mb-3 block font-semibold">Email Address *</Label>
+                      <Label htmlFor="email" className="text-[10px] uppercase tracking-wide text-zinc-400 mb-2 block">Email Address *</Label>
                       <Input
                         id="email"
                         type="email"
@@ -269,51 +266,51 @@ ${formData.message}`,
                         onChange={(e) => handleInputChange("email", e.target.value)}
                         placeholder="your@email.com"
                         required
-                        className="rounded-none border-zinc-200 focus:border-brand-green h-14 bg-zinc-50/50"
+                        className="rounded-none border-zinc-200 focus:border-brand-green h-12"
                       />
                     </div>
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-8">
+                  <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <Label htmlFor="phone" className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 mb-3 block font-semibold">Phone Number *</Label>
+                      <Label htmlFor="phone" className="text-[10px] uppercase tracking-wide text-zinc-400 mb-2 block">Phone Number *</Label>
                       <Input
                         id="phone"
                         value={formData.phone}
                         onChange={(e) => handleInputChange("phone", e.target.value)}
                         placeholder="+971 XX XXX XXXX"
                         required
-                        className="rounded-none border-zinc-200 focus:border-brand-green h-14 bg-zinc-50/50"
+                        className="rounded-none border-zinc-200 focus:border-brand-green h-12"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="company" className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 mb-3 block font-semibold">Company/Agency *</Label>
+                      <Label htmlFor="company" className="text-[10px] uppercase tracking-wide text-zinc-400 mb-2 block">Company/Agency *</Label>
                       <Input
                         id="company"
                         value={formData.company}
                         onChange={(e) => handleInputChange("company", e.target.value)}
                         placeholder="Real estate company"
                         required
-                        className="rounded-none border-zinc-200 focus:border-brand-green h-14 bg-zinc-50/50"
+                        className="rounded-none border-zinc-200 focus:border-brand-green h-12"
                       />
                     </div>
                   </div>
 
-                  <div className="grid md:grid-cols-2 gap-8">
+                  <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <Label htmlFor="license" className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 mb-3 block font-semibold">License Number</Label>
+                      <Label htmlFor="license" className="text-[10px] uppercase tracking-wide text-zinc-400 mb-2 block">License Number</Label>
                       <Input
                         id="license"
                         value={formData.license}
                         onChange={(e) => handleInputChange("license", e.target.value)}
                         placeholder="Optional"
-                        className="rounded-none border-zinc-200 focus:border-brand-green h-14 bg-zinc-50/50"
+                        className="rounded-none border-zinc-200 focus:border-brand-green h-12"
                       />
                     </div>
                     <div>
-                      <Label htmlFor="experience" className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 mb-3 block font-semibold">Experience</Label>
+                      <Label htmlFor="experience" className="text-[10px] uppercase tracking-wide text-zinc-400 mb-2 block">Experience</Label>
                       <Select onValueChange={(value) => handleInputChange("experience", value)}>
-                        <SelectTrigger className="rounded-none border-zinc-200 focus:border-brand-green h-14 bg-zinc-50/50">
+                        <SelectTrigger className="rounded-none border-zinc-200 focus:border-brand-green h-12">
                           <SelectValue placeholder="Select" />
                         </SelectTrigger>
                         <SelectContent className="rounded-none">
@@ -327,19 +324,20 @@ ${formData.message}`,
                   </div>
 
                   <div>
-                    <Label htmlFor="message" className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 mb-3 block font-semibold">Additional Message</Label>
+                    <Label htmlFor="message" className="text-[10px] uppercase tracking-wide text-zinc-400 mb-2 block">Additional Message</Label>
                     <Textarea
                       id="message"
                       value={formData.message}
                       onChange={(e) => handleInputChange("message", e.target.value)}
                       placeholder="Tell us about your business..."
-                      className="rounded-none border-zinc-200 focus:border-brand-green min-h-[140px] bg-zinc-50/50 py-4"
+                      rows={4}
+                      className="rounded-none border-zinc-200 focus:border-brand-green min-h-[100px]"
                     />
                   </div>
 
                   <Button 
                     type="submit" 
-                    className="w-full bg-brand-green text-white hover:bg-brand-green/90 rounded-none h-16 text-xs font-bold uppercase tracking-[0.2em] transition-all"
+                    className="w-full bg-brand-green text-white hover:bg-opacity-90 rounded-none h-14 text-xs font-bold uppercase tracking-widest transition-all"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? "Submitting..." : "Apply for Partnership"}
@@ -351,18 +349,17 @@ ${formData.message}`,
         </section>
 
         {/* Contact CTA */}
-        <section className="py-28 lg:py-40 bg-zinc-950 text-white border-t border-zinc-900 overflow-hidden relative">
-          <div className="absolute top-0 right-0 w-1/2 h-full bg-brand-green/5 blur-[120px] rounded-full translate-x-1/2" />
-          <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 text-center">
-            <h2 className="text-4xl sm:text-5xl lg:text-7xl font-bold mb-20 tracking-tight">Ready to <br />Start Earning?</h2>
-            <div className="flex flex-wrap justify-center gap-16 lg:gap-32">
+        <section className="py-24 lg:py-32 bg-zinc-950 text-white border-t border-zinc-900">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 text-center">
+            <h2 className="text-4xl lg:text-5xl font-bold mb-12">Ready to Start Earning?</h2>
+            <div className="flex flex-wrap justify-center gap-12">
               <a href="tel:+971585686852" className="group">
-                <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-500 mb-4 group-hover:text-brand-green transition-colors font-semibold">Call Us</p>
-                <p className="text-2xl sm:text-3xl font-bold">+971 58 568 6852</p>
+                <p className="text-[10px] uppercase tracking-widest text-zinc-500 mb-2 group-hover:text-brand-green transition-colors">Call Us</p>
+                <p className="text-lg font-bold">+971 58 568 6852</p>
               </a>
               <a href="mailto:partnerships@urbangrid.ae" className="group">
-                <p className="text-[10px] uppercase tracking-[0.3em] text-zinc-500 mb-4 group-hover:text-brand-green transition-colors font-semibold">Email Us</p>
-                <p className="text-2xl sm:text-3xl font-bold">partnerships@urbangrid.ae</p>
+                <p className="text-[10px] uppercase tracking-widest text-zinc-500 mb-2 group-hover:text-brand-green transition-colors">Email Us</p>
+                <p className="text-lg font-bold">partnerships@urbangrid.ae</p>
               </a>
             </div>
           </div>
