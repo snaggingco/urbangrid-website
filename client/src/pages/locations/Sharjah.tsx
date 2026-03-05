@@ -40,8 +40,8 @@ export default function SnaggingCompanySharjah() {
     <>
       <SEO 
         title="Snagging Company Sharjah - Expert Property Snagging Services | UrbanGrid"
-        description="Sharjah's trusted snagging company providing comprehensive property snagging services. Family community & cultural district snagging in Al Zahia, Aljada, Kalba. Call +971585686852"
-        keywords="snagging company sharjah, property snagging sharjah, sharjah snagging services, villa snagging sharjah, apartment snagging sharjah, family community snagging"
+        description="Looking for a reliable snagging company in Sharjah? UrbanGrid provides expert property snagging services for family communities and cultural districts. Professional inspections in Al Zahia, Aljada, and across Sharjah. Call +971585686852"
+        keywords="snagging company sharjah, property snagging sharjah, sharjah snagging services, villa snagging sharjah, apartment snagging sharjah, best snagging company sharjah"
       />
 
       <div className="pt-16">

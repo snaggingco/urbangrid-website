@@ -51,9 +51,9 @@ export default function PropertyInspectionDubai() {
   return (
     <>
       <SEO 
-        title="Property Inspection Dubai - Professional Property Assessment Services"
-        description="Expert property inspection services in Dubai. Pre-purchase inspections, new build assessments, rental property checks. RERA licensed inspectors covering all Dubai areas. Call +971585686852"
-        keywords="property inspection dubai, property inspection services dubai, dubai property inspection, property inspector dubai, pre purchase inspection dubai, property assessment dubai"
+        title="Best Snagging Company Dubai - Expert Property Inspection Services"
+        description="UrbanGrid is the best snagging company in Dubai. We provide professional property inspection, villa snagging, and handover inspections with RERA licensed experts. Call +971585686852"
+        keywords="best snagging company dubai, property inspection dubai, snagging services dubai, dubai snagging company, property inspector dubai"
       />
       
       <div className="pt-16">
