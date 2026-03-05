@@ -22,7 +22,7 @@ export const trackConversion = (type: string = 'conversion') => {
     // Call Click
     if (type === 'call_click') {
       window.gtag('event', 'conversion', {
-        'send_to': 'AW-11443889137/k-VpCJ7S4YAbEPHH79Aq',
+        'send_to': 'AW-11443889137/AAjKCJLTn4McEPHH79Aq',
         'value': 1.0,
         'currency': 'AED'
       });
