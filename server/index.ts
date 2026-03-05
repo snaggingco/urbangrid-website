@@ -70,17 +70,19 @@ app.use((req, res, next) => {
     log(logLine);
 
     // Store visitor data in database (background operation)
-    db.insert(visitorLogs).values({
-      ipAddress: clientIP,
-      userAgent: req.headers['user-agent'] || null,
-      path: path,
-      method: req.method,
-      statusCode: res.statusCode.toString(),
-      responseTime: `${duration}ms`,
-      referer: req.headers['referer'] || null,
-    }).catch(error => {
-      console.error("Failed to store visitor log:", error);
-    });
+    if (res.statusCode < 400) {
+      db.insert(visitorLogs).values({
+        ipAddress: clientIP,
+        userAgent: req.headers['user-agent'] || null,
+        path: path,
+        method: req.method,
+        statusCode: res.statusCode.toString(),
+        responseTime: `${duration}ms`,
+        referer: req.headers['referer'] || null,
+      }).catch(error => {
+        console.error("Failed to store visitor log:", error);
+      });
+    }
   });
 
   next();
