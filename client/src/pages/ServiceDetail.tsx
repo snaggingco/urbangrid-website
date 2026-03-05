@@ -731,351 +731,181 @@ export default function ServiceDetail() {
   return (
     <>
       <SEO 
-        title={`${service.title} UAE - Professional ${categoryName} Services | UrbanGrid`}
-        description={`${service.description} Expert ${categoryName.toLowerCase()} services across Dubai, Abu Dhabi, UAE. Professional inspection reports, same-day service, competitive pricing.`}
-        keywords={`${service.title.toLowerCase()}, ${categoryName.toLowerCase()} UAE, property inspection Dubai, ${service.slug} Abu Dhabi, professional inspection services`}
+        title={`${service.title} - UrbanGrid UAE`}
+        description={service.description}
       />
-      
-      <div className="pt-16 lg:pt-20">
-      {/* Breadcrumb Navigation */}
-      <section className="py-4 bg-light-grey border-b">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <nav className="flex text-sm text-text-grey" aria-label="Breadcrumb">
-            <Link href="/" className="hover:text-brand-green transition-colors">
-              Home
-            </Link>
-            <span className="mx-2">/</span>
-            <Link href="/services" className="hover:text-brand-green transition-colors">
-              Services
-            </Link>
-            <span className="mx-2">/</span>
-            <span className="text-brand-black font-medium">{service.title}</span>
-          </nav>
-        </div>
-      </section>
-
-      {/* Hero Section */}
-      <section className="relative py-16 lg:py-20 bg-gray-900">
-        <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${service.image})` }}
-        ></div>
-        <div className="absolute inset-0 bg-black bg-opacity-60"></div>
-        
-        <div className="relative z-10 container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center text-white">
-            <h1 className="text-4xl lg:text-5xl font-bold mb-6">
-              {service.title} in Dubai, Abu Dhabi & UAE
-            </h1>
-            <p className="text-xl leading-relaxed mb-4">
-              {service.description}
-            </p>
-            <div className="flex flex-wrap justify-center gap-4 text-green-200">
-              <span className="flex items-center">
-                <i className="fas fa-check-circle mr-2"></i>
-                Same-Day Reports
-              </span>
-              <span className="flex items-center">
-                <i className="fas fa-check-circle mr-2"></i>
-                RERA Certified
-              </span>
-              <span className="flex items-center">
-                <i className="fas fa-check-circle mr-2"></i>
-                40,000+ Properties Inspected
-              </span>
+      <div className="pt-16">
+        {/* Hero Section */}
+        <section className="pt-24 pb-16 bg-zinc-950">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="flex flex-col gap-6">
+              <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase">
+                Service Details
+              </p>
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight">
+                {service.title}
+              </h1>
+              <div className="flex flex-wrap gap-8 mt-4 pt-8 border-t border-zinc-800">
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.25em] text-zinc-500 mb-2">Duration</p>
+                  <p className="text-white font-bold">{service.duration}</p>
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.25em] text-zinc-500 mb-2">Investment</p>
+                  <p className="text-white font-bold">{service.price}</p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Service Overview */}
-      <section className="py-16 lg:py-20 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-            <div className="lg:col-span-2">
-              <h2 className="text-3xl font-bold text-brand-black mb-6">
-                Service Overview
-              </h2>
-              <p className="text-text-grey leading-relaxed mb-8">
-                {service.longDescription}
-              </p>
+        {/* Overview & Image Section */}
+        <section className="py-24 lg:py-32 bg-white">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="grid lg:grid-cols-2 gap-16 items-start">
+              <div>
+                <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Overview</p>
+                <h2 className="text-4xl font-bold text-zinc-900 mb-8 leading-tight">Professional Property Assessment</h2>
+                <p className="text-sm text-zinc-500 leading-relaxed mb-8">
+                  {service.longDescription}
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {service.includes.map((item, idx) => (
+                    <div key={idx} className="flex items-center gap-3 py-3 border-b border-zinc-100">
+                      <div className="w-1.5 h-1.5 bg-brand-green"></div>
+                      <span className="text-[10px] uppercase tracking-wider text-zinc-600 font-bold">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="aspect-[4/3] overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
+                <img 
+                  src={service.image} 
+                  alt={service.title}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Features & Benefits - Editorial 2-col */}
+        <section className="py-24 lg:py-32 bg-zinc-50">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="grid lg:grid-cols-2 gap-24">
+              <div>
+                <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-8">Key Features</p>
+                <div className="divide-y divide-zinc-200">
+                  {service.features.map((feature, idx) => (
+                    <div key={idx} className="py-6 flex gap-6 items-start group">
+                      <span className="text-[10px] font-bold text-zinc-300 mt-1">{String(idx + 1).padStart(2, '0')}</span>
+                      <p className="text-sm text-zinc-600 font-medium group-hover:text-zinc-900 transition-colors">{feature}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-8">Strategic Benefits</p>
+                <div className="space-y-6">
+                  {service.benefits.map((benefit, idx) => (
+                    <div key={idx} className="flex items-start gap-4">
+                      <span className="text-brand-green mt-1">→</span>
+                      <p className="text-sm text-zinc-500 leading-relaxed">{benefit}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Process Section */}
+        <section className="py-24 lg:py-32 bg-white">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="mb-20">
+              <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Methodology</p>
+              <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight">Our Technical Process</h2>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+              {service.process.map((step, idx) => (
+                <div key={idx} className="pt-8 border-t border-zinc-200 relative group">
+                  <span className="text-[10px] font-bold text-zinc-300 absolute top-4 right-0">{String(idx + 1).padStart(2, '0')}</span>
+                  <p className="text-sm text-zinc-600 leading-relaxed font-medium">{step}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ Section - Clean Editorial Style */}
+        <section className="py-24 lg:py-32 bg-zinc-50">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="max-w-3xl">
+              <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Inquiry & FAQ</p>
+              <h2 className="text-4xl font-bold text-zinc-900 mb-16 leading-tight">Frequently Asked Questions</h2>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <div className="flex items-center p-4 bg-light-grey rounded-lg">
-                  <i className="fas fa-clock text-brand-green text-2xl mr-4"></i>
-                  <div>
-                    <div className="font-semibold text-brand-black">Duration</div>
-                    <div className="text-text-grey">{service.duration}</div>
-                  </div>
+              <div className="divide-y divide-zinc-200">
+                <div className="py-10">
+                  <h3 className="text-lg font-bold text-zinc-900 mb-4">
+                    What are the costs for {service.title.toLowerCase()}?
+                  </h3>
+                  <p className="text-sm text-zinc-500 leading-relaxed">
+                    Our {service.title.toLowerCase()} services start from {service.price}. Final pricing depends on property size, location, and specific requirements. Contact us for a free, no-obligation quote tailored to your needs.
+                  </p>
                 </div>
                 
-                <div className="flex items-center p-4 bg-light-grey rounded-lg">
-                  <i className="fas fa-tag text-brand-green text-2xl mr-4"></i>
-                  <div>
-                    <div className="font-semibold text-brand-black">Starting Price</div>
-                    <div className="text-text-grey">{service.price}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div>
-              <Card className="sticky top-24">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-bold text-brand-black mb-4">
-                    Get a Free Quote
+                <div className="py-10">
+                  <h3 className="text-lg font-bold text-zinc-900 mb-4">
+                    How long does the {service.title.toLowerCase()} process take?
                   </h3>
-                  <p className="text-text-grey mb-6">
-                    Contact our experts for a customized quote and consultation.
+                  <p className="text-sm text-zinc-500 leading-relaxed">
+                    Typically takes {service.duration}. We provide same-day reports with detailed findings, photographs, and professional recommendations. Urgent inspections can be arranged within 24 hours.
                   </p>
-                  
-                  <div className="space-y-4">
-                    <Link href="/contact">
-                      <Button className="w-full bg-brand-green text-white hover:bg-opacity-90">
-                        Request Quote
-                      </Button>
-                    </Link>
-                    
-                    <a 
-                      href="tel:+971585686852"
-                      className="w-full inline-flex items-center justify-center px-4 py-2 border border-brand-green text-brand-green rounded-md hover:bg-brand-green hover:text-white transition-colors"
-                    >
-                      <i className="fas fa-phone mr-2"></i>
-                      Call: +971 58 568 6852
-                    </a>
-                    
-                    <a 
-                      href="https://wa.me/971585686852?text=Hello! I'm interested in your property inspection services."
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full inline-flex items-center justify-center px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition-colors"
-                    >
-                      <i className="fab fa-whatsapp mr-2"></i>
-                      WhatsApp Us
-                    </a>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Key Features */}
-      <section className="py-16 lg:py-20 bg-light-grey">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-brand-black mb-12 text-center">
-            Key Features & Services
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {service.features.map((feature, index) => (
-              <div key={index} className="flex items-start bg-white p-6 rounded-lg shadow-sm">
-                <i className="fas fa-check-circle text-brand-green text-xl mr-4 mt-1"></i>
-                <span className="text-text-grey">{feature}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Process */}
-      <section className="py-16 lg:py-20 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-brand-black mb-12 text-center">
-            Our Process
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {service.process.map((step, index) => (
-              <div key={index} className="text-center">
-                <div className="bg-brand-green text-white w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 text-lg font-bold">
-                  {index + 1}
                 </div>
-                <p className="text-text-grey">{step}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Benefits */}
-      <section className="py-16 lg:py-20 bg-light-grey">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl font-bold text-brand-black mb-8">
-                Why Choose This Service?
-              </h2>
-              
-              <div className="space-y-4">
-                {service.benefits.map((benefit, index) => (
-                  <div key={index} className="flex items-start">
-                    <i className="fas fa-star text-brand-green mr-4 mt-1"></i>
-                    <span className="text-text-grey">{benefit}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-            
-            <div>
-              <Card>
-                <CardContent className="p-8">
-                  <h3 className="text-xl font-bold text-brand-black mb-6">
-                    What's Included
+                
+                <div className="py-10">
+                  <h3 className="text-lg font-bold text-zinc-900 mb-4">
+                    Do you provide services across all UAE emirates?
                   </h3>
-                  
-                  <div className="space-y-3">
-                    {service.includes.map((item, index) => (
-                      <div key={index} className="flex items-center">
-                        <i className="fas fa-check text-brand-green mr-3"></i>
-                        <span className="text-text-grey">{item}</span>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+                  <p className="text-sm text-zinc-500 leading-relaxed">
+                    Yes, we provide comprehensive {service.title.toLowerCase()} services across Dubai, Abu Dhabi, Sharjah, Ajman, Fujairah, Ras Al Khaimah, and Umm Al Quwain. Our certified team ensures consistent quality standards nationwide.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Related Services */}
-      <section className="py-16 lg:py-20 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-brand-black mb-12 text-center">
-            Related Services You Might Need
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Show 3 related services from the same category or popular services */}
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardContent className="p-6 text-center">
-                <i className="fas fa-clipboard-list text-brand-green text-3xl mb-4"></i>
-                <h3 className="text-lg font-semibold mb-3">New Build Snagging</h3>
-                <p className="text-text-grey mb-4">Comprehensive pre-handover inspection services</p>
-                <Link href="/services/property-snagging/new-build-snagging">
-                  <span className="text-brand-green hover:underline cursor-pointer">Learn More →</span>
+        {/* CTA Section */}
+        <section className="py-24 lg:py-32 bg-brand-green text-white">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <p className="text-[10px] font-semibold tracking-[0.25em] text-white/60 uppercase mb-4">
+                  Engagement
+                </p>
+                <h2 className="text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+                  Ready to Schedule Your {service.title}?
+                </h2>
+                <p className="text-white/70 text-sm leading-relaxed max-w-md">
+                  Get expert technical assessment across Dubai, Abu Dhabi, Sharjah and all UAE. Same-day reports, competitive pricing, RERA certified professionals.
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-6 lg:justify-end">
+                <Link href="/contact">
+                  <Button className="bg-white text-brand-green hover:bg-zinc-100 rounded-none h-14 px-10 text-[10px] uppercase tracking-[0.2em] font-bold">
+                    Book Inspection
+                  </Button>
                 </Link>
-              </CardContent>
-            </Card>
-            
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardContent className="p-6 text-center">
-                <i className="fas fa-search text-brand-green text-3xl mb-4"></i>
-                <h3 className="text-lg font-semibold mb-3">Pre-Purchase Inspection</h3>
-                <p className="text-text-grey mb-4">Investment protection for existing properties</p>
-                <Link href="/services/property-snagging/secondary-market">
-                  <span className="text-brand-green hover:underline cursor-pointer">Learn More →</span>
+                <Link href="/services">
+                  <a className="inline-flex items-center justify-center border border-white/30 text-white h-14 px-10 text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-green transition-all">
+                    All Services
+                  </a>
                 </Link>
-              </CardContent>
-            </Card>
-            
-            <Card className="hover:shadow-lg transition-shadow">
-              <CardContent className="p-6 text-center">
-                <i className="fas fa-file-alt text-brand-green text-3xl mb-4"></i>
-                <h3 className="text-lg font-semibold mb-3">DLP Snagging</h3>
-                <p className="text-text-grey mb-4">Warranty period defect identification</p>
-                <Link href="/services/property-snagging/dlp-snagging">
-                  <span className="text-brand-green hover:underline cursor-pointer">Learn More →</span>
-                </Link>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Section for SEO */}
-      <section className="py-16 lg:py-20 bg-light-grey">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-brand-black mb-12 text-center">
-            Frequently Asked Questions
-          </h2>
-          
-          <div className="max-w-4xl mx-auto space-y-6">
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-lg font-semibold text-brand-black mb-3">
-                How much does {service.title.toLowerCase()} cost in UAE?
-              </h3>
-              <p className="text-text-grey">
-                Our {service.title.toLowerCase()} services start from {service.price}. Final pricing depends on property size, location, and specific requirements. Contact us for a free, no-obligation quote tailored to your needs.
-              </p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-lg font-semibold text-brand-black mb-3">
-                How long does the {service.title.toLowerCase()} process take?
-              </h3>
-              <p className="text-text-grey">
-                Typically takes {service.duration}. We provide same-day reports with detailed findings, photographs, and professional recommendations. Urgent inspections can be arranged within 24 hours.
-              </p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-lg font-semibold text-brand-black mb-3">
-                Do you provide {service.title.toLowerCase()} services across all UAE emirates?
-              </h3>
-              <p className="text-text-grey">
-                Yes, we provide comprehensive {service.title.toLowerCase()} services across Dubai, Abu Dhabi, Sharjah, Ajman, Fujairah, Ras Al Khaimah, and Umm Al Quwain. Our certified team ensures consistent quality standards nationwide.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 lg:py-20 bg-brand-green text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-6">
-            Ready to Schedule Your {service.title}?
-          </h2>
-          <p className="text-xl mb-8 text-green-100 max-w-2xl mx-auto">
-            Get expert {service.title.toLowerCase()} services across Dubai, Abu Dhabi, Sharjah and all UAE. Same-day reports, competitive pricing, RERA certified professionals.
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact">
-              <Button className="bg-white text-brand-green hover:bg-gray-100">
-                Get Free Consultation
-              </Button>
-            </Link>
-            <Link href="/services">
-              <Button variant="outline" className="border-white text-white hover:bg-white hover:text-brand-green">
-                View All Services
-              </Button>
-            </Link>
-          </div>
-          
-          {/* Location Coverage */}
-          <div className="mt-12 pt-8 border-t border-green-400">
-            <h3 className="text-2xl font-bold mb-6 text-center">
-              Service Coverage Across UAE
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
-              <div>
-                <i className="fas fa-map-marker-alt mb-2 text-2xl"></i>
-                <div className="font-semibold">Dubai</div>
-                <div className="text-green-200 text-sm">All Areas</div>
-              </div>
-              <div>
-                <i className="fas fa-map-marker-alt mb-2 text-2xl"></i>
-                <div className="font-semibold">Abu Dhabi</div>
-                <div className="text-green-200 text-sm">All Areas</div>
-              </div>
-              <div>
-                <i className="fas fa-map-marker-alt mb-2 text-2xl"></i>
-                <div className="font-semibold">Sharjah</div>
-                <div className="text-green-200 text-sm">All Areas</div>
-              </div>
-              <div>
-                <i className="fas fa-map-marker-alt mb-2 text-2xl"></i>
-                <div className="font-semibold">Northern Emirates</div>
-                <div className="text-green-200 text-sm">Ajman, RAK, Fujairah</div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
       </div>
     </>
   );

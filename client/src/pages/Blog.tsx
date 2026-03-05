@@ -67,195 +67,192 @@ export default function Blog() {
 
   if (error) {
     return (
-      <div className="pt-16 lg:pt-20 min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-brand-black mb-4">Error Loading Blog</h2>
-          <p className="text-text-grey">Failed to load blog posts. Please try again later.</p>
+      <div className="pt-24 min-h-screen flex items-center justify-center bg-white">
+        <div className="text-center max-w-6xl mx-auto px-6">
+          <h2 className="text-2xl font-bold text-zinc-900 mb-4">Error Loading Blog</h2>
+          <p className="text-zinc-500">Failed to load blog posts. Please try again later.</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="pt-16 lg:pt-20">
+    <div className="bg-white">
       {/* Hero Section */}
-      <section className="py-16 lg:py-20 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl lg:text-5xl font-bold text-brand-black mb-6">
-              Property Snagging Blog UAE & Expert Tips
+      <section className="pt-32 pb-24 bg-zinc-950">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+          <div className="max-w-4xl">
+            <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">
+              Insights & Expertise
+            </p>
+            <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold text-white leading-tight mb-8">
+              Property Snagging Blog UAE
             </h1>
-            <p className="text-xl text-text-grey leading-relaxed">
-              Stay informed with the latest <Link href="/locations/dubai/property-inspection" className="text-brand-green hover:underline font-medium">property inspection dubai</Link> insights, UAE market trends, and expert advice from our professional <Link href="/locations/abu-dhabi/snagging-company" className="text-brand-green hover:underline font-medium">snagging company abu dhabi</Link> team.
+            <p className="text-lg text-zinc-400 leading-relaxed max-w-2xl">
+              Stay informed with the latest <Link href="/locations/dubai/property-inspection" className="text-brand-green hover:text-white transition-colors underline underline-offset-4">property inspection dubai</Link> insights, UAE market trends, and expert advice from our professional <Link href="/locations/abu-dhabi/snagging-company" className="text-brand-green hover:text-white transition-colors underline underline-offset-4">snagging company abu dhabi</Link> team.
             </p>
           </div>
         </div>
       </section>
 
       {/* Search and Filter */}
-      <section className="py-8 bg-light-grey">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
-            <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-4">
-              <div className="flex-1">
-                <Input
-                  type="text"
-                  placeholder="Search articles..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  className="w-full"
-                />
-              </div>
-              
-              <div className="md:w-48">
-                <Select value={category || "all"} onValueChange={handleCategoryChange}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {categories.map((cat) => (
-                      <SelectItem key={cat.value} value={cat.value}>
-                        {cat.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-              
-              <Button type="submit" className="bg-brand-green text-white hover:bg-opacity-90">
-                Search
-              </Button>
-            </form>
-          </div>
+      <section className="py-12 border-b border-zinc-100 bg-white">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+          <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-6 items-end">
+            <div className="flex-1 w-full">
+              <label className="text-[10px] uppercase tracking-[0.18em] text-zinc-400 mb-2 block">Search Articles</label>
+              <Input
+                type="text"
+                placeholder="Keywords..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full rounded-none border-zinc-200 focus:border-brand-green focus:ring-0 h-12"
+              />
+            </div>
+            
+            <div className="md:w-64 w-full">
+              <label className="text-[10px] uppercase tracking-[0.18em] text-zinc-400 mb-2 block">Category</label>
+              <Select value={category || "all"} onValueChange={handleCategoryChange}>
+                <SelectTrigger className="rounded-none border-zinc-200 focus:border-brand-green focus:ring-0 h-12">
+                  <SelectValue placeholder="Category" />
+                </SelectTrigger>
+                <SelectContent className="rounded-none border-zinc-200">
+                  {categories.map((cat) => (
+                    <SelectItem key={cat.value} value={cat.value} className="rounded-none focus:bg-zinc-50">
+                      {cat.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <Button type="submit" className="bg-brand-green text-white hover:bg-zinc-900 rounded-none h-12 px-10 transition-colors uppercase text-[10px] font-bold tracking-[0.2em]">
+              Apply
+            </Button>
+          </form>
         </div>
       </section>
 
       {/* Blog Posts */}
-      <section className="py-16 lg:py-20 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-24 lg:py-32 bg-white">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
           {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {Array.from({ length: 9 }).map((_, index) => (
-                <Card key={index} className="animate-pulse">
-                  <div className="h-48 bg-gray-200"></div>
-                  <CardContent className="p-6">
-                    <div className="h-4 bg-gray-200 rounded mb-2"></div>
-                    <div className="h-6 bg-gray-200 rounded mb-4"></div>
-                    <div className="h-16 bg-gray-200 rounded mb-4"></div>
-                    <div className="h-4 bg-gray-200 rounded"></div>
-                  </CardContent>
-                </Card>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+              {Array.from({ length: 6 }).map((_, index) => (
+                <div key={index} className="animate-pulse">
+                  <div className="aspect-[16/10] bg-zinc-100 mb-6"></div>
+                  <div className="h-3 w-20 bg-zinc-100 mb-4"></div>
+                  <div className="h-6 bg-zinc-100 mb-4"></div>
+                  <div className="h-20 bg-zinc-100 mb-6"></div>
+                  <div className="h-3 w-32 bg-zinc-100"></div>
+                </div>
               ))}
             </div>
           ) : data?.posts.length === 0 ? (
-            <div className="text-center py-16">
-              <i className="fas fa-search text-gray-300 text-6xl mb-4"></i>
-              <h3 className="text-2xl font-bold text-brand-black mb-4">No Articles Found</h3>
-              <p className="text-text-grey mb-8">
+            <div className="text-center py-24">
+              <h3 className="text-2xl font-bold text-zinc-900 mb-4">No Articles Found</h3>
+              <p className="text-zinc-500 mb-8 max-w-md mx-auto">
                 {search || category 
                   ? "No articles match your search criteria. Try adjusting your filters."
                   : "No blog posts have been published yet. Check back soon for new content."
                 }
               </p>
               {(search || category) && (
-                <Button 
+                <button 
                   onClick={() => {
                     setSearch("");
                     setCategory("");
                     setPage(1);
                   }}
-                  variant="outline"
-                  className="border-brand-green text-brand-green hover:bg-brand-green hover:text-white"
+                  className="inline-flex items-center gap-2 text-[10px] font-bold tracking-[0.2em] text-brand-green uppercase border-b border-brand-green pb-1 hover:text-zinc-900 hover:border-zinc-900 transition-all"
                 >
-                  Clear Filters
-                </Button>
+                  Clear all filters
+                </button>
               )}
             </div>
           ) : (
             <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-20">
                 {data?.posts.map((post) => (
-                  <Card key={post.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                    {post.featuredImage && (
-                      <div 
-                        className="h-48 bg-cover bg-center"
-                        style={{ backgroundImage: `url(${post.featuredImage})` }}
-                      ></div>
-                    )}
-                    <CardContent className="p-6">
-                      {post.category && (
-                        <Badge className="mb-2 bg-brand-green text-white">
-                          {post.category}
-                        </Badge>
-                      )}
-                      
-                      <h2 className="text-xl font-semibold text-brand-black mb-3 hover:text-brand-green transition-colors">
-                        <Link href={`/blog/${post.slug}`}>
-                          {post.title}
-                        </Link>
-                      </h2>
-                      
-                      {post.excerpt && (
-                        <p className="text-text-grey mb-4 line-clamp-3">
-                          {post.excerpt}
-                        </p>
-                      )}
-                      
-                      <div className="flex items-center justify-between text-sm text-gray-500">
-                        <span>{formatDate(post.createdAt!.toString())}</span>
-                        <Link href={`/blog/${post.slug}`} className="text-brand-green font-medium hover:underline">
-                          Read More →
-                        </Link>
-                      </div>
-                      
-                      {post.author && (
-                        <div className="mt-4 pt-4 border-t border-gray-100">
-                          <div className="flex items-center">
-                            {post.author.profileImageUrl && (
-                              <img
-                                src={post.author.profileImageUrl}
-                                alt={`${post.author.firstName} ${post.author.lastName}`}
-                                className="w-8 h-8 rounded-full mr-3 object-cover"
-                              />
-                            )}
-                            <span className="text-sm text-text-grey">
-                              By {post.author.firstName} {post.author.lastName}
-                            </span>
+                  <article key={post.id} className="group">
+                    <Link href={`/blog/${post.slug}`}>
+                      <div className="cursor-pointer">
+                        {post.featuredImage && (
+                          <div className="aspect-[16/10] overflow-hidden mb-6 bg-zinc-100">
+                            <img 
+                              src={post.featuredImage} 
+                              alt={post.title}
+                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                            />
                           </div>
+                        )}
+                        
+                        <div className="flex items-center gap-3 mb-4">
+                          {post.category && (
+                            <span className="text-[10px] uppercase tracking-[0.18em] text-brand-green font-bold">
+                              {post.category}
+                            </span>
+                          )}
+                          <span className="w-1 h-1 bg-zinc-300 rounded-full"></span>
+                          <span className="text-[10px] uppercase tracking-[0.18em] text-zinc-400">
+                            {formatDate(post.createdAt!.toString())}
+                          </span>
                         </div>
-                      )}
-                    </CardContent>
-                  </Card>
+                        
+                        <h2 className="text-xl font-bold text-zinc-900 mb-4 leading-tight group-hover:text-brand-green transition-colors">
+                          {post.title}
+                        </h2>
+                        
+                        {post.excerpt && (
+                          <p className="text-sm text-zinc-500 mb-6 line-clamp-3 leading-relaxed">
+                            {post.excerpt}
+                          </p>
+                        )}
+                        
+                        <div className="flex items-center justify-between items-end">
+                          <span className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green border-b border-brand-green pb-0.5 group-hover:gap-3 transition-all uppercase tracking-wider">
+                            Read More
+                          </span>
+                          
+                          {post.author && (
+                            <span className="text-[10px] uppercase tracking-[0.18em] text-zinc-400 font-medium">
+                              By {post.author.firstName}
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                    </Link>
+                  </article>
                 ))}
               </div>
 
               {/* Pagination */}
               {data && data.pages > 1 && (
-                <div className="flex justify-center mt-12">
-                  <div className="flex items-center space-x-2">
+                <div className="flex justify-center mt-24 pt-12 border-t border-zinc-100">
+                  <div className="flex items-center gap-2">
                     <Button
                       onClick={() => setPage(page - 1)}
                       disabled={page === 1}
                       variant="outline"
-                      className="border-brand-green text-brand-green hover:bg-brand-green hover:text-white"
+                      className="rounded-none border-zinc-200 text-zinc-500 hover:text-brand-green hover:border-brand-green disabled:opacity-30 uppercase text-[10px] font-bold tracking-widest h-10 px-6"
                     >
-                      Previous
+                      Prev
                     </Button>
                     
-                    <div className="flex items-center space-x-1">
+                    <div className="flex items-center gap-1">
                       {Array.from({ length: data.pages }, (_, i) => i + 1).map((pageNum) => (
                         <Button
                           key={pageNum}
                           onClick={() => setPage(pageNum)}
                           variant={page === pageNum ? "default" : "outline"}
-                          className={
-                            page === pageNum
-                              ? "bg-brand-green text-white"
-                              : "border-brand-green text-brand-green hover:bg-brand-green hover:text-white"
-                          }
-                          size="sm"
+                          className={`
+                            rounded-none h-10 w-10 p-0 text-[10px] font-bold
+                            ${page === pageNum
+                              ? "bg-zinc-950 text-white border-zinc-950"
+                              : "border-zinc-200 text-zinc-500 hover:text-brand-green hover:border-brand-green"}
+                          `}
                         >
-                          {pageNum}
+                          {pageNum < 10 ? `0${pageNum}` : pageNum}
                         </Button>
                       ))}
                     </div>
@@ -264,7 +261,7 @@ export default function Blog() {
                       onClick={() => setPage(page + 1)}
                       disabled={page === data.pages}
                       variant="outline"
-                      className="border-brand-green text-brand-green hover:bg-brand-green hover:text-white"
+                      className="rounded-none border-zinc-200 text-zinc-500 hover:text-brand-green hover:border-brand-green disabled:opacity-30 uppercase text-[10px] font-bold tracking-widest h-10 px-6"
                     >
                       Next
                     </Button>

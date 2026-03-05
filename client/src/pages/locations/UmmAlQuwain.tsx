@@ -1,6 +1,7 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
+import SEO from "@/components/SEO";
+import { Check, Phone, ArrowRight } from "lucide-react";
 
 export default function UmmAlQuwain() {
   const services = [
@@ -24,6 +25,12 @@ export default function UmmAlQuwain() {
     }
   ];
 
+  const stats = [
+    { label: "UAQ COVERAGE", value: "100%" },
+    { label: "EXPERTISE", value: "10+ YRS" },
+    { label: "CLIENT RATING", value: "4.8/5" }
+  ];
+
   const areas = [
     "UAQ City Centre", "Al Salam City", "Al Humaidiya", "Al Rashidiya", "Marina District",
     "Al Dar Complex", "Presidential Villas", "Family Compounds", "UAQ Free Trade Zone",
@@ -32,193 +39,155 @@ export default function UmmAlQuwain() {
   ];
 
   return (
-    <div className="pt-16 lg:pt-20">
-      {/* Hero Section */}
-      <section className="py-16 lg:py-20 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl lg:text-5xl font-bold text-brand-black mb-6">
-              Property Snagging & Inspection Services in Umm Al Quwain
+    <>
+      <SEO 
+        title="Property Snagging & Inspection Services in Umm Al Quwain"
+        description="Umm Al Quwain's dedicated property inspection company providing comprehensive snagging services across the emirate. Call +971585686852"
+        keywords="snagging company uaq, property inspection umm al quwain, uaq property assessment"
+      />
+
+      <div className="pt-16">
+        {/* Hero Section */}
+        <section className="pt-24 pb-16 bg-zinc-950">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">UMM AL QUWAIN · UAE</p>
+            <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold text-white leading-tight mb-8">
+              Property Inspection <br />in Umm Al Quwain
             </h1>
-            <p className="text-xl text-text-grey leading-relaxed mb-8">
+            <p className="text-sm text-zinc-400 leading-relaxed mb-12 max-w-2xl text-left">
               Umm Al Quwain's dedicated property inspection company providing comprehensive snagging services across the emirate. From residential compounds to commercial developments, we ensure quality and protection for your UAQ property investment.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-wrap gap-6">
               <Link href="/contact">
-                <Button className="bg-brand-green text-white hover:bg-opacity-90 px-8 py-3">
-                  Get Free Quote in UAQ
+                <Button className="bg-brand-green text-white hover:bg-opacity-90 px-8 py-6 rounded-none h-auto text-xs font-bold tracking-widest uppercase">
+                  Free Quote
                 </Button>
               </Link>
               <a 
                 href="tel:+971585686852"
-                className="inline-flex items-center bg-transparent border-2 border-brand-green text-brand-green px-8 py-3 rounded-md font-semibold hover:bg-brand-green hover:text-white transition-colors"
+                className="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-white border-b border-white pb-1 hover:gap-3 transition-all uppercase"
               >
-                <i className="fas fa-phone mr-2"></i>
-                Call UAQ: +971585686852
+                <Phone className="w-4 h-4" />
+                Call UAQ Office
               </a>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Services Section */}
-      <section className="py-16 lg:py-20 bg-light-grey">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl lg:text-4xl font-bold text-brand-black mb-12 text-center">
-            UAQ Property Inspection Services
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {services.map((service, index) => (
-              <Card key={index} className="bg-white hover:shadow-lg transition-all duration-300">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold text-brand-black mb-4">{service.title}</h3>
-                  <p className="text-text-grey mb-4">{service.description}</p>
-                  <div className="mb-4">
-                    <h4 className="font-medium text-brand-black mb-2">Service Areas:</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {service.areas.map((area, i) => (
-                        <span key={i} className="bg-brand-green text-white px-2 py-1 rounded text-xs">
-                          {area}
-                        </span>
-                      ))}
+        {/* Stats Strip */}
+        <section className="py-12 border-b border-zinc-100 bg-white">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+              {stats.map((stat, index) => (
+                <div key={index} className="flex flex-col">
+                  <span className="text-4xl font-bold text-zinc-900 mb-2">{stat.value}</span>
+                  <span className="text-[10px] uppercase tracking-[0.18em] text-zinc-400">{stat.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Services List */}
+        <section className="py-24 lg:py-32 bg-zinc-50">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="grid lg:grid-cols-2 gap-16 mb-16 items-start">
+              <div>
+                <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">EXPERTISE</p>
+                <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight">
+                  UAQ Inspection Solutions
+                </h2>
+              </div>
+              <p className="text-sm text-zinc-500 leading-relaxed pt-4">
+                Our UAQ team ensures quality control for both residential compounds and commercial business developments across the emirate's growing infrastructure.
+              </p>
+            </div>
+
+            <div className="divide-y divide-zinc-200 border-t border-zinc-200">
+              {services.map((service, index) => (
+                <div key={index} className="py-12 group">
+                  <div className="grid md:grid-cols-12 gap-8 items-start">
+                    <div className="md:col-span-1 text-[10px] font-bold text-zinc-300 group-hover:text-brand-green transition-colors">
+                      0{index + 1}
+                    </div>
+                    <div className="md:col-span-5">
+                      <h3 className="text-lg font-bold text-zinc-900 mb-2">{service.title}</h3>
+                      <p className="text-xs text-zinc-500 mb-4">{service.description}</p>
+                    </div>
+                    <div className="md:col-span-4">
+                      <div className="flex flex-wrap gap-2">
+                        {service.areas.map((area, i) => (
+                          <span key={i} className="px-2 py-1 border border-zinc-200 text-[9px] font-bold uppercase tracking-wider text-zinc-400 group-hover:border-brand-green group-hover:text-brand-green transition-colors">
+                            {area}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="md:col-span-2 flex justify-end">
+                      <Link href={service.link} className="inline-flex items-center gap-2 text-[10px] font-bold tracking-widest text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all uppercase">
+                        Details <ArrowRight className="w-3 h-3" />
+                      </Link>
                     </div>
                   </div>
-                  <Link href={service.link}>
-                    <Button variant="outline" className="border-brand-green text-brand-green hover:bg-brand-green hover:text-white w-full">
-                      Learn More
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Coverage Areas */}
+        <section className="py-24 lg:py-32 bg-white">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 text-center">
+            <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">DISTRICTS</p>
+            <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight mb-12">
+              Coverage Across UAQ
+            </h2>
+            <div className="flex flex-wrap justify-center gap-3">
+              {areas.map((area, index) => (
+                <div key={index} className="px-4 py-2 border border-zinc-100 text-[10px] font-semibold uppercase tracking-widest text-zinc-500 hover:border-brand-green hover:text-brand-green transition-colors">
+                  {area}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-24 lg:py-32 bg-zinc-950 text-white">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              <div>
+                <h2 className="text-4xl lg:text-5xl font-bold leading-tight mb-6">
+                  Ready for Your UAQ Inspection?
+                </h2>
+                <p className="text-sm text-zinc-400 leading-relaxed mb-8 max-w-md">
+                  Secure your Umm Al Quwain property investment with professional snagging and inspection services. Ensure quality and value in this growing emirate.
+                </p>
+                <div className="flex flex-wrap gap-6">
+                  <Link href="/contact">
+                    <Button className="bg-brand-green text-white hover:bg-opacity-90 px-8 py-6 rounded-none h-auto text-xs font-bold tracking-widest uppercase">
+                      Book Now
                     </Button>
                   </Link>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* UAQ Market Focus */}
-      <section className="py-16 lg:py-20 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl lg:text-4xl font-bold text-brand-black mb-8">
-              Umm Al Quwain Property Market
-            </h2>
-            <p className="text-lg text-text-grey mb-8">
-              Umm Al Quwain offers affordable property investment opportunities with growing infrastructure and strategic development initiatives. Our inspection services ensure quality control in this emerging market.
-            </p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-              <div className="bg-light-grey p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-brand-black mb-4">
-                  <i className="fas fa-chart-line text-brand-green mr-2"></i>
-                  Growth Potential
-                </h3>
-                <ul className="text-text-grey space-y-2">
-                  <li>• Affordable entry point for property investment</li>
-                  <li>• Growing infrastructure development</li>
-                  <li>• Strategic location benefits</li>
-                  <li>• Government investment in tourism</li>
-                  <li>• Expanding residential communities</li>
-                </ul>
+                  <a 
+                    href="https://wa.me/971585686852?text=Hello! I need property inspection services in Umm Al Quwain."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-white border-b border-white pb-1 hover:gap-3 transition-all uppercase"
+                  >
+                    WhatsApp UAQ Team
+                  </a>
+                </div>
               </div>
-              
-              <div className="bg-light-grey p-6 rounded-lg">
-                <h3 className="text-xl font-semibold text-brand-black mb-4">
-                  <i className="fas fa-shield-alt text-brand-green mr-2"></i>
-                  Quality Assurance
-                </h3>
-                <ul className="text-text-grey space-y-2">
-                  <li>• Professional inspection for new developments</li>
-                  <li>• Quality control for budget-friendly properties</li>
-                  <li>• Comprehensive snagging services</li>
-                  <li>• Expert guidance for first-time buyers</li>
-                  <li>• Peace of mind for investment protection</li>
-                </ul>
+              <div className="aspect-video bg-zinc-900 border border-zinc-800 p-12 flex flex-col justify-center">
+                <div className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">UAQ MARKET</div>
+                <div className="text-xl font-bold mb-4 italic">Strategic Growth & Affordable Investment</div>
+                <div className="text-sm text-zinc-500">Central location with easy access to all other emirates.</div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* UAQ Areas */}
-      <section className="py-16 lg:py-20 bg-light-grey">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl lg:text-4xl font-bold text-brand-black mb-12 text-center">
-            Umm Al Quwain Areas We Serve
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {areas.map((area, index) => (
-              <div key={index} className="bg-white p-3 rounded-lg text-center shadow-sm hover:shadow-md transition-shadow">
-                <span className="text-sm font-medium text-brand-black">{area}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Why Choose UAQ */}
-      <section className="py-16 lg:py-20 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
-            <h2 className="text-3xl lg:text-4xl font-bold text-brand-black mb-8 text-center">
-              Why Invest in Umm Al Quwain?
-            </h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <div className="text-center">
-                <div className="bg-brand-green text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <i className="fas fa-dollar-sign text-2xl"></i>
-                </div>
-                <h3 className="font-semibold text-brand-black mb-2">Affordable Prices</h3>
-                <p className="text-text-grey">Competitive property prices offering excellent value for money and high potential returns.</p>
-              </div>
-              
-              <div className="text-center">
-                <div className="bg-brand-green text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <i className="fas fa-map-marker-alt text-2xl"></i>
-                </div>
-                <h3 className="font-semibold text-brand-black mb-2">Strategic Location</h3>
-                <p className="text-text-grey">Central location providing easy access to all other emirates and major business centers.</p>
-              </div>
-              
-              <div className="text-center">
-                <div className="bg-brand-green text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                  <i className="fas fa-seedling text-2xl"></i>
-                </div>
-                <h3 className="font-semibold text-brand-black mb-2">Growing Development</h3>
-                <p className="text-text-grey">Emerging market with new residential and commercial projects offering growth opportunities.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 lg:py-20 bg-brand-green text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-6">
-            Professional Property Inspection in UAQ
-          </h2>
-          <p className="text-xl mb-8 text-green-100 max-w-2xl mx-auto">
-            Secure your Umm Al Quwain property investment with professional snagging and inspection services. Ensure quality and value in this growing emirate.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact">
-              <Button className="bg-white text-brand-green hover:bg-gray-100 px-8 py-3">
-                Schedule UAQ Inspection
-              </Button>
-            </Link>
-            <a 
-              href="https://wa.me/971585686852?text=Hello! I need property inspection services in Umm Al Quwain."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-semibold hover:bg-white hover:text-brand-green transition-colors"
-            >
-              <i className="fab fa-whatsapp mr-2"></i>
-              WhatsApp UAQ Team
-            </a>
-          </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
+    </>
   );
 }

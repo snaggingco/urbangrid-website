@@ -306,187 +306,188 @@ export default function Services() {
   ];
 
   return (
-    <div className="pt-16 lg:pt-20">
+    <div className="pt-16">
       {/* Hero Section */}
-      <section className="py-16 lg:py-20 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl lg:text-5xl font-bold text-brand-black mb-6">
-              Our Professional Services
-            </h1>
-            <p className="text-xl text-text-grey leading-relaxed">
-              Comprehensive property inspection and snagging services across the UAE, ensuring your investment meets the highest standards of quality and compliance.
-            </p>
-          </div>
+      <section className="pt-24 pb-16 bg-zinc-950">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+          <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">
+            Services
+          </p>
+          <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold text-white leading-tight mb-6">
+            Our Professional Services
+          </h1>
+          <p className="text-sm text-zinc-400 leading-relaxed max-w-2xl">
+            Comprehensive property inspection and snagging services across the UAE, ensuring your investment meets the highest standards of quality and compliance.
+          </p>
         </div>
       </section>
 
       {/* Services Sections */}
-      <section className="py-16 lg:py-20 bg-light-grey">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-24 lg:py-32 bg-white">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
           {/* Section Navigation */}
-          <div className="mb-12">
-            <div className="flex flex-wrap justify-center gap-4 bg-white rounded-lg p-4 shadow-sm">
+          <div className="mb-16 border-b border-zinc-100">
+            <div className="flex flex-wrap gap-8">
               {sections.map((section) => (
                 <button
                   key={section.key}
                   onClick={() => setActiveSection(section.key as keyof typeof serviceCategories)}
-                  className={`px-6 py-3 rounded-md font-medium transition-colors duration-200 ${
+                  className={`pb-4 text-[10px] uppercase tracking-[0.18em] font-semibold transition-all relative ${
                     activeSection === section.key
-                      ? 'bg-brand-green text-white'
-                      : 'text-text-grey hover:text-brand-green hover:bg-gray-50'
+                      ? 'text-zinc-900'
+                      : 'text-zinc-400 hover:text-zinc-600'
                   }`}
                 >
                   {section.label}
+                  {activeSection === section.key && (
+                    <div className="absolute bottom-0 left-0 w-full h-0.5 bg-brand-green" />
+                  )}
                 </button>
               ))}
             </div>
           </div>
           
           {/* Active Section Header */}
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-brand-black mb-4">
-              {serviceCategories[activeSection].title}
-            </h2>
-            <p className="text-lg text-text-grey max-w-3xl mx-auto">
+          <div className="grid lg:grid-cols-2 gap-8 mb-20 items-start">
+            <div>
+              <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">
+                {serviceCategories[activeSection].title}
+              </p>
+              <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight">
+                Specialized Solutions
+              </h2>
+            </div>
+            <p className="text-sm text-zinc-500 leading-relaxed pt-2">
               {serviceCategories[activeSection].subtitle}
             </p>
           </div>
 
-          {/* Services Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {serviceCategories[activeSection].services.map((service) => (
-              <Card key={service.id} className="bg-white overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                <CardContent className="p-6">
-                  <div className="service-icon mb-4">
-                    <i className={`${service.icon} text-2xl text-brand-green`}></i>
-                  </div>
-                  <h3 className="text-lg font-semibold text-brand-black mb-3 line-clamp-2">
-                    {service.title}
-                  </h3>
-                  <p className="text-text-grey mb-4 leading-relaxed text-sm line-clamp-3">
-                    {service.description}
-                  </p>
-
-                  <div className="space-y-3 mb-4">
-                    <div className="text-xs font-semibold text-brand-green mb-2">Key Features:</div>
-                    <ul className="text-xs text-text-grey space-y-1">
-                      {service.features.slice(0, 3).map((feature, index) => (
-                        <li key={index} className="flex items-start">
-                          <i className="fas fa-check text-brand-green mr-2 mt-0.5 text-xs"></i>
-                          <span className="line-clamp-1">{feature}</span>
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="flex justify-between items-center pt-2">
-                      <div className="flex items-center text-xs">
-                        <i className="fas fa-clock text-brand-green mr-1"></i>
-                        <span className="text-text-grey">{service.duration}</span>
+          {/* Services List - Numbered Editorial List */}
+          <div className="divide-y divide-zinc-200 border-t border-zinc-200">
+            {serviceCategories[activeSection].services.map((service, index) => (
+              <div key={service.id} className="group py-12">
+                <div className="grid lg:grid-cols-[80px_1fr_1.5fr_auto] gap-8 items-start">
+                  <span className="text-[10px] font-bold tracking-[0.25em] text-zinc-300 mt-1">
+                    {String(index + 1).padStart(3, '0')}
+                  </span>
+                  
+                  <div>
+                    <h3 className="text-lg font-bold text-zinc-900 mb-2">
+                      {service.title}
+                    </h3>
+                    <div className="flex flex-wrap gap-4 mt-4">
+                      <div className="flex items-center text-[10px] uppercase tracking-wider text-zinc-400">
+                        <i className="fas fa-clock mr-2 text-brand-green/50"></i>
+                        {service.duration}
                       </div>
-                      <div className="flex items-center text-xs">
-                        <i className="fas fa-tag text-brand-green mr-1"></i>
-                        <span className="text-text-grey font-medium">{service.price}</span>
+                      <div className="flex items-center text-[10px] uppercase tracking-wider text-zinc-400">
+                        <i className="fas fa-tag mr-2 text-brand-green/50"></i>
+                        {service.price}
                       </div>
                     </div>
                   </div>
 
-                  <div className="flex flex-col gap-2">
+                  <div className="lg:px-8">
+                    <p className="text-sm text-zinc-500 leading-relaxed mb-6">
+                      {service.description}
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
+                      {service.features.slice(0, 4).map((feature, idx) => (
+                        <div key={idx} className="flex items-start text-[10px] text-zinc-400 uppercase tracking-tight">
+                          <span className="text-brand-green mr-2">/</span>
+                          {feature}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row lg:flex-col gap-4">
                     <Link href={`/services/${activeSection}/${service.slug}`}>
-                      <Button className="bg-brand-green text-white hover:bg-opacity-90 w-full text-sm py-2">
-                        Learn More
-                      </Button>
+                      <a className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all whitespace-nowrap">
+                        View Details <i className="fas fa-arrow-right text-[8px]"></i>
+                      </a>
                     </Link>
                     <Link href="/contact">
-                      <Button variant="outline" className="border-brand-green text-brand-green hover:bg-brand-green hover:text-white w-full text-sm py-2">
-                        Get Quote
-                      </Button>
+                      <a className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-400 hover:text-zinc-900 transition-all whitespace-nowrap">
+                        Inquiry <i className="fas fa-envelope text-[8px]"></i>
+                      </a>
                     </Link>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Process Section */}
-      <section className="py-16 lg:py-20 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold text-brand-black mb-4">
-              Our Inspection Process
-            </h2>
-            <p className="text-lg text-text-grey max-w-2xl mx-auto">
-              A systematic approach ensuring thorough, professional, and reliable property inspections every time.
+      <section className="py-24 lg:py-32 bg-zinc-50">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+          <div className="grid lg:grid-cols-2 gap-16 mb-24">
+            <div>
+              <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">
+                Our Methodology
+              </p>
+              <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight">
+                A systematic approach to excellence.
+              </h2>
+            </div>
+            <p className="text-sm text-zinc-500 leading-relaxed pt-2">
+              We follow a rigorous, step-by-step process to ensure that every inspection is conducted with the highest degree of professionalism and technical accuracy.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="bg-brand-green text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
-                1
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-16">
+            {[
+              { step: "01", title: "Consultation", text: "Initial technical discussion to understand specific property requirements." },
+              { step: "02", title: "Inspection", text: "Comprehensive on-site examination using advanced diagnostic tools." },
+              { step: "03", title: "Reporting", text: "Generation of detailed evidence-based reports with professional findings." },
+              { step: "04", title: "Follow-up", text: "Ongoing technical support and verification of rectification work." }
+            ].map((item, idx) => (
+              <div key={idx} className="relative">
+                <span className="text-5xl font-bold text-zinc-100 absolute -top-8 -left-2 z-0">
+                  {item.step}
+                </span>
+                <div className="relative z-10">
+                  <h3 className="text-lg font-bold text-zinc-900 mb-4">{item.title}</h3>
+                  <p className="text-sm text-zinc-500 leading-relaxed">
+                    {item.text}
+                  </p>
+                </div>
               </div>
-              <h3 className="text-xl font-semibold text-brand-black mb-2">Consultation</h3>
-              <p className="text-text-grey">
-                Initial discussion to understand your requirements and schedule the inspection.
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="bg-brand-green text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
-                2
-              </div>
-              <h3 className="text-xl font-semibold text-brand-black mb-2">Inspection</h3>
-              <p className="text-text-grey">
-                Comprehensive on-site examination using professional tools and expertise.
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="bg-brand-green text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
-                3
-              </div>
-              <h3 className="text-xl font-semibold text-brand-black mb-2">Reporting</h3>
-              <p className="text-text-grey">
-                Detailed report with photos, findings, and professional recommendations.
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="bg-brand-green text-white w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">
-                4
-              </div>
-              <h3 className="text-xl font-semibold text-brand-black mb-2">Follow-up</h3>
-              <p className="text-text-grey">
-                Ongoing support and follow-up inspections as needed for your peace of mind.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 lg:py-20 bg-brand-green text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-6">
-            Ready to Schedule Your Inspection?
-          </h2>
-          <p className="text-xl mb-8 text-green-100 max-w-2xl mx-auto">
-            Protect your property investment with professional inspection services from UAE's most trusted experts.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact">
-              <Button className="bg-white text-brand-green hover:bg-gray-100">
-                Get Free Consultation
-              </Button>
-            </Link>
-            <a
-              href="tel:+971585686852"
-              className="inline-flex items-center bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-semibold hover:bg-white hover:text-brand-green transition-colors"
-            >
-              <i className="fas fa-phone mr-2"></i>
-              Call Now: +971 58 568 6852
-            </a>
+      <section className="py-24 lg:py-32 bg-brand-green text-white">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="text-[10px] font-semibold tracking-[0.25em] text-white/60 uppercase mb-4">
+                Get Started
+              </p>
+              <h2 className="text-4xl lg:text-5xl font-bold mb-6 leading-tight text-white">
+                Ready to Schedule Your Inspection?
+              </h2>
+              <p className="text-white/70 text-sm leading-relaxed max-w-md">
+                Protect your property investment with professional inspection services from UAE's most trusted technical experts.
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-6 lg:justify-end">
+              <Link href="/contact">
+                <Button className="bg-white text-brand-green hover:bg-zinc-100 rounded-none h-14 px-10 text-[10px] uppercase tracking-[0.2em] font-bold">
+                  Free Consultation
+                </Button>
+              </Link>
+              <a
+                href="tel:+971585686852"
+                className="inline-flex items-center justify-center border border-white/30 text-white h-14 px-10 text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-green transition-all"
+              >
+                +971 58 568 6852
+              </a>
+            </div>
           </div>
         </div>
       </section>

@@ -1,6 +1,7 @@
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
+import SEO from "@/components/SEO";
+import { Check, Phone, ArrowRight } from "lucide-react";
 
 export default function Ajman() {
   const services = [
@@ -24,164 +25,168 @@ export default function Ajman() {
     }
   ];
 
-  const areas = [
+  const stats = [
+    { label: "PROPERTIES INSPECTED", value: "15,000+" },
+    { label: "REPORT DELIVERY", value: "24 HOURS" },
+    { label: "STANDARDS", value: "ASTM & NFPA" }
+  ];
+
+  const ajmanAreas = [
     "Ajman Downtown", "Al Nuaimiya", "Al Rashidiya", "Ajman Marina", "City Centre Ajman",
     "Ajman Corniche", "Al Jurf", "Masfout", "Al Humaidiya", "Al Manama", "Al Tallah",
     "Al Zahir", "Al Helio", "Al Ittihad", "Al Jarf Industrial", "Al Rawda", "Gulf Pearl"
   ];
 
   return (
-    <div className="pt-16 lg:pt-20">
-      {/* Hero Section */}
-      <section className="py-16 lg:py-20 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl lg:text-5xl font-bold text-brand-black mb-6">
-              Best Snagging Company in Ajman | Professional Property Inspection
+    <>
+      <SEO 
+        title="Best Snagging Company in Ajman | Professional Property Inspection"
+        description="UrbanGrid is Ajman's leading snagging company, providing expert property inspections for villas and apartments. Call +971585686852"
+        keywords="snagging company ajman, property inspection ajman, ajman property assessment"
+      />
+
+      <div className="pt-16">
+        {/* Hero Section */}
+        <section className="pt-24 pb-16 bg-zinc-950">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">AJMAN · UAE</p>
+            <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold text-white leading-tight mb-8">
+              Best Snagging <br />Company in Ajman
             </h1>
-            <p className="text-xl text-text-grey leading-relaxed mb-8 text-left">
+            <p className="text-sm text-zinc-400 leading-relaxed mb-12 max-w-2xl text-left">
               UrbanGrid is Ajman's leading snagging company, providing expert property inspections for villas and apartments. We ensure your investment in Ajman's growing communities is protected by international engineering standards.
             </p>
-            <div className="bg-green-50 p-4 rounded-lg mb-8 border border-brand-green/20 text-left">
-              <h3 className="font-bold text-brand-green mb-2">Ajman Inspection Specialists:</h3>
-              <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
-                <li className="flex items-center"><i className="fas fa-check text-brand-green mr-2"></i> Comprehensive Interior & Exterior Snagging</li>
-                <li className="flex items-center"><i className="fas fa-certificate text-brand-green mr-2"></i> ASTM & NFPA Standard Inspections</li>
-                <li className="flex items-center"><i className="fas fa-shield-alt text-brand-green mr-2"></i> 15,000+ UAE Properties Inspected</li>
-                <li className="flex items-center"><i className="fas fa-file-invoice text-brand-green mr-2"></i> 24-Hour Digital Report Delivery</li>
-              </ul>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-wrap gap-6">
               <Link href="/contact">
-                <Button className="bg-brand-green text-white hover:bg-opacity-90 px-8 py-3">
-                  Get Free Quote in Ajman
+                <Button className="bg-brand-green text-white hover:bg-opacity-90 px-8 py-6 rounded-none h-auto text-xs font-bold tracking-widest uppercase">
+                  Free Quote
                 </Button>
               </Link>
               <a 
                 href="tel:+971585686852"
-                className="inline-flex items-center bg-transparent border-2 border-brand-green text-brand-green px-8 py-3 rounded-md font-semibold hover:bg-brand-green hover:text-white transition-colors"
+                className="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-white border-b border-white pb-1 hover:gap-3 transition-all uppercase"
               >
-                <i className="fas fa-phone mr-2"></i>
-                Call Ajman: +971585686852
+                <Phone className="w-4 h-4" />
+                Call Ajman Office
               </a>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Services Section */}
-      <section className="py-16 lg:py-20 bg-light-grey">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl lg:text-4xl font-bold text-brand-black mb-12 text-center">
-            Ajman Property Inspection Services
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {services.map((service, index) => (
-              <Card key={index} className="bg-white hover:shadow-lg transition-all duration-300">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-semibold text-brand-black mb-4">{service.title}</h3>
-                  <p className="text-text-grey mb-4">{service.description}</p>
-                  <div className="mb-4">
-                    <h4 className="font-medium text-brand-black mb-2">Key Areas:</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {service.areas.map((area, i) => (
-                        <span key={i} className="bg-brand-green text-white px-2 py-1 rounded text-xs">
-                          {area}
-                        </span>
-                      ))}
+        {/* Stats Strip */}
+        <section className="py-12 border-b border-zinc-100 bg-white">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+              {stats.map((stat, index) => (
+                <div key={index} className="flex flex-col">
+                  <span className="text-4xl font-bold text-zinc-900 mb-2">{stat.value}</span>
+                  <span className="text-[10px] uppercase tracking-[0.18em] text-zinc-400">{stat.label}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Services List */}
+        <section className="py-24 lg:py-32 bg-zinc-50">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="grid lg:grid-cols-2 gap-16 mb-16 items-start">
+              <div>
+                <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">SERVICES</p>
+                <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight">
+                  Ajman Property Services
+                </h2>
+              </div>
+              <p className="text-sm text-zinc-500 leading-relaxed pt-4">
+                Our Ajman specialists provide comprehensive interior and exterior snagging following ASTM and NFPA standards, ensuring the highest level of quality for your property.
+              </p>
+            </div>
+
+            <div className="divide-y divide-zinc-200 border-t border-zinc-200">
+              {services.map((service, index) => (
+                <div key={index} className="py-12 group">
+                  <div className="grid md:grid-cols-12 gap-8 items-start">
+                    <div className="md:col-span-1 text-[10px] font-bold text-zinc-300 group-hover:text-brand-green transition-colors">
+                      0{index + 1}
+                    </div>
+                    <div className="md:col-span-5">
+                      <h3 className="text-lg font-bold text-zinc-900 mb-2">{service.title}</h3>
+                      <p className="text-xs text-zinc-500 mb-4">{service.description}</p>
+                    </div>
+                    <div className="md:col-span-4">
+                      <div className="flex flex-wrap gap-2">
+                        {service.areas.map((area, i) => (
+                          <span key={i} className="px-2 py-1 border border-zinc-200 text-[9px] font-bold uppercase tracking-wider text-zinc-400 group-hover:border-brand-green group-hover:text-brand-green transition-colors">
+                            {area}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="md:col-span-2 flex justify-end">
+                      <Link href={service.link} className="inline-flex items-center gap-2 text-[10px] font-bold tracking-widest text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all uppercase">
+                        Details <ArrowRight className="w-3 h-3" />
+                      </Link>
                     </div>
                   </div>
-                  <Link href={service.link}>
-                    <Button variant="outline" className="border-brand-green text-brand-green hover:bg-brand-green hover:text-white w-full">
-                      Learn More
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Coverage Areas */}
+        <section className="py-24 lg:py-32 bg-white">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 text-center">
+            <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">DISTRICTS</p>
+            <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight mb-12">
+              Serving All Ajman Areas
+            </h2>
+            <div className="flex flex-wrap justify-center gap-3">
+              {ajmanAreas.map((area, index) => (
+                <div key={index} className="px-4 py-2 border border-zinc-100 text-[10px] font-semibold uppercase tracking-widest text-zinc-500 hover:border-brand-green hover:text-brand-green transition-colors">
+                  {area}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-24 lg:py-32 bg-zinc-950 text-white">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              <div>
+                <h2 className="text-4xl lg:text-5xl font-bold leading-tight mb-6">
+                  Expert Inspection in Ajman
+                </h2>
+                <p className="text-sm text-zinc-400 leading-relaxed mb-8 max-w-md">
+                  Secure your Ajman property investment with professional snagging and inspection services. Our team ensures comprehensive quality control.
+                </p>
+                <div className="flex flex-wrap gap-6">
+                  <Link href="/contact">
+                    <Button className="bg-brand-green text-white hover:bg-opacity-90 px-8 py-6 rounded-none h-auto text-xs font-bold tracking-widest uppercase">
+                      Book Now
                     </Button>
                   </Link>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Ajman Market Focus */}
-      <section className="py-16 lg:py-20 bg-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-3xl lg:text-4xl font-bold text-brand-black mb-8">
-              Ajman Property Market Insights
-            </h2>
-            <p className="text-lg text-text-grey mb-8">
-              Ajman offers excellent value for property investors with growing infrastructure and strategic location. Our inspection services ensure you make informed decisions in this emerging market.
-            </p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left">
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-brand-black">Growth Opportunities</h3>
-                <ul className="list-disc pl-6 text-text-grey space-y-2">
-                  <li>Strategic location between Dubai and Sharjah</li>
-                  <li>Affordable property prices with high rental yields</li>
-                  <li>Growing infrastructure and transportation links</li>
-                  <li>Expanding commercial and retail developments</li>
-                </ul>
+                  <a 
+                    href="https://wa.me/971585686852?text=Hello! I need property inspection services in Ajman."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-white border-b border-white pb-1 hover:gap-3 transition-all uppercase"
+                  >
+                    WhatsApp Ajman Team
+                  </a>
+                </div>
               </div>
-              
-              <div className="space-y-4">
-                <h3 className="text-xl font-semibold text-brand-black">Investment Considerations</h3>
-                <ul className="list-disc pl-6 text-text-grey space-y-2">
-                  <li>Rapid development requiring quality control</li>
-                  <li>Emerging areas with varying construction standards</li>
-                  <li>Important due diligence for new developments</li>
-                  <li>Professional inspection for peace of mind</li>
-                </ul>
+              <div className="aspect-video bg-zinc-900 border border-zinc-800 p-12 flex flex-col justify-center">
+                <div className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">AJMAN MARKET</div>
+                <div className="text-xl font-bold mb-4">Growing Infrastructure & Strategic Location</div>
+                <p className="text-xs text-zinc-500">We help you make informed decisions in this emerging market with expert due diligence.</p>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Ajman Areas */}
-      <section className="py-16 lg:py-20 bg-light-grey">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl lg:text-4xl font-bold text-brand-black mb-12 text-center">
-            Ajman Communities We Serve
-          </h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {areas.map((area, index) => (
-              <div key={index} className="bg-white p-3 rounded-lg text-center shadow-sm hover:shadow-md transition-shadow">
-                <span className="text-sm font-medium text-brand-black">{area}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 lg:py-20 bg-brand-green text-white">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-6">
-            Professional Property Inspection in Ajman
-          </h2>
-          <p className="text-xl mb-8 text-green-100 max-w-2xl mx-auto">
-            Secure your Ajman property investment with professional snagging and inspection services. Our team ensures comprehensive quality control for your peace of mind.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact">
-              <Button className="bg-white text-brand-green hover:bg-gray-100 px-8 py-3">
-                Schedule Ajman Inspection
-              </Button>
-            </Link>
-            <a 
-              href="https://wa.me/971585686852?text=Hello! I need property inspection services in Ajman."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center bg-transparent border-2 border-white text-white px-8 py-3 rounded-md font-semibold hover:bg-white hover:text-brand-green transition-colors"
-            >
-              <i className="fab fa-whatsapp mr-2"></i>
-              WhatsApp Ajman Team
-            </a>
-          </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
+    </>
   );
 }
