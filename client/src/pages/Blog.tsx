@@ -68,7 +68,7 @@ export default function Blog() {
   if (error) {
     return (
       <div className="pt-24 min-h-screen flex items-center justify-center bg-white">
-        <div className="text-center max-w-6xl mx-auto px-6">
+        <div className="text-center max-w-7xl mx-auto px-6">
           <h2 className="text-2xl font-bold text-zinc-900 mb-4">Error Loading Blog</h2>
           <p className="text-zinc-500">Failed to load blog posts. Please try again later.</p>
         </div>
@@ -79,16 +79,16 @@ export default function Blog() {
   return (
     <div className="bg-white">
       {/* Hero Section */}
-      <section className="pt-32 pb-24 bg-zinc-950">
-        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+      <section className="pt-40 pb-24 bg-zinc-950">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
           <div className="max-w-4xl">
-            <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">
+            <p className="text-[10px] sm:text-xs font-semibold tracking-[0.3em] text-brand-green uppercase mb-6">
               Insights & Expertise
             </p>
-            <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold text-white leading-tight mb-8">
-              Property Snagging Blog UAE
+            <h1 className="text-6xl sm:text-7xl lg:text-8xl xl:text-[8rem] font-bold text-white leading-[0.95] tracking-tight mb-8">
+              Property <br />Snagging Blog
             </h1>
-            <p className="text-lg text-zinc-400 leading-relaxed max-w-2xl">
+            <p className="text-lg sm:text-xl text-zinc-400 leading-relaxed max-w-2xl font-light">
               Stay informed with the latest <Link href="/locations/dubai/property-inspection" className="text-brand-green hover:text-white transition-colors underline underline-offset-4">property inspection dubai</Link> insights, UAE market trends, and expert advice from our professional <Link href="/locations/abu-dhabi/snagging-company" className="text-brand-green hover:text-white transition-colors underline underline-offset-4">snagging company abu dhabi</Link> team.
             </p>
           </div>
@@ -96,24 +96,24 @@ export default function Blog() {
       </section>
 
       {/* Search and Filter */}
-      <section className="py-12 border-b border-zinc-100 bg-white">
-        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+      <section className="py-12 border-b border-zinc-100 bg-zinc-50">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
           <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-6 items-end">
             <div className="flex-1 w-full">
-              <label className="text-[10px] uppercase tracking-[0.18em] text-zinc-400 mb-2 block">Search Articles</label>
+              <label className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 mb-2 block font-bold">Search Articles</label>
               <Input
                 type="text"
                 placeholder="Keywords..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full rounded-none border-zinc-200 focus:border-brand-green focus:ring-0 h-12"
+                className="w-full rounded-none border-zinc-200 focus:border-brand-green focus:ring-0 h-12 bg-white"
               />
             </div>
             
             <div className="md:w-64 w-full">
-              <label className="text-[10px] uppercase tracking-[0.18em] text-zinc-400 mb-2 block">Category</label>
+              <label className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 mb-2 block font-bold">Category</label>
               <Select value={category || "all"} onValueChange={handleCategoryChange}>
-                <SelectTrigger className="rounded-none border-zinc-200 focus:border-brand-green focus:ring-0 h-12">
+                <SelectTrigger className="rounded-none border-zinc-200 focus:border-brand-green focus:ring-0 h-12 bg-white">
                   <SelectValue placeholder="Category" />
                 </SelectTrigger>
                 <SelectContent className="rounded-none border-zinc-200">
@@ -127,15 +127,15 @@ export default function Blog() {
             </div>
             
             <Button type="submit" className="bg-brand-green text-white hover:bg-zinc-900 rounded-none h-12 px-10 transition-colors uppercase text-[10px] font-bold tracking-[0.2em]">
-              Apply
+              Apply Filters
             </Button>
           </form>
         </div>
       </section>
 
       {/* Blog Posts */}
-      <section className="py-24 lg:py-32 bg-white">
-        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+      <section className="py-24 lg:py-40 bg-white">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
           {isLoading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
               {Array.from({ length: 6 }).map((_, index) => (
@@ -174,27 +174,27 @@ export default function Blog() {
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-12 gap-y-20">
                 {data?.posts.map((post) => (
-                  <article key={post.id} className="group">
+                  <article key={post.id} className="group border border-zinc-100 p-6 flex flex-col">
                     <Link href={`/blog/${post.slug}`}>
-                      <div className="cursor-pointer">
+                      <div className="cursor-pointer flex flex-col h-full">
                         {post.featuredImage && (
                           <div className="aspect-[16/10] overflow-hidden mb-6 bg-zinc-100">
                             <img 
                               src={post.featuredImage} 
                               alt={post.title}
-                              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                              className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
                             />
                           </div>
                         )}
                         
                         <div className="flex items-center gap-3 mb-4">
                           {post.category && (
-                            <span className="text-[10px] uppercase tracking-[0.18em] text-brand-green font-bold">
+                            <span className="text-[10px] uppercase tracking-[0.2em] text-brand-green font-bold">
                               {post.category}
                             </span>
                           )}
                           <span className="w-1 h-1 bg-zinc-300 rounded-full"></span>
-                          <span className="text-[10px] uppercase tracking-[0.18em] text-zinc-400">
+                          <span className="text-[10px] uppercase tracking-[0.2em] text-zinc-400">
                             {formatDate(post.createdAt!.toString())}
                           </span>
                         </div>
@@ -204,18 +204,18 @@ export default function Blog() {
                         </h2>
                         
                         {post.excerpt && (
-                          <p className="text-sm text-zinc-500 mb-6 line-clamp-3 leading-relaxed">
+                          <p className="text-sm text-zinc-500 mb-8 line-clamp-3 leading-relaxed font-light">
                             {post.excerpt}
                           </p>
                         )}
                         
-                        <div className="flex items-center justify-between items-end">
-                          <span className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green border-b border-brand-green pb-0.5 group-hover:gap-3 transition-all uppercase tracking-wider">
-                            Read More
+                        <div className="mt-auto flex items-center justify-between items-end">
+                          <span className="inline-flex items-center gap-2 text-[10px] font-bold text-brand-green border-b border-brand-green pb-0.5 group-hover:gap-3 transition-all uppercase tracking-[0.2em]">
+                            Read Article
                           </span>
                           
                           {post.author && (
-                            <span className="text-[10px] uppercase tracking-[0.18em] text-zinc-400 font-medium">
+                            <span className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-medium">
                               By {post.author.firstName}
                             </span>
                           )}

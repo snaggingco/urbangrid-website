@@ -8,6 +8,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import type { BlogPostWithAuthor } from "@shared/schema";
+import SEO from "@/components/SEO";
 
 export default function BlogDetail() {
   const params = useParams();
@@ -81,7 +82,7 @@ export default function BlogDetail() {
   if (isLoading) {
     return (
       <div className="pt-32 bg-white min-h-screen">
-        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 py-16">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 py-16">
           <div className="max-w-3xl">
             <div className="animate-pulse">
               <div className="h-4 w-32 bg-zinc-100 mb-8"></div>
@@ -106,9 +107,13 @@ export default function BlogDetail() {
 
   return (
     <div className="bg-white">
+      <SEO 
+        title={`${post.title} | UrbanGrid Blog`}
+        description={post.excerpt || `Read our latest article: ${post.title}`}
+      />
       {/* Article Header & Hero */}
-      <section className="pt-32 pb-24 bg-zinc-950">
-        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+      <section className="pt-40 pb-24 bg-zinc-950">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
           <div className="max-w-4xl">
             {/* Breadcrumb / Category */}
             <div className="flex items-center gap-4 mb-8">
@@ -125,33 +130,33 @@ export default function BlogDetail() {
               )}
             </div>
             
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white mb-8 leading-[1.1]">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl xl:text-8xl font-bold text-white mb-12 leading-[1.1] tracking-tight">
               {post.title}
             </h1>
             
-            <div className="flex flex-wrap items-center gap-y-4 gap-x-8 pt-8 border-t border-zinc-900">
+            <div className="flex flex-wrap items-center gap-y-6 gap-x-12 pt-10 border-t border-zinc-900">
               {post.author && (
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-4">
                   {post.author.profileImageUrl && (
                     <img
                       src={post.author.profileImageUrl}
                       alt={`${post.author.firstName}`}
-                      className="w-10 h-10 rounded-full object-cover grayscale"
+                      className="w-12 h-12 rounded-full object-cover grayscale"
                     />
                   )}
                   <div>
-                    <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold mb-0.5">Author</p>
-                    <p className="text-sm font-bold text-white">{post.author.firstName} {post.author.lastName}</p>
+                    <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold mb-1">Author</p>
+                    <p className="text-base font-bold text-white">{post.author.firstName} {post.author.lastName}</p>
                   </div>
                 </div>
               )}
               
               <div>
-                <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold mb-0.5">Published</p>
-                <p className="text-sm font-bold text-white">{formatDate(post.createdAt!.toString())}</p>
+                <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold mb-1">Published</p>
+                <p className="text-base font-bold text-white">{formatDate(post.createdAt!.toString())}</p>
               </div>
 
-              <div className="ml-auto flex items-center gap-3">
+              <div className="md:ml-auto flex items-center gap-4">
                 <span className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold">Share</span>
                 <div className="flex gap-2">
                   {shareButtons.map((button) => (
@@ -160,10 +165,10 @@ export default function BlogDetail() {
                       href={button.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-8 h-8 flex items-center justify-center bg-zinc-900 text-zinc-400 hover:bg-brand-green hover:text-white transition-all rounded-none"
+                      className="w-10 h-10 flex items-center justify-center bg-zinc-900 text-zinc-400 hover:bg-brand-green hover:text-white transition-all rounded-none"
                       aria-label={`Share on ${button.name}`}
                     >
-                      <i className={button.icon + " text-xs"}></i>
+                      <i className={button.icon + " text-sm"}></i>
                     </a>
                   ))}
                 </div>
@@ -176,12 +181,12 @@ export default function BlogDetail() {
       {/* Featured Image */}
       {post.featuredImage && (
         <section className="bg-white">
-          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
-            <div className="-mt-12 relative z-10">
+          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="-mt-16 relative z-10">
               <img
                 src={post.featuredImage}
                 alt={post.title}
-                className="w-full h-[400px] md:h-[600px] object-cover grayscale hover:grayscale-0 transition-all duration-1000"
+                className="w-full h-[500px] md:h-[700px] object-cover grayscale hover:grayscale-0 transition-all duration-1000 shadow-2xl"
               />
             </div>
           </div>
@@ -189,30 +194,30 @@ export default function BlogDetail() {
       )}
 
       {/* Article Content */}
-      <section className="py-24 bg-white">
-        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+      <section className="py-24 lg:py-32 bg-white">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
           <div className="max-w-3xl mx-auto">
-            <article className="prose prose-zinc prose-lg max-w-none prose-headings:text-zinc-900 prose-headings:font-bold prose-p:text-zinc-500 prose-p:leading-relaxed prose-strong:text-zinc-900 prose-strong:font-bold prose-ul:text-zinc-500 prose-ol:text-zinc-500 prose-li:mb-2 prose-a:text-brand-green prose-a:underline prose-a:underline-offset-4 hover:prose-a:text-zinc-900 transition-colors">
+            <article className="prose prose-zinc prose-lg max-w-none prose-headings:text-zinc-900 prose-headings:font-bold prose-p:text-zinc-500 prose-p:leading-relaxed prose-p:font-light prose-strong:text-zinc-900 prose-strong:font-bold prose-ul:text-zinc-500 prose-ol:text-zinc-500 prose-li:mb-4 prose-a:text-brand-green prose-a:underline prose-a:underline-offset-4 hover:prose-a:text-zinc-900 transition-colors">
               <ReactMarkdown 
                 remarkPlugins={[remarkGfm]}
                 rehypePlugins={[rehypeRaw]}
                 components={{
-                  h1: ({children}) => <h1 className="text-4xl font-bold text-zinc-900 mb-8 mt-12">{children}</h1>,
-                  h2: ({children}) => <h2 className="text-3xl font-bold text-zinc-900 mb-6 mt-10">{children}</h2>,
-                  h3: ({children}) => <h3 className="text-2xl font-bold text-zinc-900 mb-4 mt-8">{children}</h3>,
-                  h4: ({children}) => <h4 className="text-xl font-bold text-zinc-900 mb-4 mt-6">{children}</h4>,
-                  p: ({children}) => <p className="text-zinc-500 leading-relaxed mb-8">{children}</p>,
+                  h1: ({children}) => <h1 className="text-4xl font-bold text-zinc-900 mb-8 mt-16 tracking-tight">{children}</h1>,
+                  h2: ({children}) => <h2 className="text-3xl font-bold text-zinc-900 mb-6 mt-14 tracking-tight">{children}</h2>,
+                  h3: ({children}) => <h3 className="text-2xl font-bold text-zinc-900 mb-4 mt-12 tracking-tight">{children}</h3>,
+                  h4: ({children}) => <h4 className="text-xl font-bold text-zinc-900 mb-4 mt-10 tracking-tight">{children}</h4>,
+                  p: ({children}) => <p className="text-zinc-500 leading-relaxed mb-8 font-light text-lg">{children}</p>,
                   ul: ({children}) => <ul className="list-none pl-0 mb-8 space-y-4">{children}</ul>,
-                  ol: ({children}) => <ol className="list-decimal pl-6 mb-8 space-y-4 text-zinc-500">{children}</ol>,
+                  ol: ({children}) => <ol className="list-decimal pl-6 mb-8 space-y-4 text-zinc-500 font-light">{children}</ol>,
                   li: ({children}) => (
-                    <li className="flex gap-4">
-                      <span className="text-brand-green font-bold text-lg leading-tight">→</span>
-                      <span>{children}</span>
+                    <li className="flex gap-4 items-start">
+                      <span className="text-brand-green font-bold text-lg leading-none mt-1">→</span>
+                      <span className="flex-1">{children}</span>
                     </li>
                   ),
                   strong: ({children}) => <strong className="font-bold text-zinc-900">{children}</strong>,
                   blockquote: ({children}) => (
-                    <blockquote className="border-l-4 border-brand-green pl-8 py-2 my-12 text-2xl italic font-medium text-zinc-900 bg-zinc-50">
+                    <blockquote className="border-l-4 border-brand-green pl-10 py-4 my-16 text-3xl italic font-medium text-zinc-900 bg-zinc-50 tracking-tight leading-snug">
                       {children}
                     </blockquote>
                   ),
@@ -224,11 +229,11 @@ export default function BlogDetail() {
 
             {/* Tags */}
             {post.tags && post.tags.length > 0 && (
-              <div className="mt-16 pt-8 border-t border-zinc-100">
-                <div className="flex flex-wrap items-center gap-3">
-                  <span className="text-[10px] font-bold tracking-widest text-zinc-400 uppercase">Tags</span>
+              <div className="mt-20 pt-10 border-t border-zinc-100">
+                <div className="flex flex-wrap items-center gap-4">
+                  <span className="text-[10px] font-bold tracking-[0.2em] text-zinc-400 uppercase">Tags</span>
                   {post.tags.map((tag, index) => (
-                    <span key={index} className="text-[10px] uppercase tracking-widest bg-zinc-50 text-zinc-500 px-3 py-1 font-bold border border-zinc-100">
+                    <span key={index} className="text-[10px] uppercase tracking-[0.2em] bg-zinc-50 text-zinc-500 px-4 py-1.5 font-bold border border-zinc-100">
                       {tag}
                     </span>
                   ))}
@@ -241,22 +246,22 @@ export default function BlogDetail() {
 
       {/* Author Info */}
       {post.author && (
-        <section className="py-24 bg-zinc-50 border-y border-zinc-100">
-          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
-            <div className="max-w-3xl mx-auto flex flex-col md:flex-row gap-12 items-center text-center md:text-left">
+        <section className="py-32 bg-zinc-50 border-y border-zinc-100">
+          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="max-w-3xl mx-auto flex flex-col md:flex-row gap-16 items-center text-center md:text-left">
               {post.author.profileImageUrl && (
                 <img
                   src={post.author.profileImageUrl}
                   alt={`${post.author.firstName}`}
-                  className="w-32 h-32 rounded-full object-cover grayscale"
+                  className="w-40 h-40 rounded-full object-cover grayscale"
                 />
               )}
               <div className="flex-1">
-                <p className="text-[10px] font-bold tracking-[0.25em] text-brand-green uppercase mb-2">About the Author</p>
-                <h3 className="text-2xl font-bold text-zinc-900 mb-4">
+                <p className="text-[10px] font-bold tracking-[0.3em] text-brand-green uppercase mb-4">About the Author</p>
+                <h3 className="text-3xl font-bold text-zinc-900 mb-6">
                   {post.author.firstName} {post.author.lastName}
                 </h3>
-                <p className="text-zinc-500 leading-relaxed">
+                <p className="text-zinc-500 leading-relaxed text-lg font-light">
                   Professional property inspection expert with extensive experience in the UAE real estate market. 
                   Specializing in technical snagging and handover inspections across Dubai and Abu Dhabi.
                 </p>
@@ -267,26 +272,26 @@ export default function BlogDetail() {
       )}
 
       {/* Call-to-Action Section */}
-      <section className="py-24 bg-brand-green text-white">
-        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
-          <div className="flex flex-col lg:flex-row gap-12 items-center lg:justify-between">
+      <section className="py-32 bg-brand-green text-white">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
+          <div className="flex flex-col lg:flex-row gap-16 items-center lg:justify-between">
             <div className="max-w-2xl text-center lg:text-left">
-              <p className="text-[10px] font-bold tracking-[0.25em] text-white/60 uppercase mb-4">Next Steps</p>
-              <h2 className="text-3xl lg:text-4xl font-bold mb-6 leading-tight">
-                Ready to ensure your property is flawless?
+              <p className="text-[10px] font-bold tracking-[0.3em] text-white/60 uppercase mb-6">Take Action</p>
+              <h2 className="text-4xl lg:text-5xl font-bold mb-8 leading-[1.1] tracking-tight">
+                Secure your property's <br className="hidden md:block" /> future today.
               </h2>
-              <p className="text-lg text-white/80 leading-relaxed mb-0">
+              <p className="text-xl text-white/80 leading-relaxed mb-0 font-light">
                 Book a professional snagging inspection with UrbanGrid today and get a comprehensive report same-day.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
               <Link href="/locations/dubai/property-inspection">
-                <Button className="bg-white text-brand-green hover:bg-zinc-950 hover:text-white rounded-none h-14 px-10 transition-all uppercase text-[10px] font-bold tracking-widest">
+                <Button className="bg-white text-brand-green hover:bg-zinc-950 hover:text-white rounded-none h-16 px-12 transition-all uppercase text-[10px] font-bold tracking-widest">
                   Book in Dubai
                 </Button>
               </Link>
               <Link href="/locations/abu-dhabi/property-inspection">
-                <Button variant="outline" className="border-white text-white hover:bg-white hover:text-brand-green rounded-none h-14 px-10 transition-all uppercase text-[10px] font-bold tracking-widest">
+                <Button variant="outline" className="border-white text-white hover:bg-white hover:text-brand-green rounded-none h-16 px-12 transition-all uppercase text-[10px] font-bold tracking-widest">
                   Book in Abu Dhabi
                 </Button>
               </Link>
@@ -297,32 +302,32 @@ export default function BlogDetail() {
 
       {/* Related Posts */}
       {relatedPosts && relatedPosts.posts.length > 0 && (
-        <section className="py-24 lg:py-32 bg-white">
-          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
+        <section className="py-24 lg:py-40 bg-white">
+          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8">
               <div className="max-w-xl">
-                <p className="text-[10px] font-bold tracking-[0.25em] text-brand-green uppercase mb-4">Further Reading</p>
-                <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight">
+                <p className="text-[10px] font-bold tracking-[0.3em] text-brand-green uppercase mb-6">Further Reading</p>
+                <h2 className="text-5xl lg:text-6xl font-bold text-zinc-900 leading-tight tracking-tight">
                   Related Insights
                 </h2>
               </div>
               <Link href="/blog">
-                <span className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all uppercase tracking-widest cursor-pointer">
+                <span className="inline-flex items-center gap-2 text-xs font-bold text-brand-green border-b border-brand-green pb-1 hover:gap-4 transition-all uppercase tracking-widest cursor-pointer">
                   View All Articles
                 </span>
               </Link>
             </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
               {relatedPosts.posts
                 .filter(relatedPost => relatedPost.id !== post.id)
                 .slice(0, 3)
                 .map((relatedPost) => (
-                  <article key={relatedPost.id} className="group">
+                  <article key={relatedPost.id} className="group flex flex-col">
                     <Link href={`/blog/${relatedPost.slug}`}>
-                      <div className="cursor-pointer">
+                      <div className="cursor-pointer flex flex-col h-full">
                         {relatedPost.featuredImage && (
-                          <div className="aspect-[16/10] overflow-hidden mb-6 bg-zinc-100">
+                          <div className="aspect-[16/10] overflow-hidden mb-8 bg-zinc-100">
                             <img 
                               src={relatedPost.featuredImage} 
                               alt={relatedPost.title}
@@ -331,19 +336,21 @@ export default function BlogDetail() {
                           </div>
                         )}
                         <div className="flex items-center gap-3 mb-4">
-                          <span className="text-[10px] uppercase tracking-[0.18em] text-brand-green font-bold">
+                          <span className="text-[10px] uppercase tracking-[0.2em] text-brand-green font-bold">
                             {relatedPost.category}
                           </span>
                         </div>
-                        <h3 className="text-xl font-bold text-zinc-900 mb-4 leading-tight group-hover:text-brand-green transition-colors">
+                        <h3 className="text-2xl font-bold text-zinc-900 mb-4 leading-tight group-hover:text-brand-green transition-colors tracking-tight">
                           {relatedPost.title}
                         </h3>
-                        <p className="text-sm text-zinc-500 line-clamp-2 leading-relaxed mb-6">
+                        <p className="text-sm text-zinc-500 line-clamp-2 leading-relaxed mb-8 font-light">
                           {relatedPost.excerpt}
                         </p>
-                        <span className="text-[10px] uppercase tracking-[0.18em] text-zinc-400 font-bold">
-                          {formatDate(relatedPost.createdAt!.toString())}
-                        </span>
+                        <div className="mt-auto">
+                          <span className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-bold">
+                            {formatDate(relatedPost.createdAt!.toString())}
+                          </span>
+                        </div>
                       </div>
                     </Link>
                   </article>

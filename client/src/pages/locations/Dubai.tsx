@@ -12,7 +12,6 @@ export default function PropertyInspectionDubai() {
       price: "From AED 1,500",
       duration: "3-5 hours",
       coverage: ["Structural assessment", "MEP systems", "Legal compliance", "Market valuation input"],
-      popular: true
     },
     {
       title: "New Build Property Inspection", 
@@ -56,28 +55,31 @@ export default function PropertyInspectionDubai() {
         keywords="property inspection dubai, property inspection services dubai, dubai property inspection, property inspector dubai, pre purchase inspection dubai, property assessment dubai"
       />
       
-      <div className="pt-16">
+      <div>
         {/* Hero Section */}
-        <section className="pt-24 pb-16 bg-zinc-950">
-          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
-            <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">DUBAI · UAE</p>
-            <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold text-white leading-tight mb-8">
-              Property Inspection <br />in Dubai
+        <section className="relative min-h-screen flex items-end pt-32 pb-24">
+          <div 
+            className="absolute inset-0 bg-cover bg-center z-0" 
+            style={{backgroundImage: `url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=1000&q=80')`}}
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/40 to-transparent z-10" />
+          
+          <div className="relative z-20 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 w-full">
+            <p className="text-[10px] sm:text-xs font-semibold tracking-[0.3em] text-brand-green uppercase mb-6">DUBAI · UAE</p>
+            <h1 className="text-6xl sm:text-7xl lg:text-[7rem] xl:text-[8.5rem] font-bold text-white leading-[0.95] tracking-tight mb-12">
+              Property <br />Inspection <br />in Dubai
             </h1>
-            <p className="text-sm text-zinc-400 leading-relaxed mb-12 max-w-2xl">
-              UrbanGrid provides comprehensive property inspection services across Dubai. From pre-purchase assessments to new build inspections, protect your investment with our RERA-licensed professional inspectors.
-            </p>
-            <div className="flex flex-wrap gap-6">
+            <div className="flex flex-wrap gap-6 items-center">
               <Link href="/contact">
-                <Button className="bg-brand-green text-white hover:bg-opacity-90 px-8 py-6 rounded-none h-auto text-xs font-bold tracking-widest uppercase">
+                <Button className="bg-brand-green text-white hover:bg-opacity-90 px-10 py-8 rounded-none h-auto text-xs font-bold tracking-widest uppercase">
                   Schedule Inspection
                 </Button>
               </Link>
               <a 
                 href="tel:+971585686852"
-                className="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-white border-b border-white pb-1 hover:gap-3 transition-all uppercase"
+                className="inline-flex items-center gap-3 text-sm font-bold tracking-widest text-white border-b-2 border-white pb-1 hover:gap-4 transition-all uppercase"
               >
-                <Phone className="w-4 h-4" />
+                <Phone className="w-5 h-5" />
                 Call Dubai Office
               </a>
             </div>
@@ -85,13 +87,13 @@ export default function PropertyInspectionDubai() {
         </section>
 
         {/* Stats Strip */}
-        <section className="py-12 border-b border-zinc-100 bg-white">
-          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <section className="bg-zinc-950 py-24 border-b border-zinc-900">
+          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:divide-x md:divide-zinc-800">
               {stats.map((stat, index) => (
-                <div key={index} className="flex flex-col">
-                  <span className="text-4xl font-bold text-zinc-900 mb-2">{stat.value}</span>
-                  <span className="text-[10px] uppercase tracking-[0.18em] text-zinc-400">{stat.label}</span>
+                <div key={index} className="flex flex-col items-center md:items-start md:pl-12 first:pl-0">
+                  <span className="text-6xl lg:text-7xl font-bold text-brand-green leading-none mb-4">{stat.value}</span>
+                  <span className="text-xs uppercase tracking-[0.2em] text-zinc-500">{stat.label}</span>
                 </div>
               ))}
             </div>
@@ -99,48 +101,51 @@ export default function PropertyInspectionDubai() {
         </section>
 
         {/* Inspection Types */}
-        <section className="py-24 lg:py-32 bg-zinc-50">
-          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
-            <div className="grid lg:grid-cols-2 gap-16 mb-16 items-start">
-              <div>
-                <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">SOLUTIONS</p>
-                <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight">
-                  Comprehensive Inspection Services
-                </h2>
-              </div>
-              <p className="text-sm text-zinc-500 leading-relaxed pt-4">
+        <section className="py-28 lg:py-40 bg-white">
+          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="max-w-3xl mb-24">
+              <p className="text-[10px] sm:text-xs font-semibold tracking-[0.3em] text-brand-green uppercase mb-6">SOLUTIONS</p>
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-zinc-900 leading-tight mb-8">
+                Comprehensive Inspection Services
+              </h2>
+              <p className="text-lg text-zinc-500 font-light leading-relaxed">
                 Our expert team utilizes advanced technology and deep market knowledge to provide the most thorough property assessments in Dubai. Every inspection includes a detailed digital report delivered within 24 hours.
               </p>
             </div>
 
-            <div className="divide-y divide-zinc-200 border-t border-zinc-200">
+            <div className="divide-y divide-zinc-100 border-t border-zinc-100">
               {inspectionTypes.map((type, index) => (
-                <div key={index} className="py-12 group">
-                  <div className="grid md:grid-cols-12 gap-8 items-start">
-                    <div className="md:col-span-1 text-[10px] font-bold text-zinc-300 group-hover:text-brand-green transition-colors">
+                <div key={index} className="py-16 group">
+                  <div className="grid md:grid-cols-12 gap-12 items-start">
+                    <div className="md:col-span-1 text-5xl font-bold text-zinc-100 group-hover:text-brand-green/20 transition-colors leading-none">
                       0{index + 1}
                     </div>
-                    <div className="md:col-span-4">
-                      <h3 className="text-lg font-bold text-zinc-900 mb-2">{type.title}</h3>
-                      <p className="text-xs text-zinc-500">{type.description}</p>
-                    </div>
-                    <div className="md:col-span-4">
-                      <div className="flex flex-wrap gap-x-6 gap-y-2">
+                    <div className="md:col-span-5">
+                      <div className="flex items-center gap-4 mb-4">
+                        <h3 className="text-2xl font-bold text-zinc-900">{type.title}</h3>
+                        <span className="px-3 py-1 bg-zinc-50 text-[10px] font-bold text-zinc-500 uppercase tracking-widest border border-zinc-100">
+                          {type.price}
+                        </span>
+                      </div>
+                      <p className="text-zinc-500 font-light mb-8">{type.description}</p>
+                      <div className="flex flex-wrap gap-x-8 gap-y-3">
                         {type.coverage.map((item, i) => (
-                          <div key={i} className="flex items-center text-[10px] text-zinc-400 uppercase tracking-wider">
+                          <div key={i} className="flex items-center text-[10px] text-zinc-400 uppercase tracking-[0.1em]">
                             <Check className="w-3 h-3 text-brand-green mr-2" />
                             {item}
                           </div>
                         ))}
                       </div>
                     </div>
-                    <div className="md:col-span-3 flex flex-col items-end gap-4">
-                      <div className="text-right">
-                        <div className="text-xs font-bold text-zinc-900">{type.price}</div>
-                        <div className="text-[10px] text-zinc-400 uppercase tracking-widest">{type.duration}</div>
+                    <div className="md:col-span-6 flex flex-col items-end justify-center h-full">
+                      <div className="text-right mb-8">
+                        <div className="text-xs text-zinc-400 uppercase tracking-widest mb-1">Duration</div>
+                        <div className="text-lg font-bold text-zinc-900">{type.duration}</div>
                       </div>
-                      <Link href="/contact" className="inline-flex items-center gap-2 text-[10px] font-bold tracking-widest text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all uppercase">
-                        Book Now <ArrowRight className="w-3 h-3" />
+                      <Link href="/contact">
+                        <Button variant="outline" className="rounded-none border-zinc-200 text-zinc-900 hover:bg-zinc-900 hover:text-white group">
+                          Book Now <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </Button>
                       </Link>
                     </div>
                   </div>
@@ -150,63 +155,66 @@ export default function PropertyInspectionDubai() {
           </div>
         </section>
 
-        {/* Coverage Areas */}
-        <section className="py-24 lg:py-32 bg-white">
-          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 text-center">
-            <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">COVERAGE</p>
-            <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight mb-12">
-              Serving All Major Dubai Communities
+        {/* Chapter Break */}
+        <section className="relative min-h-[60vh] flex items-center py-24">
+          <div 
+            className="absolute inset-0 bg-cover bg-center" 
+            style={{backgroundImage: `url('https://images.unsplash.com/photo-1582672060674-bc2bd808a8b5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=900&q=80')`}}
+          />
+          <div className="absolute inset-0 bg-zinc-950/80" />
+          <div className="relative z-10 max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 text-center">
+            <h2 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white leading-tight mb-8">
+              Protecting Dubai's <br />Real Estate Legacy
             </h2>
-            <div className="flex flex-wrap justify-center gap-3 mb-12">
-              {dubaiAreas.map((area, index) => (
-                <div key={index} className="px-4 py-2 border border-zinc-100 text-[10px] font-semibold uppercase tracking-widest text-zinc-500 hover:border-brand-green hover:text-brand-green transition-colors">
-                  {area}
-                </div>
-              ))}
-            </div>
-            <p className="text-xs text-zinc-400 italic">
-              24/7 Emergency Inspections Available Across the Emirate
+            <p className="text-lg text-zinc-400 font-light max-w-2xl mx-auto leading-relaxed">
+              With over 8,500 properties inspected across the emirate, UrbanGrid is the trusted partner for developers, buyers, and investors in Dubai's dynamic market.
             </p>
           </div>
         </section>
 
+        {/* Coverage Areas */}
+        <section className="py-28 lg:py-40 bg-zinc-950">
+          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="text-center mb-20">
+              <p className="text-[10px] sm:text-xs font-semibold tracking-[0.3em] text-brand-green uppercase mb-6">COVERAGE</p>
+              <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                Serving All Major <br />Dubai Communities
+              </h2>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+              {dubaiAreas.map((area, index) => (
+                <div key={index} className="px-6 py-4 border border-zinc-800 text-[10px] font-bold uppercase tracking-widest text-zinc-500 hover:border-brand-green hover:text-white transition-all text-center">
+                  {area}
+                </div>
+              ))}
+            </div>
+            <div className="mt-16 text-center">
+              <p className="text-xs text-zinc-500 tracking-[0.1em] uppercase">
+                24/7 Emergency Inspections Available Across the Emirate
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* CTA Section */}
-        <section className="py-24 lg:py-32 bg-zinc-950 text-white">
-          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
-            <div className="grid lg:grid-cols-2 gap-16 items-center">
-              <div>
-                <h2 className="text-4xl lg:text-5xl font-bold leading-tight mb-6">
-                  Ready to Secure Your Investment?
-                </h2>
-                <p className="text-sm text-zinc-400 leading-relaxed mb-8 max-w-md">
-                  Protect your Dubai property investment with comprehensive inspections from RERA-licensed professionals. Same-day reports guaranteed.
-                </p>
-                <div className="flex flex-wrap gap-6">
-                  <Link href="/contact">
-                    <Button className="bg-brand-green text-white hover:bg-opacity-90 px-8 py-6 rounded-none h-auto text-xs font-bold tracking-widest uppercase">
-                      Book Now
-                    </Button>
-                  </Link>
-                  <a 
-                    href="https://wa.me/971585686852?text=Hello! I need professional property inspection services in Dubai."
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-xs font-bold tracking-widest text-white border-b border-white pb-1 hover:gap-3 transition-all uppercase"
-                  >
-                    WhatsApp Dubai Team
-                  </a>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="aspect-square bg-zinc-900 border border-zinc-800 p-8 flex flex-col justify-end">
-                  <div className="text-3xl font-bold mb-2">24h</div>
-                  <div className="text-[10px] text-zinc-500 uppercase tracking-widest leading-tight">Report<br />Delivery</div>
-                </div>
-                <div className="aspect-square bg-zinc-900 border border-zinc-800 p-8 flex flex-col justify-end">
-                  <div className="text-3xl font-bold mb-2">RERA</div>
-                  <div className="text-[10px] text-zinc-500 uppercase tracking-widest leading-tight">Licensed<br />Inspectors</div>
-                </div>
-              </div>
+        <section className="py-28 lg:py-40 bg-brand-green text-white">
+          <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-16 text-center">
+            <h2 className="text-4xl sm:text-5xl lg:text-7xl font-bold leading-tight mb-12">
+              Ready to Secure Your <br />Investment in Dubai?
+            </h2>
+            <div className="flex flex-wrap justify-center gap-8">
+              <Link href="/contact">
+                <Button className="bg-white text-brand-green hover:bg-zinc-100 px-12 py-8 rounded-none h-auto text-sm font-bold tracking-widest uppercase">
+                  Book Inspection
+                </Button>
+              </Link>
+              <a 
+                href="tel:+971585686852"
+                className="inline-flex items-center gap-3 text-sm font-bold tracking-widest text-white border-b-2 border-white pb-1 hover:gap-4 transition-all uppercase"
+              >
+                <Phone className="w-5 h-5" />
+                Call +971 58 568 6852
+              </a>
             </div>
           </div>
         </section>
