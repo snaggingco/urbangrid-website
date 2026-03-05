@@ -100,9 +100,9 @@ export default function Home() {
             Available Now Across UAE
           </p>
 
-          <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold text-white leading-[1.05] tracking-tight mb-8 max-w-4xl">
+          <h1 className="text-4xl sm:text-4xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight mb-8 max-w-4xl">
             UAE's #1 Snagging &<br />
-            <span className="text-brand-green">Inspection Experts</span>
+            <span className="text-brand-white">Inspection Experts</span>
           </h1>
 
           <p className="text-base sm:text-lg text-zinc-400 mb-12 max-w-xl leading-relaxed font-light">

@@ -43,7 +43,7 @@ export default function Header({ isAdmin = false }: HeaderProps) {
           <div className="flex-shrink-0">
             <Link href="/">
               <div 
-                className="text-xl font-bold text-zinc-900 cursor-pointer tracking-tight"
+                className="text-xl font-bold text-brand-green cursor-pointer tracking-tight"
                 onClick={() => window.scrollTo(0, 0)}
               >
                 UrbanGrid
