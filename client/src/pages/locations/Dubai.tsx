@@ -3,40 +3,9 @@ import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import SEO from "@/components/SEO";
 import { Check, Phone, ArrowRight } from "lucide-react";
+import { UNIFORM_SERVICES } from "@/lib/constants";
 
 export default function PropertyInspectionDubai() {
-  const inspectionTypes = [
-    {
-      title: "Pre-Purchase Property Inspection",
-      description: "Comprehensive property assessment before buying to protect your investment",
-      price: "From AED 1,500",
-      duration: "3-5 hours",
-      coverage: ["Structural assessment", "MEP systems", "Legal compliance", "Market valuation input"],
-      popular: true
-    },
-    {
-      title: "New Build Property Inspection", 
-      description: "Pre-handover inspection for newly constructed properties",
-      price: "From AED 1,200",
-      duration: "4-6 hours", 
-      coverage: ["Construction quality", "Developer compliance", "Defect identification", "Handover preparation"]
-    },
-    {
-      title: "Rental Property Inspection",
-      description: "Move-in/move-out inspections for rental properties",
-      price: "From AED 800",
-      duration: "2-3 hours",
-      coverage: ["Condition documentation", "Inventory checking", "Damage assessment", "Security deposit protection"]
-    },
-    {
-      title: "Commercial Property Inspection",
-      description: "Professional inspection for commercial real estate",
-      price: "From AED 2,500", 
-      duration: "4-8 hours",
-      coverage: ["Code compliance", "Safety systems", "Business suitability", "Investment analysis"]
-    }
-  ];
-
   const dubaiAreas = [
     "Downtown Dubai", "Dubai Marina", "Business Bay", "JLT", "DIFC", "Palm Jumeirah",
     "Dubai Hills", "Arabian Ranches", "Emirates Hills", "JBR", "City Walk", "Dubai Creek Harbour"
@@ -114,7 +83,7 @@ export default function PropertyInspectionDubai() {
             </div>
 
             <div className="divide-y divide-zinc-200 border-t border-zinc-200">
-              {inspectionTypes.map((type, index) => (
+              {UNIFORM_SERVICES.map((type, index) => (
                 <div key={index} className="py-12 group">
                   <div className="grid md:grid-cols-12 gap-8 items-start">
                     <div className="md:col-span-1 text-[10px] font-bold text-zinc-300 group-hover:text-brand-green transition-colors">
@@ -139,7 +108,7 @@ export default function PropertyInspectionDubai() {
                         <div className="text-xs font-bold text-zinc-900">{type.price}</div>
                         <div className="text-[10px] text-zinc-400 uppercase tracking-widest">{type.duration}</div>
                       </div>
-                      <Link href="/contact" className="inline-flex items-center gap-2 text-[10px] font-bold tracking-widest text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all uppercase">
+                      <Link href={type.link} className="inline-flex items-center gap-2 text-[10px] font-bold tracking-widest text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all uppercase">
                         Book Now <ArrowRight className="w-3 h-3" />
                       </Link>
                     </div>

@@ -2,33 +2,13 @@ import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import SEO from "@/components/SEO";
 import { Check, Phone, ArrowRight } from "lucide-react";
+import { UNIFORM_SERVICES } from "@/lib/constants";
 
 export default function PropertyInspectionAbuDhabi() {
   const abuDhabiAreas = [
     "Corniche Area", "Al Reem Island", "Saadiyat Island", "Yas Island",
     "Al Raha Beach", "Masdar City", "Al Reef", "Khalifa City",
     "Mohammed Bin Zayed City", "Al Shamkha", "Al Ghadeer", "Shams Abu Dhabi"
-  ];
-
-  const inspectionTypes = [
-    {
-      title: "New Build Property Inspection",
-      description: "Pre-handover inspections for new developments in Abu Dhabi",
-      price: "From AED 1 / Sq.ft",
-      features: ["Pre-handover assessment", "Structural integrity check", "MEP systems testing", "Quality compliance review", "Developer coordination"]
-    },
-    {
-      title: "Pre-Purchase Property Inspection",
-      description: "Comprehensive inspection before buying property in Abu Dhabi",
-      price: "From AED 1 / Sq.ft",
-      features: ["Investment protection", "Market value assessment", "Condition evaluation", "Risk identification", "Purchase recommendation"]
-    },
-    {
-      title: "Villa Property Inspection",
-      description: "Specialized villa inspection services across Abu Dhabi",
-      price: "From AED 1 / Sq.ft",
-      features: ["Complete villa assessment", "Exterior & landscape", "Pool & amenities", "Smart home systems", "Premium reporting"]
-    }
   ];
 
   const stats = [
@@ -103,7 +83,7 @@ export default function PropertyInspectionAbuDhabi() {
             </div>
 
             <div className="divide-y divide-zinc-200 border-t border-zinc-200">
-              {inspectionTypes.map((type, index) => (
+              {UNIFORM_SERVICES.map((type, index) => (
                 <div key={index} className="py-12 group">
                   <div className="grid md:grid-cols-12 gap-8 items-start">
                     <div className="md:col-span-1 text-[10px] font-bold text-zinc-300 group-hover:text-brand-green transition-colors">
@@ -115,7 +95,7 @@ export default function PropertyInspectionAbuDhabi() {
                     </div>
                     <div className="md:col-span-4">
                       <div className="flex flex-wrap gap-x-6 gap-y-2">
-                        {type.features.map((item, i) => (
+                        {type.coverage.map((item, i) => (
                           <div key={i} className="flex items-center text-[10px] text-zinc-400 uppercase tracking-wider">
                             <Check className="w-3 h-3 text-brand-green mr-2" />
                             {item}
@@ -126,9 +106,9 @@ export default function PropertyInspectionAbuDhabi() {
                     <div className="md:col-span-3 flex flex-col items-end gap-4">
                       <div className="text-right">
                         <div className="text-xs font-bold text-zinc-900">{type.price}</div>
-                        <div className="text-[10px] text-zinc-400 uppercase tracking-widest">Digital Report Included</div>
+                        <div className="text-[10px] text-zinc-400 uppercase tracking-widest">{type.duration}</div>
                       </div>
-                      <Link href="/contact" className="inline-flex items-center gap-2 text-[10px] font-bold tracking-widest text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all uppercase">
+                      <Link href={type.link} className="inline-flex items-center gap-2 text-[10px] font-bold tracking-widest text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all uppercase">
                         Book Now <ArrowRight className="w-3 h-3" />
                       </Link>
                     </div>

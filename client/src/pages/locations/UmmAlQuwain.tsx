@@ -2,29 +2,9 @@ import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import SEO from "@/components/SEO";
 import { Check, Phone, ArrowRight } from "lucide-react";
+import { UNIFORM_SERVICES } from "@/lib/constants";
 
 export default function UmmAlQuwain() {
-  const services = [
-    {
-      title: "Property Inspection UAQ",
-      description: "Expert property inspections for Umm Al Quwain's residential and commercial developments",
-      link: "/services/property-snagging/secondary-market",
-      areas: ["UAQ City Centre", "Al Salam City", "Al Humaidiya", "Al Rashidiya"]
-    },
-    {
-      title: "Residential Snagging Services",
-      description: "Comprehensive snagging services for villas and apartments in UAQ's growing communities",
-      link: "/services/property-snagging/new-build-snagging",
-      areas: ["Marina District", "Al Dar Complex", "Presidential Villas", "Family Compounds"]
-    },
-    {
-      title: "Commercial Property Inspection",
-      description: "Professional inspections for commercial properties and business developments",
-      link: "/services/property-snagging/developer-projects",
-      areas: ["UAQ Free Trade Zone", "Umm Al Quwain Mall", "Industrial Area", "Business District"]
-    }
-  ];
-
   const stats = [
     { label: "UAQ COVERAGE", value: "100%" },
     { label: "EXPERTISE", value: "10+ YRS" },
@@ -104,28 +84,33 @@ export default function UmmAlQuwain() {
             </div>
 
             <div className="divide-y divide-zinc-200 border-t border-zinc-200">
-              {services.map((service, index) => (
+              {UNIFORM_SERVICES.map((type, index) => (
                 <div key={index} className="py-12 group">
                   <div className="grid md:grid-cols-12 gap-8 items-start">
                     <div className="md:col-span-1 text-[10px] font-bold text-zinc-300 group-hover:text-brand-green transition-colors">
                       0{index + 1}
                     </div>
-                    <div className="md:col-span-5">
-                      <h3 className="text-lg font-bold text-zinc-900 mb-2">{service.title}</h3>
-                      <p className="text-xs text-zinc-500 mb-4">{service.description}</p>
+                    <div className="md:col-span-4">
+                      <h3 className="text-lg font-bold text-zinc-900 mb-2">{type.title}</h3>
+                      <p className="text-xs text-zinc-500">{type.description}</p>
                     </div>
                     <div className="md:col-span-4">
-                      <div className="flex flex-wrap gap-2">
-                        {service.areas.map((area, i) => (
-                          <span key={i} className="px-2 py-1 border border-zinc-200 text-[9px] font-bold uppercase tracking-wider text-zinc-400 group-hover:border-brand-green group-hover:text-brand-green transition-colors">
-                            {area}
-                          </span>
+                      <div className="flex flex-wrap gap-x-6 gap-y-2">
+                        {type.coverage.map((item, i) => (
+                          <div key={i} className="flex items-center text-[10px] text-zinc-400 uppercase tracking-wider">
+                            <Check className="w-3 h-3 text-brand-green mr-2" />
+                            {item}
+                          </div>
                         ))}
                       </div>
                     </div>
-                    <div className="md:col-span-2 flex justify-end">
-                      <Link href={service.link} className="inline-flex items-center gap-2 text-[10px] font-bold tracking-widest text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all uppercase">
-                        Details <ArrowRight className="w-3 h-3" />
+                    <div className="md:col-span-3 flex flex-col items-end gap-4">
+                      <div className="text-right">
+                        <div className="text-xs font-bold text-zinc-900">{type.price}</div>
+                        <div className="text-[10px] text-zinc-400 uppercase tracking-widest">{type.duration}</div>
+                      </div>
+                      <Link href={type.link} className="inline-flex items-center gap-2 text-[10px] font-bold tracking-widest text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all uppercase">
+                        Book Now <ArrowRight className="w-3 h-3" />
                       </Link>
                     </div>
                   </div>
