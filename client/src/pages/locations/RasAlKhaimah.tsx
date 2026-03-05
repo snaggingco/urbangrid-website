@@ -8,19 +8,19 @@ export default function RasAlKhaimah() {
     {
       title: "Property Inspection RAK",
       description: "Expert property inspections for Ras Al Khaimah's diverse developments from mountain to beachfront properties",
-      link: "/services/secondary-market",
+      link: "/services/property-snagging/secondary-market",
       areas: ["Al Hamra Village", "Mina Al Arab", "RAK Properties", "Julphar Towers"]
     },
     {
       title: "Villa Snagging RAK",
       description: "Specialized villa inspections in RAK's luxury communities and resort-style developments",
-      link: "/services/new-build-snagging",
+      link: "/services/property-snagging/new-build-snagging",
       areas: ["Al Hamra Golf", "Flamingo Villas", "Bermuda Views", "Mangrove Place"]
     },
     {
       title: "Resort Property Inspection",
       description: "Comprehensive inspections for resort properties and holiday homes in RAK's tourism zones",
-      link: "/services/move-in-move-out",
+      link: "/services/property-snagging/move-in-move-out",
       areas: ["Marjan Island", "Al Marjan Resort", "Ras Al Khaimah Beach", "Jebel Jais"]
     }
   ];

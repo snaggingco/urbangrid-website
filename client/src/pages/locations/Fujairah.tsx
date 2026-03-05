@@ -8,19 +8,19 @@ export default function Fujairah() {
     {
       title: "Property Inspection Fujairah",
       description: "Expert property inspections for Fujairah's coastal developments and mountain communities",
-      link: "/services/secondary-market",
+      link: "/services/property-snagging/secondary-market",
       areas: ["Fujairah Beach", "Al Faseel", "Dibba Al-Fujairah", "Kalba"]
     },
     {
       title: "Coastal Property Snagging",
       description: "Specialized snagging services for beachfront properties and coastal developments",
-      link: "/services/new-build-snagging",
+      link: "/services/property-snagging/new-build-snagging",
       areas: ["Oceanic Hotel Area", "Sandy Beach Resort", "Royal Beach Resort", "Le Meridien"]
     },
     {
       title: "Resort Villa Inspection",
       description: "Comprehensive inspections for resort villas and holiday properties in Fujairah's tourism zones",
-      link: "/services/move-in-move-out",
+      link: "/services/property-snagging/move-in-move-out",
       areas: ["Fujairah Fort Area", "Heritage Village", "Ain Al Madhab", "Bidiyah"]
     }
   ];

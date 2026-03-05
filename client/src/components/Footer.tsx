@@ -1,4 +1,5 @@
 import { Link } from "wouter";
+import { trackConversion } from "@/lib/analytics";
 
 export default function Footer() {
   const quickLinks = [
@@ -120,8 +121,8 @@ export default function Footer() {
         <div className="border-t border-zinc-800 pt-10 flex flex-col md:flex-row justify-between items-center text-zinc-500 text-[10px] uppercase tracking-wider">
           <p className="text-center md:text-left">© {new Date().getFullYear()} UrbanGrid Real Estate Consultancies L.L.C. Licensed by RERA & Dubai Economy Department.</p>
           <div className="flex space-x-8 mt-6 md:mt-0">
-            <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
+            <Link href="/privacy-policy"><span className="hover:text-white transition-colors cursor-pointer">Privacy Policy</span></Link>
+            <Link href="/terms-of-service"><span className="hover:text-white transition-colors cursor-pointer">Terms of Service</span></Link>
           </div>
         </div>
       </div>

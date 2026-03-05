@@ -17,6 +17,8 @@ import Contact from "@/pages/Contact";
 import Careers from "@/pages/Careers";
 import BrokerReferrals from "@/pages/BrokerReferrals";
 import Login from "@/pages/Login";
+import PrivacyPolicy from "@/pages/PrivacyPolicy";
+import TermsOfService from "@/pages/TermsOfService";
 import Dashboard from "@/pages/admin/Dashboard";
 import AddBlog from "@/pages/admin/AddBlog";
 import ManageBlogs from "@/pages/admin/ManageBlogs";
@@ -95,7 +97,10 @@ function Router() {
           <Route path="/careers" component={Careers} />
           <Route path="/contact" component={Contact} />
           <Route path="/broker-referrals" component={BrokerReferrals} />
-          
+          <Route path="/login" component={Login} />
+          <Route path="/privacy-policy" component={PrivacyPolicy} />
+          <Route path="/terms-of-service" component={TermsOfService} />
+
           {/* Location Pages */}
           <Route path="/locations/dubai" component={Dubai} />
           <Route path="/locations/abu-dhabi" component={AbuDhabi} />

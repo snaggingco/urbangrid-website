@@ -8,19 +8,19 @@ export default function Ajman() {
     {
       title: "Property Inspection Ajman",
       description: "Expert property inspections for Ajman's growing residential and commercial developments",
-      link: "/services/secondary-market",
+      link: "/services/property-snagging/secondary-market",
       areas: ["Ajman Downtown", "Al Nuaimiya", "Al Rashidiya", "Ajman Marina"]
     },
     {
       title: "Snagging Services Ajman",
       description: "Professional snagging services for new developments across Ajman's expanding neighborhoods",
-      link: "/services/new-build-snagging",
+      link: "/services/property-snagging/new-build-snagging",
       areas: ["City Centre Ajman", "Ajman Corniche", "Al Jurf", "Masfout"]
     },
     {
       title: "Villa Snagging Ajman",
       description: "Specialized villa and apartment inspections in Ajman's residential communities",
-      link: "/services/move-in-move-out",
+      link: "/services/property-snagging/move-in-move-out",
       areas: ["Al Humaidiya", "Al Manama", "Al Tallah", "Al Zahir"]
     }
   ];

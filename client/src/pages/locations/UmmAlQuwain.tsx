@@ -8,19 +8,19 @@ export default function UmmAlQuwain() {
     {
       title: "Property Inspection UAQ",
       description: "Expert property inspections for Umm Al Quwain's residential and commercial developments",
-      link: "/services/secondary-market",
+      link: "/services/property-snagging/secondary-market",
       areas: ["UAQ City Centre", "Al Salam City", "Al Humaidiya", "Al Rashidiya"]
     },
     {
       title: "Residential Snagging Services",
       description: "Comprehensive snagging services for villas and apartments in UAQ's growing communities",
-      link: "/services/new-build-snagging",
+      link: "/services/property-snagging/new-build-snagging",
       areas: ["Marina District", "Al Dar Complex", "Presidential Villas", "Family Compounds"]
     },
     {
       title: "Commercial Property Inspection",
       description: "Professional inspections for commercial properties and business developments",
-      link: "/services/developer-projects",
+      link: "/services/property-snagging/developer-projects",
       areas: ["UAQ Free Trade Zone", "Umm Al Quwain Mall", "Industrial Area", "Business District"]
     }
   ];
