@@ -1,0 +1,57 @@
+Welcome to your Google tag
+The global site tag (gtag.js) is now the Google tag. With this change, new and existing gtag.js installations will get new capabilities to help you do more, improve data quality, and adopt new features – all without additional code. Learn more
+Your Google tag
+Google tag 
+
+Main Tag 1
+IDs: 
+AW-11443889137, 
+GT-NMJHZPXV, 
+G-MLTMMFSSY0, 
+GT-KVHX3SSR
+Destinations 
+Google Ads
+Destination AW-11443889137
+Google Analytics
+UrbanGrid Home
+Tag quality: Excellent
+Tag is sending data. No issues detected.
+Settings
+Some tag settings apply only to specific destinations. Learn more about tag settings
+Your tag is sending data to multiple destinations. Changes to your Google tag will affect all connected destinations.
+
+Manage automatic event detection
+Configure which types of events should automatically be detected for measurement in associated Google destinations
+
+Configure your domains
+Specify a list of domains for cross-domain measurement
+
+Allow user-provided data capabilities
+Configure whether or not to allow user-provided data to be included in measurement for destination products that accept such data.
+
+Collect Universal Analytics events
+Collect an event each time a ga() custom event, timing, or exception call from Universal Analytics occurs on your website
+
+Define internal traffic
+Define IP addresses whose traffic should be marked as internal
+
+List unwanted referrals
+Specify domains whose traffic should not be considered to be referrals
+
+Adjust session timeout
+Set how long sessions can last
+
+Override cookie settings
+Change how long cookies last and how they are updated
+
+Manage data transmission
+Configure how much advertising and analytics data Google receives before end user consent signals are sent via the consent mode API
+
+Override consent mode defaults
+Load your Google tag with end-user consent set to "denied" until a consent update signal is received
+
+Manage default consent settings for data collection
+Set consent default labels for end user data from the European Economic Area (EEA) used for advertising purposes
+
+Manage data use across Google services
+Choose which Google services can receive consented data from end users in the European Economic Area (EEA) for advertising purposes
