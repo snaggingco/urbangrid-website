@@ -1,0 +1,415 @@
+Website Url: https://urbangrid.ae
+
+71
+Your overall desktop Performance Score
+The metrics score and the performance score are coloured according to these ranges:
+
+1 - 40
+poor
+40 - 70
+average
+70 - 90
+good
+90 - 100
+excellent
+To provide a good user experience, sites should strive to have a good score (90 - 100). A "perfect" score of 100 is extremely challenging to achieve and not expected. For example, taking a score from 99 to 100 needs about the same amount of metric improvement that would take a 90 to a 94.
+
+Cls culprits insight
+Completed Check Icon
+Layout shift culprits
+
+
+Layout shifts occur when elements move absent any user interaction. Investigate the causes of layout shifts, such as elements being added, removed, or their fonts changing as the page loads.
+
+
+Max potential fid
+Completed Check Icon
+Max Potential First Input Delay
+
+
+The maximum potential First Input Delay that your users could experience is the duration of the longest task. Learn more about the Maximum Potential First Input Delay metric.
+
+
+80 ms
+Viewport insight
+Completed Check Icon
+Optimize viewport for mobile
+
+
+Tap interactions may be delayed by up to 300 ms if the viewport is not optimized for mobile.
+
+
+Dom size insight
+Completed Check Icon
+Optimize DOM size
+
+
+A large DOM can increase the duration of style calculations and layout reflows, impacting page responsiveness. A large DOM will also increase memory usage. Learn how to avoid an excessive DOM size.
+
+
+Total byte weight
+Mid Impact Icon
+Avoid enormous network payloads
+
+
+Large network payloads cost users real money and are highly correlated with long load times. Learn how to reduce payload sizes.
+
+
+Total size was 2,808 KiB
+Cumulative layout shift
+Completed Check Icon
+Cumulative Layout Shift
+
+
+Cumulative Layout Shift measures the movement of visible elements within the viewport. Learn more about the Cumulative Layout Shift metric.
+
+
+0.039
+Forced reflow insight
+High Impact Icon
+Forced reflow
+
+
+A forced reflow occurs when JavaScript queries geometric properties (such as offsetWidth) after styles have been invalidated by a change to the DOM state. This can result in poor performance. Learn more about forced reflows and possible mitigations.
+
+
+Third parties insight
+Completed Check Icon
+3rd parties
+
+
+3rd party code can significantly impact load performance. Reduce and defer loading of 3rd party code to prioritize your page's content.
+
+
+First contentful paint
+High Impact Icon
+First Contentful Paint
+
+
+First Contentful Paint marks the time at which the first text or image is painted. Learn more about the First Contentful Paint metric.
+
+
+2.2 s
+Bootup time
+Completed Check Icon
+JavaScript execution time
+
+
+Consider reducing the time spent parsing, compiling, and executing JS. You may find delivering smaller JS payloads helps with this. Learn how to reduce Javascript execution time.
+
+
+0.9 s
+Total blocking time
+Completed Check Icon
+Total Blocking Time
+
+
+Sum of all time periods between FCP and Time to Interactive, when task length exceeded 50ms, expressed in milliseconds. Learn more about the Total Blocking Time metric.
+
+
+10 ms
+Legacy javascript insight
+Completed Check Icon
+Legacy JavaScript
+
+
+Polyfills and transforms enable older browsers to use new JavaScript features. However, many aren't necessary for modern browsers. Consider modifying your JavaScript build process to not transpile Baseline features, unless you know you must support older browsers. Learn why most sites can deploy ES6+ code without transpiling
+
+
+Render blocking insight
+High Impact Icon
+Render blocking requests
+
+
+Requests are blocking the page's initial render, which may delay LCP. Deferring or inlining can move these network requests out of the critical path.
+
+
+Est savings of 210 ms
+Interactive
+Low Impact Icon
+Time to Interactive
+
+
+Time to Interactive is the amount of time it takes for the page to become fully interactive. Learn more about the Time to Interactive metric.
+
+
+2.9 s
+Network requests
+Completed Check Icon
+Network Requests
+
+
+Lists the network requests that were made during page load.
+
+
+Resource summary
+Completed Check Icon
+Resources Summary
+
+
+Aggregates all network requests and groups them by type
+
+
+Network rtt
+Completed Check Icon
+Network Round Trip Times
+
+
+Network round trip times (RTT) have a large impact on performance. If the RTT to an origin is high, it's an indication that servers closer to the user could improve performance. Learn more about the Round Trip Time.
+
+
+0 ms
+Lcp breakdown insight
+Completed Check Icon
+LCP breakdown
+
+
+Each subpart has specific improvement strategies. Ideally, most of the LCP time should be spent on loading the resources, not within delays.
+
+
+Metrics
+Completed Check Icon
+Metrics
+
+
+Collects all available metrics.
+
+
+Duplicated javascript insight
+Completed Check Icon
+Duplicated JavaScript
+
+
+Remove large, duplicate JavaScript modules from bundles to reduce unnecessary bytes consumed by network activity.
+
+
+Unused javascript
+High Impact Icon
+Reduce unused JavaScript
+
+
+Reduce unused JavaScript and defer loading scripts until they are required to decrease bytes consumed by network activity. Learn how to reduce unused JavaScript.
+
+
+Est savings of 863 KiB
+Server response time
+Completed Check Icon
+Initial server response time was short
+
+
+Keep the server response time for the main document short because all other requests depend on it. Learn more about the Time to First Byte metric.
+
+
+Root document took 10 ms
+Network dependency tree insight
+High Impact Icon
+Network dependency tree
+
+
+Avoid chaining critical requests by reducing the length of chains, reducing the download size of resources, or deferring the download of unnecessary resources to improve page load.
+
+
+Network server latency
+Completed Check Icon
+Server Backend Latencies
+
+
+Server latencies can impact web performance. If the server latency of an origin is high, it's an indication the server is overloaded or has poor backend performance. Learn more about server response time.
+
+
+200 ms
+Redirects
+Completed Check Icon
+Avoid multiple page redirects
+
+
+Redirects introduce additional delays before the page can be loaded. Learn how to avoid page redirects.
+
+
+Layout shifts
+Completed Check Icon
+Avoid large layout shifts
+
+
+These are the largest layout shifts observed on the page. Each table item represents a single layout shift, and shows the element that shifted the most. Below each item are possible root causes that led to the layout shift. Some of these layout shifts may not be included in the CLS metric value due to windowing. Learn how to improve CLS
+
+
+15 layout shifts found
+Unused css rules
+High Impact Icon
+Reduce unused CSS
+
+
+Reduce unused rules from stylesheets and defer CSS not used for above-the-fold content to decrease bytes consumed by network activity. Learn how to reduce unused CSS.
+
+
+Est savings of 111 KiB
+Image delivery insight
+High Impact Icon
+Improve image delivery
+
+
+Reducing the download time of images can improve the perceived load time of the page and LCP. Learn more about optimizing image size
+
+
+Est savings of 457 KiB
+Speed index
+Mid Impact Icon
+Speed Index
+
+
+Speed Index shows how quickly the contents of a page are visibly populated. Learn more about the Speed Index metric.
+
+
+2.3 s
+Largest contentful paint
+High Impact Icon
+Largest Contentful Paint
+
+
+Largest Contentful Paint marks the time at which the largest text or image is painted. Learn more about the Largest Contentful Paint metric
+
+
+2.8 s
+Non composited animations
+Completed Check Icon
+Avoid non-composited animations
+
+
+Animations which are not composited can be janky and increase CLS. Learn how to avoid non-composited animations
+
+
+3 animated elements found
+Script treemap data
+Completed Check Icon
+Script Treemap Data
+
+
+Used for treemap app
+
+
+Document latency insight
+Mid Impact Icon
+Document request latency
+
+
+Your first network request is the most important. Reduce its latency by avoiding redirects, ensuring a fast server response, and enabling text compression.
+
+
+Est savings of 6 KiB
+Inp breakdown insight
+High Impact Icon
+INP breakdown
+
+
+Start investigating how to improve INP by looking at the longest subpart.
+
+
+Long tasks
+Completed Check Icon
+Avoid long main-thread tasks
+
+
+Lists the longest tasks on the main thread, useful for identifying worst contributors to input delay. Learn how to avoid long main-thread tasks
+
+
+6 long tasks found
+Mainthread work breakdown
+Completed Check Icon
+Minimizes main-thread work
+
+
+Consider reducing the time spent parsing, compiling and executing JS. You may find delivering smaller JS payloads helps with this. Learn how to minimize main-thread work
+
+
+1.6 s
+Main thread tasks
+Completed Check Icon
+Tasks
+
+
+Lists the toplevel main thread tasks that executed during page load.
+
+
+Font display insight
+Mid Impact Icon
+Font display
+
+
+Consider setting font-display to swap or optional to ensure text is consistently visible. swap can be further optimized to mitigate layout shifts with font metric overrides.
+
+
+Est savings of 20 ms
+Diagnostics
+Completed Check Icon
+Diagnostics
+
+
+Collection of useful page vitals.
+
+
+User timings
+High Impact Icon
+User Timing marks and measures
+
+
+Consider instrumenting your app with the User Timing API to measure your app's real-world performance during key user experiences. Learn more about User Timing marks.
+
+
+Unminified javascript
+Completed Check Icon
+Minify JavaScript
+
+
+Minifying JavaScript files can reduce payload sizes and script parse time. Learn how to minify JavaScript.
+
+
+Unsized images
+Mid Impact Icon
+Image elements do not have explicit width and height
+
+
+Set an explicit width and height on image elements to reduce layout shifts and improve CLS. Learn how to set image dimensions
+
+
+Lcp discovery insight
+High Impact Icon
+LCP request discovery
+
+
+Optimize LCP by making the LCP image discoverable from the HTML immediately, and avoiding lazy-loading
+
+
+Unminified css
+Completed Check Icon
+Minify CSS
+
+
+Minifying CSS files can reduce network payload sizes. Learn how to minify CSS.
+
+
+Screenshot thumbnails
+Completed Check Icon
+Screenshot Thumbnails
+
+
+This is what the load of your site looked like.
+
+
+Final screenshot
+Completed Check Icon
+Final Screenshot
+
+
+The last screenshot captured of the pageload.
+
+
+Cache insight
+Mid Impact Icon
+Use efficient cache lifetimes
+
+
+A long cache lifetime can speed up repeat visits to your page. Learn more about caching.
+
+
+Est savings of 1 KiB

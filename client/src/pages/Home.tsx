@@ -88,9 +88,14 @@ export default function Home() {
     <>
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <section className="relative min-h-screen flex flex-col justify-center bg-zinc-950 mt-8 lg:mt-12 overflow-hidden">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
-          style={{ backgroundImage: `url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=1000&q=80')` }}
+        <img
+          src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=1000&q=80"
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover opacity-30"
+          width="1600"
+          height="1000"
+          decoding="async"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/80 via-zinc-950/60 to-zinc-950" />
 
@@ -281,7 +286,10 @@ export default function Home() {
                 src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=700&h=520&q=80"
                 alt="Professional property inspection team"
                 className="w-full object-cover"
+                width="700"
+                height="520"
                 loading="lazy"
+                decoding="async"
               />
               <div className="absolute -bottom-6 -right-6 bg-zinc-950 text-white p-6">
                 <div className="text-3xl font-bold text-brand-green">40,000+</div>
