@@ -155,10 +155,10 @@ ${formData.message}`,
         {/* Hero Section */}
         <section className="pt-32 pb-20 bg-zinc-950 text-white">
           <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 text-center">
-            <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Partnerships</p>
+            <p className="text-[10px] font-semibold tracking-[0.25em] text-white uppercase mb-4">Partnerships</p>
             <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold text-white leading-tight mb-6">
               Partner with UAE's <br className="hidden md:block" />
-              <span className="text-brand-green">Leading Inspectors</span>
+              <span className="text-white">Leading Inspectors</span>
             </h1>
             <p className="text-lg text-zinc-400 max-w-2xl mx-auto leading-relaxed">
               Join our exclusive broker referral program and earn competitive commissions while providing your clients with world-class property inspection services.

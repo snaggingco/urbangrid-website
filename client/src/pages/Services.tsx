@@ -310,7 +310,7 @@ export default function Services() {
       {/* Hero Section */}
       <section className="pt-24 pb-16 bg-zinc-950">
         <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
-          <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">
+          <p className="text-[10px] font-semibold tracking-[0.25em] text-white uppercase mb-4">
             Services
           </p>
           <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold text-white leading-tight mb-6">

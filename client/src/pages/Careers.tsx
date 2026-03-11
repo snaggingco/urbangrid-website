@@ -103,7 +103,7 @@ export default function Careers() {
         {/* Hero Section */}
         <section className="pt-32 pb-20 bg-zinc-950 text-white">
           <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 text-center">
-            <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Careers</p>
+            <p className="text-[10px] font-semibold tracking-[0.25em] text-white uppercase mb-4">Careers</p>
             <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold text-white leading-tight mb-6">
               Join Our Professional Team
             </h1>

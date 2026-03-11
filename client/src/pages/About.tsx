@@ -49,7 +49,7 @@ export default function About() {
       {/* Hero Section */}
       <section className="pt-24 pb-20 bg-zinc-950">
         <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
-          <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">About</p>
+          <p className="text-[10px] font-semibold tracking-[0.25em] text-white uppercase mb-4">About</p>
           <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold text-white leading-tight mb-6">
             About UrbanGrid
           </h1>
@@ -97,45 +97,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* Meet the Team */}
-      <section className="py-24 lg:py-32 bg-zinc-50">
-        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-16">
-            <div className="max-w-2xl">
-              <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">TEAM</p>
-              <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight">
-                Meet Our Expert Team
-              </h2>
-            </div>
-            <p className="text-sm text-zinc-500 max-w-sm">
-              Our certified professionals bring decades of combined experience in property inspection, construction, and quality assurance.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-            {team.map((member, index) => (
-              <div key={index} className="group">
-                <div className="aspect-square overflow-hidden mb-6">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                </div>
-                <h3 className="text-lg font-bold text-zinc-900 mb-1">
-                  {member.name}
-                </h3>
-                <div className="text-[10px] uppercase tracking-[0.18em] text-brand-green font-semibold mb-4">
-                  {member.position} · {member.experience}
-                </div>
-                <p className="text-sm text-zinc-500 leading-relaxed">
-                  {member.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      
 
       {/* Service Coverage */}
       <section className="py-24 lg:py-32 bg-white">
