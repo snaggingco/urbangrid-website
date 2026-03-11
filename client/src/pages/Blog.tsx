@@ -82,14 +82,14 @@ export default function Blog() {
       <section className="pt-32 pb-24 bg-zinc-950">
         <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
           <div className="max-w-4xl">
-            <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">
+            <p className="text-[10px] font-semibold tracking-[0.25em] text-white uppercase mb-4">
               Insights & Expertise
             </p>
             <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold text-white leading-tight mb-8">
-              Property Snagging Blog UAE
+              Blogs
             </h1>
             <p className="text-lg text-zinc-400 leading-relaxed max-w-2xl">
-              Stay informed with the latest <Link href="/locations/dubai/property-inspection" className="text-brand-green hover:text-white transition-colors underline underline-offset-4">property inspection dubai</Link> insights, UAE market trends, and expert advice from our professional <Link href="/locations/abu-dhabi/snagging-company" className="text-brand-green hover:text-white transition-colors underline underline-offset-4">snagging company abu dhabi</Link> team.
+              Stay informed with the latest <Link href="/locations/dubai/property-inspection" className="text-white hover:text-white transition-colors underline underline-offset-4">snagging and inspection</Link> insights, UAE market trends, and expert advice from our professional <Link href="/locations/abu-dhabi/snagging-company" className="text-white hover:text-white transition-colors underline underline-offset-4">snagging </Link> team.
             </p>
           </div>
         </div>

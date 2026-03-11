@@ -101,7 +101,7 @@ export default function Home() {
 
         <div className={`relative z-10 max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 pt-20 pb-40 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
 
-          <p className="text-[10px] sm:text-xs font-semibold tracking-[0.25em] text-brand-green uppercase mb-8">
+          <p className="text-[10px] sm:text-xs font-semibold tracking-[0.25em] text-white uppercase mb-8">
             Available Now Across UAE
           </p>
 
@@ -158,7 +158,7 @@ export default function Home() {
           <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
             <div className="grid grid-cols-3 divide-x divide-white/10">
               <div className="py-6 pr-8">
-                <div className="text-2xl sm:text-3xl font-bold text-brand-green">{counts.inspections.toLocaleString()}+</div>
+                <div className="text-2xl sm:text-3xl font-bold text-white">{counts.inspections.toLocaleString()}+</div>
                 <div className="text-[10px] uppercase tracking-[0.18em] text-zinc-500 font-medium mt-1">Properties Inspected</div>
               </div>
               <div className="py-6 px-8">
@@ -166,7 +166,7 @@ export default function Home() {
                 <div className="text-[10px] uppercase tracking-[0.18em] text-zinc-500 font-medium mt-1">Emirates Covered</div>
               </div>
               <div className="py-6 pl-8">
-                <div className="text-2xl sm:text-3xl font-bold text-brand-green">{counts.rating} <span className="text-yellow-500 text-lg">★</span></div>
+                <div className="text-2xl sm:text-3xl font-bold text-white">{counts.rating} <span className="text-yellow-500 text-lg">★</span></div>
                 <div className="text-[10px] uppercase tracking-[0.18em] text-zinc-500 font-medium mt-1">Client Satisfaction</div>
               </div>
             </div>
