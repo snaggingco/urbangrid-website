@@ -892,16 +892,14 @@ export default function ServiceDetail() {
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-6 lg:justify-end">
-                <Link href="/contact">
+                <a href="/contact" className="inline-block">
                   <Button className="bg-white text-brand-green hover:bg-zinc-100 rounded-none h-14 px-10 text-[10px] uppercase tracking-[0.2em] font-bold">
                     Book Inspection
                   </Button>
-                </Link>
-                <Link href="/services">
-                  <a className="inline-flex items-center justify-center border border-white/30 text-white h-14 px-10 text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-green transition-all">
-                    All Services
-                  </a>
-                </Link>
+                </a>
+                <a href="/services" className="inline-flex items-center justify-center border border-white/30 text-white h-14 px-10 text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-green transition-all">
+                  All Services
+                </a>
               </div>
             </div>
           </div>
