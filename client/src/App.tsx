@@ -77,26 +77,6 @@ function Router() {
             <Route path="/" component={Home} />
             <Route path="/about" component={About} />
             <Route path="/services" component={Services} />
-
-            <Route path="/services/property-snagging/new-build-snagging" component={ServiceDetail} />
-            <Route path="/services/property-snagging/post-renovation-inspection" component={ServiceDetail} />
-            <Route path="/services/property-snagging/dlp-snagging" component={ServiceDetail} />
-            <Route path="/services/property-snagging/move-in-move-out" component={ServiceDetail} />
-            <Route path="/services/property-snagging/secondary-market" component={ServiceDetail} />
-            <Route path="/services/property-snagging/developer-projects" component={ServiceDetail} />
-
-            <Route path="/services/rera-services/reserve-fund-study" component={ServiceDetail} />
-            <Route path="/services/rera-services/service-charge-allocation" component={ServiceDetail} />
-            <Route path="/services/rera-services/reinstatement-cost-assessment" component={ServiceDetail} />
-            <Route path="/services/rera-services/building-completion-audit" component={ServiceDetail} />
-            <Route path="/services/rera-services/building-condition-survey" component={ServiceDetail} />
-
-            <Route path="/services/technical-inspections/technical-due-diligence" component={ServiceDetail} />
-            <Route path="/services/technical-inspections/dilapidation-survey" component={ServiceDetail} />
-            <Route path="/services/technical-inspections/thermographic-survey" component={ServiceDetail} />
-            <Route path="/services/technical-inspections/noise-survey" component={ServiceDetail} />
-            <Route path="/services/technical-inspections/structural-survey" component={ServiceDetail} />
-
             <Route path="/services/:category/:slug" component={ServiceDetail} />
 
             <Route path="/blog" component={Blog} />
