@@ -402,16 +402,12 @@ export default function Services() {
                   </div>
 
                   <div className="flex flex-col sm:flex-row lg:flex-col gap-4">
-                    <Link href={`/services/${activeSection}/${service.slug}`}>
-                      <a className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all whitespace-nowrap">
-                        View Details <i className="fas fa-arrow-right text-[8px]"></i>
-                      </a>
-                    </Link>
-                    <Link href="/contact">
-                      <a className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-400 hover:text-zinc-900 transition-all whitespace-nowrap">
-                        Inquiry <i className="fas fa-envelope text-[8px]"></i>
-                      </a>
-                    </Link>
+                    <a href={`/services/${activeSection}/${service.slug}`} className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all whitespace-nowrap">
+                      View Details <i className="fas fa-arrow-right text-[8px]"></i>
+                    </a>
+                    <a href="/contact" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-400 hover:text-zinc-900 transition-all whitespace-nowrap">
+                      Inquiry <i className="fas fa-envelope text-[8px]"></i>
+                    </a>
                   </div>
                 </div>
               </div>
