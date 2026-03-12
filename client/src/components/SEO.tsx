@@ -32,7 +32,7 @@ const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
   },
   '/contact': {
     title: 'Contact UrbanGrid Property Inspection - Dubai Abu Dhabi UAE',
-    description: 'Contact UrbanGrid for expert property snagging services. Call +971 58 568 6852 or email info@snagging.me for professional inspection quotes across UAE.',
+    description: 'Contact UrbanGrid for expert property snagging services. Call +971 58 568 6852 or email info@urbangrid.ae for professional inspection quotes across UAE.',
     keywords: 'contact property inspection UAE, snagging company Dubai, property inspection quote, urbangrid contact',
     ogImage: 'https://urbangrid.ae/og-image.jpg'
   },
@@ -233,11 +233,21 @@ export default function SEO({
     const description = customDescription || routeData.description || 'Professional property inspection and snagging services across Dubai, Abu Dhabi, and UAE.';
     const keywords = customKeywords || routeData.keywords || 'property snagging UAE, property inspection Dubai, snagging services';
     const ogImage = customOgImage || routeData.ogImage || 'https://urbangrid.ae/og-image.jpg';
-    const canonical = customCanonical || `https://urbangrid.ae${location}`;
-    
+    // Pages that should never be indexed
+    const noindexPaths = ['/login', '/privacy-policy', '/terms-of-service', '/admin'];
+    const shouldNoindex = noindex || noindexPaths.some(p => location.startsWith(p));
+
+    // For sub-location routes that share content with the parent location page,
+    // set canonical to the parent to avoid duplicate content penalty
+    const locationSubRouteMatch = location.match(/^(\/locations\/[^/]+)\/.+$/);
+    const effectiveCanonical = customCanonical
+      || (locationSubRouteMatch ? `https://urbangrid.ae${locationSubRouteMatch[1]}` : `https://urbangrid.ae${location}`);
+
+    const canonical = effectiveCanonical;
+
     // Update document title
     document.title = title;
-    
+
     // Helper function to update or create meta tag
     const updateMetaTag = (name: string, content: string, property?: string) => {
       const selector = property ? `meta[property="${name}"]` : `meta[name="${name}"]`;
@@ -270,7 +280,7 @@ export default function SEO({
     // Update meta tags
     updateMetaTag('description', description);
     updateMetaTag('keywords', keywords);
-    updateMetaTag('robots', noindex ? 'noindex, nofollow' : 'index, follow');
+    updateMetaTag('robots', shouldNoindex ? 'noindex, nofollow' : 'index, follow');
     
     // Update Open Graph tags
     updateMetaTag('og:title', title, 'property');
@@ -299,7 +309,7 @@ export default function SEO({
           "@type": "ContactPoint",
           "telephone": "+971585686852",
           "contactType": "customer service",
-          "email": "info@snagging.me"
+          "email": "info@urbangrid.ae"
         },
         "address": {
           "@type": "PostalAddress",
@@ -345,7 +355,7 @@ export default function SEO({
           "@type": "LocalBusiness",
           "name": "UrbanGrid Property Snagging Inspection",
           "telephone": "+971585686852",
-          "email": "info@snagging.me",
+          "email": "info@urbangrid.ae",
           "url": "https://urbangrid.ae",
           "address": {
             "@type": "PostalAddress",

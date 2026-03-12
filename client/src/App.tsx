@@ -116,9 +116,6 @@ function Router() {
             <Route path="/locations/fujairah" component={Fujairah} />
             <Route path="/locations/umm-al-quwain" component={UmmAlQuwain} />
 
-            <Route path="/locations/dubai/:any*" component={Dubai} />
-            <Route path="/locations/abu-dhabi/:any*" component={AbuDhabi} />
-            <Route path="/locations/sharjah/:any*" component={Sharjah} />
 
             {isAdmin && (
               <>
