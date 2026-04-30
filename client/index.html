@@ -14,8 +14,8 @@
     <meta name="theme-color" content="#064E3B" />
 
     <!-- Base Meta Tags -->
-    <title>Snagging Company Dubai #1 - Professional Property Snagging Services</title>
-    <meta name="description" content="NFPA, ASHRAE & ASTM certified snagging company UAE providing professional property inspection services across Dubai, Abu Dhabi, Sharjah. Following international standards including NFPA 101, ASHRAE 180, ASTM E2018. Call +971585686852." />
+    <title>UrbanGrid – Property Snagging & Inspection in Dubai & UAE</title>
+    <meta name="description" content="UrbanGrid: NFPA, ASHRAE & ASTM certified property snagging and inspection across Dubai, Abu Dhabi, Sharjah and the UAE. Same-day reports." />
     <meta name="keywords" content="property snagging dubai, property inspection UAE, NFPA standards, ASHRAE certified, ASTM E2018, snagging services, pre-purchase inspection, new build snagging, villa inspection, apartment snagging, international standards property inspection" />
     <meta name="author" content="UrbanGrid Property Inspection" />
     <meta name="robots" content="index, follow" />
@@ -25,8 +25,8 @@
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="UrbanGrid Property Inspection" />
-    <meta property="og:title" content="Snagging Company Dubai #1 - Professional Property Snagging Services" />
-    <meta property="og:description" content="NFPA, ASHRAE & ASTM certified property inspection and snagging services across Dubai, Abu Dhabi, and UAE." />
+    <meta property="og:title" content="UrbanGrid – Property Snagging & Inspection in Dubai & UAE" />
+    <meta property="og:description" content="NFPA, ASHRAE & ASTM certified property snagging and inspection across Dubai, Abu Dhabi and the UAE." />
     <meta property="og:url" content="https://urbangrid.ae/" />
     <meta property="og:image" content="https://urbangrid.ae/og-image.jpg" />
     <meta property="og:image:width" content="1200" />
@@ -35,8 +35,8 @@
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Snagging Company Dubai #1 - Professional Property Snagging Services" />
-    <meta name="twitter:description" content="Professional property inspection and snagging services across Dubai, Abu Dhabi, and UAE." />
+    <meta name="twitter:title" content="UrbanGrid – Property Snagging & Inspection in Dubai & UAE" />
+    <meta name="twitter:description" content="NFPA, ASHRAE & ASTM certified property snagging and inspection across Dubai, Abu Dhabi and the UAE." />
     <meta name="twitter:image" content="https://urbangrid.ae/og-image.jpg" />
 
     <!-- Additional SEO -->
@@ -61,9 +61,11 @@
       "email": "info@urbangrid.ae",
       "address": {
         "@type": "PostalAddress",
-        "addressCountry": "AE",
+        "streetAddress": "Office 1, Bay Square Building 6",
+        "addressLocality": "Business Bay",
         "addressRegion": "Dubai",
-        "addressLocality": "Dubai"
+        "postalCode": "00000",
+        "addressCountry": "AE"
       },
       "geo": {
         "@type": "GeoCoordinates",
@@ -105,18 +107,16 @@
     <!-- Preload LCP hero image so browser discovers it immediately -->
     <link rel="preload" as="image" href="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=1000&q=80" fetchpriority="high" />
 
-    <!-- Non-render-blocking font loading with display=swap -->
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" /></noscript>
-
-    <!-- FontAwesome - non-render-blocking -->
-    <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" /></noscript>
+    <!-- Fonts and FontAwesome are now self-hosted via @fontsource/inter and
+         @fortawesome/fontawesome-free, imported through src/index.css. This
+         removes external CDN dependencies, render-blocking external CSS, and
+         the integrity-hash false positive flagged by security scanners. -->
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NGVDWWRF" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[9999] focus:bg-white focus:text-black focus:px-4 focus:py-2 focus:rounded focus:shadow-lg">Skip to main content</a>
 
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>

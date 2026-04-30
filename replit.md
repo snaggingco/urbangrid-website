@@ -8,6 +8,32 @@ UrbanGrid is a modern, fully responsive property inspection and snagging company
 
 Preferred communication style: Simple, everyday language.
 
+## Recent Changes (April 2026 — Squirrelscan Audit Fix Pass)
+
+### Security
+- Added Content-Security-Policy header (allows GTM, Google Ads, Google Analytics, Unsplash, Replit dev banner)
+- Added Referrer-Policy: `strict-origin-when-cross-origin`
+- Added Permissions-Policy: `camera=(), microphone=(), geolocation=(), payment=(), usb=()`
+- Strengthened HSTS with `preload` directive
+- Eliminated false-positive "leaked Cloudflare token" by removing FontAwesome CDN
+
+### Performance
+- Self-hosted Inter font via `@fontsource/inter` (replaces render-blocking Google Fonts CDN)
+- Self-hosted FontAwesome via `@fortawesome/fontawesome-free` (replaces render-blocking cdnjs CDN)
+- Added gzip/brotli compression middleware to Express
+- Removed Google Fonts CDN reference from SSR HTML in `server/routes.ts`
+
+### SEO & Sitemap
+- Shortened default `<title>` in `index.html` from 67 → 58 chars
+- Shortened default meta description from 234 → 156 chars
+- Synced shortened title/description across Open Graph and Twitter Card meta
+- Added 301 redirects from `/sitemap_index.xml`, `/sitemap-index.xml`, `/sitemaps.xml`, `/sitemap1.xml`, `/post-sitemap.xml`, `/page-sitemap.xml`, `/category-sitemap.xml` to `/sitemap.xml`
+- Completed LocalBusiness JSON-LD address with `streetAddress` and `postalCode`
+
+### Accessibility
+- Added skip-to-main-content link in `index.html` shell (visible on focus)
+- Added `id="main-content"` to `<main>` landmark in `App.tsx`
+
 ## Recent Changes (December 2024)
 
 ### International Standards SEO Implementation

@@ -71,7 +71,7 @@ function Router() {
     <div className="min-h-screen bg-white">
       <SEO />
       <Header isAdmin={isAdmin} />
-      <main>
+      <main id="main-content">
         <Suspense fallback={<PageLoader />}>
           <Switch>
             <Route path="/" component={Home} />

@@ -621,6 +621,20 @@ This application was submitted through the UrbanGrid careers page.
     }
   });
 
+  // Redirect alternative sitemap paths to the canonical sitemap.xml
+  // (Some scanners/crawlers probe /sitemap_index.xml, /sitemaps.xml, etc.)
+  app.get([
+    '/sitemap_index.xml',
+    '/sitemap-index.xml',
+    '/sitemaps.xml',
+    '/sitemap1.xml',
+    '/post-sitemap.xml',
+    '/page-sitemap.xml',
+    '/category-sitemap.xml',
+  ], (_req, res) => {
+    res.redirect(301, '/sitemap.xml');
+  });
+
   // Sitemap.xml endpoint
   app.get('/sitemap.xml', async (req, res) => {
     try {
@@ -809,8 +823,7 @@ Crawl-delay: 1`;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Fonts are self-hosted via @fontsource/inter and loaded by the SPA bundle -->
 </head>
 <body>
     <div id="root"></div>
