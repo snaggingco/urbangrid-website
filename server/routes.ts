@@ -749,8 +749,8 @@ Crawl-delay: 1`;
       const safeSlug = String(post.slug).replace(/[^a-zA-Z0-9_-]/g, '');
       const safeUrl = `https://urbangrid.ae/blog/${safeSlug}`;
 
-      const seoTitleRaw = truncate(post.title, 56); // 56 + " | UrbanGrid" (12) = 68
-      const seoDescRaw = truncate(post.excerpt || post.title, 158);
+      const seoTitleRaw = truncate(post.title, 48); // 48 + " | UrbanGrid" (12) = 60 chars max
+      const seoDescRaw = truncate(post.excerpt || post.title, 155);
       const seoTitle = escapeHtml(seoTitleRaw) + ' | UrbanGrid';
       const seoDesc = escapeHtml(seoDescRaw);
       const seoKeywords = escapeHtml(post.tags?.join(', ') || 'property inspection, snagging, UAE');
@@ -789,6 +789,8 @@ Crawl-delay: 1`;
     <meta name="twitter:description" content="${seoDesc}">
     <meta name="twitter:image" content="${escapeHtml(featuredImage)}">
     <link rel="canonical" href="${safeUrl}">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -830,12 +832,21 @@ Crawl-delay: 1`;
                 <div>${escapeHtml(post.content)}</div>
             </article>
         </main>
+        <footer>
+            <nav aria-label="Legal">
+                <a href="/privacy-policy">Privacy Policy</a>
+                <a href="/terms-of-service">Terms of Service</a>
+                <a href="/">UrbanGrid Property Inspection</a>
+            </nav>
+        </footer>
     </div>
     <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>`;
 
-      res.setHeader('Content-Type', 'text/html');
+      res
+        .setHeader('Content-Type', 'text/html')
+        .setHeader('Cache-Control', 'public, max-age=3600, stale-while-revalidate=86400');
       res.send(html);
     } catch (error) {
       console.error("Error serving blog page:", error);
