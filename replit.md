@@ -8,6 +8,28 @@ UrbanGrid is a modern, fully responsive property inspection and snagging company
 
 Preferred communication style: Simple, everyday language.
 
+## Recent Changes (May 2026 — Sitemap Quality Cleanup)
+
+Comprehensive review of all 247 sitemap URLs identified Google's "scaled content abuse" pattern as the likely cause of the ranking drop.
+
+### Content removed (60 posts, served as 410 Gone)
+- 25 `*-expert-quality-assessment` blog posts — confirmed via MD5 hash to be 100% identical content across emirates with only city name swapped (5 unique articles spun into 25 URLs)
+- 35 `*-complete-guide-2025` blog posts — thin (~350 words), heavily templated with marginal per-emirate variation
+- All 60 set to `status='archived'` in DB; `/blog/:slug` and `/api/blog/:slug` now return **HTTP 410 Gone** with a `noindex` page so Google deindexes them
+- Sitemap shrunk from 247 → 189 URLs and no longer references the archived slugs
+
+### Backend
+- `/news-sitemap.xml`, `/video-sitemap.xml`, `/image-sitemap.xml` now 301-redirect to `/sitemap.xml` (previously fell through to SPA returning 200 HTML)
+- `/api/blog/:slug` returns **410 Gone** for archived posts (vs generic 404 before)
+- SSR `/blog/:slug` route now:
+  - Returns **410 Gone** with `noindex` for archived posts
+  - Truncates title to 56 chars + " | UrbanGrid" suffix (max 68 chars total)
+  - Truncates description to 158 chars
+  - Adds **`image`** field to BlogPosting JSON-LD (uses `featuredImage` or fallback)
+  - Adds **`publisher.logo`** ImageObject with `favicon-192x192.png`
+  - Adds `mainEntityOfPage`, Twitter Card meta, proper HTML escaping
+- `/privacy-policy` and `/terms-of-service` added to sitemap.xml
+
 ## Recent Changes (April 2026 — Squirrelscan Audit Fix Pass)
 
 ### Security

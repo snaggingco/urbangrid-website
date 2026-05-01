@@ -150,7 +150,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const { slug } = req.params;
       const post = await storage.getBlogPostBySlug(slug);
 
-      if (!post || post.status !== 'published') {
+      if (!post) {
+        return res.status(404).json({ message: "Blog post not found" });
+      }
+
+      // Permanently removed posts: tell crawlers they're gone for good
+      if (post.status === 'archived') {
+        return res.status(410).json({ message: "Blog post permanently removed" });
+      }
+
+      if (post.status !== 'published') {
         return res.status(404).json({ message: "Blog post not found" });
       }
 
@@ -631,6 +640,9 @@ This application was submitted through the UrbanGrid careers page.
     '/post-sitemap.xml',
     '/page-sitemap.xml',
     '/category-sitemap.xml',
+    '/news-sitemap.xml',
+    '/video-sitemap.xml',
+    '/image-sitemap.xml',
   ], (_req, res) => {
     res.redirect(301, '/sitemap.xml');
   });
@@ -699,9 +711,64 @@ Crawl-delay: 1`;
       const { slug } = req.params;
       const post = await storage.getBlogPostBySlug(slug);
 
-      if (!post || post.status !== 'published') {
-        return next(); // Let Vite handle 404
+      if (!post) {
+        return next(); // Let Vite/SPA handle 404
       }
+
+      // Permanently removed posts: 410 Gone tells Google to deindex
+      if (post.status === 'archived') {
+        res
+          .status(410)
+          .setHeader('Content-Type', 'text/html')
+          .setHeader('X-Robots-Tag', 'noindex, nofollow');
+        return res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="noindex,nofollow">
+    <title>Page no longer available | UrbanGrid</title>
+    <link rel="canonical" href="https://urbangrid.ae/blog">
+</head>
+<body>
+    <h1>This article has been removed</h1>
+    <p>The page you requested is no longer available. <a href="/blog">Browse our current articles</a> or visit our <a href="/">home page</a>.</p>
+</body>
+</html>`);
+      }
+
+      if (post.status !== 'published') {
+        return next();
+      }
+
+      // Helpers: keep title <= 60 chars before suffix; description <= 160 chars
+      const escapeHtml = (s: string) =>
+        s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const truncate = (s: string, max: number) =>
+        s.length <= max ? s : s.slice(0, max - 1).replace(/\s+\S*$/, '') + '…';
+      // Defense-in-depth: hard-restrict slug to URL-safe chars before interpolating
+      const safeSlug = String(post.slug).replace(/[^a-zA-Z0-9_-]/g, '');
+      const safeUrl = `https://urbangrid.ae/blog/${safeSlug}`;
+
+      const seoTitleRaw = truncate(post.title, 56); // 56 + " | UrbanGrid" (12) = 68
+      const seoDescRaw = truncate(post.excerpt || post.title, 158);
+      const seoTitle = escapeHtml(seoTitleRaw) + ' | UrbanGrid';
+      const seoDesc = escapeHtml(seoDescRaw);
+      const seoKeywords = escapeHtml(post.tags?.join(', ') || 'property inspection, snagging, UAE');
+      const featuredImage = post.featuredImage || 'https://urbangrid.ae/og-image.jpg';
+      const headlineForSchema = JSON.stringify(truncate(post.title, 110));
+      const descForSchema = JSON.stringify(seoDescRaw);
+      const imageForSchema = JSON.stringify(featuredImage);
+      const urlForSchema = JSON.stringify(safeUrl);
+      const toIso = (v: unknown) => {
+        if (v instanceof Date) return v.toISOString();
+        if (typeof v === 'string' || typeof v === 'number') {
+          const d = new Date(v);
+          if (!isNaN(d.getTime())) return d.toISOString();
+        }
+        return new Date().toISOString();
+      };
+      const datePub = JSON.stringify(toIso(post.createdAt));
+      const dateMod = JSON.stringify(toIso(post.updatedAt ?? post.createdAt));
 
       // Generate basic HTML with meta tags for SEO
       const html = `<!DOCTYPE html>
@@ -709,33 +776,49 @@ Crawl-delay: 1`;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${post.title} | UrbanGrid Property Inspection</title>
-    <meta name="description" content="${post.excerpt || post.title}">
-    <meta name="keywords" content="${post.tags ? post.tags.join(', ') : 'property inspection, snagging, UAE'}">
-    <meta property="og:title" content="${post.title}">
-    <meta property="og:description" content="${post.excerpt || post.title}">
-    <meta property="og:url" content="https://urbangrid.ae/blog/${post.slug}">
+    <title>${seoTitle}</title>
+    <meta name="description" content="${seoDesc}">
+    <meta name="keywords" content="${seoKeywords}">
+    <meta property="og:title" content="${seoTitle}">
+    <meta property="og:description" content="${seoDesc}">
+    <meta property="og:url" content="${safeUrl}">
     <meta property="og:type" content="article">
-    ${post.featuredImage ? `<meta property="og:image" content="${post.featuredImage}">` : ''}
-    <link rel="canonical" href="https://urbangrid.ae/blog/${post.slug}">
+    <meta property="og:image" content="${escapeHtml(featuredImage)}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="${seoTitle}">
+    <meta name="twitter:description" content="${seoDesc}">
+    <meta name="twitter:image" content="${escapeHtml(featuredImage)}">
+    <link rel="canonical" href="${safeUrl}">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "BlogPosting",
-      "headline": "${post.title}",
-      "description": "${post.excerpt || post.title}",
+      "headline": ${headlineForSchema},
+      "description": ${descForSchema},
+      "image": ${imageForSchema},
       "author": {
-        "@type": "Organization",
-        "name": "UrbanGrid Property Inspection"
-      },
-      "publisher": {
         "@type": "Organization",
         "name": "UrbanGrid Property Inspection",
         "url": "https://urbangrid.ae"
       },
-      "datePublished": "${post.createdAt}",
-      "dateModified": "${post.updatedAt || post.createdAt}",
-      "url": "https://urbangrid.ae/blog/${post.slug}"
+      "publisher": {
+        "@type": "Organization",
+        "name": "UrbanGrid Property Inspection",
+        "url": "https://urbangrid.ae",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://urbangrid.ae/favicon-192x192.png",
+          "width": 192,
+          "height": 192
+        }
+      },
+      "datePublished": ${datePub},
+      "dateModified": ${dateMod},
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": ${urlForSchema}
+      },
+      "url": ${urlForSchema}
     }
     </script>
 </head>
@@ -743,8 +826,8 @@ Crawl-delay: 1`;
     <div id="root">
         <main>
             <article>
-                <h1>${post.title}</h1>
-                <div>${post.content.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</div>
+                <h1>${escapeHtml(post.title)}</h1>
+                <div>${escapeHtml(post.content)}</div>
             </article>
         </main>
     </div>

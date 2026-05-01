@@ -39,6 +39,8 @@ export function getSitemapUrls(baseUrl: string, blogPosts: Array<{slug: string, 
     { loc: `${baseUrl}/services`, priority: 0.9, changefreq: 'weekly' },
     { loc: `${baseUrl}/contact`, priority: 0.8, changefreq: 'monthly' },
     { loc: `${baseUrl}/blog`, priority: 0.7, changefreq: 'weekly' },
+    { loc: `${baseUrl}/privacy-policy`, priority: 0.3, changefreq: 'yearly' },
+    { loc: `${baseUrl}/terms-of-service`, priority: 0.3, changefreq: 'yearly' },
 
     // Property Snagging Services
     { loc: `${baseUrl}/services/property-snagging/new-build-snagging`, priority: 0.9, changefreq: 'monthly' },
@@ -110,16 +112,17 @@ export function getSitemapUrls(baseUrl: string, blogPosts: Array<{slug: string, 
     // { loc: `${baseUrl}/locations/sharjah/villa-snagging`, priority: 0.7, changefreq: 'monthly' },
     // { loc: `${baseUrl}/locations/sharjah/apartment-inspection`, priority: 0.7, changefreq: 'monthly' },
 
-    // High-value blog posts
-    { loc: `${baseUrl}/blog/snagging-dubai-cost-2025-complete-pricing-guide`, priority: 0.8, changefreq: 'monthly' },
-    { loc: `${baseUrl}/blog/property-inspection-abu-dhabi-complete-guide`, priority: 0.8, changefreq: 'monthly' },
-    { loc: `${baseUrl}/blog/snagging-company-sharjah-professional-services`, priority: 0.8, changefreq: 'monthly' },
+    // Note: blog posts below are added dynamically from the DB (status='published' only)
   ];
 
-  // Add blog posts
+  // Add published blog posts (deduped, archived posts are filtered at the DB layer)
+  const seen = new Set(urls.map(u => u.loc));
   blogPosts.forEach(post => {
+    const loc = `${baseUrl}/blog/${post.slug}`;
+    if (seen.has(loc)) return;
+    seen.add(loc);
     urls.push({
-      loc: `${baseUrl}/blog/${post.slug}`,
+      loc,
       priority: 0.6,
       changefreq: 'weekly',
       lastmod: post.updatedAt.toISOString().split('T')[0]
