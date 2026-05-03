@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import type { BlogPostWithAuthor } from "@shared/schema";
+import SEO from "@/components/SEO";
 
 interface BlogResponse {
   posts: BlogPostWithAuthor[];
@@ -77,6 +78,11 @@ export default function Blog() {
   }
 
   return (
+    <>
+      <SEO
+        title="Property Inspection Insights & Expert Guides | UrbanGrid Blog"
+        description="Expert articles on NFPA, ASHRAE, and RERA standards for property inspection and snagging in Dubai and the UAE. Practical guides for property owners."
+      />
     <div className="bg-white">
       {/* Hero Section */}
       <section className="pt-32 pb-24 bg-zinc-950">
@@ -273,5 +279,6 @@ export default function Blog() {
         </div>
       </section>
     </div>
+    </>
   );
 }

@@ -783,7 +783,7 @@ export default function ServiceDetail() {
                   src={service.image} 
                   alt={service.title}
                   className="w-full h-full object-cover"
-                  fetchPriority="high"
+                  fetchpriority="high"
                   loading="eager"
                 />
               </div>

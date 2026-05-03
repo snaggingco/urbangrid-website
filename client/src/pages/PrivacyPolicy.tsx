@@ -1,7 +1,13 @@
 import { Link } from "wouter";
+import SEO from "@/components/SEO";
 
 export default function PrivacyPolicy() {
   return (
+    <>
+      <SEO
+        title="Privacy Policy | UrbanGrid UAE"
+        description="UrbanGrid's privacy policy — how we collect, use, and protect your personal data in accordance with UAE data protection laws."
+      />
     <div className="pt-16">
       <section className="pt-24 pb-20 bg-zinc-950">
         <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
@@ -141,5 +147,6 @@ export default function PrivacyPolicy() {
         </div>
       </section>
     </div>
+    </>
   );
 }

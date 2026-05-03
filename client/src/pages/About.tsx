@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
 import { ArrowRight, CheckCircle2, Shield, Award, Building2 } from "lucide-react";
+import SEO from "@/components/SEO";
 
 export default function About() {
   const team = [
@@ -45,6 +46,11 @@ export default function About() {
   ];
 
   return (
+    <>
+      <SEO
+        title="About UrbanGrid - Property Inspection Experts in UAE"
+        description="UrbanGrid is the UAE's leading NFPA, ASHRAE & ASTM certified property snagging and inspection company. Meet our team of expert inspectors."
+      />
     <div className="pt-16">
       {/* Hero Section */}
       <section className="pt-24 pb-20 bg-zinc-950">
@@ -219,5 +225,6 @@ export default function About() {
         </div>
       </section>
     </div>
+    </>
   );
 }

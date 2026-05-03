@@ -1,7 +1,13 @@
 import { Link } from "wouter";
+import SEO from "@/components/SEO";
 
 export default function TermsOfService() {
   return (
+    <>
+      <SEO
+        title="Terms of Service | UrbanGrid UAE"
+        description="UrbanGrid's terms of service — the conditions governing use of our property inspection and snagging services across the UAE."
+      />
     <div className="pt-16">
       <section className="pt-24 pb-20 bg-zinc-950">
         <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
@@ -137,5 +143,6 @@ export default function TermsOfService() {
         </div>
       </section>
     </div>
+    </>
   );
 }

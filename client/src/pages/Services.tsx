@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
+import SEO from "@/components/SEO";
 
 export default function Services() {
   const [activeSection, setActiveSection] = useState<keyof typeof serviceCategories>('property-snagging');
@@ -306,6 +307,11 @@ export default function Services() {
   ];
 
   return (
+    <>
+      <SEO
+        title="Property Inspection & Snagging Services in UAE | UrbanGrid"
+        description="Explore UrbanGrid's full range of property snagging, RERA compliance, and technical inspection services across Dubai, Abu Dhabi and the UAE."
+      />
     <div className="pt-16">
       {/* Hero Section */}
       <section className="pt-24 pb-16 bg-zinc-950">
@@ -488,5 +494,6 @@ export default function Services() {
         </div>
       </section>
     </div>
+    </>
   );
 }
