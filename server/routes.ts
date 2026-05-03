@@ -754,16 +754,18 @@ Crawl-delay: 1`;
     res.send(robotsTxt);
   });
 
-  // Shared helper: inject meta tags + H1 into index.html and serve it
+  // Shared helper: inject meta tags + H1 into index.html and serve it.
+  // In development, skip injection and fall through to Vite's pipeline (which injects
+  // the React HMR preamble via transformIndexHtml — bypassing it breaks React boot).
   const serveSPAWithMeta = (res: any, next: any, opts: {
     title: string; description: string; canonical: string; h1: string;
     image?: string; noindex?: boolean;
   }) => {
+    // Dev: let Vite's catch-all handle the request so HMR preamble is correctly injected
+    if (process.env.NODE_ENV !== 'production') return next();
+
     try {
-      const isProd = process.env.NODE_ENV === 'production';
-      const htmlPath = isProd
-        ? path.resolve(import.meta.dirname, 'public', 'index.html')
-        : path.resolve(import.meta.dirname, '..', 'client', 'index.html');
+      const htmlPath = path.resolve(import.meta.dirname, 'public', 'index.html');
       let html = fs.readFileSync(htmlPath, 'utf-8');
       const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       const t = esc(opts.title);
