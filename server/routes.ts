@@ -1,5 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import fs from "fs";
+import path from "path";
 import { storage } from "./storage";
 import { setupLocalAuth } from "./adminAuth";
 import { setupInspectorAuth } from "./inspectorAuth";
@@ -783,16 +785,17 @@ Crawl-delay: 1`;
     const desc = esc(svc.description.length > 158 ? svc.description.slice(0, 155) + '...' : svc.description);
     const canonical = `https://urbangrid.ae/services/${category}/${slug}`;
 
-    res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    res.setHeader('Cache-Control', 'public, max-age=86400');
-    return res.send(`<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    // Read the actual index.html so the React app boots correctly, then inject service meta tags
+    try {
+      const isProd = process.env.NODE_ENV === 'production';
+      const htmlPath = isProd
+        ? path.resolve(import.meta.dirname, 'public', 'index.html')
+        : path.resolve(import.meta.dirname, '..', 'client', 'index.html');
+      let html = fs.readFileSync(htmlPath, 'utf-8');
+
+      const injected = `
   <title>${esc(title)}</title>
   <meta name="description" content="${desc}">
-  <meta name="robots" content="index, follow">
   <link rel="canonical" href="${canonical}">
   <meta property="og:type" content="website">
   <meta property="og:title" content="${esc(title)}">
@@ -804,15 +807,17 @@ Crawl-delay: 1`;
   <meta name="twitter:title" content="${esc(title)}">
   <meta name="twitter:description" content="${desc}">
   <meta name="twitter:image" content="${esc(svc.image)}">
-  <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"Service","name":"${esc(svc.title)}","description":"${desc}","provider":{"@type":"LocalBusiness","name":"UrbanGrid Property Inspection","url":"https://urbangrid.ae"},"areaServed":"AE","url":"${canonical}"}
-  </script>
-</head>
-<body>
-  <p>Loading UrbanGrid…</p>
-  <script>window.__SSR_SERVICE__=${JSON.stringify({ slug, category, title: svc.title, description: svc.description })};</script>
-</body>
-</html>`);
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"${esc(svc.title)}","description":"${desc}","provider":{"@type":"LocalBusiness","name":"UrbanGrid Property Inspection","url":"https://urbangrid.ae"},"areaServed":"AE","url":"${canonical}"}</script>`;
+
+      // Replace the default title tag and inject our meta tags right after <head>
+      html = html.replace(/<title>[^<]*<\/title>/, '');
+      html = html.replace('<head>', `<head>${injected}`);
+
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      return res.send(html);
+    } catch {
+      return next();
+    }
   });
 
   // Server-side rendered blog pages for SEO
