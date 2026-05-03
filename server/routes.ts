@@ -8,6 +8,9 @@ import bcrypt from "bcryptjs";
 import { z } from "zod";
 import nodemailer from "nodemailer";
 import { generateSitemap, getSitemapUrls } from "./sitemap";
+import { db } from "./db";
+import { blogPosts } from "@shared/schema";
+import { notInArray } from "drizzle-orm";
 
 // Generate slug from title
 function generateSlug(title: string): string {
@@ -85,6 +88,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
   };
   app.get('/locations', sendLocationGone);
   app.get('/locations/*', sendLocationGone);
+
+  // ONE-TIME MIGRATION: archive all blog posts except the 6 canonical ones
+  // Remove this endpoint after running against production.
+  app.post('/api/admin/migrate-archive-blogs', async (req, res) => {
+    const secret = req.query.secret as string;
+    if (secret !== 'ug-archive-2026-seo') {
+      return res.status(403).json({ error: 'Forbidden' });
+    }
+    const keepSlugs = [
+      'nfpa-72-fire-alarm-systems-property-snagging-uae',
+      'nfpa-25-fire-protection-systems-property-snagging-uae',
+      'nfpa-70-national-electrical-code-property-snagging-uae',
+      'nfpa-101-life-safety-code-property-snagging-uae',
+      'ashrae-standard-180-building-commissioning-property-snagging-uae',
+      'case-study-palm-jumeirah-penthouse-inspection-mep-defects',
+    ];
+    try {
+      const updated = await db
+        .update(blogPosts)
+        .set({ status: 'archived' })
+        .where(notInArray(blogPosts.slug, keepSlugs))
+        .returning({ id: blogPosts.id });
+      const kept = await db.select({ slug: blogPosts.slug }).from(blogPosts);
+      return res.json({ archived: updated.length, totalRows: kept.length });
+    } catch (err: any) {
+      return res.status(500).json({ error: err.message });
+    }
+  });
 
   // Auth middleware
   setupLocalAuth(app);
