@@ -10,14 +10,12 @@ export default function Footer() {
     { name: 'Contact', href: '/contact' },
   ];
 
-  const footerLocations = [
-    { name: 'Dubai', href: '/locations/dubai' },
-    { name: 'Abu Dhabi', href: '/locations/abu-dhabi' },
-    { name: 'Sharjah', href: '/locations/sharjah' },
-    { name: 'Ajman', href: '/locations/ajman' },
-    { name: 'Ras Al Khaimah', href: '/locations/ras-al-khaimah' },
-    { name: 'Fujairah', href: '/locations/fujairah' },
-    { name: 'Umm Al Quwain', href: '/locations/umm-al-quwain' },
+  const serviceLinks = [
+    { name: 'Property Snagging', href: '/services' },
+    { name: 'RERA Services', href: '/services' },
+    { name: 'Technical Inspections', href: '/services' },
+    { name: 'Broker Referrals', href: '/broker-referrals' },
+    { name: 'Careers', href: '/careers' },
   ];
 
   return (
@@ -61,15 +59,15 @@ export default function Footer() {
             </ul>
           </div>
           
-          {/* Locations */}
+          {/* Services / More */}
           <div>
-            <h3 className="text-[10px] font-semibold tracking-[0.25em] text-zinc-600 uppercase mb-8">Service Locations</h3>
+            <h3 className="text-[10px] font-semibold tracking-[0.25em] text-zinc-600 uppercase mb-8">Services</h3>
             <ul className="space-y-4">
-              {footerLocations.map((loc) => (
-                <li key={loc.name}>
-                  <Link href={loc.href}>
+              {serviceLinks.map((link) => (
+                <li key={link.name}>
+                  <Link href={link.href}>
                     <span className="text-zinc-400 hover:text-white transition-colors cursor-pointer text-xs">
-                      {loc.name}
+                      {link.name}
                     </span>
                   </Link>
                 </li>
@@ -102,21 +100,6 @@ export default function Footer() {
           </div>
         </div>
         
-        {/* Secondary Navigation / Tags */}
-        <div className="border-t border-zinc-800 pt-10 pb-10">
-          <div className="flex flex-wrap justify-center gap-x-6 gap-y-3 text-[10px] text-zinc-500 uppercase tracking-widest font-medium">
-            <Link href="/locations/dubai/snagging-company"><span className="hover:text-white cursor-pointer transition-colors">Snagging Dubai</span></Link>
-            <span className="text-zinc-800">•</span>
-            <Link href="/locations/abu-dhabi/snagging-company"><span className="hover:text-white cursor-pointer transition-colors">Snagging Abu Dhabi</span></Link>
-            <span className="text-zinc-800">•</span>
-            <Link href="/locations/sharjah/snagging-company"><span className="hover:text-white cursor-pointer transition-colors">Snagging Sharjah</span></Link>
-            <span className="text-zinc-800">•</span>
-            <Link href="/locations/dubai/property-inspection"><span className="hover:text-white cursor-pointer transition-colors">Property Inspection Dubai</span></Link>
-            <span className="text-zinc-800">•</span>
-            <Link href="/blog"><span className="hover:text-white cursor-pointer transition-colors">Property Snagging Tips</span></Link>
-          </div>
-        </div>
-
         {/* Copyright */}
         <div className="border-t border-zinc-800 pt-10 flex flex-col md:flex-row justify-between items-center text-zinc-500 text-[10px] uppercase tracking-wider">
           <p className="text-center md:text-left">© {new Date().getFullYear()} UrbanGrid Real Estate Consultancies L.L.C. Licensed by RERA & Dubai Economy Department.</p>

@@ -280,14 +280,14 @@ export default function BlogDetail() {
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-              <Link href="/locations/dubai/property-inspection">
+              <Link href="/contact">
                 <Button className="bg-white text-brand-green hover:bg-zinc-950 hover:text-white rounded-none h-14 px-10 transition-all uppercase text-[10px] font-bold tracking-widest">
-                  Book in Dubai
+                  Get a Free Quote
                 </Button>
               </Link>
-              <Link href="/locations/abu-dhabi/property-inspection">
+              <Link href="/services">
                 <Button variant="outline" className="border-white text-white hover:bg-white hover:text-brand-green rounded-none h-14 px-10 transition-all uppercase text-[10px] font-bold tracking-widest">
-                  Book in Abu Dhabi
+                  View Services
                 </Button>
               </Link>
             </div>

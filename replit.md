@@ -8,6 +8,35 @@ UrbanGrid is a modern, fully responsive property inspection and snagging company
 
 Preferred communication style: Simple, everyday language.
 
+## Recent Changes (May 2026 — Drastic 32-URL Site Trim)
+
+User decided to drastically trim the site from 186 → **31 URLs** to give Google a clean, focused, high-quality site after the ranking drop.
+
+### Final URL structure (31 URLs in sitemap)
+- **9 core pages**: `/`, `/about`, `/services`, `/blog`, `/broker-referrals`, `/careers`, `/contact`, `/privacy-policy`, `/terms-of-service`
+- **16 sub-service pages**: 6 Property Snagging + 5 RERA Services + 5 Technical Inspections (under `/services/:category/:slug`)
+- **6 blog posts** (the longest, highest-authority NFPA / ASHRAE / case study pieces). All other 150 posts archived → 410 Gone.
+
+### Removed
+- **All 7 location pages** deleted: `client/src/pages/locations/` directory removed entirely (Dubai, AbuDhabi, Sharjah, Ajman, RasAlKhaimah, Fujairah, UmmAlQuwain)
+- **All `/locations/*` routes** removed from `App.tsx`
+- **All `/locations/*` SEO entries** removed from `client/src/components/SEO.tsx` (~13 entries) and the location-specific schema injection block
+- **Sub-route canonical fallback** (`locationSubRouteMatch` regex) removed from SEO.tsx — no longer needed
+- **Footer**: removed "Service Locations" column (replaced with "Services" links to /services, /broker-referrals, /careers) and 4 dead `/locations/*/snagging-company` tag links
+- **Home.tsx**: location coverage cards no longer link out — now display-only with single `/contact` CTA below
+- **Blog.tsx & BlogDetail.tsx**: removed `/locations/dubai/...` / `/locations/abu-dhabi/...` cross-links; replaced "Book in Dubai/Abu Dhabi" CTAs with `/contact` + `/services`
+- **server/sitemap.ts**: removed all 7 emirate URLs and ~24 commented-out location-service combo URLs
+- **server/routes.ts**: removed `locationSEOData` map (~24 entries) and the `/locations/:emirate/:service` SSR handler
+- **DB**: 150 published blog posts set to `status='archived'`; only 6 remain published
+
+### Added
+- **`/locations` and `/locations/*` return HTTP 410 Gone** (registered first in `registerRoutes`, before Vite's SPA catch-all) with `noindex, nofollow` so Google deindexes the entire location subtree permanently
+- `/broker-referrals` and `/careers` added to `sitemap.xml`
+
+### Database
+- `blog_posts`: 6 published, 210 archived (was 156 published, 60 archived)
+- Kept slugs: `nfpa-72-fire-alarm-systems-property-snagging-uae`, `nfpa-25-fire-protection-systems-property-snagging-uae`, `nfpa-70-national-electrical-code-property-snagging-uae`, `nfpa-101-life-safety-code-property-snagging-uae`, `ashrae-standard-180-building-commissioning-property-snagging-uae`, `case-study-palm-jumeirah-penthouse-inspection-mep-defects`
+
 ## Recent Changes (May 2026 — Sitemap Quality Cleanup)
 
 Comprehensive review of all 247 sitemap URLs identified Google's "scaled content abuse" pattern as the likely cause of the ranking drop.

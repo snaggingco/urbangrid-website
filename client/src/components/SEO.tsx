@@ -42,93 +42,7 @@ const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
     keywords: 'property inspection blog UAE, snagging tips Dubai, property market insights, inspection advice',
     ogImage: 'https://urbangrid.ae/og-image.jpg'
   },
-  
-  // Snagging Company Pages
-  '/locations/dubai/snagging-company': {
-    title: 'Best Snagging Company Dubai | 15,000+ Properties Inspected | UrbanGrid',
-    description: "Dubai's #1 rated snagging company with 15,000+ properties inspected. RERA certified, same-day reports, 98% satisfaction. Villa & apartment snagging from AED 1,200. Call +971585686852.",
-    keywords: 'snagging company dubai, best snagging company dubai, property snagging dubai, snagging services dubai, villa snagging dubai, apartment snagging dubai, RERA certified snagging',
-    ogImage: 'https://urbangrid.ae/og-image.jpg'
-  },
-  '/locations/abu-dhabi/snagging-company': {
-    title: 'Snagging Company Abu Dhabi - Premier Property Snagging Services',
-    description: "Abu Dhabi snagging company offering luxury villa & apartment snagging on Saadiyat Island, Yas Island, Al Reem Island. Expert services. Call +971585686852.",
-    keywords: 'snagging company abu dhabi, property snagging abu dhabi, abu dhabi snagging services, villa snagging abu dhabi, apartment snagging abu dhabi, luxury property snagging',
-    ogImage: 'https://urbangrid.ae/og-image.jpg'
-  },
-  '/locations/sharjah/snagging-company': {
-    title: 'Snagging Company Sharjah - Expert Property Snagging Services',
-    description: "Sharjah snagging company offering property snagging in Al Zahia, Aljada, Kalba. Family community & cultural district snagging services. Call +971585686852.",
-    keywords: 'snagging company sharjah, property snagging sharjah, sharjah snagging services, villa snagging sharjah, apartment snagging sharjah, family community snagging',
-    ogImage: 'https://urbangrid.ae/og-image.jpg'
-  },
-  
-  // High-Priority SEO Pages - Dubai
-  '/locations/dubai/property-snagging': {
-    title: 'Property Snagging Dubai - Professional Snagging Services & Inspection',
-    description: 'Dubai\'s leading property snagging company offering comprehensive services across Emirates. Expert inspection reports and developer liaison. Call +971585686852.',
-    keywords: 'property snagging dubai, dubai snagging services, property inspection dubai, snagging company dubai, new build snagging dubai',
-    ogImage: 'https://urbangrid.ae/og-image.jpg'
-  },
-  '/locations/dubai/snagging-cost': {
-    title: 'Snagging Dubai Cost - Transparent Pricing for Property Snagging Services',
-    description: 'Transparent snagging pricing in Dubai. Competitive rates from AED 700 (under 700 sq.ft) or AED 1/sq.ft. No hidden fees. Same-day reports available.',
-    keywords: 'snagging dubai cost, property snagging prices dubai, snagging service cost, dubai property inspection pricing',
-    ogImage: 'https://urbangrid.ae/og-image.jpg'
-  },
-  '/locations/dubai/property-snagging-services': {
-    title: 'Property Snagging Services Dubai - Comprehensive Snagging Solutions',
-    description: 'Professional snagging services in Dubai for all property types. Pre-handover snagging, commercial inspections, complete inspection solutions.',
-    keywords: 'property snagging services dubai, dubai snagging solutions, comprehensive property inspection dubai, professional snagging dubai',
-    ogImage: 'https://urbangrid.ae/og-image.jpg'
-  },
-  '/locations/dubai/pre-purchase-inspection': {
-    title: 'Pre-Purchase Property Inspection Dubai - Expert Assessment Services',
-    description: 'Expert pre-purchase property inspections in Dubai. Professional assessment before buying to protect your investment. Comprehensive reports included.',
-    keywords: 'pre-purchase inspection dubai, property inspection before buying dubai, dubai property assessment, investment protection dubai',
-    ogImage: 'https://urbangrid.ae/og-image.jpg'
-  },
-  
-  // Abu Dhabi High-Priority SEO Pages
-  '/locations/abu-dhabi/property-inspection': {
-    title: 'Property Inspection Abu Dhabi - Expert Property Assessment Services',
-    description: 'Professional property inspection in Abu Dhabi across premium developments: Al Reem Island, Saadiyat Island. Expert assessment ensuring highest standards.',
-    keywords: 'property inspection abu dhabi, abu dhabi property assessment, property snagging abu dhabi, abu dhabi inspection services',
-    ogImage: 'https://urbangrid.ae/og-image.jpg'
-  },
-  '/locations/abu-dhabi/property-inspection-companies': {
-    title: 'Property Inspection Companies Abu Dhabi - Top Rated Services',
-    description: 'Top property inspection companies in Abu Dhabi. UrbanGrid: luxury property expertise on Saadiyat, Yas, Al Reem Islands. RERA licensed.',
-    keywords: 'property inspection companies abu dhabi, property inspection abu dhabi, abu dhabi property inspection companies, best property inspection company abu dhabi',
-    ogImage: 'https://urbangrid.ae/og-image.jpg'
-  },
-  '/locations/abu-dhabi/snagging-cost': {
-    title: 'Snagging Cost Abu Dhabi - Transparent Property Snagging Prices',
-    description: 'Transparent snagging pricing in Abu Dhabi. Competitive rates from AED 700 (under 700 sq.ft) or AED 1/sq.ft. Same-day reports across Saadiyat, Yas, Al Reem.',
-    keywords: 'snagging cost abu dhabi, snagging abu dhabi cost, property snagging prices abu dhabi, abu dhabi snagging rates, snagging company abu dhabi prices',
-    ogImage: 'https://urbangrid.ae/og-image.jpg'
-  },
-  '/locations/sharjah/snagging-cost': {
-    title: 'Snagging Cost Sharjah - Affordable Property Snagging Prices',
-    description: 'Affordable snagging pricing in Sharjah. Competitive rates from AED 700 (under 700 sq.ft) or AED 1/sq.ft. Al Zahia, Aljada, University City coverage.',
-    keywords: 'snagging cost sharjah, snagging sharjah cost, property snagging prices sharjah, sharjah snagging rates, snagging company sharjah prices',
-    ogImage: 'https://urbangrid.ae/og-image.jpg'
-  },
-  
-  // Dubai Enhanced SEO Pages
-  '/locations/dubai/property-inspection': {
-    title: 'Property Inspection Dubai - Professional Property Assessment Services',
-    description: 'Expert property inspection in Dubai: pre-purchase inspections, new build assessments, rental property checks across all Dubai areas. Professional service.',
-    keywords: 'property inspection dubai, property inspection services dubai, dubai property inspection, property inspector dubai, pre purchase inspection dubai',
-    ogImage: 'https://urbangrid.ae/og-image.jpg'
-  },
-  '/locations/dubai/property-inspection-companies': {
-    title: 'Property Inspection Companies in Dubai - Top Rated Services',
-    description: 'Top property inspection companies in Dubai. UrbanGrid: 15,000+ inspections, RERA certified, same-day reports across Dubai.',
-    keywords: 'property inspection companies in dubai, property inspection dubai, dubai property inspection companies, best property inspection company dubai',
-    ogImage: 'https://urbangrid.ae/og-image.jpg'
-  },
-  
+
   // Property Snagging Services
   '/services/property-snagging/new-build-snagging': {
     title: 'New Build Handover Snagging Dubai Abu Dhabi UAE - Professional Inspection',
@@ -237,13 +151,7 @@ export default function SEO({
     const noindexPaths = ['/login', '/privacy-policy', '/terms-of-service', '/admin'];
     const shouldNoindex = noindex || noindexPaths.some(p => location.startsWith(p));
 
-    // For sub-location routes that share content with the parent location page,
-    // set canonical to the parent to avoid duplicate content penalty
-    const locationSubRouteMatch = location.match(/^(\/locations\/[^/]+)\/.+$/);
-    const effectiveCanonical = customCanonical
-      || (locationSubRouteMatch ? `https://urbangrid.ae${locationSubRouteMatch[1]}` : `https://urbangrid.ae${location}`);
-
-    const canonical = effectiveCanonical;
+    const canonical = customCanonical || `https://urbangrid.ae${location}`;
 
     // Update document title
     document.title = title;
@@ -444,40 +352,6 @@ export default function SEO({
       document.head.appendChild(faqScript);
     }
 
-    // Add location-specific schema for location pages
-    if (location.includes('/locations/') && location.includes('snagging')) {
-      const locationSchema = {
-        "@context": "https://schema.org",
-        "@type": "Service",
-        "name": title,
-        "description": description,
-        "provider": {
-          "@type": "LocalBusiness",
-          "name": "UrbanGrid Property Snagging Inspection",
-          "telephone": "+971585686852",
-          "url": "https://urbangrid.ae"
-        },
-        "areaServed": {
-          "@type": "City",
-          "name": location.includes('dubai') ? "Dubai" : location.includes('abu-dhabi') ? "Abu Dhabi" : "UAE",
-          "addressCountry": "AE"
-        },
-        "serviceType": "Property Snagging Inspection",
-        "url": canonical
-      };
-      
-      const existingLocationSchema = document.querySelector('#location-schema');
-      if (existingLocationSchema) {
-        existingLocationSchema.remove();
-      }
-      
-      const locationScript = document.createElement('script');
-      locationScript.id = 'location-schema';
-      locationScript.type = 'application/ld+json';
-      locationScript.textContent = JSON.stringify(locationSchema);
-      document.head.appendChild(locationScript);
-    }
-    
   }, [location, customTitle, customDescription, customKeywords, customOgImage, customCanonical, noindex]);
   
   return null; // This component doesn't render anything

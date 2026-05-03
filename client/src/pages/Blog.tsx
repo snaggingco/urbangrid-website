@@ -89,7 +89,7 @@ export default function Blog() {
               Blogs
             </h1>
             <p className="text-lg text-zinc-400 leading-relaxed max-w-2xl">
-              Stay informed with the latest <Link href="/locations/dubai/property-inspection" className="text-white hover:text-white transition-colors underline underline-offset-4">snagging and inspection</Link> insights, UAE market trends, and expert advice from our professional <Link href="/locations/abu-dhabi/snagging-company" className="text-white hover:text-white transition-colors underline underline-offset-4">snagging </Link> team.
+              Stay informed with the latest property snagging and inspection insights, UAE market trends, and expert advice from our professional team.
             </p>
           </div>
         </div>
