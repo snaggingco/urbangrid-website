@@ -754,13 +754,83 @@ Crawl-delay: 1`;
     res.send(robotsTxt);
   });
 
+  // Shared helper: inject meta tags + H1 into index.html and serve it
+  const serveSPAWithMeta = (res: any, next: any, opts: {
+    title: string; description: string; canonical: string; h1: string;
+    image?: string; noindex?: boolean;
+  }) => {
+    try {
+      const isProd = process.env.NODE_ENV === 'production';
+      const htmlPath = isProd
+        ? path.resolve(import.meta.dirname, 'public', 'index.html')
+        : path.resolve(import.meta.dirname, '..', 'client', 'index.html');
+      let html = fs.readFileSync(htmlPath, 'utf-8');
+      const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const t = esc(opts.title);
+      const d = esc(opts.description);
+      const img = opts.image ? esc(opts.image) : 'https://urbangrid.ae/og-image.jpg';
+      const robots = opts.noindex ? 'noindex, nofollow' : 'index, follow';
+      const headTags = `
+  <meta charset="UTF-8" />
+  <title>${t}</title>
+  <meta name="description" content="${d}">
+  <meta name="robots" content="${robots}">
+  <link rel="canonical" href="${opts.canonical}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="${t}">
+  <meta property="og:description" content="${d}">
+  <meta property="og:url" content="${opts.canonical}">
+  <meta property="og:image" content="${img}">
+  <meta property="og:site_name" content="UrbanGrid Property Inspection">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${t}">
+  <meta name="twitter:description" content="${d}">`;
+      html = html.replace(/<meta charset="[^"]*"\s*\/?>/i, '');
+      html = html.replace(/<title>[^<]*<\/title>\s*/i, '');
+      html = html.replace('<head>', `<head>${headTags}`);
+      const h1Tag = `<h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">${esc(opts.h1)}</h1>`;
+      html = html.replace('<body>', `<body>\n  ${h1Tag}`);
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.setHeader('Cache-Control', 'public, max-age=3600');
+      return res.send(html);
+    } catch {
+      return next();
+    }
+  };
+
+  // Server-side rendered core pages for SEO (unique title, description, H1 per page)
+  const corePages: Array<{ path: string; title: string; description: string; h1: string; noindex?: boolean }> = [
+    { path: '/',                 title: 'UrbanGrid – Property Snagging & Inspection in Dubai & UAE',              h1: 'Property Snagging & Inspection Services in Dubai & UAE',           description: 'UrbanGrid: NFPA, ASHRAE & ASTM certified property snagging and inspection across Dubai, Abu Dhabi, Sharjah and the UAE. Same-day reports.' },
+    { path: '/about',            title: 'About UrbanGrid | Certified Property Inspection Experts UAE',            h1: 'About UrbanGrid Property Inspection',                               description: 'Learn about UrbanGrid, the UAE\'s trusted NFPA, ASHRAE and ASTM certified property inspection and snagging company serving Dubai, Abu Dhabi and Sharjah.' },
+    { path: '/services',         title: 'Inspection Services | Snagging & RERA | UrbanGrid UAE',              h1: 'Property Inspection & Snagging Services in the UAE',                description: 'Explore UrbanGrid\'s full range of property inspection services: new build snagging, RERA compliance, technical due diligence, and more across the UAE.' },
+    { path: '/blog',             title: 'Property Inspection Blog | NFPA & ASHRAE | UrbanGrid UAE',            h1: 'Property Inspection & Compliance Blog',                             description: 'Expert articles on property inspection, snagging, NFPA 72, NFPA 25, ASHRAE 180 standards, and building compliance in the UAE.' },
+    { path: '/contact',          title: 'Contact UrbanGrid | Book a Property Inspection in UAE',                  h1: 'Contact UrbanGrid – Book an Inspection',                            description: 'Get in touch with UrbanGrid to schedule a property inspection or snagging service in Dubai, Abu Dhabi, Sharjah or anywhere across the UAE.' },
+    { path: '/careers',          title: 'Careers at UrbanGrid | Property Inspection Jobs in UAE',                 h1: 'Careers at UrbanGrid Property Inspection',                          description: 'Join the UrbanGrid team. We\'re hiring certified property inspectors and support staff across Dubai and the UAE. View open positions.' },
+    { path: '/broker-referrals', title: 'Broker Referral Program | Partner with UrbanGrid UAE',                  h1: 'Real Estate Broker Referral Program',                               description: 'Partner with UrbanGrid through our broker referral program. Earn rewards by connecting your clients with the UAE\'s leading property inspection service.' },
+    { path: '/privacy-policy',   title: 'Privacy Policy | UrbanGrid Property Inspection UAE',                    h1: 'Privacy Policy',                                                    description: 'Read UrbanGrid\'s privacy policy to understand how we collect, use and protect your personal information in line with UAE data protection laws.', noindex: false },
+    { path: '/terms-of-service', title: 'Terms of Service | UrbanGrid Property Inspection UAE',                  h1: 'Terms of Service',                                                  description: 'Review the terms and conditions governing the use of UrbanGrid\'s property inspection services and website in the United Arab Emirates.', noindex: false },
+  ];
+
+  for (const page of corePages) {
+    app.get(page.path, (req, res, next) => {
+      const canonical = `https://urbangrid.ae${page.path === '/' ? '' : page.path}` || 'https://urbangrid.ae';
+      return serveSPAWithMeta(res, next, {
+        title: page.title,
+        description: page.description,
+        canonical: page.path === '/' ? 'https://urbangrid.ae/' : `https://urbangrid.ae${page.path}`,
+        h1: page.h1,
+        noindex: page.noindex,
+      });
+    });
+  }
+
   // Server-side rendered service detail pages for SEO
   // All data is static — no DB needed. Serves complete HTML with meta tags instantly.
   const serviceSSRData: Record<string, { title: string; description: string; image: string; category: string }> = {
     'new-build-snagging':              { title: 'New Build Handover Snagging & Inspection', description: 'Comprehensive pre-handover inspection of newly constructed properties to identify defects, incomplete work, and quality issues before you take possession.', image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
-    'post-renovation-inspection':      { title: 'Post Renovation / Fit-out Snagging Inspection', description: 'Quality assessment after renovation or fit-out work to ensure all improvements meet specifications and industry standards.', image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
-    'dlp-snagging':                    { title: 'Property Defect Liability Period (DLP) Snagging', description: 'Strategic inspection during the defect liability period to identify and document all issues before warranty expires.', image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
-    'move-in-move-out':                { title: 'Property Move-in / Move-out Snagging', description: 'Detailed condition reports for rental properties to protect both tenants and landlords during property transitions.', image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
+    'post-renovation-inspection':      { title: 'Post-Renovation Snagging Inspection', description: 'Quality assessment after renovation or fit-out work to ensure all improvements meet specifications, UAE building standards, and industry best practices.', image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
+    'dlp-snagging':                    { title: 'Defect Liability Period (DLP) Snagging', description: 'Strategic inspection during the defect liability period to identify, document, and resolve all defects and quality issues before your warranty expires.', image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
+    'move-in-move-out':                { title: 'Property Move-in / Move-out Snagging', description: 'Detailed condition reports for UAE rental properties to protect both tenants and landlords, documenting the property condition during move-in and move-out transitions.', image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
     'secondary-market':                { title: 'Secondary Market Property Snagging', description: 'Thorough inspection of pre-owned properties to assess condition, identify defects, and support informed purchasing decisions in the UAE secondary market.', image: 'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
     'developer-projects':              { title: 'Developer and Contractor Project Snagging', description: 'Quality control inspections for developers and contractors to ensure projects meet industry standards and client expectations.', image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
     'reserve-fund-study':              { title: 'Reserve Fund Study / Sinking Fund', description: 'Comprehensive analysis of building reserve fund requirements and long-term capital expenditure planning for strata properties in compliance with RERA regulations.', image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&h=600', category: 'rera-services' },
@@ -771,7 +841,7 @@ Crawl-delay: 1`;
     'technical-due-diligence':         { title: 'Technical Due Diligence', description: 'Comprehensive technical analysis for property acquisition, covering structural, mechanical, and compliance aspects for informed investment decisions in UAE market.', image: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
     'dilapidation-survey':             { title: 'Dilapidation Survey', description: 'Pre and post-construction condition assessments of adjacent properties to document potential impact from nearby construction activities and protect property interests.', image: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
     'thermographic-survey':            { title: 'Thermographic Survey', description: 'Advanced thermal imaging inspections following ASHRAE standards to detect energy losses, moisture intrusion, and electrical compliance issues invisible to conventional inspection methods.', image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
-    'noise-survey':                    { title: 'Noise Survey', description: 'Professional acoustic assessments to measure and analyze noise levels for compliance with local regulations and habitability standards in UAE residential and commercial properties.', image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
+    'noise-survey':                    { title: 'Noise Level Survey & Acoustic Assessment', description: 'Professional acoustic assessments to measure and analyze noise levels for compliance with local regulations and habitability standards in UAE residential and commercial properties.', image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
     'structural-survey':               { title: 'Structural Survey', description: 'Detailed structural engineering assessment following ASTM E2018 standards, examining building integrity, load-bearing elements, and structural compliance with UAE building regulations.', image: 'https://images.unsplash.com/photo-1581094613018-d1db5d0b5b30?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
   };
 
@@ -779,45 +849,14 @@ Crawl-delay: 1`;
     const { category, slug } = req.params;
     const svc = serviceSSRData[slug];
     if (!svc || svc.category !== category) return next();
-
-    const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    const title = `${svc.title} | UrbanGrid UAE`;
-    const desc = esc(svc.description.length > 158 ? svc.description.slice(0, 155) + '...' : svc.description);
-    const canonical = `https://urbangrid.ae/services/${category}/${slug}`;
-
-    // Read the actual index.html so the React app boots correctly, then inject service meta tags
-    try {
-      const isProd = process.env.NODE_ENV === 'production';
-      const htmlPath = isProd
-        ? path.resolve(import.meta.dirname, 'public', 'index.html')
-        : path.resolve(import.meta.dirname, '..', 'client', 'index.html');
-      let html = fs.readFileSync(htmlPath, 'utf-8');
-
-      const injected = `
-  <title>${esc(title)}</title>
-  <meta name="description" content="${desc}">
-  <link rel="canonical" href="${canonical}">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="${esc(title)}">
-  <meta property="og:description" content="${desc}">
-  <meta property="og:url" content="${canonical}">
-  <meta property="og:image" content="${esc(svc.image)}">
-  <meta property="og:site_name" content="UrbanGrid Property Inspection">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="${esc(title)}">
-  <meta name="twitter:description" content="${desc}">
-  <meta name="twitter:image" content="${esc(svc.image)}">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"Service","name":"${esc(svc.title)}","description":"${desc}","provider":{"@type":"LocalBusiness","name":"UrbanGrid Property Inspection","url":"https://urbangrid.ae"},"areaServed":"AE","url":"${canonical}"}</script>`;
-
-      // Replace the default title tag and inject our meta tags right after <head>
-      html = html.replace(/<title>[^<]*<\/title>/, '');
-      html = html.replace('<head>', `<head>${injected}`);
-
-      res.setHeader('Content-Type', 'text/html; charset=utf-8');
-      return res.send(html);
-    } catch {
-      return next();
-    }
+    const rawDesc = svc.description.length > 158 ? svc.description.slice(0, 155) + '...' : svc.description;
+    return serveSPAWithMeta(res, next, {
+      title: `${svc.title} | UrbanGrid UAE`,
+      description: rawDesc,
+      canonical: `https://urbangrid.ae/services/${category}/${slug}`,
+      h1: svc.title,
+      image: svc.image,
+    });
   });
 
   // Server-side rendered blog pages for SEO
