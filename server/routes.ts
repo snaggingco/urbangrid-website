@@ -752,6 +752,69 @@ Crawl-delay: 1`;
     res.send(robotsTxt);
   });
 
+  // Server-side rendered service detail pages for SEO
+  // All data is static — no DB needed. Serves complete HTML with meta tags instantly.
+  const serviceSSRData: Record<string, { title: string; description: string; image: string; category: string }> = {
+    'new-build-snagging':              { title: 'New Build Handover Snagging & Inspection', description: 'Comprehensive pre-handover inspection of newly constructed properties to identify defects, incomplete work, and quality issues before you take possession.', image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
+    'post-renovation-inspection':      { title: 'Post Renovation / Fit-out Snagging Inspection', description: 'Quality assessment after renovation or fit-out work to ensure all improvements meet specifications and industry standards.', image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
+    'dlp-snagging':                    { title: 'Property Defect Liability Period (DLP) Snagging', description: 'Strategic inspection during the defect liability period to identify and document all issues before warranty expires.', image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
+    'move-in-move-out':                { title: 'Property Move-in / Move-out Snagging', description: 'Detailed condition reports for rental properties to protect both tenants and landlords during property transitions.', image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
+    'secondary-market':                { title: 'Secondary Market Property Snagging', description: 'Thorough inspection of pre-owned properties to assess condition, identify defects, and support informed purchasing decisions in the UAE secondary market.', image: 'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
+    'developer-projects':              { title: 'Developer and Contractor Project Snagging', description: 'Quality control inspections for developers and contractors to ensure projects meet industry standards and client expectations.', image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
+    'reserve-fund-study':              { title: 'Reserve Fund Study / Sinking Fund', description: 'Comprehensive analysis of building reserve fund requirements and long-term capital expenditure planning for strata properties in compliance with RERA regulations.', image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&h=600', category: 'rera-services' },
+    'service-charge-allocation':       { title: 'Service Charge Cost Allocation', description: 'Detailed assessment and allocation of service charges across common property areas ensuring fair distribution and full compliance with RERA guidelines.', image: 'https://images.unsplash.com/photo-1607863680198-23d4b2565df0?auto=format&fit=crop&w=1200&h=600', category: 'rera-services' },
+    'reinstatement-cost-assessment':   { title: 'Reinstatement Cost Assessment', description: 'Professional valuation of property reinstatement costs for insurance purposes and regulatory compliance requirements under UAE property law.', image: 'https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?auto=format&fit=crop&w=1200&h=600', category: 'rera-services' },
+    'building-completion-audit':       { title: 'Building Completion Audit', description: 'Comprehensive audit to verify building completion status against approved plans and regulatory requirements for RERA compliance and handover certification.', image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&h=600', category: 'rera-services' },
+    'building-condition-survey':       { title: 'Building Condition Survey', description: 'Detailed condition assessment of building components and systems for regulatory reporting, maintenance planning, and RERA compliance documentation.', image: 'https://images.unsplash.com/photo-1523287562758-66c7fc58967f?auto=format&fit=crop&w=1200&h=600', category: 'rera-services' },
+    'technical-due-diligence':         { title: 'Technical Due Diligence', description: 'Comprehensive technical analysis for property acquisition, covering structural, mechanical, and compliance aspects for informed investment decisions in UAE market.', image: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
+    'dilapidation-survey':             { title: 'Dilapidation Survey', description: 'Pre and post-construction condition assessments of adjacent properties to document potential impact from nearby construction activities and protect property interests.', image: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
+    'thermographic-survey':            { title: 'Thermographic Survey', description: 'Advanced thermal imaging inspections following ASHRAE standards to detect energy losses, moisture intrusion, and electrical compliance issues invisible to conventional inspection methods.', image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
+    'noise-survey':                    { title: 'Noise Survey', description: 'Professional acoustic assessments to measure and analyze noise levels for compliance with local regulations and habitability standards in UAE residential and commercial properties.', image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
+    'structural-survey':               { title: 'Structural Survey', description: 'Detailed structural engineering assessment following ASTM E2018 standards, examining building integrity, load-bearing elements, and structural compliance with UAE building regulations.', image: 'https://images.unsplash.com/photo-1581094613018-d1db5d0b5b30?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
+  };
+
+  app.get('/services/:category/:slug', (req, res, next) => {
+    const { category, slug } = req.params;
+    const svc = serviceSSRData[slug];
+    if (!svc || svc.category !== category) return next();
+
+    const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    const title = `${svc.title} | UrbanGrid UAE`;
+    const desc = esc(svc.description.length > 158 ? svc.description.slice(0, 155) + '...' : svc.description);
+    const canonical = `https://urbangrid.ae/services/${category}/${slug}`;
+
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    return res.send(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${esc(title)}</title>
+  <meta name="description" content="${desc}">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="${canonical}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="${esc(title)}">
+  <meta property="og:description" content="${desc}">
+  <meta property="og:url" content="${canonical}">
+  <meta property="og:image" content="${esc(svc.image)}">
+  <meta property="og:site_name" content="UrbanGrid Property Inspection">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${esc(title)}">
+  <meta name="twitter:description" content="${desc}">
+  <meta name="twitter:image" content="${esc(svc.image)}">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Service","name":"${esc(svc.title)}","description":"${desc}","provider":{"@type":"LocalBusiness","name":"UrbanGrid Property Inspection","url":"https://urbangrid.ae"},"areaServed":"AE","url":"${canonical}"}
+  </script>
+</head>
+<body>
+  <p>Loading UrbanGrid…</p>
+  <script>window.__SSR_SERVICE__=${JSON.stringify({ slug, category, title: svc.title, description: svc.description })};</script>
+</body>
+</html>`);
+  });
+
   // Server-side rendered blog pages for SEO
   app.get('/blog/:slug', async (req, res, next) => {
     try {

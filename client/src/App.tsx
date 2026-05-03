@@ -13,10 +13,12 @@ import FloatingButtons from "@/components/FloatingButtons";
 import SEO from "@/components/SEO";
 import Home from "@/pages/Home";
 
+// Eagerly loaded — pure static content, no API calls, lazy-loading only adds delay
+import ServiceDetail from "@/pages/ServiceDetail";
+
 // Lazy-loaded pages
 const About = lazy(() => import("@/pages/About"));
 const Services = lazy(() => import("@/pages/Services"));
-const ServiceDetail = lazy(() => import("@/pages/ServiceDetail"));
 const Blog = lazy(() => import("@/pages/Blog"));
 const BlogDetail = lazy(() => import("@/pages/BlogDetail"));
 const Contact = lazy(() => import("@/pages/Contact"));
