@@ -16,12 +16,12 @@ import About from "@/pages/About";
 import Services from "@/pages/Services";
 import Blog from "@/pages/Blog";
 import Contact from "@/pages/Contact";
+import Careers from "@/pages/Careers";
+import BrokerReferrals from "@/pages/BrokerReferrals";
 import ServiceDetail from "@/pages/ServiceDetail";
 
 // Lazy-loaded pages (rarely visited or secondary)
 const BlogDetail = lazy(() => import("@/pages/BlogDetail"));
-const Careers = lazy(() => import("@/pages/Careers"));
-const BrokerReferrals = lazy(() => import("@/pages/BrokerReferrals"));
 const Login = lazy(() => import("@/pages/Login"));
 const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("@/pages/TermsOfService"));
