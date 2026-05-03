@@ -89,11 +89,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/locations', sendLocationGone);
   app.get('/locations/*', sendLocationGone);
 
-  // ONE-TIME MIGRATION: archive all blog posts except the 6 canonical ones
+  // ONE-TIME MIGRATION: hard-delete all blog posts except the 6 canonical ones.
   // Remove this endpoint after running against production.
-  app.post('/api/admin/migrate-archive-blogs', async (req, res) => {
+  app.post('/api/admin/migrate-delete-blogs', async (req, res) => {
     const secret = req.query.secret as string;
-    if (secret !== 'ug-archive-2026-seo') {
+    if (secret !== 'ug-delete-2026-seo') {
       return res.status(403).json({ error: 'Forbidden' });
     }
     const keepSlugs = [
@@ -105,13 +105,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       'case-study-palm-jumeirah-penthouse-inspection-mep-defects',
     ];
     try {
-      const updated = await db
-        .update(blogPosts)
-        .set({ status: 'archived' })
+      const deleted = await db
+        .delete(blogPosts)
         .where(notInArray(blogPosts.slug, keepSlugs))
         .returning({ id: blogPosts.id });
-      const kept = await db.select({ slug: blogPosts.slug }).from(blogPosts);
-      return res.json({ archived: updated.length, totalRows: kept.length });
+      const remaining = await db.select({ slug: blogPosts.slug }).from(blogPosts);
+      return res.json({ deleted: deleted.length, remaining: remaining.length });
     } catch (err: any) {
       return res.status(500).json({ error: err.message });
     }
@@ -203,16 +202,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const post = await storage.getBlogPostBySlug(slug);
 
       if (!post) {
-        return res.status(404).json({ message: "Blog post not found" });
-      }
-
-      // Permanently removed posts: tell crawlers they're gone for good
-      if (post.status === 'archived') {
+        // 410 (not 404): these slugs previously existed, tell Google they're gone for good
         return res.status(410).json({ message: "Blog post permanently removed" });
       }
 
       if (post.status !== 'published') {
-        return res.status(404).json({ message: "Blog post not found" });
+        return res.status(410).json({ message: "Blog post permanently removed" });
       }
 
       res.json(post);
@@ -763,12 +758,8 @@ Crawl-delay: 1`;
       const { slug } = req.params;
       const post = await storage.getBlogPostBySlug(slug);
 
-      if (!post) {
-        return next(); // Let Vite/SPA handle 404
-      }
-
-      // Permanently removed posts: 410 Gone tells Google to deindex
-      if (post.status === 'archived') {
+      // Any unknown or non-published slug → 410 Gone (these URLs previously existed)
+      const send410 = () => {
         res
           .status(410)
           .setHeader('Content-Type', 'text/html')
@@ -786,10 +777,10 @@ Crawl-delay: 1`;
     <p>The page you requested is no longer available. <a href="/blog">Browse our current articles</a> or visit our <a href="/">home page</a>.</p>
 </body>
 </html>`);
-      }
+      };
 
-      if (post.status !== 'published') {
-        return next();
+      if (!post || post.status !== 'published') {
+        return send410();
       }
 
       // Helpers: keep title <= 60 chars before suffix; description <= 160 chars
