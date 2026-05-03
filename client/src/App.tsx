@@ -12,16 +12,14 @@ import Footer from "@/components/Footer";
 import FloatingButtons from "@/components/FloatingButtons";
 import SEO from "@/components/SEO";
 import Home from "@/pages/Home";
-
-// Eagerly loaded — pure static content, no API calls, lazy-loading only adds delay
+import About from "@/pages/About";
+import Services from "@/pages/Services";
+import Blog from "@/pages/Blog";
+import Contact from "@/pages/Contact";
 import ServiceDetail from "@/pages/ServiceDetail";
 
-// Lazy-loaded pages
-const About = lazy(() => import("@/pages/About"));
-const Services = lazy(() => import("@/pages/Services"));
-const Blog = lazy(() => import("@/pages/Blog"));
+// Lazy-loaded pages (rarely visited or secondary)
 const BlogDetail = lazy(() => import("@/pages/BlogDetail"));
-const Contact = lazy(() => import("@/pages/Contact"));
 const Careers = lazy(() => import("@/pages/Careers"));
 const BrokerReferrals = lazy(() => import("@/pages/BrokerReferrals"));
 const Login = lazy(() => import("@/pages/Login"));
