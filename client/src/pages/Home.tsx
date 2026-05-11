@@ -549,7 +549,7 @@ export default function Home() {
                 <p className="text-zinc-500 text-xs leading-relaxed mb-6">{std.body}</p>
                 <a href={std.href} target="_blank" rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all">
-                  Learn More <ArrowRight className="w-3 h-3" />
+                  Visit {std.label}.org <ArrowRight className="w-3 h-3" />
                 </a>
               </div>
             ))}

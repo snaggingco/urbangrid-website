@@ -626,7 +626,6 @@ ${coverLetter}
 
   // Robots.txt
   app.get('/robots.txt', (_req, res) => {
-    const sitemapUrls = getSitemapUrls();
     const robotsTxt = `User-agent: *\nAllow: /\nSitemap: https://urbangrid.ae/sitemap.xml\n`;
     res.setHeader('Content-Type', 'text/plain');
     res.send(robotsTxt);
