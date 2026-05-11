@@ -166,8 +166,8 @@ export default function Home() {
           </p>
 
           <h1 className="text-3xl sm:text-4xl lg:text-7xl font-bold text-white leading-[1.02] tracking-tight mb-5 max-w-3xl">
-            Your Home Inspection<br />
-            <span className="text-brand-white">Largest Purchase of Your Life.</span>
+            UAE's Leading Home Inspection<br />
+            <span className="text-brand-white">&amp; Snagging Company.</span>
           </h1>
 
           <p className="text-sm sm:text-lg text-zinc-300 mb-8 max-w-lg leading-relaxed font-normal">
