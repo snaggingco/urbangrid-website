@@ -159,23 +159,23 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/80 via-zinc-950/60 to-zinc-950" />
 
-        <div className={`relative z-10 max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 pt-20 pb-56 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        <div className={`relative z-10 max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 pt-14 sm:pt-18 pb-36 sm:pb-48 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
 
           <p className="text-[10px] sm:text-xs font-semibold tracking-[0.25em] text-white uppercase mb-8">
             Available Now Across UAE
           </p>
 
-          <h1 className="text-4xl sm:text-4xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight mb-6 max-w-4xl">
-            Your Home Inspection Is Likely the<br />
+          <h1 className="text-3xl sm:text-4xl lg:text-7xl font-bold text-white leading-[1.02] tracking-tight mb-5 max-w-3xl">
+            Your Home Inspection<br />
             <span className="text-brand-white">Largest Purchase of Your Life.</span>
           </h1>
 
-          <p className="text-base sm:text-lg text-zinc-400 mb-10 max-w-xl leading-relaxed font-light">
-            UrbanGrid engineers have inspected 40,000+ UAE properties for snagging and home inspection, documenting 600,000+ defects — so you know exactly what you're buying into before it's too late.
+          <p className="text-sm sm:text-lg text-zinc-300 mb-8 max-w-lg leading-relaxed font-normal">
+            40,000+ UAE properties inspected for snagging and home inspection. 600,000+ defects documented.
           </p>
 
           {/* CTA buttons */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-8">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6">
             <Link href="/contact">
               <Button
                 size="lg"
@@ -199,7 +199,7 @@ export default function Home() {
           </div>
 
           {/* Trust badges */}
-          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[11px] text-zinc-500 font-medium mb-10">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] text-zinc-400 font-medium mb-8">
             <span className="flex items-center gap-1.5"><Shield className="w-3 h-3 text-brand-green" />Reports within 24 hours</span>
             <span className="text-zinc-700">·</span>
             <span>Contractor-ready format</span>
