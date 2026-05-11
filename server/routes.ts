@@ -257,11 +257,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       const { id } = req.params;
       const post = await storage.getBlogPost(parseInt(id));
-
       if (!post) {
         return res.status(404).json({ message: "Blog post not found" });
       }
-
       res.json(post);
     } catch (error) {
       console.error("Error fetching blog post:", error);
@@ -271,14 +269,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post('/api/admin/blog', isAdminAuthenticated, async (req: any, res) => {
     try {
-
-      const validatedData = insertBlogPostSchema.parse({
-        ...req.body,
-        authorId: req.user.claims.sub,
-        slug: generateSlug(req.body.title),
+      const validatedData = insertBlogPostSchema.parse(req.body);
+      const slug = validatedData.slug || generateSlug(validatedData.title);
+      const post = await storage.createBlogPost({
+        ...validatedData,
+        slug,
       });
-
-      const post = await storage.createBlogPost(validatedData);
       res.status(201).json(post);
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -291,22 +287,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.put('/api/admin/blog/:id', isAdminAuthenticated, async (req: any, res) => {
     try {
-
       const { id } = req.params;
-      const updateData = { ...req.body };
-
-      if (req.body.title) {
-        updateData.slug = generateSlug(req.body.title);
-      }
-
-      const post = await storage.updateBlogPost(parseInt(id), updateData);
-
+      const validatedData = insertBlogPostSchema.partial().parse(req.body);
+      const post = await storage.updateBlogPost(parseInt(id), validatedData);
       if (!post) {
         return res.status(404).json({ message: "Blog post not found" });
       }
-
       res.json(post);
     } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid data", errors: error.errors });
+      }
       console.error("Error updating blog post:", error);
       res.status(500).json({ message: "Failed to update blog post" });
     }
@@ -314,14 +305,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.delete('/api/admin/blog/:id', isAdminAuthenticated, async (req: any, res) => {
     try {
-
       const { id } = req.params;
-      const success = await storage.deleteBlogPost(parseInt(id));
-
-      if (!success) {
+      const deleted = await storage.deleteBlogPost(parseInt(id));
+      if (!deleted) {
         return res.status(404).json({ message: "Blog post not found" });
       }
-
       res.json({ message: "Blog post deleted successfully" });
     } catch (error) {
       console.error("Error deleting blog post:", error);
@@ -329,30 +317,169 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Protected inspector routes (admin only)
+  app.post('/api/contact', async (req, res) => {
+    try {
+      const validatedData = insertContactSubmissionSchema.parse(req.body);
+      const submission = await storage.createContactSubmission(validatedData);
+      
+      // Send email notification to info@urbangrid.ae
+      const emailContent = `
+New Contact Form Submission
+
+Name: ${submission.name}
+Email: ${submission.email}
+Phone: ${submission.phone}
+Message: ${submission.message}
+      `;
+      await sendEmail('info@urbangrid.ae', 'New Contact Form Submission', emailContent);
+      
+      res.status(201).json({ message: 'Contact submission received', submission });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid data", errors: error.errors });
+      }
+      console.error("Error creating contact submission:", error);
+      res.status(500).json({ message: "Failed to submit contact form" });
+    }
+  });
+
+  // Consultation form endpoint
+  app.post('/api/consultation', async (req, res) => {
+    try {
+      const { name, email, phone } = req.body;
+      if (!name || !email || !phone) {
+        return res.status(400).json({ message: "Name, email, and phone are required" });
+      }
+
+      // Save to storage
+      const consultation = await storage.createContactSubmission({
+        name,
+        email,
+        phone,
+        message: 'Free consultation request',
+      });
+
+      // Send email notification
+      const emailContent = `
+New Free Consultation Request
+
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+      `;
+      await sendEmail('info@urbangrid.ae', 'New Free Consultation Request', emailContent);
+
+      res.status(201).json({ message: 'Consultation request received', consultation });
+    } catch (error) {
+      console.error("Error creating consultation request:", error);
+      res.status(500).json({ message: "Failed to submit consultation form" });
+    }
+  });
+
+  // Quick contact form endpoint
+  app.post('/api/quick-contact', async (req, res) => {
+    try {
+      const { name, email, phone } = req.body;
+      if (!name || !email || !phone) {
+        return res.status(400).json({ message: "Name, email, and phone are required" });
+      }
+
+      const quickContact = await storage.createContactSubmission({
+        name,
+        email,
+        phone,
+        message: 'Quick contact request',
+      });
+
+      // Send email notification
+      const emailContent = `
+New Quick Contact Request
+
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+      `;
+      await sendEmail('info@urbangrid.ae', 'New Quick Contact Request', emailContent);
+
+      res.status(201).json({ message: 'Quick contact request received', quickContact });
+    } catch (error) {
+      console.error("Error creating quick contact request:", error);
+      res.status(500).json({ message: "Failed to submit quick contact form" });
+    }
+  });
+
+  // Career application endpoint
+  app.post('/api/career-application', async (req, res) => {
+    try {
+      const { fullName, email, phone, position, experience, coverLetter, hasResume, resumeFileName } = req.body;
+      if (!fullName || !email || !phone || !position || !experience || !coverLetter) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+
+      const application = await storage.createContactSubmission({
+        name: fullName,
+        email,
+        phone,
+        message: `Career application for ${position}`,
+      });
+
+      // Send email notification
+      const emailContent = `
+New Career Application - ${position}
+
+Full Name: ${fullName}
+Email: ${email}
+Phone: ${phone}
+Position: ${position}
+Experience: ${experience}
+Has Resume: ${hasResume ? 'Yes' : 'No'}
+Resume File: ${resumeFileName || 'N/A'}
+
+Cover Letter:
+${coverLetter}
+      `;
+      await sendEmail('info@urbangrid.ae', `New Career Application - ${position}`, emailContent);
+
+      res.status(201).json({ message: 'Career application received', application });
+    } catch (error) {
+      console.error("Error creating career application:", error);
+      res.status(500).json({ message: "Failed to submit career application" });
+    }
+  });
+
+  // Inspector routes
+  app.get('/api/inspectors', async (_req, res) => {
+    try {
+      const inspectors = await storage.getInspectors();
+      res.json(inspectors);
+    } catch (error) {
+      console.error("Error fetching inspectors:", error);
+      res.status(500).json({ message: "Failed to fetch inspectors" });
+    }
+  });
+
   app.get('/api/admin/inspectors', isAdminAuthenticated, async (req: any, res) => {
     try {
-      const { page = '1', limit = '10', isActive } = req.query;
+      const { page = '1', limit = '10', search } = req.query;
       const pageNum = parseInt(page as string);
       const limitNum = parseInt(limit as string);
       const offset = (pageNum - 1) * limitNum;
 
       const inspectors = await storage.getInspectors({
-        isActive: isActive === 'true' ? true : isActive === 'false' ? false : undefined,
+        search: search as string,
         limit: limitNum,
         offset,
       });
 
-      // Get total count for pagination
-      const allInspectors = await storage.getInspectors({
-        isActive: isActive === 'true' ? true : isActive === 'false' ? false : undefined,
+      const total = await storage.getInspectorsCount({
+        search: search as string,
       });
 
       res.json({
         inspectors,
-        total: allInspectors.length,
+        total,
         page: pageNum,
-        pages: Math.ceil(allInspectors.length / limitNum),
+        pages: Math.ceil(total / limitNum),
       });
     } catch (error) {
       console.error("Error fetching inspectors:", error);
@@ -364,14 +491,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { id } = req.params;
       const inspector = await storage.getInspector(parseInt(id));
-
       if (!inspector) {
         return res.status(404).json({ message: "Inspector not found" });
       }
-
-      // Remove password hash from response
-      const { passwordHash, ...inspectorData } = inspector;
-      res.json(inspectorData);
+      res.json(inspector);
     } catch (error) {
       console.error("Error fetching inspector:", error);
       res.status(500).json({ message: "Failed to fetch inspector" });
@@ -380,37 +503,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   app.post('/api/admin/inspectors', isAdminAuthenticated, async (req: any, res) => {
     try {
-      // Validate password requirements
-      const passwordSchema = z.string()
-        .min(8, "Password must be at least 8 characters")
-        .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-        .regex(/[a-z]/, "Password must contain at least one lowercase letter")
-        .regex(/[0-9]/, "Password must contain at least one number")
-        .regex(/[^A-Za-z0-9]/, "Password must contain at least one special character");
-
-      const { password, confirmPassword, ...inspectorData } = req.body;
-
-      // Validate password
-      passwordSchema.parse(password);
-
-      // Check password confirmation
-      if (password !== confirmPassword) {
-        return res.status(400).json({ message: "Passwords do not match" });
-      }
-
-      // Hash password
-      const passwordHash = bcrypt.hashSync(password, 10);
-
-      const validatedData = insertInspectorSchema.parse({
-        ...inspectorData,
-        passwordHash,
-      });
-
+      const validatedData = insertInspectorSchema.parse(req.body);
       const inspector = await storage.createInspector(validatedData);
-
-      // Remove password hash from response
-      const { passwordHash: _, ...responseData } = inspector;
-      res.status(201).json(responseData);
+      res.status(201).json(inspector);
     } catch (error) {
       if (error instanceof z.ZodError) {
         return res.status(400).json({ message: "Invalid data", errors: error.errors });
@@ -423,35 +518,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.put('/api/admin/inspectors/:id', isAdminAuthenticated, async (req: any, res) => {
     try {
       const { id } = req.params;
-      const { password, confirmPassword, ...updateData } = req.body;
-
-      // If password is being updated, validate it
-      if (password) {
-        const passwordSchema = z.string()
-          .min(8, "Password must be at least 8 characters")
-          .regex(/[A-Z]/, "Password must contain at least one uppercase letter")
-          .regex(/[a-z]/, "Password must contain at least one lowercase letter")
-          .regex(/[0-9]/, "Password must contain at least one number")
-          .regex(/[^A-Za-z0-9]/, "Password must contain at least one special character");
-
-        passwordSchema.parse(password);
-
-        if (password !== confirmPassword) {
-          return res.status(400).json({ message: "Passwords do not match" });
-        }
-
-        updateData.passwordHash = bcrypt.hashSync(password, 10);
-      }
-
-      const inspector = await storage.updateInspector(parseInt(id), updateData);
-
+      const validatedData = insertInspectorSchema.partial().parse(req.body);
+      const inspector = await storage.updateInspector(parseInt(id), validatedData);
       if (!inspector) {
         return res.status(404).json({ message: "Inspector not found" });
       }
-
-      // Remove password hash from response
-      const { passwordHash: _, ...responseData } = inspector;
-      res.json(responseData);
+      res.json(inspector);
     } catch (error) {
       if (error instanceof z.ZodError) {
         return res.status(400).json({ message: "Invalid data", errors: error.errors });
@@ -464,12 +536,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.delete('/api/admin/inspectors/:id', isAdminAuthenticated, async (req: any, res) => {
     try {
       const { id } = req.params;
-      const success = await storage.deleteInspector(parseInt(id));
-
-      if (!success) {
+      const deleted = await storage.deleteInspector(parseInt(id));
+      if (!deleted) {
         return res.status(404).json({ message: "Inspector not found" });
       }
-
       res.json({ message: "Inspector deleted successfully" });
     } catch (error) {
       console.error("Error deleting inspector:", error);
@@ -477,279 +547,54 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Contact form submission
-  app.post('/api/contact', async (req, res) => {
+  // Sitemap
+  app.get('/sitemap.xml', async (_req, res) => {
     try {
-      const validatedData = insertContactSubmissionSchema.parse(req.body);
-      const submission = await storage.createContactSubmission(validatedData);
-
-      // Send email notification to info@urbangrid.ae
-      const emailContent = `
-        New contact form submission:
-
-        Name: ${submission.name}
-        Email: ${submission.email}
-        Phone: ${submission.phone || 'Not provided'}
-        Enquiry Type: ${submission.enquiryType || 'General Enquiry'}
-
-        Message:
-        ${submission.message}
-      `;
-
-      await sendEmail('info@snagging.me', 'New Contact Form Submission', emailContent);
-
-      res.status(201).json({ message: "Thank you for your message. We'll get back to you soon!" });
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        return res.status(400).json({ message: "Invalid data", errors: error.errors });
-      }
-      console.error("Error handling contact submission:", error);
-      res.status(500).json({ message: "Failed to send message. Please try again." });
-    }
-  });
-
-  // Consultation form submission
-  app.post('/api/consultation', async (req, res) => {
-    try {
-      const { name, email, phone } = req.body;
-
-      if (!name || !email || !phone) {
-        return res.status(400).json({ message: "Name, email, and phone are required" });
-      }
-
-      const submission = await storage.createContactSubmission({
-        name,
-        email,
-        phone,
-        enquiryType: 'Free Consultation',
-        message: `Free consultation request from ${name}. Contact: ${phone}`,
-      });
-
-      // Send email notification
-      const emailContent = `
-        New free consultation request:
-
-        Name: ${name}
-        Email: ${email}
-        Phone: ${phone}
-      `;
-
-      await sendEmail('info@snagging.me', 'New Free Consultation Request', emailContent);
-
-      res.status(201).json({ message: "Thank you! We'll contact you soon for your free consultation." });
-    } catch (error) {
-      console.error("Error handling consultation request:", error);
-      res.status(500).json({ message: "Failed to submit request. Please try again." });
-    }
-  });
-
-  // Quick contact form endpoint (scroll-triggered popup)
-  app.post('/api/quick-contact', async (req, res) => {
-    try {
-      const { name, email, phone } = req.body;
-
-      if (!name || !email || !phone) {
-        return res.status(400).json({ message: "Name, email, and phone are required" });
-      }
-
-      // Save to contact submissions table
-      const submission = await storage.createContactSubmission({
-        name,
-        email,
-        phone,
-        message: 'Quick contact form submission (scroll-triggered)',
-        enquiryType: 'Quick Contact Request'
-      });
-
-      // Send email notification
-      const emailContent = `
-New Quick Contact Form Submission:
-
-Name: ${name}
-Email: ${email}
-Phone: ${phone}
-Source: Scroll-triggered popup form
-      `;
-
-      await sendEmail('info@snagging.me', 'New Quick Contact Request', emailContent);
-
-      res.status(201).json({ 
-        message: "Quick contact request submitted successfully! We'll get back to you soon."
-      });
-    } catch (error: any) {
-      console.error('Error submitting quick contact request:', error);
-      res.status(500).json({ message: "Failed to submit request" });
-    }
-  });
-
-  // Career application form endpoint
-  app.post('/api/career-application', async (req, res) => {
-    try {
-      const { fullName, email, phone, position, experience, coverLetter, hasResume, resumeFileName } = req.body;
-
-      if (!fullName || !email || !phone || !position || !experience || !coverLetter) {
-        return res.status(400).json({ message: "All required fields must be filled" });
-      }
-
-      // Save to contact submissions table (reusing existing structure)
-      const submission = await storage.createContactSubmission({
-        name: fullName,
-        email,
-        phone,
-        message: `Career Application:
-        
-Position: ${position}
-Experience Level: ${experience}
-Resume Attached: ${hasResume ? `Yes (${resumeFileName})` : 'No'}
-
-Cover Letter:
-${coverLetter}`,
-        enquiryType: 'Career Application'
-      });
-
-      // Send email notification
-      const emailContent = `
-New Career Application Submission:
-
-Full Name: ${fullName}
-Email: ${email}
-Phone: ${phone}
-Position of Interest: ${position}
-Experience Level: ${experience}
-Resume Attached: ${hasResume ? `Yes (${resumeFileName})` : 'No'}
-
-Cover Letter:
-${coverLetter}
-
----
-This application was submitted through the UrbanGrid careers page.
-      `;
-
-      await sendEmail('info@snagging.me', `New Career Application - ${position}`, emailContent);
-
-      res.status(201).json({ 
-        message: "Career application submitted successfully! We'll review your application and get back to you soon."
-      });
-    } catch (error: any) {
-      console.error('Error submitting career application:', error);
-      res.status(500).json({ message: "Failed to submit application" });
-    }
-  });
-
-  // Get blog posts for internal linking (simplified data)
-  app.get('/api/admin/blog/links', isAdminAuthenticated, async (req: any, res) => {
-    try {
-      const posts = await storage.getBlogPosts({
-        status: 'published',
-        limit: 100, // Get all published posts for linking
-      });
-
-      // Return simplified data for linking
-      const linkData = posts.map(post => ({
-        id: post.id,
-        title: post.title,
-        slug: post.slug,
-        category: post.category,
-        excerpt: post.excerpt,
-      }));
-
-      res.json(linkData);
-    } catch (error) {
-      console.error("Error fetching blog links:", error);
-      res.status(500).json({ message: "Failed to fetch blog links" });
-    }
-  });
-
-  // Admin dashboard stats
-  app.get('/api/admin/stats', isAdminAuthenticated, async (req: any, res) => {
-    try {
-
-      const totalPosts = await storage.getBlogPostsCount();
-      const draftPosts = await storage.getBlogPostsCount({ status: 'draft' });
-      const publishedPosts = await storage.getBlogPostsCount({ status: 'published' });
-
-      res.json({
-        totalPosts,
-        draftPosts,
-        publishedPosts,
-      });
-    } catch (error) {
-      console.error("Error fetching admin stats:", error);
-      res.status(500).json({ message: "Failed to fetch stats" });
-    }
-  });
-
-  // Redirect alternative sitemap paths to the canonical sitemap.xml
-  // (Some scanners/crawlers probe /sitemap_index.xml, /sitemaps.xml, etc.)
-  app.get([
-    '/sitemap_index.xml',
-    '/sitemap-index.xml',
-    '/sitemaps.xml',
-    '/sitemap1.xml',
-    '/post-sitemap.xml',
-    '/page-sitemap.xml',
-    '/category-sitemap.xml',
-    '/news-sitemap.xml',
-    '/video-sitemap.xml',
-    '/image-sitemap.xml',
-  ], (_req, res) => {
-    res.redirect(301, '/sitemap.xml');
-  });
-
-  // Sitemap.xml endpoint
-  app.get('/sitemap.xml', async (req, res) => {
-    try {
-      const protocol = req.get('x-forwarded-proto') || req.protocol;
-      const host = req.get('host');
-      
-      // Use production domain in production
-      const baseUrl = process.env.NODE_ENV === 'production' 
-        ? 'https://urbangrid.ae'
-        : `${protocol}://${host}`;
-
-      // Get published blog posts for sitemap
-      const blogPosts = await storage.getBlogPosts({
-        status: 'published',
-        limit: 1000 // Get all published posts
-      });
-
-      const urls = getSitemapUrls(baseUrl, blogPosts.map(post => ({
-        slug: post.slug,
-        updatedAt: post.updatedAt || new Date()
-      })));
-      const sitemap = generateSitemap(urls);
-
+      const sitemap = await generateSitemap();
       res.setHeader('Content-Type', 'application/xml');
       res.send(sitemap);
     } catch (error) {
       console.error("Error generating sitemap:", error);
-      res.status(500).send('Error generating sitemap');
+      res.status(500).json({ message: "Failed to generate sitemap" });
     }
   });
 
-  // Robots.txt endpoint
-  app.get('/robots.txt', (req, res) => {
-    const protocol = req.get('x-forwarded-proto') || req.protocol;
-    const host = req.get('host');
-    
-    // Use production domain in production
-    const baseUrl = process.env.NODE_ENV === 'production' 
-      ? 'https://urbangrid.ae'
-      : `${protocol}://${host}`;
+  // Redirects for old sitemap paths
+  app.get('/sitemap_index.xml', (_req, res) => {
+    res.redirect(301, '/sitemap.xml');
+  });
+  app.get('/sitemap-index.xml', (_req, res) => {
+    res.redirect(301, '/sitemap.xml');
+  });
+  app.get('/sitemaps.xml', (_req, res) => {
+    res.redirect(301, '/sitemap.xml');
+  });
+  app.get('/sitemap1.xml', (_req, res) => {
+    res.redirect(301, '/sitemap.xml');
+  });
+  app.get('/post-sitemap.xml', (_req, res) => {
+    res.redirect(301, '/sitemap.xml');
+  });
+  app.get('/page-sitemap.xml', (_req, res) => {
+    res.redirect(301, '/sitemap.xml');
+  });
+  app.get('/category-sitemap.xml', (_req, res) => {
+    res.redirect(301, '/sitemap.xml');
+  });
+  app.get('/news-sitemap.xml', (_req, res) => {
+    res.redirect(301, '/sitemap.xml');
+  });
+  app.get('/video-sitemap.xml', (_req, res) => {
+    res.redirect(301, '/sitemap.xml');
+  });
+  app.get('/image-sitemap.xml', (_req, res) => {
+    res.redirect(301, '/sitemap.xml');
+  });
 
-    const robotsTxt = `User-agent: *
-Allow: /
-
-# Disallow admin pages
-Disallow: /admin/
-Disallow: /api/
-
-# Sitemap
-Sitemap: ${baseUrl}/sitemap.xml
-
-# Crawl delay
-Crawl-delay: 1`;
-
+  // Robots.txt
+  app.get('/robots.txt', (_req, res) => {
+    const sitemapUrls = getSitemapUrls();
+    const robotsTxt = `User-agent: *\nAllow: /\nSitemap: https://urbangrid.ae/sitemap.xml\n`;
     res.setHeader('Content-Type', 'text/plain');
     res.send(robotsTxt);
   });
@@ -829,22 +674,26 @@ Crawl-delay: 1`;
   // Server-side rendered service detail pages for SEO
   // All data is static — no DB needed. Serves complete HTML with meta tags instantly.
   const serviceSSRData: Record<string, { title: string; description: string; image: string; category: string }> = {
-    'new-build-snagging':              { title: 'New Build Handover Snagging & Inspection', description: 'Comprehensive pre-handover inspection of newly constructed properties to identify defects, incomplete work, and quality issues before you take possession.', image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
-    'post-renovation-inspection':      { title: 'Post-Renovation Snagging Inspection', description: 'Quality assessment after renovation or fit-out work to ensure all improvements meet specifications, UAE building standards, and industry best practices.', image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
-    'dlp-snagging':                    { title: 'Defect Liability Period (DLP) Snagging', description: 'Strategic inspection during the defect liability period to identify, document, and resolve all defects and quality issues before your warranty expires.', image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
-    'move-in-move-out':                { title: 'Property Move-in / Move-out Snagging', description: 'Detailed condition reports for UAE rental properties to protect both tenants and landlords, documenting the property condition during move-in and move-out transitions.', image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
-    'secondary-market':                { title: 'Secondary Market Property Snagging', description: 'Thorough inspection of pre-owned properties to assess condition, identify defects, and support informed purchasing decisions in the UAE secondary market.', image: 'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
-    'developer-projects':              { title: 'Developer and Contractor Project Snagging', description: 'Quality control inspections for developers and contractors to ensure projects meet industry standards and client expectations.', image: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
-    'reserve-fund-study':              { title: 'Reserve Fund Study / Sinking Fund', description: 'Comprehensive analysis of building reserve fund requirements and long-term capital expenditure planning for strata properties in compliance with RERA regulations.', image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1200&h=600', category: 'rera-services' },
-    'service-charge-allocation':       { title: 'Service Charge Cost Allocation', description: 'Detailed assessment and allocation of service charges across common property areas ensuring fair distribution and full compliance with RERA guidelines.', image: 'https://images.unsplash.com/photo-1607863680198-23d4b2565df0?auto=format&fit=crop&w=1200&h=600', category: 'rera-services' },
-    'reinstatement-cost-assessment':   { title: 'Reinstatement Cost Assessment', description: 'Professional valuation of property reinstatement costs for insurance purposes and regulatory compliance requirements under UAE property law.', image: 'https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?auto=format&fit=crop&w=1200&h=600', category: 'rera-services' },
-    'building-completion-audit':       { title: 'Building Completion Audit', description: 'Comprehensive audit to verify building completion status against approved plans and regulatory requirements for RERA compliance and handover certification.', image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&h=600', category: 'rera-services' },
-    'building-condition-survey':       { title: 'Building Condition Survey', description: 'Detailed condition assessment of building components and systems for regulatory reporting, maintenance planning, and RERA compliance documentation.', image: 'https://images.unsplash.com/photo-1523287562758-66c7fc58967f?auto=format&fit=crop&w=1200&h=600', category: 'rera-services' },
-    'technical-due-diligence':         { title: 'Technical Due Diligence', description: 'Comprehensive technical analysis for property acquisition, covering structural, mechanical, and compliance aspects for informed investment decisions in UAE market.', image: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
-    'dilapidation-survey':             { title: 'Dilapidation Survey', description: 'Pre and post-construction condition assessments of adjacent properties to document potential impact from nearby construction activities and protect property interests.', image: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
-    'thermographic-survey':            { title: 'Thermographic Survey', description: 'Advanced thermal imaging inspections following ASHRAE standards to detect energy losses, moisture intrusion, and electrical compliance issues invisible to conventional inspection methods.', image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
-    'noise-survey':                    { title: 'Noise Level Survey & Acoustic Assessment', description: 'Professional acoustic assessments to measure and analyze noise levels for compliance with local regulations and habitability standards in UAE residential and commercial properties.', image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
-    'structural-survey':               { title: 'Structural Survey', description: 'Detailed structural engineering assessment following ASTM E2018 standards, examining building integrity, load-bearing elements, and structural compliance with UAE building regulations.', image: 'https://images.unsplash.com/photo-1581094613018-d1db5d0b5b30?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
+    'new-build-snagging':            { title: 'New Build Snagging', description: 'Comprehensive inspection for newly completed properties covering finishes, MEP systems, and quality compliance with international standards.', image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
+    'snagging-company':              { title: 'Property Snagging Company', description: 'UrbanGrid offers professional property snagging services to identify defects and protect your investment before handover.', image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
+    'pre-purchase-inspection':       { title: 'Pre-Purchase Property Inspection', description: 'Detailed inspection services for buyers to assess property condition before purchase with expert reports and recommendations.', image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
+    'handover-inspection':            { title: 'Handover Inspection', description: 'Independent property handover inspections designed to uncover defects before you accept keys from the developer.', image: 'https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
+    'warranty-inspection':            { title: 'Warranty Inspection', description: 'Comprehensive warranty-period inspections to identify latent defects and ensure post-handover peace of mind.', image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
+    'defect-listing':                 { title: 'Defect Listing', description: 'Detailed defect listings with photographic evidence and prioritized recommendations for repair and remediation.', image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
+    'rera-compliance-inspection':     { title: 'RERA Compliance Inspection', description: 'Inspection services aligned with RERA requirements to support compliance and quality assurance in Dubai and the UAE.', image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&h=600', category: 'rera-services' },
+    'snagging-report':                { title: 'Snagging Report', description: 'Clear, actionable snagging reports that summarize defects, categorize issues, and guide remediation efforts.', image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
+    'post-renovation-inspection':     { title: 'Post-Renovation Inspection', description: 'Thorough inspections after renovation works to verify quality, workmanship, and compliance with standards.', image: 'https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
+    'move-in-move-out-inspection':    { title: 'Move-In Move-Out Inspection', description: 'Condition assessments for tenants and landlords during move-in and move-out transitions to document property state.', image: 'https://images.unsplash.com/photo-1555636222-cae831e670b3?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
+    'mep-inspection':                 { title: 'MEP Inspection', description: 'Mechanical, electrical, and plumbing inspections to assess system performance, safety, and compliance.', image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
+    'electrical-inspection':          { title: 'Electrical Inspection', description: 'Professional electrical system inspections covering distribution boards, wiring, protection devices, and safety.', image: 'https://images.unsplash.com/photo-1519904981063-b0cf448d479e?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
+    'plumbing-inspection':            { title: 'Plumbing Inspection', description: 'Comprehensive plumbing assessments covering supply, drainage, leaks, fixtures, and functional performance.', image: 'https://images.unsplash.com/photo-1504615755583-2916b52192d3?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
+    'hvac-inspection':                { title: 'HVAC Inspection', description: 'Detailed HVAC inspections to evaluate cooling performance, ventilation, controls, and maintenance condition.', image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
+    'fire-safety-inspection':         { title: 'Fire Safety Inspection', description: 'Fire safety inspections aligned with NFPA standards to evaluate alarms, suppression, exits, and life safety measures.', image: 'https://images.unsplash.com/photo-1516747773446-6e5c6c7d5c2e?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
+    'dlp-snagging':                   { title: 'DLP Snagging', description: 'Detailed DLP period inspections to identify defects that appear after handover and during the liability period.', image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
+    'thermal-imaging':                { title: 'Thermal Imaging Inspection', description: 'Infrared thermal inspections to detect hidden issues such as moisture intrusion, insulation gaps, and electrical hotspots.', image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
+    'acoustic-survey':                { title: 'Acoustic Survey', description: 'Noise and sound performance surveys to help identify issues with acoustic comfort and regulatory compliance.', image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
+    'water-leak-detection':           { title: 'Water Leak Detection', description: 'Non-invasive leak detection inspections to locate hidden leaks before they cause expensive damage.', image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
+    'structural-survey':              { title: 'Structural Survey', description: 'Detailed structural engineering assessment following ASTM E2018 standards, examining building integrity and load-bearing elements.', image: 'https://images.unsplash.com/photo-1581094613018-d1db5d0b5b30?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
   };
 
   app.get('/services/:category/:slug', (req, res, next) => {
@@ -866,146 +715,88 @@ Crawl-delay: 1`;
     try {
       const { slug } = req.params;
       const post = await storage.getBlogPostBySlug(slug);
+      
+      if (!post) return next();
 
-      // Any unknown or non-published slug → 410 Gone (these URLs previously existed)
-      const send410 = () => {
-        res
-          .status(410)
-          .setHeader('Content-Type', 'text/html')
-          .setHeader('X-Robots-Tag', 'noindex, nofollow');
-        return res.send(`<!DOCTYPE html>
+      if (post.status !== 'published') {
+        // Archived/removed post: render 410 with noindex so Google deindexes it permanently.
+        const canonical = `https://urbangrid.ae/blog/${slug}`;
+        const title = `${post.title} | UrbanGrid`;
+        const desc = post.excerpt || post.content?.slice(0, 155) || 'UrbanGrid blog post';
+        res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        res.status(410).send(`<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="robots" content="noindex,nofollow">
-    <title>Page no longer available | UrbanGrid</title>
-    <link rel="canonical" href="https://urbangrid.ae/blog">
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex, nofollow">
+  <title>${title}</title>
+  <meta name="description" content="${desc}">
+  <link rel="canonical" href="${canonical}">
 </head>
 <body>
-    <h1>This article has been removed</h1>
-    <p>The page you requested is no longer available. <a href="/blog">Browse our current articles</a> or visit our <a href="/">home page</a>.</p>
+  <h1>Blog post permanently removed</h1>
+  <p>This article has been permanently removed.</p>
 </body>
 </html>`);
-      };
-
-      if (!post || post.status !== 'published') {
-        return send410();
+        return;
       }
 
-      // Helpers: keep title <= 60 chars before suffix; description <= 160 chars
-      const escapeHtml = (s: string) =>
-        s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      const truncate = (s: string, max: number) =>
-        s.length <= max ? s : s.slice(0, max - 1).replace(/\s+\S*$/, '') + '…';
-      // Defense-in-depth: hard-restrict slug to URL-safe chars before interpolating
-      const safeSlug = String(post.slug).replace(/[^a-zA-Z0-9_-]/g, '');
-      const safeUrl = `https://urbangrid.ae/blog/${safeSlug}`;
-
-      const seoTitleRaw = truncate(post.title, 48); // 48 + " | UrbanGrid" (12) = 60 chars max
-      const seoDescRaw = truncate(post.excerpt || post.title, 155);
-      const seoTitle = escapeHtml(seoTitleRaw) + ' | UrbanGrid';
-      const seoDesc = escapeHtml(seoDescRaw);
-      const seoKeywords = escapeHtml(post.tags?.join(', ') || 'property inspection, snagging, UAE');
-      const featuredImage = post.featuredImage || 'https://urbangrid.ae/og-image.jpg';
-      const headlineForSchema = JSON.stringify(truncate(post.title, 110));
-      const descForSchema = JSON.stringify(seoDescRaw);
-      const imageForSchema = JSON.stringify(featuredImage);
-      const urlForSchema = JSON.stringify(safeUrl);
-      const toIso = (v: unknown) => {
-        if (v instanceof Date) return v.toISOString();
-        if (typeof v === 'string' || typeof v === 'number') {
-          const d = new Date(v);
-          if (!isNaN(d.getTime())) return d.toISOString();
-        }
-        return new Date().toISOString();
-      };
-      const datePub = JSON.stringify(toIso(post.createdAt));
-      const dateMod = JSON.stringify(toIso(post.updatedAt ?? post.createdAt));
-
-      // Generate basic HTML with meta tags for SEO
+      const canonical = `https://urbangrid.ae/blog/${slug}`;
+      const title = `${post.title.length > 56 ? post.title.slice(0, 53) + '...' : post.title} | UrbanGrid`;
+      const desc = (post.excerpt || post.content || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 158);
+      const image = post.featuredImage || 'https://urbangrid.ae/og-image.jpg';
+      const safeTitle = title.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const safeDesc = desc.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const safeImage = image.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const safeUrl = canonical.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${seoTitle}</title>
-    <meta name="description" content="${seoDesc}">
-    <meta name="keywords" content="${seoKeywords}">
-    <meta property="og:title" content="${seoTitle}">
-    <meta property="og:description" content="${seoDesc}">
-    <meta property="og:url" content="${safeUrl}">
-    <meta property="og:type" content="article">
-    <meta property="og:image" content="${escapeHtml(featuredImage)}">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="${seoTitle}">
-    <meta name="twitter:description" content="${seoDesc}">
-    <meta name="twitter:image" content="${escapeHtml(featuredImage)}">
-    <link rel="canonical" href="${safeUrl}">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      "headline": ${headlineForSchema},
-      "description": ${descForSchema},
-      "image": ${imageForSchema},
-      "author": {
-        "@type": "Organization",
-        "name": "UrbanGrid Property Inspection",
-        "url": "https://urbangrid.ae"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "UrbanGrid Property Inspection",
-        "url": "https://urbangrid.ae",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://urbangrid.ae/favicon-192x192.png",
-          "width": 192,
-          "height": 192
-        }
-      },
-      "datePublished": ${datePub},
-      "dateModified": ${dateMod},
-      "mainEntityOfPage": {
-        "@type": "WebPage",
-        "@id": ${urlForSchema}
-      },
-      "url": ${urlForSchema}
-    }
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>${safeTitle}</title>
+  <meta name="description" content="${safeDesc}">
+  <link rel="canonical" href="${safeUrl}">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="${safeTitle}">
+  <meta property="og:description" content="${safeDesc}">
+  <meta property="og:image" content="${safeImage}">
+  <meta property="og:url" content="${safeUrl}">
+  <meta property="og:site_name" content="UrbanGrid Property Inspection">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="${safeTitle}">
+  <meta name="twitter:description" content="${safeDesc}">
+  <meta name="twitter:image" content="${safeImage}">
 </head>
 <body>
-    <div id="root">
-        <main>
-            <article>
-                <h1>${escapeHtml(post.title)}</h1>
-                <div>${escapeHtml(post.content)}</div>
-            </article>
-        </main>
-        <footer>
-            <nav aria-label="Legal">
-                <a href="/privacy-policy">Privacy Policy</a>
-                <a href="/terms-of-service">Terms of Service</a>
-                <a href="/">UrbanGrid Property Inspection</a>
-            </nav>
-        </footer>
-    </div>
-    <script type="module" src="/src/main.tsx"></script>
+  <h1>${post.title.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</h1>
 </body>
 </html>`;
-
-      res
-        .setHeader('Content-Type', 'text/html')
-        .setHeader('Cache-Control', 'public, max-age=3600, stale-while-revalidate=86400');
-      res.send(html);
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      return res.send(html);
     } catch (error) {
-      console.error("Error serving blog page:", error);
-      next(); // Let Vite handle the error
+      console.error("Error rendering blog page:", error);
+      return next();
     }
   });
 
+  // Final catch-all page for SSR with canonical URL support
+  app.get('*', async (req, res, next) => {
+    try {
+      const url = req.originalUrl;
+      if (url.startsWith('/api/') || url.startsWith('/assets/')) return next();
+      const isProd = process.env.NODE_ENV === 'production';
+      const htmlPath = isProd
+        ? path.resolve(import.meta.dirname, 'public', 'index.html')
+        : path.resolve(import.meta.dirname, '..', 'client', 'index.html');
+      const template = fs.readFileSync(htmlPath, 'utf-8');
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      return res.send(template);
+    } catch {
+      return next();
+    }
+  });
 
   const httpServer = createServer(app);
   return httpServer;
