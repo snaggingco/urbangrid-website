@@ -131,18 +131,9 @@ export default function BlogDetail() {
             
             <div className="flex flex-wrap items-center gap-y-4 gap-x-8 pt-8 border-t border-zinc-900">
               <div className="flex items-center gap-3">
-                {post.author?.profileImageUrl && (
-                  <img
-                    src={post.author.profileImageUrl}
-                    alt={post.author.firstName ?? 'UrbanGrid'}
-                    className="w-10 h-10 rounded-full object-cover grayscale"
-                  />
-                )}
                 <div>
                   <p className="text-[10px] uppercase tracking-widest text-zinc-500 font-bold mb-0.5">Author</p>
-                  <p className="text-sm font-bold text-white">
-                    {post.author ? `${post.author.firstName} ${post.author.lastName}` : 'UrbanGrid Editorial Team'}
-                  </p>
+                  <p className="text-sm font-bold text-white">UrbanGrid Editorial Team</p>
                 </div>
               </div>
               
@@ -239,26 +230,15 @@ export default function BlogDetail() {
         </div>
       </section>
 
-      {/* Author Info — always shown for E-E-A-T */}
+      {/* Author Info */}
       <section className="py-24 bg-zinc-50 border-y border-zinc-100">
         <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
           <div className="max-w-3xl mx-auto flex flex-col md:flex-row gap-12 items-center text-center md:text-left">
-            {post.author?.profileImageUrl && (
-              <img
-                src={post.author.profileImageUrl}
-                alt={post.author.firstName ?? 'UrbanGrid'}
-                className="w-32 h-32 rounded-full object-cover grayscale"
-              />
-            )}
             <div className="flex-1">
               <p className="text-[10px] font-bold tracking-[0.25em] text-brand-green uppercase mb-2">About the Author</p>
-              <h3 className="text-2xl font-bold text-zinc-900 mb-4">
-                {post.author ? `${post.author.firstName} ${post.author.lastName}` : 'UrbanGrid Editorial Team'}
-              </h3>
+              <h3 className="text-2xl font-bold text-zinc-900 mb-4">UrbanGrid Editorial Team</h3>
               <p className="text-zinc-500 leading-relaxed">
-                {post.author
-                  ? 'Professional property inspection expert with extensive experience in the UAE real estate market. Specializing in technical snagging and handover inspections across Dubai and Abu Dhabi.'
-                  : 'The UrbanGrid Editorial Team comprises NFPA, ASHRAE and ASTM certified property inspection experts with extensive experience across the UAE real estate market, specialising in technical snagging, handover inspections, and compliance reporting.'}
+                The UrbanGrid Editorial Team comprises NFPA, ASHRAE and ASTM certified property inspection experts with extensive experience across the UAE real estate market, specialising in technical snagging, handover inspections, and compliance reporting.
               </p>
             </div>
           </div>

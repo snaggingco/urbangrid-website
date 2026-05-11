@@ -752,9 +752,7 @@ ${coverLetter}
       const safeUrl = canonical.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       const datePublished = post.createdAt ? new Date(post.createdAt).toISOString() : new Date().toISOString();
       const dateModified = post.updatedAt ? new Date(post.updatedAt).toISOString() : datePublished;
-      const authorName = (post as any).author
-        ? `${(post as any).author.firstName ?? ''} ${(post as any).author.lastName ?? ''}`.trim()
-        : 'UrbanGrid Editorial Team';
+      const authorName = 'UrbanGrid Editorial Team';
       const jsonLd = JSON.stringify({
         "@context": "https://schema.org",
         "@type": "BlogPosting",
