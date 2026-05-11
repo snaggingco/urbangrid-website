@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import ConsultationForm from "@/components/ConsultationForm";
 import ScrollTriggeredForm from "@/components/ScrollTriggeredForm";
+import SampleReportModal from "@/components/SampleReportModal";
 import { Button } from "@/components/ui/button";
 import {
   ChevronDown, ArrowRight, Shield, Globe,
@@ -21,6 +22,7 @@ export default function Home() {
   const [isVisible, setIsVisible] = useState(false);
   const [counts, setCounts] = useState({ inspections: 0, defects: 0, saving: 0, cities: 0, rating: 0 });
   const [activeTab, setActiveTab] = useState<keyof typeof serviceCategories>('property-snagging');
+  const [reportModalOpen, setReportModalOpen] = useState(false);
 
   useEffect(() => {
     setIsVisible(true);
@@ -187,15 +189,13 @@ export default function Home() {
               </Button>
             </Link>
 
-            <a
-              href="/sample-report.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              onClick={() => setReportModalOpen(true)}
               className="inline-flex items-center gap-2 border border-zinc-600 text-zinc-300 px-8 py-[14px] text-sm font-semibold hover:border-white hover:text-white transition-all"
             >
               Download Sample Report
               <ArrowRight className="w-4 h-4" />
-            </a>
+            </button>
           </div>
 
           {/* Trust badges */}
@@ -666,6 +666,11 @@ export default function Home() {
       </section>
 
       <ScrollTriggeredForm />
+
+      <SampleReportModal
+        isOpen={reportModalOpen}
+        onClose={() => setReportModalOpen(false)}
+      />
     </>
   );
 }

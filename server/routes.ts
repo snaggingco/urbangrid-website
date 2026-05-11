@@ -376,6 +376,39 @@ Phone: ${phone}
     }
   });
 
+  // Sample report gated download endpoint
+  app.post('/api/sample-report-download', async (req, res) => {
+    try {
+      const { name, email, phone } = req.body;
+      if (!name || !email || !phone) {
+        return res.status(400).json({ message: "Name, email, and phone are required" });
+      }
+
+      await storage.createContactSubmission({
+        name,
+        email,
+        phone,
+        message: 'Sample report download request',
+      });
+
+      const emailContent = `
+New Sample Report Download Request
+
+Name: ${name}
+Email: ${email}
+Phone: ${phone}
+
+This lead requested the sample inspection report.
+      `;
+      await sendEmail('info@urbangrid.ae', 'New Sample Report Download Request', emailContent);
+
+      res.status(201).json({ message: 'Details received' });
+    } catch (error) {
+      console.error("Error processing sample report request:", error);
+      res.status(500).json({ message: "Failed to process request" });
+    }
+  });
+
   // Quick contact form endpoint
   app.post('/api/quick-contact', async (req, res) => {
     try {
