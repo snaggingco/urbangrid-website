@@ -234,29 +234,29 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Stats strip — 5 animated tiles */}
+        {/* Stats strip — 5 animated tiles, all visible at every breakpoint */}
         <div className="absolute bottom-0 left-0 right-0 border-t border-white/10 z-20">
           <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 divide-x divide-white/10">
-              <div className="py-5 pr-6">
-                <div className="text-2xl sm:text-3xl font-bold text-white">{counts.inspections.toLocaleString()}+</div>
-                <div className="text-[10px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Properties Inspected</div>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 border-b-0">
+              <div className="py-5 pr-4 border-r border-white/10">
+                <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">{counts.inspections.toLocaleString()}+</div>
+                <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Properties Inspected</div>
               </div>
-              <div className="py-5 px-6">
-                <div className="text-2xl sm:text-3xl font-bold text-white">{counts.defects.toLocaleString()}+</div>
-                <div className="text-[10px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Defects Documented</div>
+              <div className="py-5 px-4 border-r border-white/10">
+                <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">{counts.defects.toLocaleString()}+</div>
+                <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Defects Found</div>
               </div>
-              <div className="py-5 px-6 col-span-2 sm:col-span-1">
-                <div className="text-2xl sm:text-3xl font-bold text-brand-green">AED {counts.saving.toLocaleString()}+</div>
-                <div className="text-[10px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Avg. Client Saving</div>
+              <div className="py-5 px-4 border-r border-white/10 col-span-2 sm:col-span-1">
+                <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-brand-green">AED {counts.saving.toLocaleString()}+</div>
+                <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Avg. Client Saving</div>
               </div>
-              <div className="py-5 px-6 hidden sm:block">
-                <div className="text-2xl sm:text-3xl font-bold text-white">{counts.cities}</div>
-                <div className="text-[10px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Emirates Covered</div>
+              <div className="py-5 px-4 border-r border-white/10 border-t border-white/10 sm:border-t-0">
+                <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">{counts.cities}</div>
+                <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Emirates Covered</div>
               </div>
-              <div className="py-5 pl-6 hidden lg:block">
-                <div className="text-2xl sm:text-3xl font-bold text-white">{counts.rating} <span className="text-yellow-500 text-lg">★</span></div>
-                <div className="text-[10px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Client Satisfaction</div>
+              <div className="py-5 pl-4 border-t border-white/10 sm:border-t-0">
+                <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">{counts.rating} <span className="text-yellow-500 text-base">★</span></div>
+                <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Client Satisfaction</div>
               </div>
             </div>
           </div>
