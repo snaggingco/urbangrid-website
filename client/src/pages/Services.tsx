@@ -484,10 +484,10 @@ export default function Services() {
                 </Button>
               </Link>
               <a
-                href="tel:+971585686852"
+                href="tel:+971567427634"
                 className="inline-flex items-center justify-center border border-white/30 text-white h-14 px-10 text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-green transition-all"
               >
-                +971 58 568 6852
+                +971 567427634
               </a>
             </div>
           </div>

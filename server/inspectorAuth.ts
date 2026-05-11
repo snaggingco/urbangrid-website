@@ -16,7 +16,7 @@ const initializeDefaultInspector = async () => {
         passwordHash: hashedPassword,
         fullName: "Shahbas Inspector",
         email: "shahbas@urbangrid.ae",
-        phone: "+971585686852",
+        phone: "+971567427634",
         isActive: true,
       });
       console.log("Default inspector account created: shahbas");

@@ -634,11 +634,11 @@ export default function Home() {
                   </Button>
                 </Link>
                 <a
-                  href="tel:+971585686852"
+                  href="tel:+971567427634"
                   className="inline-flex items-center justify-center border border-zinc-600 text-zinc-300 px-8 py-6 font-medium text-sm hover:border-white hover:text-white transition-all"
                 >
                   <i className="fas fa-phone mr-3 text-brand-green"></i>
-                  +971 58 568 6852
+                  +971 567427634
                 </a>
               </div>
             </div>

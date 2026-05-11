@@ -87,7 +87,7 @@ export default function Contact() {
     <>
       <SEO 
         title="Contact UrbanGrid - Leading Snagging Companies in UAE"
-        description="Contact UrbanGrid, one of the leading snagging companies in UAE. Schedule your professional property inspection or snagging service in Dubai, Abu Dhabi, Sharjah, and across the Emirates. Call +971 58 568 6852"
+        description="Contact UrbanGrid, one of the leading snagging companies in UAE. Schedule your professional property inspection or snagging service in Dubai, Abu Dhabi, Sharjah, and across the Emirates. Call +971 567427634"
         keywords="snagging companies in UAE, contact snagging company, property inspection UAE, UrbanGrid contact, snagging services UAE"
       />
       
@@ -131,7 +131,7 @@ export default function Contact() {
                     </div>
                     <div>
                       <p className="text-[10px] uppercase tracking-[0.18em] text-zinc-400 font-medium mb-1">Phone Number</p>
-                      <a href="tel:+971585686852" className="text-sm text-zinc-900 font-medium hover:text-brand-green transition-colors">+971 58 568 6852</a>
+                      <a href="tel:+971567427634" className="text-sm text-zinc-900 font-medium hover:text-brand-green transition-colors">+971 567427634</a>
                     </div>
                   </div>
                   
@@ -168,13 +168,13 @@ export default function Contact() {
 
                 <div className="mt-12 flex flex-wrap gap-4">
                   <a
-                    href="tel:+971585686852"
+                    href="tel:+971567427634"
                     className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all"
                   >
                     CALL NOW <ArrowRight className="w-3 h-3" />
                   </a>
                   <a
-                    href="https://wa.me/971585686852"
+                    href="https://wa.me/971567427634"
                     className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all"
                   >
                     WHATSAPP <ArrowRight className="w-3 h-3" />
@@ -322,14 +322,14 @@ export default function Contact() {
             
             <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
               <a 
-                href="tel:+971585686852"
+                href="tel:+971567427634"
                 className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all"
               >
                 CALL NOW <ArrowRight className="w-3 h-3" />
               </a>
               
               <a 
-                href="https://wa.me/971585686852"
+                href="https://wa.me/971567427634"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all"

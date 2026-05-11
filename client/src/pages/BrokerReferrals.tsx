@@ -353,9 +353,9 @@ ${formData.message}`,
           <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 text-center">
             <h2 className="text-4xl lg:text-5xl font-bold mb-12">Ready to Start Earning?</h2>
             <div className="flex flex-wrap justify-center gap-12">
-              <a href="tel:+971585686852" className="group">
+              <a href="tel:+971567427634" className="group">
                 <p className="text-[10px] uppercase tracking-widest text-zinc-500 mb-2 group-hover:text-brand-green transition-colors">Call Us</p>
-                <p className="text-lg font-bold">+971 58 568 6852</p>
+                <p className="text-lg font-bold">+971 567427634</p>
               </a>
               <a href="mailto:partnerships@urbangrid.ae" className="group">
                 <p className="text-[10px] uppercase tracking-widest text-zinc-500 mb-2 group-hover:text-brand-green transition-colors">Email Us</p>

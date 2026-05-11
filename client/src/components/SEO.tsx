@@ -14,7 +14,7 @@ interface SEOProps {
 const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
   '/': {
     title: 'UrbanGrid Property Inspection UAE | Snagging & Inspection Services',
-    description: 'UAE\'s trusted property inspection company. Professional snagging services across Dubai, Abu Dhabi, Sharjah. RERA certified, same-day reports. Call +971 58 568 6852.',
+    description: 'UAE\'s trusted property inspection company. Professional snagging services across Dubai, Abu Dhabi, Sharjah. RERA certified, same-day reports. Call +971 567427634.',
     keywords: 'UrbanGrid, property inspection UAE, property snagging UAE, snagging services Dubai Abu Dhabi Sharjah, pre-purchase inspection, new build snagging, villa inspection',
     ogImage: 'https://urbangrid.ae/og-image.jpg'
   },
@@ -32,7 +32,7 @@ const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
   },
   '/contact': {
     title: 'Contact UrbanGrid Property Inspection - Dubai Abu Dhabi UAE',
-    description: 'Contact UrbanGrid for expert property snagging services. Call +971 58 568 6852 or email info@urbangrid.ae for professional inspection quotes across UAE.',
+    description: 'Contact UrbanGrid for expert property snagging services. Call +971 567427634 or email info@urbangrid.ae for professional inspection quotes across UAE.',
     keywords: 'contact property inspection UAE, snagging company Dubai, property inspection quote, urbangrid contact',
     ogImage: 'https://urbangrid.ae/og-image.jpg'
   },
@@ -197,7 +197,7 @@ export default function SEO({
         "logo": "https://urbangrid.ae/logo.svg",
         "contactPoint": {
           "@type": "ContactPoint",
-          "telephone": "+971585686852",
+          "telephone": "+971567427634",
           "contactType": "customer service",
           "email": "info@urbangrid.ae"
         },
@@ -240,7 +240,7 @@ export default function SEO({
         "provider": {
           "@type": "LocalBusiness",
           "name": "UrbanGrid Property Snagging Inspection",
-          "telephone": "+971585686852",
+          "telephone": "+971567427634",
           "email": "info@urbangrid.ae",
           "url": "https://urbangrid.ae",
           "address": {

@@ -128,7 +128,7 @@ export default function PrivacyPolicy() {
                 <p className="font-semibold text-zinc-900">UrbanGrid Real Estate Consultancies L.L.C.</p>
                 <p className="mt-1">Office 1205, Business Bay, Dubai, UAE</p>
                 <p className="mt-1">Email: <a href="mailto:info@urbangrid.ae" className="text-brand-green hover:underline">info@urbangrid.ae</a></p>
-                <p className="mt-1">Phone: <a href="tel:+971585686852" className="text-brand-green hover:underline">+971 58 568 6852</a></p>
+                <p className="mt-1">Phone: <a href="tel:+971567427634" className="text-brand-green hover:underline">+971 567427634</a></p>
               </div>
             </div>
 

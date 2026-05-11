@@ -110,7 +110,7 @@ export default function FloatingButtons() {
                 <i className="fas fa-chevron-up text-lg"></i>
               </button>
               <a
-                href="https://wa.me/971585686852?text=Hello%20UrbanGrid%2C%20I%27m%20interested%20in%20your%20property%20inspection%20services.%20Please%20provide%20me%20with%20more%20information."
+                href="https://wa.me/971567427634?text=Hello%20UrbanGrid%2C%20I%27m%20interested%20in%20your%20property%20inspection%20services.%20Please%20provide%20me%20with%20more%20information."
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackConversion('whatsapp_click')}
@@ -120,7 +120,7 @@ export default function FloatingButtons() {
                 <i className="fab fa-whatsapp text-lg"></i>
               </a>
               <a
-                href="tel:+971585686852"
+                href="tel:+971567427634"
                 onClick={() => trackConversion('call_click')}
                 className="bg-brand-green hover:bg-opacity-90 text-white w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:scale-105 flex items-center justify-center gtm-call-button"
                 aria-label="Call us"
