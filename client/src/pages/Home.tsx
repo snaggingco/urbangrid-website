@@ -5,7 +5,7 @@ import ScrollTriggeredForm from "@/components/ScrollTriggeredForm";
 import { Button } from "@/components/ui/button";
 import {
   ChevronDown, ArrowRight, Shield, Globe,
-  Thermometer, Zap, Droplets, Wind, Building2,
+  Zap, Droplets, Wind, Building2,
   Layers, DoorOpen, Flame, Sun, Users, Star, Quote
 } from "lucide-react";
 import {
