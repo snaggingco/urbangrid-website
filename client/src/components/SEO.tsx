@@ -147,36 +147,26 @@ export default function SEO({
     const description = customDescription || routeData.description || 'Professional property inspection and snagging services across Dubai, Abu Dhabi, and UAE.';
     const keywords = customKeywords || routeData.keywords || 'property snagging UAE, property inspection Dubai, snagging services';
     const ogImage = customOgImage || routeData.ogImage || 'https://urbangrid.ae/og-image.jpg';
-    // Pages that should never be indexed
-    const noindexPaths = ['/login', '/privacy-policy', '/terms-of-service', '/admin'];
-    const shouldNoindex = noindex || noindexPaths.some(p => location.startsWith(p));
+    const shouldNoindex = noindex;
 
     const canonical = customCanonical || `https://urbangrid.ae${location}`;
 
-    // Update document title
     document.title = title;
 
-    // Helper function to update or create meta tag
     const updateMetaTag = (name: string, content: string, property?: string) => {
       const selector = property ? `meta[property="${name}"]` : `meta[name="${name}"]`;
       let meta = document.querySelector(selector) as HTMLMetaElement;
-      
       if (!meta) {
         meta = document.createElement('meta');
-        if (property) {
-          meta.setAttribute('property', name);
-        } else {
-          meta.setAttribute('name', name);
-        }
+        if (property) meta.setAttribute('property', name);
+        else meta.setAttribute('name', name);
         document.head.appendChild(meta);
       }
       meta.setAttribute('content', content);
     };
-    
-    // Helper function to update link tag
+
     const updateLinkTag = (rel: string, href: string) => {
       let link = document.querySelector(`link[rel="${rel}"]`) as HTMLLinkElement;
-      
       if (!link) {
         link = document.createElement('link');
         link.setAttribute('rel', rel);
@@ -184,27 +174,19 @@ export default function SEO({
       }
       link.setAttribute('href', href);
     };
-    
-    // Update meta tags
+
     updateMetaTag('description', description);
     updateMetaTag('keywords', keywords);
     updateMetaTag('robots', shouldNoindex ? 'noindex, nofollow' : 'index, follow');
-    
-    // Update Open Graph tags
     updateMetaTag('og:title', title, 'property');
     updateMetaTag('og:description', description, 'property');
     updateMetaTag('og:url', canonical, 'property');
     updateMetaTag('og:image', ogImage, 'property');
-    
-    // Update Twitter Card tags
     updateMetaTag('twitter:title', title);
     updateMetaTag('twitter:description', description);
     updateMetaTag('twitter:image', ogImage);
-    
-    // Update canonical URL
     updateLinkTag('canonical', canonical);
-    
-    // Add Organization schema for homepage
+
     if (location === '/') {
       const organizationSchema = {
         "@context": "https://schema.org",
@@ -237,9 +219,7 @@ export default function SEO({
       };
 
       const existingOrgSchema = document.querySelector('#organization-schema');
-      if (existingOrgSchema) {
-        existingOrgSchema.remove();
-      }
+      if (existingOrgSchema) existingOrgSchema.remove();
 
       const orgScript = document.createElement('script');
       orgScript.id = 'organization-schema';
@@ -248,12 +228,10 @@ export default function SEO({
       document.head.appendChild(orgScript);
     }
 
-    // Add comprehensive structured data for service pages
     if (location.includes('/services/')) {
       const serviceCategory = location.includes('property-snagging') ? 'Property Snagging' : 
                              location.includes('rera-services') ? 'RERA Services' : 
                              location.includes('technical-inspections') ? 'Technical Inspections' : 'Property Inspection';
-      
       const serviceSchema = {
         "@context": "https://schema.org",
         "@type": "Service",
@@ -278,28 +256,14 @@ export default function SEO({
           }
         },
         "areaServed": [
-          {
-            "@type": "City",
-            "name": "Dubai",
-            "addressCountry": "AE"
-          },
-          {
-            "@type": "City", 
-            "name": "Abu Dhabi",
-            "addressCountry": "AE"
-          },
-          {
-            "@type": "City",
-            "name": "Sharjah", 
-            "addressCountry": "AE"
-          }
+          { "@type": "City", "name": "Dubai", "addressCountry": "AE" },
+          { "@type": "City", "name": "Abu Dhabi", "addressCountry": "AE" },
+          { "@type": "City", "name": "Sharjah", "addressCountry": "AE" }
         ],
         "serviceType": serviceCategory,
         "category": "Property Snagging Inspection Services",
         "url": canonical
       };
-
-      // Add FAQ schema for service pages
       const faqSchema = {
         "@context": "https://schema.org",
         "@type": "FAQPage",
@@ -307,44 +271,29 @@ export default function SEO({
           {
             "@type": "Question",
             "name": `What is ${serviceCategory}?`,
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": description
-            }
+            "acceptedAnswer": { "@type": "Answer", "text": description }
           },
           {
             "@type": "Question",
             "name": "How long does the snagging inspection take?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Inspection duration varies by service type and property size, typically ranging from 2-8 hours for comprehensive assessments."
-            }
+            "acceptedAnswer": { "@type": "Answer", "text": "Inspection duration varies by service type and property size, typically ranging from 2-8 hours for comprehensive assessments." }
           },
           {
             "@type": "Question",
             "name": "Do you provide same-day snagging reports?",
-            "acceptedAnswer": {
-              "@type": "Answer",
-              "text": "Yes, we provide detailed inspection reports on the same day with photographic evidence and professional recommendations."
-            }
+            "acceptedAnswer": { "@type": "Answer", "text": "Yes, we provide detailed inspection reports on the same day with photographic evidence and professional recommendations." }
           }
         ]
       };
-      
-      // Remove existing schemas
       ['#service-schema', '#faq-schema'].forEach(selector => {
         const existing = document.querySelector(selector);
         if (existing) existing.remove();
       });
-      
-      // Add service schema
       const serviceScript = document.createElement('script');
       serviceScript.id = 'service-schema';
       serviceScript.type = 'application/ld+json';
       serviceScript.textContent = JSON.stringify(serviceSchema);
       document.head.appendChild(serviceScript);
-
-      // Add FAQ schema
       const faqScript = document.createElement('script');
       faqScript.id = 'faq-schema';
       faqScript.type = 'application/ld+json';
@@ -354,5 +303,5 @@ export default function SEO({
 
   }, [location, customTitle, customDescription, customKeywords, customOgImage, customCanonical, noindex]);
   
-  return null; // This component doesn't render anything
+  return null;
 }
