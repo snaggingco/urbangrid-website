@@ -3,7 +3,11 @@ import { Link } from "wouter";
 import ConsultationForm from "@/components/ConsultationForm";
 import ScrollTriggeredForm from "@/components/ScrollTriggeredForm";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, ArrowRight, Shield, Globe } from "lucide-react";
+import {
+  ChevronDown, ArrowRight, Shield, Globe,
+  Thermometer, Zap, Droplets, Wind, Building2,
+  Layers, DoorOpen, Flame, Sun, Users, Star, Quote
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,7 +19,7 @@ import internachi2 from "@assets/internachi2.webp";
 
 export default function Home() {
   const [isVisible, setIsVisible] = useState(false);
-  const [counts, setCounts] = useState({ inspections: 0, cities: 0, rating: 0 });
+  const [counts, setCounts] = useState({ inspections: 0, defects: 0, saving: 0, cities: 0, rating: 0 });
   const [activeTab, setActiveTab] = useState<keyof typeof serviceCategories>('property-snagging');
 
   useEffect(() => {
@@ -28,6 +32,8 @@ export default function Home() {
       step++;
       setCounts({
         inspections: Math.floor((40000 / steps) * step),
+        defects: Math.floor((600000 / steps) * step),
+        saving: Math.floor((50000 / steps) * step),
         cities: Math.floor((7 / steps) * step),
         rating: Math.min(4.9, parseFloat(((4.9 / steps) * step).toFixed(1)))
       });
@@ -42,12 +48,12 @@ export default function Home() {
       subtitle: 'Comprehensive property inspection and snagging services',
       categorySlug: 'property-snagging',
       services: [
-        { id: 1, title: "New Build Handover Snagging", description: "Comprehensive inspection before accepting your new property, identifying defects and ensuring everything meets standards.", slug: "new-build-snagging" },
-        { id: 2, title: "Post Renovation Inspection", description: "Quality assessment after renovation or fit-out work, ensuring all work meets specifications and quality standards.", slug: "post-renovation-inspection" },
-        { id: 3, title: "DLP Snagging", description: "Defect Liability Period inspections to identify issues before warranty expires and ensure developer compliance.", slug: "dlp-snagging" },
-        { id: 4, title: "Move-in / Move-out Snagging", description: "Comprehensive condition reports for rental properties, protecting both tenants and landlords during transitions.", slug: "move-in-move-out" },
-        { id: 5, title: "Secondary Market Snagging", description: "Pre-purchase inspections for existing properties, helping buyers make informed decisions and negotiate fairly.", slug: "secondary-market" },
-        { id: 6, title: "Developer & Contractor Snagging", description: "Quality control inspections for developers and contractors, ensuring projects meet industry standards and specifications.", slug: "developer-projects" }
+        { id: 1, title: "New Build Handover Snagging", description: "We inspect your new property before you accept the keys — identifying every defect so the developer fixes them, not you.", slug: "new-build-snagging" },
+        { id: 2, title: "Post Renovation Inspection", description: "After fit-out or renovation work, we verify every detail meets your specification and quality standards before final payment.", slug: "post-renovation-inspection" },
+        { id: 3, title: "DLP Snagging", description: "We identify hidden issues before your Defects Liability Period expires — giving you one last chance to have the developer cover repairs.", slug: "dlp-snagging" },
+        { id: 4, title: "Move-in / Move-out Snagging", description: "A detailed condition report protects your deposit and documents the property's state before and after your tenancy.", slug: "move-in-move-out" },
+        { id: 5, title: "Secondary Market Snagging", description: "Before you commit to a resale property, we uncover hidden defects that give you negotiating power or the confidence to walk away.", slug: "secondary-market" },
+        { id: 6, title: "Developer & Contractor Snagging", description: "We provide independent quality control for your project — catching defects before your clients do.", slug: "developer-projects" }
       ]
     },
     'rera-services': {
@@ -82,6 +88,58 @@ export default function Home() {
     { key: 'technical-inspections', label: 'Technical Inspections' }
   ];
 
+  const inspectionCategories = [
+    { icon: <Wind className="w-5 h-5" />, title: "Air Conditioning & Ventilation", caption: "We check airflow, refrigerant levels, and duct sealing so your cooling bills don't spike after handover." },
+    { icon: <Zap className="w-5 h-5" />, title: "Electrical Systems", caption: "Every circuit, socket, and DB board is tested against UAE DEWA regulations — before you move in." },
+    { icon: <Droplets className="w-5 h-5" />, title: "Plumbing & Drainage", caption: "Pressure tests and flow checks catch leaks and blockages that are invisible until they cause real damage." },
+    { icon: <Shield className="w-5 h-5" />, title: "Waterproofing", caption: "Bathrooms, terraces, and roof membranes are the most common failure points — we check every one." },
+    { icon: <Building2 className="w-5 h-5" />, title: "Structural Elements", caption: "Cracks, settlement, and load-bearing issues are identified by qualified engineers, not general inspectors." },
+    { icon: <Layers className="w-5 h-5" />, title: "Finishes & Tiling", caption: "Hollow tiles, uneven grout, paint defects, and silicone failures — all logged with photos in your report." },
+    { icon: <DoorOpen className="w-5 h-5" />, title: "Doors & Windows", caption: "Alignment, sealing, and hardware are checked so you don't pay for replacements within the first year." },
+    { icon: <Flame className="w-5 h-5" />, title: "Fire Safety Systems", caption: "Smoke detectors, sprinklers, and emergency lighting are tested to NFPA 72 and UAE Civil Defence standards." },
+    { icon: <Sun className="w-5 h-5" />, title: "Balconies & External", caption: "Railings, drainage falls, and external cladding are inspected so you enjoy your outdoor space safely." },
+    { icon: <Users className="w-5 h-5" />, title: "Common Areas", caption: "Lifts, lobbies, parking, and plant rooms are documented — critical for RERA compliance and resale value." }
+  ];
+
+  const testimonials = [
+    {
+      name: "Khalid A.",
+      property: "3BR Apartment · Dubai Marina",
+      rating: 5,
+      defect: "They found 31 defects the developer's own team missed — including two live wiring faults behind the kitchen. Saved us easily AED 55,000.",
+    },
+    {
+      name: "Sarah M.",
+      property: "2BR Apartment · Downtown Dubai",
+      rating: 5,
+      defect: "Water was seeping into the bathroom wall — invisible to the eye. UrbanGrid caught it with thermal imaging before we signed. The developer fixed it under warranty.",
+    },
+    {
+      name: "Priya R.",
+      property: "4BR Villa · Arabian Ranches",
+      rating: 5,
+      defect: "23 snagging items documented with photos. The developer resolved every single one within our DLP window. The report paid for itself 20 times over.",
+    },
+    {
+      name: "Omar H.",
+      property: "1BR Studio · Business Bay",
+      rating: 5,
+      defect: "Got the report within 24 hours, clear enough that even my developer's site manager couldn't dispute any item. Professional service from start to finish.",
+    },
+    {
+      name: "Fatima N.",
+      property: "2BR Apartment · Yas Island, Abu Dhabi",
+      rating: 5,
+      defect: "The AC system was undersized for the apartment — an AED 18,000 problem UrbanGrid flagged before I accepted the keys. Essential service.",
+    },
+    {
+      name: "James T.",
+      property: "3BR Apartment · Al Reem Island, Abu Dhabi",
+      rating: 5,
+      defect: "Used UrbanGrid for a secondary market purchase. Their report helped me negotiate AED 40,000 off the asking price based on documented defects.",
+    }
+  ];
+
   const currentServices = serviceCategories[activeTab].services;
 
   return (
@@ -99,22 +157,23 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/80 via-zinc-950/60 to-zinc-950" />
 
-        <div className={`relative z-10 max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 pt-20 pb-40 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        <div className={`relative z-10 max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 pt-20 pb-56 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
 
           <p className="text-[10px] sm:text-xs font-semibold tracking-[0.25em] text-white uppercase mb-8">
             Available Now Across UAE
           </p>
 
-          <h1 className="text-4xl sm:text-4xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight mb-8 max-w-4xl">
-            UAE's #1 Snagging &<br />
-            <span className="text-brand-white">Inspection Experts</span>
+          <h1 className="text-4xl sm:text-4xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight mb-6 max-w-4xl">
+            Your Home Is Likely the<br />
+            <span className="text-brand-white">Largest Purchase of Your Life.</span>
           </h1>
 
-          <p className="text-base sm:text-lg text-zinc-400 mb-12 max-w-xl leading-relaxed font-light">
-            Professional property inspection services in Dubai, Abu Dhabi, Sharjah &amp; Ajman — protecting your investment with international standards.
+          <p className="text-base sm:text-lg text-zinc-400 mb-10 max-w-xl leading-relaxed font-light">
+            UrbanGrid engineers have inspected 40,000+ UAE properties and documented 600,000+ defects — so you know exactly what you're buying into before it's too late.
           </p>
 
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+          {/* CTA buttons */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-8">
             <Link href="/contact">
               <Button
                 size="lg"
@@ -128,46 +187,76 @@ export default function Home() {
               </Button>
             </Link>
 
-            <div className="flex flex-wrap gap-3">
-              {Object.entries(serviceCategories).map(([key, category]) => (
-                <DropdownMenu key={key}>
-                  <DropdownMenuTrigger asChild>
-                    <button className="text-zinc-500 hover:text-white transition-colors text-[11px] font-medium flex items-center gap-1 tracking-wide border-b border-zinc-700 hover:border-zinc-400 pb-0.5">
-                      {category.title}
-                      <ChevronDown className="w-3 h-3 opacity-50" />
-                    </button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-64 bg-zinc-900 border-zinc-700 rounded-none p-2 shadow-2xl">
-                    {category.services.map((service) => (
-                      <DropdownMenuItem key={service.id} className="focus:bg-brand-green/10 focus:text-brand-green cursor-pointer rounded-none py-3 px-4">
-                        <Link href={`/services/${category.categorySlug}/${service.slug}`} className="w-full flex items-center justify-between group text-zinc-300 hover:text-white">
-                          <span className="text-xs font-medium">{service.title}</span>
-                          <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all" />
-                        </Link>
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              ))}
-            </div>
+            <a
+              href="/sample-report.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 border border-zinc-600 text-zinc-300 px-8 py-[14px] text-sm font-semibold hover:border-white hover:text-white transition-all"
+            >
+              Download Sample Report
+              <ArrowRight className="w-4 h-4" />
+            </a>
+          </div>
+
+          {/* Trust badges */}
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-[11px] text-zinc-500 font-medium mb-10">
+            <span className="flex items-center gap-1.5"><Shield className="w-3 h-3 text-brand-green" />Reports within 24 hours</span>
+            <span className="text-zinc-700">·</span>
+            <span>Contractor-ready format</span>
+            <span className="text-zinc-700">·</span>
+            <span>7 Emirates covered</span>
+            <span className="text-zinc-700">·</span>
+            <span>10+ years experience</span>
+          </div>
+
+          {/* Service dropdowns */}
+          <div className="flex flex-wrap gap-3">
+            {Object.entries(serviceCategories).map(([key, category]) => (
+              <DropdownMenu key={key}>
+                <DropdownMenuTrigger asChild>
+                  <button className="text-zinc-500 hover:text-white transition-colors text-[11px] font-medium flex items-center gap-1 tracking-wide border-b border-zinc-700 hover:border-zinc-400 pb-0.5">
+                    {category.title}
+                    <ChevronDown className="w-3 h-3 opacity-50" />
+                  </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-64 bg-zinc-900 border-zinc-700 rounded-none p-2 shadow-2xl">
+                  {category.services.map((service) => (
+                    <DropdownMenuItem key={service.id} className="focus:bg-brand-green/10 focus:text-brand-green cursor-pointer rounded-none py-3 px-4">
+                      <Link href={`/services/${category.categorySlug}/${service.slug}`} className="w-full flex items-center justify-between group text-zinc-300 hover:text-white">
+                        <span className="text-xs font-medium">{service.title}</span>
+                        <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all" />
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ))}
           </div>
         </div>
 
-        {/* Stats strip */}
+        {/* Stats strip — 5 animated tiles */}
         <div className="absolute bottom-0 left-0 right-0 border-t border-white/10 z-20">
           <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
-            <div className="grid grid-cols-3 divide-x divide-white/10">
-              <div className="py-6 pr-8">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 divide-x divide-white/10">
+              <div className="py-5 pr-6">
                 <div className="text-2xl sm:text-3xl font-bold text-white">{counts.inspections.toLocaleString()}+</div>
-                <div className="text-[10px] uppercase tracking-[0.18em] text-zinc-500 font-medium mt-1">Properties Inspected</div>
+                <div className="text-[10px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Properties Inspected</div>
               </div>
-              <div className="py-6 px-8">
+              <div className="py-5 px-6">
+                <div className="text-2xl sm:text-3xl font-bold text-white">{counts.defects.toLocaleString()}+</div>
+                <div className="text-[10px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Defects Documented</div>
+              </div>
+              <div className="py-5 px-6 col-span-2 sm:col-span-1">
+                <div className="text-2xl sm:text-3xl font-bold text-brand-green">AED {counts.saving.toLocaleString()}+</div>
+                <div className="text-[10px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Avg. Client Saving</div>
+              </div>
+              <div className="py-5 px-6 hidden sm:block">
                 <div className="text-2xl sm:text-3xl font-bold text-white">{counts.cities}</div>
-                <div className="text-[10px] uppercase tracking-[0.18em] text-zinc-500 font-medium mt-1">Emirates Covered</div>
+                <div className="text-[10px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Emirates Covered</div>
               </div>
-              <div className="py-6 pl-8">
+              <div className="py-5 pl-6 hidden lg:block">
                 <div className="text-2xl sm:text-3xl font-bold text-white">{counts.rating} <span className="text-yellow-500 text-lg">★</span></div>
-                <div className="text-[10px] uppercase tracking-[0.18em] text-zinc-500 font-medium mt-1">Client Satisfaction</div>
+                <div className="text-[10px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Client Satisfaction</div>
               </div>
             </div>
           </div>
@@ -199,6 +288,43 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ── WHAT WE INSPECT ───────────────────────────────────────────────── */}
+      <section className="py-24 lg:py-32 bg-zinc-50 border-b border-zinc-100">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+          <div className="mb-16">
+            <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Scope of Inspection</p>
+            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+              <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight max-w-lg">
+                What We Inspect in Your Property
+              </h2>
+              <p className="text-zinc-500 text-sm leading-relaxed max-w-sm">
+                Engineer-led inspections that have uncovered 600,000+ defects across 40,000 UAE properties — every category covered, nothing glossed over.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-px bg-zinc-200">
+            {inspectionCategories.map((item) => (
+              <div key={item.title} className="bg-white p-6 lg:p-7 group hover:bg-brand-green/5 transition-colors">
+                <div className="w-10 h-10 flex items-center justify-center border border-zinc-100 text-brand-green mb-5 group-hover:border-brand-green/30 transition-colors">
+                  {item.icon}
+                </div>
+                <h3 className="text-xs font-bold text-zinc-900 mb-2 leading-snug">{item.title}</h3>
+                <p className="text-[11px] text-zinc-500 leading-relaxed">{item.caption}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-10 text-center">
+            <Link href="/services">
+              <span className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all cursor-pointer">
+                See All Inspection Services <ArrowRight className="w-3 h-3" />
+              </span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* ── CONSULTATION FORM ─────────────────────────────────────────────── */}
       <ConsultationForm />
 
@@ -212,7 +338,7 @@ export default function Home() {
                 Our Professional Services
               </h2>
               <p className="text-zinc-500 text-sm leading-relaxed max-w-sm">
-                Comprehensive property inspection and snagging services across the UAE, following NFPA, ASHRAE, and ASTM international standards.
+                Engineer-led inspections that have uncovered 600,000+ defects across 40,000 UAE properties — protecting your investment at every stage.
               </p>
             </div>
           </div>
@@ -264,14 +390,15 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <div>
               <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Philosophy</p>
-              <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight mb-8">
-                Why Choose UrbanGrid?
+              <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight mb-4">
+                Your home is likely the largest purchase of your life.
               </h2>
+              <p className="text-brand-green text-sm font-semibold mb-6">Here's how we protect it.</p>
               <p className="text-zinc-500 text-sm leading-relaxed mb-6">
-                With over a decade of experience in the UAE property market, UrbanGrid is your trusted partner for comprehensive property inspections and snagging services. Our certified team follows international standards including NFPA, ASHRAE, and ASTM guidelines.
+                In 10+ years and 40,000+ UAE inspections, we've seen the same defects over and over — faulty wiring hidden behind walls, waterproofing failures that show up two years too late, AC systems that fail before summer. Your report gives you the evidence to have every one of them fixed at the developer's expense, not yours.
               </p>
               <p className="text-zinc-500 text-sm leading-relaxed mb-10">
-                We serve clients across Dubai, Abu Dhabi, Sharjah, and the entire UAE, providing peace of mind through thorough, professional inspections that comply with the highest global benchmarks.
+                Every inspection is led by a qualified engineer. Your report arrives within 24 hours in a contractor-ready format — specific enough that no developer can dispute it, clear enough that you can act on it immediately.
               </p>
               <Link href="/about">
                 <button className="flex items-center gap-2 text-sm font-semibold text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all">
@@ -292,8 +419,8 @@ export default function Home() {
                 decoding="async"
               />
               <div className="absolute -bottom-6 -right-6 bg-zinc-950 text-white p-6">
-                <div className="text-3xl font-bold text-brand-green">40,000+</div>
-                <div className="text-xs text-zinc-400 mt-1 uppercase tracking-widest">Properties Inspected</div>
+                <div className="text-3xl font-bold text-brand-green">600,000+</div>
+                <div className="text-xs text-zinc-400 mt-1 uppercase tracking-widest">Defects Documented</div>
               </div>
             </div>
           </div>
@@ -324,8 +451,58 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── INTERNATIONAL STANDARDS ───────────────────────────────────────── */}
+      {/* ── TESTIMONIALS ──────────────────────────────────────────────────── */}
       <section className="py-24 lg:py-32 bg-white">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+          <div className="mb-16">
+            <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Client Stories</p>
+            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+              <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight max-w-lg">
+                What Our Clients Say
+              </h2>
+              <div className="flex items-center gap-3">
+                <div className="flex">
+                  {[1,2,3,4,5].map(i => <Star key={i} className="w-4 h-4 fill-yellow-500 text-yellow-500" />)}
+                </div>
+                <p className="text-zinc-500 text-sm">
+                  Based on <span className="font-semibold text-zinc-900">1,200+ verified Google reviews</span> · 4.9 ★ average
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-zinc-100">
+            {testimonials.map((t) => (
+              <div key={t.name} className="bg-white p-8 flex flex-col gap-5">
+                <Quote className="w-6 h-6 text-brand-green/30" />
+                <p className="text-zinc-700 text-sm leading-relaxed flex-1">"{t.defect}"</p>
+                <div className="flex items-center justify-between pt-4 border-t border-zinc-100">
+                  <div>
+                    <p className="text-xs font-bold text-zinc-900">{t.name}</p>
+                    <p className="text-[11px] text-zinc-400 mt-0.5">{t.property}</p>
+                  </div>
+                  <div className="flex">
+                    {Array.from({ length: t.rating }).map((_, i) => (
+                      <Star key={i} className="w-3 h-3 fill-yellow-500 text-yellow-500" />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-10 text-center">
+            <Link href="/contact">
+              <Button className="bg-brand-green text-white hover:bg-emerald-700 px-8 py-6 text-sm font-semibold rounded-none">
+                Book Your Inspection Today
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ── INTERNATIONAL STANDARDS ───────────────────────────────────────── */}
+      <section className="py-24 lg:py-32 bg-zinc-50">
         <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
           <div className="mb-16">
             <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Standards</p>
@@ -334,7 +511,7 @@ export default function Home() {
                 International Standards We Follow
               </h2>
               <p className="text-zinc-500 text-sm leading-relaxed max-w-sm">
-                Our inspections strictly adhere to internationally recognized standards for fire safety, HVAC systems, and structural integrity.
+                Our inspections strictly adhere to internationally recognised standards for fire safety, HVAC systems, and structural integrity.
               </p>
             </div>
           </div>
@@ -360,13 +537,13 @@ export default function Home() {
               {
                 label: "ASTM",
                 title: "Material & Structural",
-                body: "Utilizing ASTM E2018 for Property Condition Assessments and ASTM standards for material testing and structural integrity evaluations.",
+                body: "Utilising ASTM E2018 for Property Condition Assessments and ASTM standards for material testing and structural integrity evaluations.",
                 href: "https://www.astm.org",
                 color: "text-brand-green",
                 icon: "fas fa-cogs"
               }
             ].map((std) => (
-              <div key={std.label} className="p-8 lg:p-10 group hover:bg-zinc-50 transition-colors">
+              <div key={std.label} className="p-8 lg:p-10 group hover:bg-white transition-colors">
                 <p className={`text-[10px] font-semibold tracking-[0.25em] uppercase mb-6 ${std.color}`}>{std.label}</p>
                 <h3 className="text-xl font-bold text-zinc-900 mb-4">{std.title}</h3>
                 <p className="text-zinc-500 text-xs leading-relaxed mb-6">{std.body}</p>
@@ -383,7 +560,7 @@ export default function Home() {
             {[
               { q: "What does NFPA 101 cover in building inspections?", a: "NFPA 101 Life Safety Code addresses fire protection requirements, exit routes, emergency lighting, and life safety systems to ensure occupant safety in buildings." },
               { q: "How does ASHRAE Standard 180 impact inspections?", a: "ASHRAE 180 provides guidelines for building commissioning processes, ensuring HVAC systems operate efficiently and meet design specifications." },
-              { q: "What is ASTM E2018 for Property Assessments?", a: "ASTM E2018 standardizes property condition assessments, providing consistent methodology for evaluating building systems and components." },
+              { q: "What is ASTM E2018 for Property Assessments?", a: "ASTM E2018 standardises property condition assessments, providing consistent methodology for evaluating building systems and components." },
               { q: "Why follow NFPA 72 for fire alarm systems?", a: "NFPA 72 ensures fire detection and alarm systems are properly installed, tested, and maintained according to national safety standards." }
             ].map((faq) => (
               <div key={faq.q} className="py-6 grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -396,7 +573,7 @@ export default function Home() {
       </section>
 
       {/* ── COVERAGE ──────────────────────────────────────────────────────── */}
-      <section className="py-24 lg:py-32 bg-zinc-50">
+      <section className="py-24 lg:py-32 bg-white">
         <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
           <div className="mb-16">
             <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Coverage</p>
@@ -443,12 +620,12 @@ export default function Home() {
             <div>
               <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-6">Get Started</p>
               <h2 className="text-4xl lg:text-6xl font-bold text-white leading-tight max-w-xl">
-                Ready to Protect Your Investment?
+                Don't Accept Your Property<br />Without Reading the Report First.
               </h2>
             </div>
             <div className="flex flex-col gap-4 lg:items-end">
               <p className="text-zinc-400 text-sm leading-relaxed max-w-xs lg:text-right">
-                Experts across Dubai, Abu Dhabi, and the entire UAE ready to provide the most thorough inspection available.
+                Reports delivered within 24 hours. Engineers across all 7 Emirates. The UAE's most thorough inspection, or your money back.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 mt-4">
                 <Link href="/contact">
@@ -479,6 +656,10 @@ export default function Home() {
             <div className="flex items-center gap-2 text-zinc-500 text-xs font-medium">
               <i className="fas fa-award text-brand-green text-xs"></i>
               <span>InterNACHI Certified</span>
+            </div>
+            <div className="flex items-center gap-2 text-zinc-500 text-xs font-medium">
+              <Star className="w-3 h-3 text-yellow-500" />
+              <span>4.9 ★ · 1,200+ Google Reviews</span>
             </div>
           </div>
         </div>
