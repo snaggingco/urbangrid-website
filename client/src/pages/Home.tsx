@@ -147,30 +147,30 @@ export default function Home() {
   return (
     <>
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
-      <section className="relative min-h-screen flex flex-col justify-center bg-zinc-950 mt-8 lg:mt-12 overflow-hidden">
+      <section className="relative min-h-screen flex flex-col justify-center bg-zinc-900 mt-8 lg:mt-12 overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=1000&q=80"
           alt=""
           aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover opacity-30"
+          className="absolute inset-0 w-full h-full object-cover opacity-20"
           width="1600"
           height="1000"
           decoding="async"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-zinc-950/80 via-zinc-950/60 to-zinc-950" />
+        <div className="absolute inset-0 bg-gradient-to-b from-zinc-900/60 via-zinc-900/45 to-zinc-900" />
 
         <div className={`relative z-10 max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 pt-14 sm:pt-18 pb-36 sm:pb-48 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
 
-          <p className="text-[10px] sm:text-xs font-semibold tracking-[0.25em] text-white uppercase mb-8">
+          <p className="text-[10px] sm:text-xs font-semibold tracking-[0.25em] text-brand-green uppercase mb-6">
             Available Now Across UAE
           </p>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-7xl font-bold text-white leading-[1.02] tracking-tight mb-5 max-w-3xl">
+          <h1 className="text-3xl sm:text-4xl lg:text-7xl font-bold text-white leading-[1.02] tracking-tight mb-5 max-w-3xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
             UAE's Leading Home Inspection<br />
             <span className="text-brand-white">&amp; Snagging Company.</span>
           </h1>
 
-          <p className="text-sm sm:text-lg text-zinc-300 mb-8 max-w-lg leading-relaxed font-normal">
+          <p className="text-sm sm:text-lg text-zinc-200 mb-8 max-w-lg leading-relaxed font-normal">
             40,000+ UAE properties inspected for snagging and home inspection. 600,000+ defects documented.
           </p>
 
