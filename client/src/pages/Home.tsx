@@ -164,12 +164,12 @@ export default function Home() {
           </p>
 
           <h1 className="text-4xl sm:text-4xl lg:text-7xl font-bold text-white leading-[1.05] tracking-tight mb-6 max-w-4xl">
-            Your Home Is Likely the<br />
+            Your Home Inspection Is Likely the<br />
             <span className="text-brand-white">Largest Purchase of Your Life.</span>
           </h1>
 
           <p className="text-base sm:text-lg text-zinc-400 mb-10 max-w-xl leading-relaxed font-light">
-            UrbanGrid engineers have inspected 40,000+ UAE properties and documented 600,000+ defects — so you know exactly what you're buying into before it's too late.
+            UrbanGrid engineers have inspected 40,000+ UAE properties for snagging and home inspection, documenting 600,000+ defects — so you know exactly what you're buying into before it's too late.
           </p>
 
           {/* CTA buttons */}
