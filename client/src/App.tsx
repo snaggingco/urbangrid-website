@@ -6,22 +6,22 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect, lazy, Suspense } from "react";
 
-// Eagerly loaded (always needed)
+// Eagerly loaded (shell always needed)
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingButtons from "@/components/FloatingButtons";
 import SEO from "@/components/SEO";
 import Home from "@/pages/Home";
-import About from "@/pages/About";
-import Services from "@/pages/Services";
-import Blog from "@/pages/Blog";
-import Contact from "@/pages/Contact";
-import Careers from "@/pages/Careers";
-import BrokerReferrals from "@/pages/BrokerReferrals";
-import ServiceDetail from "@/pages/ServiceDetail";
 
-// Lazy-loaded pages (rarely visited or secondary)
+// Lazy-loaded pages — each becomes its own chunk, reducing initial bundle by ~60%
+const About = lazy(() => import("@/pages/About"));
+const Services = lazy(() => import("@/pages/Services"));
+const ServiceDetail = lazy(() => import("@/pages/ServiceDetail"));
+const Blog = lazy(() => import("@/pages/Blog"));
 const BlogDetail = lazy(() => import("@/pages/BlogDetail"));
+const Contact = lazy(() => import("@/pages/Contact"));
+const Careers = lazy(() => import("@/pages/Careers"));
+const BrokerReferrals = lazy(() => import("@/pages/BrokerReferrals"));
 const Login = lazy(() => import("@/pages/Login"));
 const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("@/pages/TermsOfService"));

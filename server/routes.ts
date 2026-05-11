@@ -750,6 +750,39 @@ ${coverLetter}
       const safeDesc = desc.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       const safeImage = image.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       const safeUrl = canonical.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const datePublished = post.createdAt ? new Date(post.createdAt).toISOString() : new Date().toISOString();
+      const dateModified = post.updatedAt ? new Date(post.updatedAt).toISOString() : datePublished;
+      const authorName = (post as any).author
+        ? `${(post as any).author.firstName ?? ''} ${(post as any).author.lastName ?? ''}`.trim()
+        : 'UrbanGrid Editorial Team';
+      const jsonLd = JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": post.title,
+        "description": safeDesc,
+        "image": image,
+        "url": canonical,
+        "datePublished": datePublished,
+        "dateModified": dateModified,
+        "author": {
+          "@type": "Person",
+          "name": authorName,
+          "url": "https://urbangrid.ae/about"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "UrbanGrid Property Inspection",
+          "url": "https://urbangrid.ae",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://urbangrid.ae/favicon-192x192.png"
+          }
+        },
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": canonical
+        }
+      });
       const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -768,32 +801,20 @@ ${coverLetter}
   <meta name="twitter:title" content="${safeTitle}">
   <meta name="twitter:description" content="${safeDesc}">
   <meta name="twitter:image" content="${safeImage}">
+  <meta property="article:published_time" content="${datePublished}">
+  <meta property="article:modified_time" content="${dateModified}">
+  <meta property="article:author" content="${authorName.replace(/"/g, '&quot;')}">
+  <script type="application/ld+json">${jsonLd}</script>
 </head>
 <body>
   <h1>${post.title.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</h1>
+  <p>By <span itemprop="author">${authorName}</span> — <time datetime="${datePublished}">${new Date(datePublished).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time></p>
 </body>
 </html>`;
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
       return res.send(html);
     } catch (error) {
       console.error("Error rendering blog page:", error);
-      return next();
-    }
-  });
-
-  // Final catch-all page for SSR with canonical URL support
-  app.get('*', async (req, res, next) => {
-    try {
-      const url = req.originalUrl;
-      if (url.startsWith('/api/') || url.startsWith('/assets/')) return next();
-      const isProd = process.env.NODE_ENV === 'production';
-      const htmlPath = isProd
-        ? path.resolve(import.meta.dirname, 'public', 'index.html')
-        : path.resolve(import.meta.dirname, '..', 'client', 'index.html');
-      const template = fs.readFileSync(htmlPath, 'utf-8');
-      res.setHeader('Content-Type', 'text/html; charset=utf-8');
-      return res.send(template);
-    } catch {
       return next();
     }
   });
