@@ -43,7 +43,7 @@ async function sendEmail(to: string, subject: string, content: string) {
       },
     });
 
-    const from = process.env.EMAIL_FROM || 'info@snagging.in';
+    const from = process.env.SMTP_USER || process.env.EMAIL_FROM || 'info@snagging.in';
     await transporter.sendMail({
       to,
       from,
@@ -54,7 +54,7 @@ async function sendEmail(to: string, subject: string, content: string) {
     console.log(`Email sent successfully to ${to} via SMTP`);
     return true;
   } catch (error: any) {
-    console.error(`SMTP error sending to ${to}:`, error);
+    console.error(`SMTP error sending to ${to}:`, error?.response || error);
     return false;
   }
 }
