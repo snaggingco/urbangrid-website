@@ -631,6 +631,15 @@ ${coverLetter}
 
   // Sitemap
   app.get('/sitemap.xml', (_req, res) => {
+    const staticLastMod = new Date().toISOString().slice(0, 10);
+    const blogLastModBySlug: Record<string, string> = {
+      'nfpa-72-fire-alarm-systems-property-snagging-uae': '2026-05-12',
+      'nfpa-25-fire-protection-systems-property-snagging-uae': '2026-05-12',
+      'nfpa-70-national-electrical-code-property-snagging-uae': '2026-05-12',
+      'nfpa-101-life-safety-code-property-snagging-uae': '2026-05-12',
+      'ashrae-standard-180-building-commissioning-property-snagging-uae': '2026-05-12',
+      'case-study-palm-jumeirah-penthouse-inspection-mep-defects': '2026-05-12',
+    };
     const serviceUrls = [
       '/services/property-snagging/new-build-snagging',
       '/services/property-snagging/post-renovation-inspection',
@@ -659,17 +668,21 @@ ${coverLetter}
     ];
     res.status(200).type('application/xml').send(`<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://urbangrid.ae/</loc></url>
-  <url><loc>https://urbangrid.ae/about</loc></url>
-  <url><loc>https://urbangrid.ae/services</loc></url>
-  <url><loc>https://urbangrid.ae/contact</loc></url>
-  <url><loc>https://urbangrid.ae/blog</loc></url>
-  <url><loc>https://urbangrid.ae/broker-referrals</loc></url>
-  <url><loc>https://urbangrid.ae/careers</loc></url>
-  <url><loc>https://urbangrid.ae/privacy-policy</loc></url>
-  <url><loc>https://urbangrid.ae/terms-of-service</loc></url>
-${serviceUrls.map((url) => `  <url><loc>https://urbangrid.ae${url}</loc></url>`).join('\n')}
-${blogUrls.map((url) => `  <url><loc>https://urbangrid.ae${url}</loc></url>`).join('\n')}
+  <url><loc>https://urbangrid.ae/</loc><lastmod>${staticLastMod}</lastmod></url>
+  <url><loc>https://urbangrid.ae/about</loc><lastmod>${staticLastMod}</lastmod></url>
+  <url><loc>https://urbangrid.ae/services</loc><lastmod>${staticLastMod}</lastmod></url>
+  <url><loc>https://urbangrid.ae/contact</loc><lastmod>${staticLastMod}</lastmod></url>
+  <url><loc>https://urbangrid.ae/blog</loc><lastmod>${staticLastMod}</lastmod></url>
+  <url><loc>https://urbangrid.ae/broker-referrals</loc><lastmod>${staticLastMod}</lastmod></url>
+  <url><loc>https://urbangrid.ae/careers</loc><lastmod>${staticLastMod}</lastmod></url>
+  <url><loc>https://urbangrid.ae/privacy-policy</loc><lastmod>${staticLastMod}</lastmod></url>
+  <url><loc>https://urbangrid.ae/terms-of-service</loc><lastmod>${staticLastMod}</lastmod></url>
+${serviceUrls.map((url) => `  <url><loc>https://urbangrid.ae${url}</loc><lastmod>${staticLastMod}</lastmod></url>`).join('\n')}
+${blogUrls.map((url) => {
+      const slug = url.split('/').pop() || '';
+      const lastmod = blogLastModBySlug[slug] || staticLastMod;
+      return `  <url><loc>https://urbangrid.ae${url}</loc><lastmod>${lastmod}</lastmod></url>`;
+    }).join('\n')}
 </urlset>`);
   });
 
