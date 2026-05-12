@@ -8,7 +8,7 @@ import { setupInspectorAuth } from "./inspectorAuth";
 import { insertBlogPostSchema, insertContactSubmissionSchema, insertInspectorSchema, insertConversionLogSchema } from "@shared/schema";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
-import nodemailer from "nodemailer";
+import sgMail from "@sendgrid/mail";
 import { db } from "./db";
 import { blogPosts } from "@shared/schema";
 import { notInArray } from "drizzle-orm";
@@ -24,38 +24,29 @@ function generateSlug(title: string): string {
     .substring(0, 100);
 }
 
-// Email sending function using Nodemailer with SMTP
-async function sendEmail(to: string, subject: string, content: string) {
-  try {
-    // Create SMTP transporter
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT || '587'),
-      secure: process.env.SMTP_PORT === '465', // true for 465, false for other ports
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-      tls: {
-        rejectUnauthorized: false // For development, set to true in production
-      }
-    });
+// Email sending via SendGrid
+if (process.env.SENDGRID_API_KEY) {
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+}
 
-    // Send email
-    const info = await transporter.sendMail({
-      from: process.env.EMAIL_FROM || process.env.SMTP_USER,
-      to: to,
-      subject: subject,
+async function sendEmail(to: string, subject: string, content: string) {
+  if (!process.env.SENDGRID_API_KEY) {
+    console.error('SENDGRID_API_KEY is not set — email not sent');
+    return false;
+  }
+  try {
+    const from = (process.env.EMAIL_FROM || 'info@urbangrid.ae');
+    await sgMail.send({
+      to,
+      from,
+      subject,
       text: content,
       html: content.replace(/\n/g, '<br>'),
     });
-
-    console.log(`Email sent successfully to ${to}. Message ID: ${info.messageId}`);
+    console.log(`Email sent successfully to ${to} via SendGrid`);
     return true;
-  } catch (error) {
-    console.error(`Failed to send email to ${to}:`, error);
-    // Log the error but don't fail the form submission completely
-    console.log(`Fallback: Logging email to ${to}: ${subject}\n${content}`);
+  } catch (error: any) {
+    console.error(`SendGrid error sending to ${to}:`, error?.response?.body || error);
     return false;
   }
 }
