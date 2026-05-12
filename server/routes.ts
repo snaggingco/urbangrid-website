@@ -72,6 +72,18 @@ function isAdminAuthenticated(req: any, res: any, next: any) {
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  app.use((req, res, next) => {
+    const host = req.headers.host || '';
+    if (
+      host.includes('urbangrid.replit.app') ||
+      host.includes('snagging.me') ||
+      (host.includes('www.urbangrid.ae') && host !== 'www.urbangrid.ae')
+    ) {
+      return res.redirect(301, `https://urbangrid.ae${req.originalUrl}`);
+    }
+    next();
+  });
+
   // 410 Gone for all removed location pages — registered FIRST so it intercepts
   // before Vite's SPA catch-all. Tells Google to deindex permanently.
   const sendLocationGone = (_req: any, res: any) => {
