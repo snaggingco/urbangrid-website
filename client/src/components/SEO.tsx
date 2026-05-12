@@ -147,7 +147,7 @@ export default function SEO({
     const description = customDescription || routeData.description || 'Professional property inspection and snagging services across Dubai, Abu Dhabi, and UAE.';
     const keywords = customKeywords || routeData.keywords || 'property snagging UAE, property inspection Dubai, snagging services';
     const ogImage = customOgImage || routeData.ogImage || 'https://urbangrid.ae/og-image.jpg';
-    const shouldNoindex = noindex;
+    const shouldNoindex = false;
 
     const canonical = customCanonical || `https://urbangrid.ae${location}`;
 
