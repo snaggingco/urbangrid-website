@@ -51,6 +51,10 @@ async function sendEmail(to: string, subject: string, content: string) {
   }
 }
 
+function logContactFallback(submission: { name: string; email: string; phone?: string | null; message: string }) {
+  console.log(`Contact fallback stored for admin review:\nName: ${submission.name}\nEmail: ${submission.email}\nPhone: ${submission.phone || 'N/A'}\nMessage: ${submission.message}`);
+}
+
 // Admin authentication middleware
 function isAdminAuthenticated(req: any, res: any, next: any) {
   if (req.isAuthenticated() && req.user?.claims?.sub === 'super-admin') {
@@ -321,7 +325,10 @@ Email: ${submission.email}
 Phone: ${submission.phone}
 Message: ${submission.message}
       `;
-      await sendEmail('info@urbangrid.ae', 'New Contact Form Submission', emailContent);
+      const emailed = await sendEmail('info@urbangrid.ae', 'New Contact Form Submission', emailContent);
+      if (!emailed) {
+        logContactFallback(submission);
+      }
       
       res.status(201).json({ message: 'Contact submission received', submission });
     } catch (error) {
@@ -357,7 +364,15 @@ Name: ${name}
 Email: ${email}
 Phone: ${phone}
       `;
-      await sendEmail('info@urbangrid.ae', 'New Free Consultation Request', emailContent);
+      const emailed = await sendEmail('info@urbangrid.ae', 'New Free Consultation Request', emailContent);
+      if (!emailed) {
+        logContactFallback({
+          name,
+          email,
+          phone,
+          message: 'Free consultation request',
+        });
+      }
 
       res.status(201).json({ message: 'Consultation request received', consultation });
     } catch (error) {
@@ -390,7 +405,15 @@ Phone: ${phone}
 
 This lead requested the sample inspection report.
       `;
-      await sendEmail('info@urbangrid.ae', 'New Sample Report Download Request', emailContent);
+      const emailed = await sendEmail('info@urbangrid.ae', 'New Sample Report Download Request', emailContent);
+      if (!emailed) {
+        logContactFallback({
+          name,
+          email,
+          phone,
+          message: 'Sample report download request',
+        });
+      }
 
       res.status(201).json({ message: 'Details received' });
     } catch (error) {
@@ -422,7 +445,15 @@ Name: ${name}
 Email: ${email}
 Phone: ${phone}
       `;
-      await sendEmail('info@urbangrid.ae', 'New Quick Contact Request', emailContent);
+      const emailed = await sendEmail('info@urbangrid.ae', 'New Quick Contact Request', emailContent);
+      if (!emailed) {
+        logContactFallback({
+          name,
+          email,
+          phone,
+          message: 'Quick contact request',
+        });
+      }
 
       res.status(201).json({ message: 'Quick contact request received', quickContact });
     } catch (error) {
@@ -461,7 +492,15 @@ Resume File: ${resumeFileName || 'N/A'}
 Cover Letter:
 ${coverLetter}
       `;
-      await sendEmail('info@urbangrid.ae', `New Career Application - ${position}`, emailContent);
+      const emailed = await sendEmail('info@urbangrid.ae', `New Career Application - ${position}`, emailContent);
+      if (!emailed) {
+        logContactFallback({
+          name: fullName,
+          email,
+          phone,
+          message: `Career application for ${position}`,
+        });
+      }
 
       res.status(201).json({ message: 'Career application received', application });
     } catch (error) {
