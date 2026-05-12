@@ -619,6 +619,32 @@ ${coverLetter}
 
   // Sitemap
   app.get('/sitemap.xml', (_req, res) => {
+    const serviceUrls = [
+      '/services/property-snagging/new-build-snagging',
+      '/services/property-snagging/post-renovation-inspection',
+      '/services/property-snagging/dlp-snagging',
+      '/services/property-snagging/move-in-move-out',
+      '/services/property-snagging/secondary-market',
+      '/services/property-snagging/developer-projects',
+      '/services/rera-services/reserve-fund-study',
+      '/services/rera-services/service-charge-allocation',
+      '/services/rera-services/reinstatement-cost-assessment',
+      '/services/rera-services/building-completion-audit',
+      '/services/rera-services/building-condition-survey',
+      '/services/technical-inspections/technical-due-diligence',
+      '/services/technical-inspections/dilapidation-survey',
+      '/services/technical-inspections/thermographic-survey',
+      '/services/technical-inspections/noise-survey',
+      '/services/technical-inspections/structural-survey',
+    ];
+    const blogUrls = [
+      '/blog/nfpa-72-fire-alarm-systems-property-snagging-uae',
+      '/blog/nfpa-25-fire-protection-systems-property-snagging-uae',
+      '/blog/nfpa-70-national-electrical-code-property-snagging-uae',
+      '/blog/nfpa-101-life-safety-code-property-snagging-uae',
+      '/blog/ashrae-standard-180-building-commissioning-property-snagging-uae',
+      '/blog/case-study-palm-jumeirah-penthouse-inspection-mep-defects',
+    ];
     res.status(200).type('application/xml').send(`<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://urbangrid.ae/</loc></url>
@@ -630,6 +656,8 @@ ${coverLetter}
   <url><loc>https://urbangrid.ae/careers</loc></url>
   <url><loc>https://urbangrid.ae/privacy-policy</loc></url>
   <url><loc>https://urbangrid.ae/terms-of-service</loc></url>
+${serviceUrls.map((url) => `  <url><loc>https://urbangrid.ae${url}</loc></url>`).join('\n')}
+${blogUrls.map((url) => `  <url><loc>https://urbangrid.ae${url}</loc></url>`).join('\n')}
 </urlset>`);
   });
 
