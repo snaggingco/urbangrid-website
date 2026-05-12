@@ -613,6 +613,30 @@ export default function Home() {
         </div>
       </section>
 
+      <section className="py-24 lg:py-32 bg-zinc-50">
+        <div className="max-w-4xl mx-auto px-6 sm:px-10 lg:px-16">
+          <div className="mb-12">
+            <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">FAQ</p>
+            <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight">
+              Common questions about our inspection services.
+            </h2>
+          </div>
+          <div className="divide-y divide-zinc-200 border-t border-b border-zinc-200">
+            {[
+              { q: "What is included in a property snagging inspection?", a: "We check finishes, fixtures, MEP systems, safety items, and visible defects, then provide a clear report with photos and recommendations." },
+              { q: "How fast do you deliver the report?", a: "Most reports are delivered within 24 hours after the inspection is completed." },
+              { q: "Do you inspect villas and apartments?", a: "Yes, we inspect villas, apartments, townhouses, and commercial units across the UAE." },
+              { q: "Can I book a consultation before the inspection?", a: "Yes, you can contact us first for guidance, pricing, and the best inspection type for your property." }
+            ].map((faq) => (
+              <div key={faq.q} className="py-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <h3 className="text-sm font-semibold text-zinc-800">{faq.q}</h3>
+                <p className="text-xs text-zinc-500 leading-relaxed">{faq.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* ── FINAL CTA ─────────────────────────────────────────────────────── */}
       <section className="py-24 lg:py-32 bg-zinc-950 text-white">
         <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
