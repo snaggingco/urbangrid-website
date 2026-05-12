@@ -35,7 +35,7 @@ async function sendEmail(to: string, subject: string, content: string) {
     return false;
   }
   try {
-    const from = (process.env.EMAIL_FROM || 'info@urbangrid.ae');
+    const from = (process.env.EMAIL_FROM || 'info@snagging.in');
     await sgMail.send({
       to,
       from,
