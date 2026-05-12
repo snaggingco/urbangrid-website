@@ -583,7 +583,14 @@ ${coverLetter}
   // Sitemap
   app.get('/sitemap.xml', async (_req, res) => {
     try {
-      const sitemap = await generateSitemap();
+      const publishedBlogPosts = await db
+        .select({
+          slug: blogPosts.slug,
+          updatedAt: blogPosts.updatedAt,
+        })
+        .from(blogPosts)
+        .where(eq(blogPosts.status, 'published'));
+      const sitemap = generateSitemap(getSitemapUrls('https://urbangrid.ae', publishedBlogPosts));
       res.setHeader('Content-Type', 'application/xml');
       res.send(sitemap);
     } catch (error) {
