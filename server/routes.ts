@@ -581,34 +581,17 @@ ${coverLetter}
 
   // Sitemap
   app.get('/sitemap.xml', (_req, res) => {
-    res.setHeader('Content-Type', 'application/xml');
-    res.send(`<?xml version="1.0" encoding="UTF-8"?>
+    res.status(200).type('application/xml').send(`<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://urbangrid.ae/</loc><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://urbangrid.ae/about</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://urbangrid.ae/services</loc><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://urbangrid.ae/contact</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://urbangrid.ae/blog</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://urbangrid.ae/broker-referrals</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://urbangrid.ae/careers</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://urbangrid.ae/privacy-policy</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
-  <url><loc>https://urbangrid.ae/terms-of-service</loc><changefreq>yearly</changefreq><priority>0.3</priority></url>
-  <url><loc>https://urbangrid.ae/services/property-snagging/new-build-snagging</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://urbangrid.ae/services/property-snagging/post-renovation-inspection</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://urbangrid.ae/services/property-snagging/dlp-snagging</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://urbangrid.ae/services/property-snagging/move-in-move-out</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://urbangrid.ae/services/property-snagging/secondary-market</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://urbangrid.ae/services/property-snagging/developer-projects</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://urbangrid.ae/services/rera-services/reserve-fund-study</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://urbangrid.ae/services/rera-services/service-charge-allocation</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://urbangrid.ae/services/rera-services/reinstatement-cost-assessment</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://urbangrid.ae/services/rera-services/building-completion-audit</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://urbangrid.ae/services/rera-services/building-condition-survey</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://urbangrid.ae/services/technical-inspections/technical-due-diligence</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://urbangrid.ae/services/technical-inspections/dilapidation-survey</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://urbangrid.ae/services/technical-inspections/thermographic-survey</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://urbangrid.ae/services/technical-inspections/noise-survey</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://urbangrid.ae/services/technical-inspections/structural-survey</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://urbangrid.ae/</loc></url>
+  <url><loc>https://urbangrid.ae/about</loc></url>
+  <url><loc>https://urbangrid.ae/services</loc></url>
+  <url><loc>https://urbangrid.ae/contact</loc></url>
+  <url><loc>https://urbangrid.ae/blog</loc></url>
+  <url><loc>https://urbangrid.ae/broker-referrals</loc></url>
+  <url><loc>https://urbangrid.ae/careers</loc></url>
+  <url><loc>https://urbangrid.ae/privacy-policy</loc></url>
+  <url><loc>https://urbangrid.ae/terms-of-service</loc></url>
 </urlset>`);
   });
 
