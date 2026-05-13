@@ -23,9 +23,9 @@ export default function FloatingButtons() {
     return () => clearTimeout(timer);
   }, [isChatOpen]);
 
-  // Replace ScrollTriggeredForm: open Nora once at 50 % scroll depth
+  // Replace ScrollTriggeredForm: open Lena once at 50 % scroll depth
   useEffect(() => {
-    if (sessionStorage.getItem("nora_auto_opened")) return;
+    if (sessionStorage.getItem("lena_auto_opened")) return;
     const handleScroll = () => {
       const scrolled = window.pageYOffset;
       const total =
@@ -34,7 +34,7 @@ export default function FloatingButtons() {
       if (total > 0 && (scrolled / total) * 100 >= 50) {
         setIsChatOpen(true);
         setHasNotification(false);
-        sessionStorage.setItem("nora_auto_opened", "1");
+        sessionStorage.setItem("lena_auto_opened", "1");
       }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -52,11 +52,11 @@ export default function FloatingButtons() {
       <div className="hidden md:block fixed bottom-6 right-6 z-50">
         <div className="flex flex-col items-center space-y-4">
 
-          {/* Nora AI button + label */}
+          {/* Lena AI button + label */}
           <div className="flex flex-col items-center gap-1.5">
-            {/* "Nora AI" label */}
+            {/* "Lena AI" label */}
             <span className="text-[10px] font-bold tracking-widest uppercase text-brand-green bg-white px-2.5 py-1 rounded-full shadow border border-brand-green/25 select-none">
-              Nora AI
+              Lena AI
             </span>
 
             <div className="relative">
@@ -65,7 +65,7 @@ export default function FloatingButtons() {
                 className={`relative bg-brand-green hover:bg-opacity-90 text-white w-14 h-14 rounded-full shadow-xl transition-all duration-300 hover:scale-110 group flex items-center justify-center ${
                   showPulse ? "animate-pulse-glow-desktop" : ""
                 }`}
-                aria-label="Chat with Nora AI"
+                aria-label="Chat with Lena AI"
               >
                 <MessageCircle size={22} />
 
@@ -77,7 +77,7 @@ export default function FloatingButtons() {
                 {/* tooltip */}
                 <div className="absolute right-full top-1/2 -translate-y-1/2 mr-3 opacity-0 group-hover:opacity-100 transition-all duration-200 translate-x-2 group-hover:translate-x-0 pointer-events-none">
                   <div className="bg-brand-green text-white text-sm px-3 py-2 rounded-lg shadow-lg whitespace-nowrap relative">
-                    <span className="font-medium">Chat with Nora</span>
+                    <span className="font-medium">Chat with Lena</span>
                     <div className="absolute top-1/2 -right-1 -translate-y-1/2 w-2 h-2 bg-brand-green rotate-45" />
                   </div>
                 </div>
@@ -137,14 +137,14 @@ export default function FloatingButtons() {
           <div className="flex items-center justify-between">
             <div className="flex-1">
               <p className="text-sm font-semibold text-brand-black">Need Help?</p>
-              <p className="text-xs text-text-grey">Chat with Nora or call us</p>
+              <p className="text-xs text-text-grey">Chat with Lena or call us</p>
             </div>
             <div className="flex items-center space-x-3">
-              {/* Nora (mobile) */}
+              {/* Lena (mobile) */}
               <button
                 onClick={openChat}
                 className="relative bg-brand-green text-white w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:scale-105 flex items-center justify-center"
-                aria-label="Chat with Nora AI"
+                aria-label="Chat with Lena AI"
               >
                 <MessageCircle size={20} />
                 {hasNotification && !isChatOpen && (

@@ -11,7 +11,7 @@ interface Message {
 const WELCOME_MESSAGE: Message = {
   role: "assistant",
   content:
-    "Hi! I'm Nora from UrbanGrid 👋 I'm here to help you with property inspections, snagging, and interior fit-out services. What can I help you with today?",
+    "Hi! I'm Lena from UrbanGrid 👋 I'm here to help you with property inspections, snagging, and interior fit-out services. What can I help you with today?",
 };
 
 const QUICK_REPLIES = [
@@ -319,7 +319,7 @@ export default function ChatWindow({ isOpen, onClose }: ChatWindowProps) {
             <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 rounded-full border-2 border-brand-green" />
           </div>
           <div>
-            <p className="font-semibold text-sm">Nora — UrbanGrid</p>
+            <p className="font-semibold text-sm">Lena — UrbanGrid</p>
             <p className="text-xs text-green-200">Property Inspection Expert</p>
           </div>
         </div>
