@@ -77,7 +77,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     if (
       host.includes('urbangrid.replit.app') ||
       host.includes('snagging.me') ||
-      (host.includes('www.urbangrid.ae') && host !== 'www.urbangrid.ae')
+      host === 'www.urbangrid.ae'
     ) {
       return res.redirect(301, `https://urbangrid.ae${req.originalUrl}`);
     }
