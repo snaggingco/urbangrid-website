@@ -8,7 +8,7 @@ import { setupInspectorAuth } from "./inspectorAuth";
 import { insertBlogPostSchema, insertContactSubmissionSchema, insertInspectorSchema, insertConversionLogSchema } from "@shared/schema";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
-import nodemailer from "nodemailer";
+import sgMail from "@sendgrid/mail";
 import { db } from "./db";
 import { blogPosts } from "@shared/schema";
 import { notInArray } from "drizzle-orm";
@@ -26,36 +26,25 @@ function generateSlug(title: string): string {
 }
 
 async function sendEmail(to: string, subject: string, content: string) {
-  if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
-    console.error('SMTP settings are not configured — email not sent');
+  const apiKey = process.env.SENDGRID_API_KEY;
+  if (!apiKey) {
+    console.error('SENDGRID_API_KEY is not configured — email not sent');
     return false;
   }
   try {
-    const transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT || '465'),
-      secure: process.env.SMTP_PORT === '465',
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-      tls: {
-        rejectUnauthorized: false,
-      },
-    });
-
-    const from = process.env.SMTP_USER || process.env.EMAIL_FROM || 'info@snagging.in';
-    await transporter.sendMail({
+    sgMail.setApiKey(apiKey);
+    const from = process.env.EMAIL_FROM || process.env.SMTP_USER || 'info@snagging.in';
+    await sgMail.send({
       to,
       from,
       subject,
       text: content,
       html: content.replace(/\n/g, '<br>'),
     });
-    console.log(`Email sent successfully to ${to} via SMTP`);
+    console.log(`Email sent successfully to ${to} via SendGrid`);
     return true;
   } catch (error: any) {
-    console.error(`SMTP error sending to ${to}:`, error?.response || error);
+    console.error(`SendGrid error sending to ${to}:`, error?.response?.body || error?.message || error);
     return false;
   }
 }

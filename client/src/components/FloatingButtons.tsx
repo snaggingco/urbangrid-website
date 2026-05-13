@@ -139,7 +139,7 @@ export default function FloatingButtons() {
           <div className="flex items-center justify-between">
             <div className="flex-1">
               <p className="text-sm font-semibold text-brand-black">Need Help?</p>
-              <p className="text-xs text-text-grey">Chat with Lena or call us</p>
+              <p className="text-xs text-text-grey">Chat with Lena AI or call us</p>
             </div>
             <div className="flex items-center space-x-3">
               {/* Lena (mobile) */}

@@ -11,7 +11,7 @@ interface Message {
 const WELCOME_MESSAGE: Message = {
   role: "assistant",
   content:
-    "Hi! I'm Lena from UrbanGrid 👋 I'm here to help you with property inspections, snagging, and interior fit-out services. What can I help you with today?",
+    "Hi! I'm Lena AI from UrbanGrid 👋 I'm here to help you with property inspections, snagging, and interior fit-out services. What can I help you with today?",
 };
 
 const QUICK_REPLIES = [
