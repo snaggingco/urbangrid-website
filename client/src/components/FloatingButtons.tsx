@@ -1,136 +1,183 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { MessageCircle } from "lucide-react";
 import { trackConversion } from "@/lib/analytics";
+import ChatWindow from "@/components/ChatWidget";
 
 export default function FloatingButtons() {
   const [showPulse, setShowPulse] = useState(true);
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [hasNotification, setHasNotification] = useState(false);
 
-  // Add periodic pulse animation to draw attention
   useEffect(() => {
     const interval = setInterval(() => {
       setShowPulse(true);
       setTimeout(() => setShowPulse(false), 2000);
-    }, 8000); // Pulse every 8 seconds
-
+    }, 8000);
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      if (!isChatOpen) setHasNotification(true);
+    }, 8000);
+    return () => clearTimeout(timer);
+  }, [isChatOpen]);
+
+  // Replace ScrollTriggeredForm: open Nora once at 50 % scroll depth
+  useEffect(() => {
+    if (sessionStorage.getItem("nora_auto_opened")) return;
+    const handleScroll = () => {
+      const scrolled = window.pageYOffset;
+      const total =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight;
+      if (total > 0 && (scrolled / total) * 100 >= 50) {
+        setIsChatOpen(true);
+        setHasNotification(false);
+        sessionStorage.setItem("nora_auto_opened", "1");
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  function openChat() {
+    setIsChatOpen(true);
+    setHasNotification(false);
+  }
+
   return (
     <>
-      {/* Desktop Floating Buttons - Attention-Grabbing & Circular */}
+      {/* ── Desktop ── */}
       <div className="hidden md:block fixed bottom-6 right-6 z-50">
-        <div className="flex flex-col space-y-4">
-          {/* Scroll to Top Button */}
-          <div className="relative">
-            <button
-              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className={`floating-button-desktop bg-gray-500 hover:bg-gray-600 text-white w-14 h-14 rounded-full shadow-lg transition-all duration-300 hover:scale-110 group flex items-center justify-center ${
-                showPulse ? 'animate-pulse-glow-desktop' : ''
-              }`}
-              aria-label="Scroll to top"
-            >
-              <i className="fas fa-chevron-up text-xl"></i>
-              
-              {/* Enhanced tooltip */}
-              <div className="absolute right-full top-1/2 -translate-y-1/2 mr-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-0 translate-x-2">
-                <div className="bg-gray-600 text-white text-sm px-3 py-2 rounded-lg shadow-lg whitespace-nowrap relative">
-                  <span className="font-medium">Scroll to top</span>
-                  <div className="absolute top-1/2 -right-1 -translate-y-1/2 w-2 h-2 bg-gray-600 rotate-45"></div>
+        <div className="flex flex-col items-center space-y-4">
+
+          {/* Nora AI button + label */}
+          <div className="flex flex-col items-center gap-1.5">
+            {/* "Nora AI" label */}
+            <span className="text-[10px] font-bold tracking-widest uppercase text-brand-green bg-white px-2.5 py-1 rounded-full shadow border border-brand-green/25 select-none">
+              Nora AI
+            </span>
+
+            <div className="relative">
+              <button
+                onClick={openChat}
+                className={`relative bg-brand-green hover:bg-opacity-90 text-white w-14 h-14 rounded-full shadow-xl transition-all duration-300 hover:scale-110 group flex items-center justify-center ${
+                  showPulse ? "animate-pulse-glow-desktop" : ""
+                }`}
+                aria-label="Chat with Nora AI"
+              >
+                <MessageCircle size={22} />
+
+                {/* notification dot */}
+                {hasNotification && !isChatOpen && (
+                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 rounded-full border-2 border-white animate-pulse" />
+                )}
+
+                {/* tooltip */}
+                <div className="absolute right-full top-1/2 -translate-y-1/2 mr-3 opacity-0 group-hover:opacity-100 transition-all duration-200 translate-x-2 group-hover:translate-x-0 pointer-events-none">
+                  <div className="bg-brand-green text-white text-sm px-3 py-2 rounded-lg shadow-lg whitespace-nowrap relative">
+                    <span className="font-medium">Chat with Nora</span>
+                    <div className="absolute top-1/2 -right-1 -translate-y-1/2 w-2 h-2 bg-brand-green rotate-45" />
+                  </div>
                 </div>
-              </div>
-            </button>
+              </button>
+            </div>
           </div>
 
-          {/* WhatsApp Button */}
+          {/* WhatsApp */}
           <div className="relative">
             <a
               href="https://wa.me/971567427634?text=Hello%20UrbanGrid%2C%20I%27m%20interested%20in%20your%20property%20inspection%20services.%20Please%20provide%20me%20with%20more%20information."
               target="_blank"
               rel="noopener noreferrer"
-              onClick={() => trackConversion('whatsapp_click')}
+              onClick={() => trackConversion("whatsapp_click")}
               className={`floating-button-desktop bg-green-500 hover:bg-green-600 text-white w-14 h-14 rounded-full shadow-lg transition-all duration-300 hover:scale-110 group flex items-center justify-center ${
-                showPulse ? 'animate-pulse-glow-desktop' : ''
+                showPulse ? "animate-pulse-glow-desktop" : ""
               }`}
               aria-label="Contact us on WhatsApp"
             >
-              <i className="fab fa-whatsapp text-2xl"></i>
-              
-              {/* Enhanced tooltip */}
-              <div className="absolute right-full top-1/2 -translate-y-1/2 mr-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-0 translate-x-2">
+              <i className="fab fa-whatsapp text-2xl" />
+              <div className="absolute right-full top-1/2 -translate-y-1/2 mr-3 opacity-0 group-hover:opacity-100 transition-all duration-200 translate-x-2 group-hover:translate-x-0 pointer-events-none">
                 <div className="bg-green-600 text-white text-sm px-3 py-2 rounded-lg shadow-lg whitespace-nowrap relative">
                   <span className="font-medium">Chat on WhatsApp</span>
-                  <div className="absolute top-1/2 -right-1 -translate-y-1/2 w-2 h-2 bg-green-600 rotate-45"></div>
+                  <div className="absolute top-1/2 -right-1 -translate-y-1/2 w-2 h-2 bg-green-600 rotate-45" />
                 </div>
               </div>
             </a>
-            
-            {/* Online indicator */}
-            <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white animate-pulse"></div>
+            <div className="absolute -top-1 -right-1 w-4 h-4 bg-green-400 rounded-full border-2 border-white animate-pulse" />
           </div>
-          
-          {/* Call Button */}
+
+          {/* Call */}
           <div className="relative">
             <a
               href="tel:+971567427634"
-              onClick={() => trackConversion('call_click')}
+              onClick={() => trackConversion("call_click")}
               className={`floating-button-desktop bg-brand-green hover:bg-opacity-90 text-white w-14 h-14 rounded-full shadow-lg transition-all duration-300 hover:scale-110 group flex items-center justify-center gtm-call-button ${
-                showPulse ? 'animate-pulse-glow-desktop' : ''
+                showPulse ? "animate-pulse-glow-desktop" : ""
               }`}
               aria-label="Call us"
             >
-              <i className="fas fa-phone text-xl"></i>
-              
-              {/* Enhanced tooltip */}
-              <div className="absolute right-full top-1/2 -translate-y-1/2 mr-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform group-hover:translate-x-0 translate-x-2">
+              <i className="fas fa-phone text-xl" />
+              <div className="absolute right-full top-1/2 -translate-y-1/2 mr-3 opacity-0 group-hover:opacity-100 transition-all duration-200 translate-x-2 group-hover:translate-x-0 pointer-events-none">
                 <div className="bg-brand-green text-white text-sm px-3 py-2 rounded-lg shadow-lg whitespace-nowrap relative">
                   <span className="font-medium">Call us now</span>
-                  <div className="absolute top-1/2 -right-1 -translate-y-1/2 w-2 h-2 bg-brand-green rotate-45"></div>
+                  <div className="absolute top-1/2 -right-1 -translate-y-1/2 w-2 h-2 bg-brand-green rotate-45" />
                 </div>
               </div>
             </a>
-            
-            {/* Available indicator */}
-            <div className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full border-2 border-white animate-pulse"></div>
+            <div className="absolute -top-1 -right-1 w-4 h-4 bg-yellow-400 rounded-full border-2 border-white animate-pulse" />
           </div>
         </div>
       </div>
-      {/* Mobile-optimized version */}
+
+      {/* ── Mobile bar ── */}
       <div className="fixed bottom-4 left-4 right-4 z-50 md:hidden">
-        <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-2xl border border-gray-200 pl-[16px] pr-[16px] text-left ml-[0px] mr-[0px]">
+        <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-2xl border border-gray-200">
           <div className="flex items-center justify-between">
             <div className="flex-1">
               <p className="text-sm font-semibold text-brand-black">Need Help?</p>
-              <p className="text-xs text-text-grey">Get your free quote now</p>
+              <p className="text-xs text-text-grey">Chat with Nora or call us</p>
             </div>
-            <div className="flex space-x-3">
+            <div className="flex items-center space-x-3">
+              {/* Nora (mobile) */}
               <button
-                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                className="bg-gray-500 hover:bg-gray-600 text-white w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:scale-105 flex items-center justify-center"
-                aria-label="Scroll to top"
+                onClick={openChat}
+                className="relative bg-brand-green text-white w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:scale-105 flex items-center justify-center"
+                aria-label="Chat with Nora AI"
               >
-                <i className="fas fa-chevron-up text-lg"></i>
+                <MessageCircle size={20} />
+                {hasNotification && !isChatOpen && (
+                  <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-red-500 rounded-full border-2 border-white animate-pulse" />
+                )}
               </button>
+
               <a
                 href="https://wa.me/971567427634?text=Hello%20UrbanGrid%2C%20I%27m%20interested%20in%20your%20property%20inspection%20services.%20Please%20provide%20me%20with%20more%20information."
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => trackConversion('whatsapp_click')}
+                onClick={() => trackConversion("whatsapp_click")}
                 className="bg-green-500 hover:bg-green-600 text-white w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:scale-105 flex items-center justify-center"
                 aria-label="Contact us on WhatsApp"
               >
-                <i className="fab fa-whatsapp text-lg"></i>
+                <i className="fab fa-whatsapp text-lg" />
               </a>
+
               <a
                 href="tel:+971567427634"
-                onClick={() => trackConversion('call_click')}
+                onClick={() => trackConversion("call_click")}
                 className="bg-brand-green hover:bg-opacity-90 text-white w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:scale-105 flex items-center justify-center gtm-call-button"
                 aria-label="Call us"
               >
-                <i className="fas fa-phone text-lg"></i>
+                <i className="fas fa-phone text-lg" />
               </a>
             </div>
           </div>
         </div>
       </div>
+
+      {/* ── Chat window (spring animation, rendered above everything) ── */}
+      <ChatWindow isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
     </>
   );
 }

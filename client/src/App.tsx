@@ -10,7 +10,6 @@ import { useEffect, lazy, Suspense } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import FloatingButtons from "@/components/FloatingButtons";
-import ChatWidget from "@/components/ChatWidget";
 import SEO from "@/components/SEO";
 import Home from "@/pages/Home";
 
@@ -94,7 +93,6 @@ function Router() {
       </main>
       <Footer />
       <FloatingButtons />
-      <ChatWidget />
     </div>
   );
 }

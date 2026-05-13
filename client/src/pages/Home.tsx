@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import ConsultationForm from "@/components/ConsultationForm";
-import ScrollTriggeredForm from "@/components/ScrollTriggeredForm";
 import SampleReportModal from "@/components/SampleReportModal";
 import { Button } from "@/components/ui/button";
 import {
@@ -688,8 +687,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <ScrollTriggeredForm />
 
       <SampleReportModal
         isOpen={reportModalOpen}
