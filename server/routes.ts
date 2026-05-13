@@ -735,14 +735,19 @@ LOCATIONS: Dubai, Abu Dhabi, Sharjah, and all 7 Emirates.
 
 SERVICES AND PRICING:
 1. Property Snagging / Home Condition Audit
-   - Stage 1 – Initial Snagging Inspection: AED 1.00 per sq.ft + 5% VAT. Minimum fee: AED 800 + VAT (applies when the calculated fee is below AED 800). Example: 2,500 sq.ft property = AED 2,500 + VAT. Example: 800 sq.ft apartment = AED 800 minimum + VAT.
-   - Stage 2 – De-Snagging (Re-inspection / Verification Audit): AED 0.50 per sq.ft + 5% VAT. No minimum fee on de-snagging. Example: 2,500 sq.ft = AED 1,250 + VAT.
+   - Stage 1 – Initial Snagging Inspection: AED 1.00 per sq.ft + 5% VAT. Minimum fee: AED 800 + VAT (applies when the calculated fee is below AED 800 before VAT).
+   - Stage 2 – De-Snagging (Re-inspection / Verification Audit): AED 0.50 per sq.ft + 5% VAT. No minimum fee on de-snagging.
    - DLP Snagging (End of Defect Liability Period): Same rates as de-snagging (AED 0.50/sq.ft + VAT). Conducted in the 11th month of handover to catch defects before the developer's warranty expires.
    - Post-Renovation Inspection: After renovation or fit-out works.
    - Move-In / Move-Out Inspection: For tenants and landlords to document property condition.
    - Secondary Market Inspection: For buyers of resale properties.
    - Developer / Bulk Projects: Contact us for volume pricing.
-   PRICING FORMULA: (Property size in sq.ft) × (rate) + 5% VAT. Always calculate and share the estimate when the visitor gives their property size.
+   PRICING FORMULA (apply ONLY when you know the built-up area from the submitted booking form):
+     Snagging (Stage 1): base = sqft × 1.00; if base < 800 then base = 800; total = base × 1.05 (inc VAT)
+     De-Snagging (Stage 2): base = sqft × 0.50; total = base × 1.05 (inc VAT). No minimum.
+     Example — 790 sq.ft snagging: base = max(790, 800) = 800; total = 800 × 1.05 = AED 840 inc VAT.
+     Example — 2,500 sq.ft snagging: base = 2,500; total = 2,500 × 1.05 = AED 2,625 inc VAT.
+     Example — 2,500 sq.ft de-snagging: base = 1,250; total = 1,250 × 1.05 = AED 1,312.50 inc VAT.
    PAYMENT TERMS: 50% upfront on order confirmation; remaining 50% before report delivery.
    REPORT DELIVERY: Within 1–3 working days after inspection.
 
@@ -790,21 +795,23 @@ CLIENT TESTIMONIAL: "As a real estate agent, I need to be supported by a true pr
 FORM RULES — critical, follow exactly:
 You have two special form tags you can emit at the END of your message (after your text). The frontend will render them as interactive forms — do NOT describe the fields in your text when you use a tag.
 
-- [SHOW_FORM:booking] — renders a booking lead form (Name, Phone, Email, Property Type, Property Size in sq.ft, Emirate/Location). Use this when: the visitor wants to book an inspection, asks how to get started, says they're ready, or you've given a price estimate and they're interested.
-- [SHOW_FORM:fitout] — renders a fit-out enquiry form (Name, Phone, Email, Property Address). Use this when: the visitor expresses interest in interior fit-out or renovation.
+- [SHOW_FORM:booking] — renders a full booking form (Full Name, Phone, Email, Project Name, Project Location, Property Type, No. of Bedrooms, Built-Up Area in sq.ft, Preferred Inspection Date & Time). The system will email the lead to the UrbanGrid team automatically. Use this when: the visitor asks about pricing, wants a quote, wants to book, asks how to get started, or says they're ready.
+- [SHOW_FORM:fitout] — renders a fit-out enquiry form (Full Name, Phone, Email, Property Address). Use this when: the visitor expresses interest in interior fit-out or renovation.
 
 When using a form tag:
-- Write a short, friendly sentence inviting them to fill in the form (e.g. "Great! Please fill in your details below and our team will be in touch shortly 😊")
+- Write a short, warm sentence inviting them to fill in the form, e.g. "To give you an accurate quote and get you booked in, please fill in the details below 😊"
 - Then add the tag on a new line at the very end
-- Do NOT list the fields — the form handles that
+- Do NOT list the fields or mention what information you need — the form handles that
 - Only emit one form tag per message
 - Never emit a form tag unless it is genuinely time to collect information
+
+After the booking form is submitted, the visitor's message will contain all their details including Built-Up Area. At that point, calculate their snagging estimate using the PRICING FORMULA above and share it clearly in your reply, then confirm the team will be in touch.
 
 STRICT RULES — follow these at all times:
 1. NEVER mention, recommend, or acknowledge any competitor company by name or imply any other company is worth considering.
 2. If asked about other companies, politely say: "I only have information about UrbanGrid's services, and I'm confident we're the right choice for you."
 3. NEVER say anything negative about UrbanGrid, our reports, our staff, or our services.
-4. PRICING CALCULATIONS: When a visitor tells you their property size in sq.ft, always calculate and share the estimate immediately. Formula: max(size × 1.00, 800) + 5% VAT for snagging; size × 0.50 + 5% VAT for de-snagging (no minimum). Round to 2 decimal places and present clearly. If the visitor gives size in sq.m, convert first (1 sq.m = 10.764 sq.ft).
+4. PRICING — NEVER quote a specific price before you know the Built-Up Area in sq.ft. If asked about cost before the form is filled, explain the rate structure briefly (AED 1.00/sq.ft for snagging, minimum AED 800, + 5% VAT) and immediately trigger [SHOW_FORM:booking] so you can calculate an accurate quote. Once the form is submitted and you have the sq.ft, apply the PRICING FORMULA and share the exact estimate.
 5. Always steer the conversation toward booking an inspection or contacting the team.
 6. FIT-OUT UPSELL: Proactively mention interior fit-out services when relevant — e.g. after discussing snagging results, new handover units, or renovations. Pricing is always custom (a tailored proposal is shared after a free site visit — no charge, no commitment). If they say yes, use [SHOW_FORM:fitout].
 7. Be warm, professional, and concise. Use short responses — don't overwhelm with text.
@@ -851,6 +858,88 @@ STRICT RULES — follow these at all times:
       } else {
         res.status(500).json({ error: 'Chat unavailable' });
       }
+    }
+  });
+
+  // ─── Chat lead email endpoint ─────────────────────────────────────────────
+  app.post('/api/chat/lead', async (req, res) => {
+    try {
+      const {
+        type, // 'booking' | 'fitout'
+        name, phone, email,
+        projectName, projectLocation, propertyType, bedrooms, sqft, inspectionDate,
+        address, // fitout only
+      } = req.body;
+
+      if (!name || !phone || !email) {
+        return res.status(400).json({ error: 'Missing required fields' });
+      }
+
+      let subject: string;
+      let body: string;
+      let estimate = '';
+
+      if (type === 'booking') {
+        // Calculate snagging estimate
+        const area = parseFloat(sqft) || 0;
+        if (area > 0) {
+          const base = Math.max(area * 1.0, 800);
+          const total = (base * 1.05).toFixed(2);
+          const baseFormatted = base.toFixed(2);
+          estimate = `\nEstimated Snagging Fee: AED ${baseFormatted} + VAT = AED ${total} (inc. 5% VAT)`;
+        }
+
+        subject = `New Snagging Inspection Enquiry — ${name} (${projectLocation || 'UAE'})`;
+        body = `New inspection lead received via the UrbanGrid website chatbot.
+
+──────────────────────────────────────────
+CUSTOMER DETAILS
+──────────────────────────────────────────
+Full Name        : ${name}
+Phone            : ${phone}
+Email            : ${email}
+
+──────────────────────────────────────────
+PROPERTY DETAILS
+──────────────────────────────────────────
+Project Name     : ${projectName || '—'}
+Project Location : ${projectLocation || '—'}
+Property Type    : ${propertyType || '—'}
+No. of Bedrooms  : ${bedrooms || '—'}
+Built-Up Area    : ${sqft ? sqft + ' sq.ft' : '—'}${estimate}
+
+──────────────────────────────────────────
+INSPECTION PREFERENCE
+──────────────────────────────────────────
+Preferred Date/Time : ${inspectionDate || '—'}
+
+──────────────────────────────────────────
+Please follow up with the client at your earliest convenience.
+UrbanGrid Chatbot — Auto-Generated Lead`;
+
+      } else {
+        // Fit-out lead
+        subject = `New Fit-Out Enquiry — ${name}`;
+        body = `New fit-out lead received via the UrbanGrid website chatbot.
+
+──────────────────────────────────────────
+CUSTOMER DETAILS
+──────────────────────────────────────────
+Full Name         : ${name}
+Phone             : ${phone}
+Email             : ${email}
+Property Address  : ${address || '—'}
+
+──────────────────────────────────────────
+Please arrange a free site visit at your earliest convenience.
+UrbanGrid Chatbot — Auto-Generated Lead`;
+      }
+
+      const sent = await sendEmail('info@urbangrid.ae', subject, body);
+      res.json({ ok: true, emailed: sent });
+    } catch (err: any) {
+      console.error('Chat lead email error:', err?.message || err);
+      res.status(500).json({ ok: false, error: 'Failed to send lead email' });
     }
   });
 
