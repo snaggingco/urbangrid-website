@@ -8,7 +8,7 @@ import { setupInspectorAuth } from "./inspectorAuth";
 import { insertBlogPostSchema, insertContactSubmissionSchema, insertInspectorSchema, insertConversionLogSchema } from "@shared/schema";
 import bcrypt from "bcryptjs";
 import { z } from "zod";
-import sgMail from "@sendgrid/mail";
+import nodemailer from "nodemailer";
 import { db } from "./db";
 import { blogPosts } from "@shared/schema";
 import { notInArray } from "drizzle-orm";
@@ -26,25 +26,33 @@ function generateSlug(title: string): string {
 }
 
 async function sendEmail(to: string, subject: string, content: string) {
-  const apiKey = process.env.SENDGRID_API_KEY;
-  if (!apiKey) {
-    console.error('SENDGRID_API_KEY is not configured — email not sent');
+  const smtpHost = process.env.SMTP_HOST;
+  const smtpUser = process.env.SMTP_USER;
+  const smtpPass = process.env.SMTP_PASS;
+  if (!smtpHost || !smtpUser || !smtpPass) {
+    console.error('SMTP credentials not configured (SMTP_HOST / SMTP_USER / SMTP_PASS) — email not sent');
     return false;
   }
   try {
-    sgMail.setApiKey(apiKey);
-    const from = process.env.EMAIL_FROM || process.env.SMTP_USER || 'info@snagging.in';
-    await sgMail.send({
-      to,
+    const transporter = nodemailer.createTransport({
+      host: smtpHost,
+      port: parseInt(process.env.SMTP_PORT || '465'),
+      secure: (process.env.SMTP_PORT || '465') === '465',
+      auth: { user: smtpUser, pass: smtpPass },
+      tls: { rejectUnauthorized: process.env.NODE_ENV !== 'development' },
+    });
+    const from = process.env.EMAIL_FROM || smtpUser;
+    await transporter.sendMail({
       from,
+      to,
       subject,
       text: content,
       html: content.replace(/\n/g, '<br>'),
     });
-    console.log(`Email sent successfully to ${to} via SendGrid`);
+    console.log(`Email sent successfully to ${to} via SMTP`);
     return true;
   } catch (error: any) {
-    console.error(`SendGrid error sending to ${to}:`, error?.response?.body || error?.message || error);
+    console.error(`SMTP error sending to ${to}:`, error?.message || error);
     return false;
   }
 }
