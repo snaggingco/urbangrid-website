@@ -27,11 +27,12 @@ export default function FloatingButtons() {
 
   // Register the hero bar handler so HeroChatBar can open Lena with a pre-sent message
   useEffect(() => {
-    registerLenaOpenHandler((msg) => {
+    const unregister = registerLenaOpenHandler((msg) => {
       setInitialMessage(msg);
       setIsChatOpen(true);
       setHasNotification(false);
     });
+    return unregister;
   }, []);
 
   // Open Lena once at 50 % scroll depth — fires exactly one time per session

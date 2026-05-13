@@ -178,7 +178,7 @@ export default function Home() {
           <HeroChatBar />
 
           {/* CTA buttons */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6">
+          <div className="flex flex-col items-start gap-3 mb-6">
             <Link href="/contact">
               <Button
                 size="lg"

@@ -36,7 +36,7 @@ export default function HeroChatBar() {
           type="text"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder="Ask Lena about your property or inspection needs…"
+          placeholder="Ask Lena about your property…"
           className="flex-1 bg-transparent text-white placeholder-zinc-400 text-sm px-4 py-3.5 focus:outline-none min-w-0"
           maxLength={300}
           aria-label="Ask Lena a question"
