@@ -206,24 +206,26 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
   const inputRef = useRef<HTMLInputElement>(null);
   const sentInitialRef = useRef(false);
 
-  // Expand whenever chat is opened; auto-send initialMessage if provided
+  // Expand whenever chat is opened
   useEffect(() => {
     if (isOpen) {
       setIsMinimized(false);
-      if (initialMessage && !sentInitialRef.current) {
-        sentInitialRef.current = true;
-        onInitialMessageConsumed?.();
-        // Small delay so the spring-open animation starts first
-        setTimeout(() => sendMessage(initialMessage), 420);
-      } else {
-        setTimeout(() => inputRef.current?.focus(), 380);
-      }
+      setTimeout(() => inputRef.current?.focus(), 380);
     } else {
-      // Reset so the next open can send a fresh initialMessage
       sentInitialRef.current = false;
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
+
+  // Auto-send initialMessage whenever it arrives — works whether chat was
+  // already open (isOpen stays true, effect still runs) or just opened
+  useEffect(() => {
+    if (!isOpen || !initialMessage || sentInitialRef.current) return;
+    sentInitialRef.current = true;
+    onInitialMessageConsumed?.();
+    // Delay slightly so spring-open animation starts first when chat was closed
+    setTimeout(() => sendMessage(initialMessage), 420);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, initialMessage]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });

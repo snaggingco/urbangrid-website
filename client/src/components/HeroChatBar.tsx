@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { openLenaWithMessage } from "@/lib/lenaStore";
 
@@ -10,7 +10,6 @@ const CHIPS = [
 
 export default function HeroChatBar() {
   const [value, setValue] = useState("");
-  const inputRef = useRef<HTMLInputElement>(null);
 
   function submit(msg: string) {
     const text = msg.trim();
@@ -32,7 +31,6 @@ export default function HeroChatBar() {
         className="flex items-center gap-0 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl overflow-hidden focus-within:border-brand-green focus-within:ring-1 focus-within:ring-brand-green transition-all duration-200"
       >
         <input
-          ref={inputRef}
           type="text"
           value={value}
           onChange={(e) => setValue(e.target.value)}
@@ -51,8 +49,11 @@ export default function HeroChatBar() {
         </button>
       </form>
 
-      {/* Suggestion chips */}
-      <div className="flex gap-2 mt-2.5 overflow-x-auto pb-1 scrollbar-hide">
+      {/* Suggestion chips — scrollbar hidden via inline style for cross-browser compat */}
+      <div
+        className="flex gap-2 mt-2.5 overflow-x-auto pb-1"
+        style={{ scrollbarWidth: "none", msOverflowStyle: "none" } as React.CSSProperties}
+      >
         {CHIPS.map((chip) => (
           <button
             key={chip}
