@@ -23,7 +23,7 @@ export default function FloatingButtons() {
     return () => clearTimeout(timer);
   }, [isChatOpen]);
 
-  // Replace ScrollTriggeredForm: open Lena once at 50 % scroll depth
+  // Open Lena once at 50 % scroll depth — fires exactly one time per session
   useEffect(() => {
     if (sessionStorage.getItem("lena_auto_opened")) return;
     const handleScroll = () => {
@@ -32,9 +32,11 @@ export default function FloatingButtons() {
         document.documentElement.scrollHeight -
         document.documentElement.clientHeight;
       if (total > 0 && (scrolled / total) * 100 >= 50) {
+        // Remove listener immediately so closing and scrolling more never re-opens
+        window.removeEventListener("scroll", handleScroll);
+        sessionStorage.setItem("lena_auto_opened", "1");
         setIsChatOpen(true);
         setHasNotification(false);
-        sessionStorage.setItem("lena_auto_opened", "1");
       }
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
