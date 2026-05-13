@@ -2,11 +2,13 @@ import { useState, useEffect } from "react";
 import { MessageCircle } from "lucide-react";
 import { trackConversion } from "@/lib/analytics";
 import ChatWindow from "@/components/ChatWidget";
+import { registerLenaOpenHandler } from "@/lib/lenaStore";
 
 export default function FloatingButtons() {
   const [showPulse, setShowPulse] = useState(true);
   const [isChatOpen, setIsChatOpen] = useState(false);
   const [hasNotification, setHasNotification] = useState(false);
+  const [initialMessage, setInitialMessage] = useState<string | undefined>();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -22,6 +24,15 @@ export default function FloatingButtons() {
     }, 8000);
     return () => clearTimeout(timer);
   }, [isChatOpen]);
+
+  // Register the hero bar handler so HeroChatBar can open Lena with a pre-sent message
+  useEffect(() => {
+    registerLenaOpenHandler((msg) => {
+      setInitialMessage(msg);
+      setIsChatOpen(true);
+      setHasNotification(false);
+    });
+  }, []);
 
   // Open Lena once at 50 % scroll depth — fires exactly one time per session
   useEffect(() => {
@@ -179,7 +190,12 @@ export default function FloatingButtons() {
       </div>
 
       {/* ── Chat window (spring animation, rendered above everything) ── */}
-      <ChatWindow isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
+      <ChatWindow
+        isOpen={isChatOpen}
+        onClose={() => setIsChatOpen(false)}
+        initialMessage={initialMessage}
+        onInitialMessageConsumed={() => setInitialMessage(undefined)}
+      />
     </>
   );
 }

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "wouter";
 import ConsultationForm from "@/components/ConsultationForm";
 import SampleReportModal from "@/components/SampleReportModal";
+import HeroChatBar from "@/components/HeroChatBar";
 import { Button } from "@/components/ui/button";
 import {
   ChevronDown, ArrowRight, Shield, Globe,
@@ -172,6 +173,9 @@ export default function Home() {
           <p className="text-sm sm:text-lg text-zinc-200 mb-8 max-w-lg leading-relaxed font-normal">
             40,000+ UAE properties inspected for snagging and home inspection. 600,000+ defects documented.
           </p>
+
+          {/* Lena AI chat bar */}
+          <HeroChatBar />
 
           {/* CTA buttons */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6">

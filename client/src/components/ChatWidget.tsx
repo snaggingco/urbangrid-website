@@ -192,9 +192,11 @@ function ConfirmationCard({ type }: { type: "booking" | "fitout" }) {
 interface ChatWindowProps {
   isOpen: boolean;
   onClose: () => void;
+  initialMessage?: string;
+  onInitialMessageConsumed?: () => void;
 }
 
-export default function ChatWindow({ isOpen, onClose }: ChatWindowProps) {
+export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialMessageConsumed }: ChatWindowProps) {
   const [isMinimized, setIsMinimized] = useState(false);
   const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
   const [input, setInput] = useState("");
@@ -202,13 +204,25 @@ export default function ChatWindow({ isOpen, onClose }: ChatWindowProps) {
   const [showQuickReplies, setShowQuickReplies] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const sentInitialRef = useRef(false);
 
-  // Expand whenever chat is opened
+  // Expand whenever chat is opened; auto-send initialMessage if provided
   useEffect(() => {
     if (isOpen) {
       setIsMinimized(false);
-      setTimeout(() => inputRef.current?.focus(), 380);
+      if (initialMessage && !sentInitialRef.current) {
+        sentInitialRef.current = true;
+        onInitialMessageConsumed?.();
+        // Small delay so the spring-open animation starts first
+        setTimeout(() => sendMessage(initialMessage), 420);
+      } else {
+        setTimeout(() => inputRef.current?.focus(), 380);
+      }
+    } else {
+      // Reset so the next open can send a fresh initialMessage
+      sentInitialRef.current = false;
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   useEffect(() => {
