@@ -1,4 +1,6 @@
 import { useState } from "react";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -25,6 +27,7 @@ type ContactFormData = z.infer<typeof contactSchema>;
 
 export default function Contact() {
   const [isLoading, setIsLoading] = useState(false);
+  const [phoneValue, setPhoneValue] = useState("");
   const { toast } = useToast();
 
   const {
@@ -220,16 +223,24 @@ export default function Contact() {
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="phone" className="text-[10px] uppercase tracking-wide text-zinc-400 font-semibold">
+                    <Label className="text-[10px] uppercase tracking-wide text-zinc-400 font-semibold">
                       Phone Number
                     </Label>
-                    <Input
-                      id="phone"
-                      type="tel"
-                      {...register("phone")}
-                      placeholder="Enter your phone number"
-                      className="rounded-none border-zinc-200 focus:border-brand-green bg-white h-12"
-                    />
+                    <div className="consultation-phone-input-wrapper-light">
+                      <PhoneInput
+                        international
+                        countryCallingCodeEditable={false}
+                        defaultCountry="AE"
+                        value={phoneValue}
+                        onChange={(value) => {
+                          const v = value || "";
+                          setPhoneValue(v);
+                          setValue("phone", v);
+                        }}
+                        placeholder="Enter phone number"
+                        className="consultation-phone-input-light"
+                      />
+                    </div>
                   </div>
                   
                   <div className="space-y-2">

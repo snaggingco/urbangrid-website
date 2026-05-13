@@ -1,5 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { X, Send, Minimize2, CheckCircle, Loader2 } from "lucide-react";
+import PhoneInput from "react-phone-number-input";
+import "react-phone-number-input/style.css";
 
 interface Message {
   role: "user" | "assistant";
@@ -78,14 +80,18 @@ function BookingForm({ onSubmit }: { onSubmit: (summary: string) => void }) {
       <input required placeholder="Full name *" value={fields.name}
         onChange={(e) => set("name", e.target.value)}
         className="w-full text-sm px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-brand-green bg-white" />
-      <div className="grid grid-cols-2 gap-2">
-        <input required type="tel" placeholder="Phone *" value={fields.phone}
-          onChange={(e) => set("phone", e.target.value)}
-          className="text-sm px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-brand-green bg-white" />
-        <input required type="email" placeholder="Email *" value={fields.email}
-          onChange={(e) => set("email", e.target.value)}
-          className="text-sm px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-brand-green bg-white" />
-      </div>
+      <PhoneInput
+        international
+        countryCallingCodeEditable={false}
+        defaultCountry="AE"
+        value={fields.phone}
+        onChange={(value) => set("phone", value || "")}
+        placeholder="Phone number *"
+        className="chat-phone-input"
+      />
+      <input required type="email" placeholder="Email *" value={fields.email}
+        onChange={(e) => set("email", e.target.value)}
+        className="w-full text-sm px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-brand-green bg-white" />
       <input placeholder="Project name (e.g. Aura Elegance)" value={fields.projectName}
         onChange={(e) => set("projectName", e.target.value)}
         className="w-full text-sm px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-brand-green bg-white" />
@@ -154,14 +160,18 @@ function FitoutForm({ onSubmit }: { onSubmit: (summary: string) => void }) {
       <input required placeholder="Full name *" value={fields.name}
         onChange={(e) => set("name", e.target.value)}
         className="w-full text-sm px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-brand-green bg-white" />
-      <div className="grid grid-cols-2 gap-2">
-        <input required type="tel" placeholder="Phone *" value={fields.phone}
-          onChange={(e) => set("phone", e.target.value)}
-          className="text-sm px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-brand-green bg-white" />
-        <input required type="email" placeholder="Email *" value={fields.email}
-          onChange={(e) => set("email", e.target.value)}
-          className="text-sm px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-brand-green bg-white" />
-      </div>
+      <PhoneInput
+        international
+        countryCallingCodeEditable={false}
+        defaultCountry="AE"
+        value={fields.phone}
+        onChange={(value) => set("phone", value || "")}
+        placeholder="Phone number *"
+        className="chat-phone-input"
+      />
+      <input required type="email" placeholder="Email *" value={fields.email}
+        onChange={(e) => set("email", e.target.value)}
+        className="w-full text-sm px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-brand-green bg-white" />
       <input required placeholder="Property address / location *" value={fields.address}
         onChange={(e) => set("address", e.target.value)}
         className="w-full text-sm px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-brand-green bg-white" />
