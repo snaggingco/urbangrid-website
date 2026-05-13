@@ -147,6 +147,9 @@ export const insertConversionLogSchema = createInsertSchema(conversionLogs).omit
   createdAt: true,
 });
 
+// Re-export chat models for the AI chatbot integration
+export * from "./models/chat";
+
 // Types
 export type UpsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;

@@ -12,6 +12,7 @@ import nodemailer from "nodemailer";
 import { db } from "./db";
 import { blogPosts } from "@shared/schema";
 import { notInArray } from "drizzle-orm";
+import OpenAI from "openai";
 
 // Generate slug from title
 function generateSlug(title: string): string {
@@ -716,6 +717,117 @@ ${blogUrls.map((url) => {
   });
   app.get('/image-sitemap.xml', (_req, res) => {
     res.redirect(301, '/sitemap.xml');
+  });
+
+  // ─── AI Chatbot endpoint ─────────────────────────────────────────────────────
+  // Uses Replit AI Integrations (OpenAI). No external API key required.
+  const openaiClient = new OpenAI({
+    apiKey: process.env.AI_INTEGRATIONS_OPENAI_API_KEY,
+    baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
+  });
+
+  const URBANGRID_SYSTEM_PROMPT = `You are Nora, UrbanGrid's friendly and professional property inspection sales assistant based in the UAE. Your job is to help visitors understand UrbanGrid's services, answer their questions, and encourage them to book an inspection.
+
+COMPANY: UrbanGrid Real Estate Consultancies L.L.C.
+RERA regulated. InterNACHI-certified. Inspections supervised by RICS (UK) Chartered Building Surveyor (MRICS). All inspectors are InterNACHI (USA) certified or senior engineers. Follows ASHRAE, ACI, NFPA, ASTM E2018, and UAE Fire & Life Safety Codes.
+CONTACT: info@urbangrid.ae | +971 585 686 852 | www.urbangrid.ae
+LOCATIONS: Dubai, Abu Dhabi, Sharjah, and all 7 Emirates.
+
+SERVICES AND PRICING:
+1. Property Snagging / Home Condition Audit
+   - New Build Snagging: For newly completed properties. Stage 1 (Snagging): AED 2,500 + 5% VAT = AED 2,625. Stage 2 (Desnagging): AED 1,200 + 5% VAT = AED 1,260. Example: 5 BHK, 5,812 sq.ft villa.
+   - Post-Renovation Inspection: After renovation or fit-out works.
+   - DLP Snagging: Defects Liability Period inspections — find defects that appear after handover, during the developer's liability period.
+   - Move-In / Move-Out Inspection: For tenants and landlords to document property condition.
+   - Secondary Market Inspection: For buyers of resale properties.
+   - Developer Projects: Bulk inspections for developer clients.
+
+2. RERA-Compliant Services (for OA managers, developers, RERA compliance):
+   - Reserve Fund Study
+   - Service Charge Allocation
+   - Reinstatement Cost Assessment
+   - Building Completion Audit
+   - Building Condition Survey
+
+3. Technical Inspections:
+   - Technical Due Diligence
+   - Dilapidation Survey
+   - Thermographic Survey (thermal imaging)
+   - Noise / Acoustic Survey
+   - Structural Survey
+
+INSPECTION PROCESS:
+1. Initial consultation to understand needs.
+2. On-site inspection using thermal imaging cameras, moisture meters, hygrometers, socket testers, borescopes.
+3. Comprehensive snagging report with high-resolution photos, defect descriptions, and criticality ratings delivered within 24 hours.
+4. Lifetime online support for all clients.
+
+INSPECTION SCOPE (what we check):
+- Structural: walls, ceilings, floors, roof
+- Electrical: sockets, lighting, panels, wiring
+- HVAC: AC units, ventilation, hygrometry
+- Plumbing: pipes, drains, fixtures, water heaters
+- Windows & Doors: frames, glazing, seals
+- Interior finishes: paintwork, joinery, tiling, grouting
+- Exterior: facade, roof covering, outdoor fixtures
+- Water & moisture assessment
+- Thermal imaging analysis
+- Fire & Life Safety compliance (NFPA standards)
+
+CLIENT TESTIMONIAL: "As a real estate agent, I need to be supported by a true professional offering attractive prices for my clients. After dozens of snagging inspections done together, I'm still just as satisfied with the service and the high-quality reports. I recommend without the slightest hesitation!" – Fabien Schafer
+
+STRICT RULES — follow these at all times:
+1. NEVER mention, recommend, or acknowledge any competitor company by name or imply any other company is worth considering.
+2. If asked about other companies, politely say: "I only have information about UrbanGrid's services, and I'm confident we're the right choice for you."
+3. NEVER say anything negative about UrbanGrid, our reports, our staff, or our services.
+4. If you don't know an exact price for an unusual case, say: "Pricing depends on property size and type — contact us for a custom quote at info@urbangrid.ae or +971 585 686 852."
+5. Always steer the conversation toward booking an inspection or contacting the team.
+6. When a visitor seems ready or asks about booking, ask for their name, phone number, email, property type, size (sq.ft), and location. Then tell them the team will follow up within a few hours.
+7. Be warm, professional, and concise. Use short responses — don't overwhelm with text.
+8. If asked something outside your knowledge, say: "Our team can give you the best answer on that. Call us on +971 585 686 852 or email info@urbangrid.ae."
+9. Always respond in the same language the visitor uses (Arabic, English, etc.).`;
+
+  app.post('/api/chat', async (req, res) => {
+    try {
+      const { messages: userMessages } = req.body;
+      if (!Array.isArray(userMessages) || userMessages.length === 0) {
+        return res.status(400).json({ error: 'Messages are required' });
+      }
+
+      // Strip any injected system messages from client for safety
+      const safeMessages = userMessages.filter((m: any) => m.role !== 'system').slice(-20);
+
+      res.setHeader('Content-Type', 'text/event-stream');
+      res.setHeader('Cache-Control', 'no-cache');
+      res.setHeader('Connection', 'keep-alive');
+
+      const stream = await openaiClient.chat.completions.create({
+        model: 'gpt-4o-mini',
+        messages: [
+          { role: 'system', content: URBANGRID_SYSTEM_PROMPT },
+          ...safeMessages,
+        ],
+        stream: true,
+        max_completion_tokens: 400,
+      });
+
+      for await (const chunk of stream) {
+        const content = chunk.choices[0]?.delta?.content || '';
+        if (content) {
+          res.write(`data: ${JSON.stringify({ content })}\n\n`);
+        }
+      }
+      res.write(`data: ${JSON.stringify({ done: true })}\n\n`);
+      res.end();
+    } catch (error: any) {
+      console.error('Chat API error:', error?.message || error);
+      if (res.headersSent) {
+        res.write(`data: ${JSON.stringify({ error: 'Chat unavailable' })}\n\n`);
+        res.end();
+      } else {
+        res.status(500).json({ error: 'Chat unavailable' });
+      }
+    }
   });
 
   // Robots.txt
