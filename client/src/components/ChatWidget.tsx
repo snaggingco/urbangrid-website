@@ -159,14 +159,14 @@ function BookingForm({ onSubmit }: { onSubmit: (summary: string) => void }) {
       <Popover>
         <PopoverTrigger asChild>
           <button type="button"
-            className="w-full text-sm px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-brand-green bg-white text-left flex items-center gap-2 text-gray-600">
+            className="w-full text-sm px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-brand-green bg-white text-left flex items-center gap-2 text-gray-600 hover:bg-gray-50 transition-colors">
             <CalendarDays size={14} />
             {fields.inspectionDate
               ? fields.inspectionDate
-              : "Pick inspection date & time"}
+              : "Pick inspection date"}
           </button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start">
+        <PopoverContent className="w-auto p-0 z-[100]" align="start" side="top" sideOffset={8}>
           <Calendar
             mode="single"
             selected={fields.inspectionDate ? new Date(fields.inspectionDate) : undefined}
@@ -175,7 +175,11 @@ function BookingForm({ onSubmit }: { onSubmit: (summary: string) => void }) {
                 set("inspectionDate", format(date, "dd MMMM yyyy"));
               }
             }}
-            disabled={(date) => date < new Date()}
+            disabled={(date) => {
+              const today = new Date();
+              today.setHours(0, 0, 0, 0);
+              return date < today;
+            }}
             initialFocus
           />
         </PopoverContent>
