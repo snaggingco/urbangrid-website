@@ -41,39 +41,43 @@ function parseMessage(content: string): { text: string; formType?: "booking" | "
 }
 
 /* Detect Lena's pricing breakdown and split it out as a structured table.
-   Works with both markdown bold (**text**) and plain text formats. */
+   Handles markdown bold (**text**), bullet points, and plain text formats. */
 function parsePricingTable(text: string): { cleanText: string; rows: { label: string; value: string }[]; addOn?: string } | null {
   const hasHeader = /Here's the fee breakdown for your snagging inspection/i.test(text);
   if (!hasHeader) return null;
+
+  // Strip all markdown bold markers so regexes work on plain text
+  const plain = text.replace(/\*\*/g, "");
 
   const rows: { label: string; value: string }[] = [];
   let addOn: string | undefined;
 
   const extract = (regex: RegExp, label: string) => {
-    const m = text.match(regex);
-    if (m) rows.push({ label, value: m[1].trim().replace(/^\*\*\s*/, "").replace(/\s*\*\*$/, "") });
+    const m = plain.match(regex);
+    if (m) rows.push({ label, value: m[1].trim() });
   };
 
-  extract(/(?:\u2022\s*\*{0,2}Service\*{0,2}\s*:\s*|Service:\s*)(.+)/im, "Service");
-  extract(/(?:\u2022\s*\*{0,2}Built-Up Area\*{0,2}\s*:\s*|Built-Up Area:\s*)(.+)/im, "Built-Up Area");
-  extract(/(?:\u2022\s*\*{0,2}Fee \(excl\. VAT\)\*{0,2}\s*:\s*|Fee \(excl\. VAT\):\s*)(.+)/im, "Fee (excl. VAT)");
-  extract(/(?:\u2022\s*\*{0,2}VAT \(5%\)\*{0,2}\s*:\s*|VAT \(5%\):\s*)(.+)/im, "VAT (5%)");
-  extract(/(?:\u2022\s*\*{0,2}Total \(incl\. VAT\)\*{0,2}\s*:\s*|Total \(incl\. VAT\):\s*)(.+)/im, "Total (incl. VAT)");
+  extract(/(?:\u2022\s*)?Service:\s*(.+)/im, "Service");
+  extract(/(?:\u2022\s*)?Built-Up Area:\s*(.+)/im, "Built-Up Area");
+  extract(/(?:\u2022\s*)?Fee \(excl\. VAT\):\s*(.+)/im, "Fee (excl. VAT)");
+  extract(/(?:\u2022\s*)?VAT \(5%\):\s*(.+)/im, "VAT (5%)");
+  extract(/(?:\u2022\s*)?Total \(incl\. VAT\):\s*(.+)/im, "Total (incl. VAT)");
 
-  const addOnMatch = text.match(/\*{0,2}De-snagging Add-On\*{0,2}\s*:\s*(.+)/im);
-  if (addOnMatch) addOn = addOnMatch[1].trim().replace(/^\*\*\s*/, "").replace(/\s*\*\*$/, "");
+  const addOnMatch = plain.match(/(?:\u2022\s*)?De[-\s]?[Ss]nagging Add-On:\s*(.+)/im);
+  if (addOnMatch) addOn = addOnMatch[1].trim();
 
   if (rows.length === 0) return null;
 
-  // Strip pricing lines from text so they don't duplicate in the bubble
+  // Strip pricing lines, header, and all remaining markdown bold from clean text
   let cleanText = text
-    .replace(/\u2022\s*\*{0,2}Service\*{0,2}\s*:\s*.+/gim, "")
-    .replace(/\u2022\s*\*{0,2}Built-Up Area\*{0,2}\s*:\s*.+/gim, "")
-    .replace(/\u2022\s*\*{0,2}Fee \(excl\. VAT\)\*{0,2}\s*:\s*.+/gim, "")
-    .replace(/\u2022\s*\*{0,2}VAT \(5%\)\*{0,2}\s*:\s*.+/gim, "")
-    .replace(/\u2022\s*\*{0,2}Total \(incl\. VAT\)\*{0,2}\s*:\s*.+/gim, "")
-    .replace(/\*{0,2}De-snagging Add-On\*{0,2}\s*:\s*.+/gim, "")
-    .replace(/Here's the fee breakdown for your snagging inspection[:\.]*/gim, "")
+    .replace(/\*\*/g, "") // remove all markdown bold markers first
+    .replace(/(?:\u2022\s*)?Service:\s*.+/gim, "")
+    .replace(/(?:\u2022\s*)?Built-Up Area:\s*.+/gim, "")
+    .replace(/(?:\u2022\s*)?Fee \(excl\. VAT\):\s*.+/gim, "")
+    .replace(/(?:\u2022\s*)?VAT \(5%\):\s*.+/gim, "")
+    .replace(/(?:\u2022\s*)?Total \(incl\. VAT\):\s*.+/gim, "")
+    .replace(/(?:\u2022\s*)?De[-\s]?[Ss]nagging Add-On:\s*.+/gim, "")
+    .replace(/Here's the fee breakdown for your snagging inspection[:.]*\n*/gim, "")
     .replace(/\n{3,}/g, "\n\n")
     .trim();
 
