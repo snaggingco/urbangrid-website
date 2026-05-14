@@ -1,5 +1,8 @@
 import { useState, useRef, useEffect } from "react";
-import { X, Send, Minimize2, CheckCircle, Loader2 } from "lucide-react";
+import { X, Send, Minimize2, CheckCircle, Loader2, CalendarDays } from "lucide-react";
+import { format } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 
@@ -35,6 +38,46 @@ function parseMessage(content: string): { text: string; formType?: "booking" | "
     return { text, formType: match[1].toLowerCase() as "booking" | "fitout" };
   }
   return { text: content };
+}
+
+/* Detect Lena's pricing breakdown and split it out as a structured table.
+   Works with both markdown bold (**text**) and plain text formats. */
+function parsePricingTable(text: string): { cleanText: string; rows: { label: string; value: string }[]; addOn?: string } | null {
+  const hasHeader = /Here's the fee breakdown for your snagging inspection/i.test(text);
+  if (!hasHeader) return null;
+
+  const rows: { label: string; value: string }[] = [];
+  let addOn: string | undefined;
+
+  const extract = (regex: RegExp, label: string) => {
+    const m = text.match(regex);
+    if (m) rows.push({ label, value: m[1].trim().replace(/^\*\*\s*/, "").replace(/\s*\*\*$/, "") });
+  };
+
+  extract(/(?:\u2022\s*\*{0,2}Service\*{0,2}\s*:\s*|Service:\s*)(.+)/im, "Service");
+  extract(/(?:\u2022\s*\*{0,2}Built-Up Area\*{0,2}\s*:\s*|Built-Up Area:\s*)(.+)/im, "Built-Up Area");
+  extract(/(?:\u2022\s*\*{0,2}Fee \(excl\. VAT\)\*{0,2}\s*:\s*|Fee \(excl\. VAT\):\s*)(.+)/im, "Fee (excl. VAT)");
+  extract(/(?:\u2022\s*\*{0,2}VAT \(5%\)\*{0,2}\s*:\s*|VAT \(5%\):\s*)(.+)/im, "VAT (5%)");
+  extract(/(?:\u2022\s*\*{0,2}Total \(incl\. VAT\)\*{0,2}\s*:\s*|Total \(incl\. VAT\):\s*)(.+)/im, "Total (incl. VAT)");
+
+  const addOnMatch = text.match(/\*{0,2}De-snagging Add-On\*{0,2}\s*:\s*(.+)/im);
+  if (addOnMatch) addOn = addOnMatch[1].trim().replace(/^\*\*\s*/, "").replace(/\s*\*\*$/, "");
+
+  if (rows.length === 0) return null;
+
+  // Strip pricing lines from text so they don't duplicate in the bubble
+  let cleanText = text
+    .replace(/\u2022\s*\*{0,2}Service\*{0,2}\s*:\s*.+/gim, "")
+    .replace(/\u2022\s*\*{0,2}Built-Up Area\*{0,2}\s*:\s*.+/gim, "")
+    .replace(/\u2022\s*\*{0,2}Fee \(excl\. VAT\)\*{0,2}\s*:\s*.+/gim, "")
+    .replace(/\u2022\s*\*{0,2}VAT \(5%\)\*{0,2}\s*:\s*.+/gim, "")
+    .replace(/\u2022\s*\*{0,2}Total \(incl\. VAT\)\*{0,2}\s*:\s*.+/gim, "")
+    .replace(/\*{0,2}De-snagging Add-On\*{0,2}\s*:\s*.+/gim, "")
+    .replace(/Here's the fee breakdown for your snagging inspection[:\.]*/gim, "")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+
+  return { cleanText, rows, addOn };
 }
 
 // ── Booking form ──────────────────────────────────────────────────────────────
@@ -113,9 +156,30 @@ function BookingForm({ onSubmit }: { onSubmit: (summary: string) => void }) {
       <input required type="number" min="1" placeholder="Built-up area (sq.ft) *" value={fields.sqft}
         onChange={(e) => set("sqft", e.target.value)}
         className="w-full text-sm px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-brand-green bg-white" />
-      <input placeholder="Preferred inspection date & time (e.g. 7 Feb, 4:30 PM)" value={fields.inspectionDate}
-        onChange={(e) => set("inspectionDate", e.target.value)}
-        className="w-full text-sm px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-brand-green bg-white" />
+      <Popover>
+        <PopoverTrigger asChild>
+          <button type="button"
+            className="w-full text-sm px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-brand-green bg-white text-left flex items-center gap-2 text-gray-600">
+            <CalendarDays size={14} />
+            {fields.inspectionDate
+              ? fields.inspectionDate
+              : "Pick inspection date & time"}
+          </button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0" align="start">
+          <Calendar
+            mode="single"
+            selected={fields.inspectionDate ? new Date(fields.inspectionDate) : undefined}
+            onSelect={(date) => {
+              if (date) {
+                set("inspectionDate", format(date, "dd MMMM yyyy"));
+              }
+            }}
+            disabled={(date) => date < new Date()}
+            initialFocus
+          />
+        </PopoverContent>
+      </Popover>
       <button type="submit" disabled={!required || sending}
         className="w-full bg-brand-green text-white text-sm font-medium py-2 rounded-lg hover:bg-opacity-90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2">
         {sending && <Loader2 size={14} className="animate-spin" />}
@@ -383,23 +447,56 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
                     </div>
                   )}
                   <div className="max-w-[85%]">
-                    {(displayText || !isAssistant) && (
-                      <div
-                        className={`px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap ${
-                          isAssistant
-                            ? "bg-white text-gray-800 border border-gray-200 rounded-tl-sm shadow-sm"
-                            : "bg-brand-green text-white rounded-tr-sm"
-                        }`}
-                      >
-                        {displayText || (
-                          <span className="flex gap-1 items-center py-0.5">
-                            <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                            <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                            <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
-                          </span>
-                        )}
-                      </div>
-                    )}
+                    {(() => {
+                      if (!isAssistant) {
+                        return displayText ? (
+                          <div className="px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap bg-brand-green text-white rounded-tr-sm">
+                            {displayText}
+                          </div>
+                        ) : null;
+                      }
+                      const pricing = parsePricingTable(displayText);
+                      if (pricing) {
+                        return (
+                          <div className="space-y-2">
+                            {pricing.cleanText && (
+                              <div className="px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap bg-white text-gray-800 border border-gray-200 rounded-tl-sm shadow-sm">
+                                {pricing.cleanText}
+                              </div>
+                            )}
+                            <div className="rounded-lg overflow-hidden border border-gray-200 shadow-sm">
+                              <table className="w-full text-sm">
+                                <tbody>
+                                  {pricing.rows.map((row, ri) => (
+                                    <tr key={ri} className="border-b border-gray-100 last:border-0">
+                                      <td className="px-3 py-2 font-medium text-gray-700 bg-gray-50 w-[40%]">{row.label}</td>
+                                      <td className="px-3 py-2 text-gray-900 text-right font-semibold">{row.value}</td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                              {pricing.addOn && (
+                                <div className="px-3 py-2 bg-green-50 text-green-800 text-xs font-medium border-t border-green-200 flex items-center justify-between">
+                                  <span>De-snagging Add-On</span>
+                                  <span>{pricing.addOn}</span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      }
+                      return (
+                        <div className="px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap bg-white text-gray-800 border border-gray-200 rounded-tl-sm shadow-sm">
+                          {displayText || (
+                            <span className="flex gap-1 items-center py-0.5">
+                              <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
+                              <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
+                              <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                            </span>
+                          )}
+                        </div>
+                      );
+                    })()}
 
                     {isAssistant && formType && (
                       msg.formSubmitted ? (
