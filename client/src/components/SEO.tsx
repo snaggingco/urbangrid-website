@@ -136,7 +136,7 @@ const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
     keywords: 'snagging company dubai, property inspection dubai, property snagging dubai, snagging dubai, home inspection dubai, new build snagging dubai, apartment snagging dubai, villa inspection dubai'
   },
   '/locations/abu-dhabi': {
-    title: 'Snagging Company Abu Dhabi | Property Inspection Services | UrbanGrid',
+    title: 'Snagging Company Abu Dhabi | Property Inspection | UrbanGrid',
     description: 'Abu Dhabi\'s trusted property snagging company. Independent inspection across Yas Island, Al Reem, Saadiyat, Al Raha and all communities. Aldar, Imkan & all developers. Reports in 24 hours.',
     keywords: 'snagging company abu dhabi, property inspection abu dhabi, property snagging abu dhabi, snagging abu dhabi, home inspection abu dhabi, villa inspection abu dhabi'
   },
