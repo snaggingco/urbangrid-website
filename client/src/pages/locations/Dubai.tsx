@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import SEO from "@/components/SEO";
-import { ArrowRight, Shield, CheckCircle } from "lucide-react";
+import { ArrowRight, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const communities = [

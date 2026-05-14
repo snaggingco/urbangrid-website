@@ -10,14 +10,6 @@ export default function Footer() {
     { name: 'Contact', href: '/contact' },
   ];
 
-  const serviceLinks = [
-    { name: 'Property Snagging', href: '/services' },
-    { name: 'RERA Services', href: '/services' },
-    { name: 'Technical Inspections', href: '/services' },
-    { name: 'Broker Referrals', href: '/broker-referrals' },
-    { name: 'Careers', href: '/careers' },
-  ];
-
   const locationLinks = [
     { name: 'Dubai', href: '/locations/dubai' },
     { name: 'Abu Dhabi', href: '/locations/abu-dhabi' },
