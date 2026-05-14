@@ -40,6 +40,31 @@ function parseMessage(content: string): { text: string; formType?: "booking" | "
   return { text: content };
 }
 
+/* Lightweight markdown-to-JSX: converts **bold** into <strong> elements.
+   Keeps everything else as plain text (no headings, links, etc.). */
+function renderMarkdown(text: string): React.ReactNode[] {
+  const parts: React.ReactNode[] = [];
+  const segments = text.split(/(\*\*)/g);
+  let inBold = false;
+  let buffer = "";
+
+  for (const seg of segments) {
+    if (seg === "**") {
+      if (buffer) {
+        parts.push(inBold ? <strong key={parts.length}>{buffer}</strong> : buffer);
+        buffer = "";
+      }
+      inBold = !inBold;
+    } else {
+      buffer += seg;
+    }
+  }
+  if (buffer) {
+    parts.push(inBold ? <strong key={parts.length}>{buffer}</strong> : buffer);
+  }
+  return parts;
+}
+
 /* Detect Lena's pricing breakdown and split it out as a structured table.
    Handles markdown bold (**text**), bullet points, and plain text formats. */
 function parsePricingTable(text: string): { cleanText: string; rows: { label: string; value: string }[]; addOn?: string } | null {
@@ -459,7 +484,7 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
                       if (!isAssistant) {
                         return displayText ? (
                           <div className="px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap bg-brand-green text-white rounded-tr-sm">
-                            {displayText}
+                            {renderMarkdown(displayText)}
                           </div>
                         ) : null;
                       }
@@ -469,7 +494,7 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
                           <div className="space-y-2">
                             {pricing.cleanText && (
                               <div className="px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap bg-white text-gray-800 border border-gray-200 rounded-tl-sm shadow-sm">
-                                {pricing.cleanText}
+                                {renderMarkdown(pricing.cleanText)}
                               </div>
                             )}
                             <div className="rounded-lg overflow-hidden border border-gray-200 shadow-sm">
@@ -495,7 +520,7 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
                       }
                       return (
                         <div className="px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap bg-white text-gray-800 border border-gray-200 rounded-tl-sm shadow-sm">
-                          {displayText || (
+                          {displayText ? renderMarkdown(displayText) : (
                             <span className="flex gap-1 items-center py-0.5">
                               <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
                               <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
