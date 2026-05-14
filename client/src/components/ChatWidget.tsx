@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from "react";
-import { X, Send, Minimize2, CheckCircle, Loader2, CalendarDays } from "lucide-react";
+import { X, Send, Minimize2, CheckCircle, Loader2, CalendarDays, Phone, MessageCircle } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -332,24 +332,59 @@ interface ChatWindowProps {
   onInitialMessageConsumed?: () => void;
 }
 
+// Lena phrases that signal the conversation has naturally concluded
+const CONVO_END_PATTERNS = [
+  /\bbye\b/i, /\bgoodbye\b/i, /\btake care\b/i, /\bhave a (great|wonderful|good|lovely)\b/i,
+  /feel free to (reach out|contact|call|message|get in touch)/i,
+  /don.t hesitate to (reach out|contact|call|message|get in touch)/i,
+  /if (there.s|you have) anything else/i, /any other questions/i,
+  /happy to help.*anytime/i, /all the best/i,
+];
+
+const INACTIVITY_MS = 60_000; // 1 minute
+
 export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialMessageConsumed }: ChatWindowProps) {
   const [isMinimized, setIsMinimized] = useState(false);
   const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showQuickReplies, setShowQuickReplies] = useState(true);
+  const [showHumanSupport, setShowHumanSupport] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const sentInitialRef = useRef(false);
+  const inactivityTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Expand whenever chat is opened
+  // Clear inactivity timer helper
+  function clearInactivity() {
+    if (inactivityTimer.current) {
+      clearTimeout(inactivityTimer.current);
+      inactivityTimer.current = null;
+    }
+  }
+
+  // Start/reset the 1-minute inactivity countdown
+  function resetInactivityTimer(msgCount: number) {
+    clearInactivity();
+    // Only count down if there's been at least one real exchange (> 1 message)
+    if (msgCount < 2) return;
+    inactivityTimer.current = setTimeout(() => {
+      setShowHumanSupport(true);
+    }, INACTIVITY_MS);
+  }
+
+  // Expand whenever chat is opened; reset when closed
   useEffect(() => {
     if (isOpen) {
       setIsMinimized(false);
       setTimeout(() => inputRef.current?.focus(), 380);
     } else {
       sentInitialRef.current = false;
+      clearInactivity();
+      setShowHumanSupport(false);
     }
+    return () => clearInactivity();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   // Auto-send initialMessage whenever it arrives — works whether chat was
@@ -369,6 +404,10 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
 
   async function sendMessage(text: string) {
     if (!text.trim() || isLoading) return;
+    // User is active — hide the support card and reset inactivity timer
+    setShowHumanSupport(false);
+    clearInactivity();
+
     const userMsg: Message = { role: "user", content: text.trim() };
     const updatedMessages = [...messages, userMsg];
     setMessages(updatedMessages);
@@ -417,6 +456,15 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
         updated[updated.length - 1] = { role: "assistant", content: rawContent, formType };
         return updated;
       });
+
+      // Check if Lena is wrapping up — show human support immediately
+      const isConvoEnd = CONVO_END_PATTERNS.some((p) => p.test(rawContent));
+      if (isConvoEnd) {
+        setShowHumanSupport(true);
+      } else {
+        // Otherwise start the inactivity countdown (user + assistant = at least 2 msgs)
+        resetInactivityTimer(updatedMessages.length + 1);
+      }
     } catch {
       setMessages((prev) => [
         ...prev,
@@ -426,6 +474,7 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
             "Sorry, I'm having trouble connecting. Please call us on +971 585 686 852 or email info@urbangrid.ae.",
         },
       ]);
+      resetInactivityTimer(updatedMessages.length + 1);
     } finally {
       setIsLoading(false);
     }
@@ -599,6 +648,36 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
                     {reply}
                   </button>
                 ))}
+              </div>
+            )}
+
+            {/* Human support card — shown after inactivity or conversation end */}
+            {showHumanSupport && !isLoading && (
+              <div className="flex justify-start">
+                <div className="w-7 h-7 rounded-full bg-brand-green text-white flex items-center justify-center text-xs font-bold mr-2 flex-shrink-0 mt-0.5">
+                  N
+                </div>
+                <div className="max-w-[85%] bg-white border border-gray-200 rounded-2xl rounded-tl-sm shadow-sm px-3.5 py-3 space-y-2.5">
+                  <p className="text-sm text-gray-700 font-medium">Need to speak with someone directly?</p>
+                  <div className="flex gap-2">
+                    <a
+                      href="tel:+971585686852"
+                      className="flex-1 flex items-center justify-center gap-1.5 bg-brand-green text-white text-xs font-semibold px-3 py-2 rounded-xl hover:bg-opacity-90 transition-colors"
+                    >
+                      <Phone size={13} />
+                      Call us
+                    </a>
+                    <a
+                      href="https://wa.me/971585686852"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 flex items-center justify-center gap-1.5 bg-[#25D366] text-white text-xs font-semibold px-3 py-2 rounded-xl hover:bg-opacity-90 transition-colors"
+                    >
+                      <MessageCircle size={13} />
+                      WhatsApp
+                    </a>
+                  </div>
+                </div>
               </div>
             )}
 
