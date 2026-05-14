@@ -82,7 +82,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     next();
   });
 
-  // 410 Gone for all removed location pages — registered FIRST so it intercepts
+  // 410 Gone for legacy sub-service combo URLs (e.g. /locations/dubai/snagging-company).
   // before Vite's SPA catch-all. Tells Google to deindex permanently.
   const sendLocationGone = (_req: any, res: any) => {
     res.setHeader('X-Robots-Tag', 'noindex, nofollow');
