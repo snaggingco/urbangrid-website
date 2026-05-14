@@ -112,6 +112,7 @@ function parsePricingTable(text: string): { cleanText: string; rows: { label: st
 function BookingForm({ onSubmit }: { onSubmit: (summary: string) => void }) {
   const [fields, setFields] = useState({
     name: "", phone: "", email: "",
+    serviceType: "",
     projectName: "", projectLocation: "", propertyType: "",
     bedrooms: "", sqft: "", inspectionDate: "",
   });
@@ -134,20 +135,49 @@ function BookingForm({ onSubmit }: { onSubmit: (summary: string) => void }) {
     } catch {}
     const summary =
       `Booking details: Full Name: ${fields.name}, Phone: ${fields.phone}, Email: ${fields.email}, ` +
+      `Service Type: ${fields.serviceType || "N/A"}, ` +
       `Project Name: ${fields.projectName || "N/A"}, Project Location: ${fields.projectLocation || "N/A"}, ` +
-      `Property Type: ${fields.propertyType}, No. of Bedrooms: ${fields.bedrooms || "N/A"}, ` +
+      `Property Type: ${fields.propertyType || "N/A"}, No. of Bedrooms: ${fields.bedrooms || "N/A"}, ` +
       `Built-Up Area: ${fields.sqft} sq.ft, Preferred Inspection Date/Time: ${fields.inspectionDate || "N/A"}.`;
     setSending(false);
     setSubmitted(true);
     onSubmit(summary);
   }
 
-  const required = fields.name && fields.phone && fields.email && fields.propertyType && fields.sqft;
+  const required = fields.name && fields.phone && fields.email && fields.serviceType && fields.sqft;
   if (submitted) return null;
 
   return (
     <form onSubmit={handleSubmit} className="mt-2 bg-green-50 border border-green-200 rounded-xl p-3 space-y-2">
       <p className="text-xs font-semibold text-brand-green uppercase tracking-wide">Inspection Booking</p>
+      <select required value={fields.serviceType} onChange={(e) => set("serviceType", e.target.value)}
+        className="w-full text-sm px-2 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-brand-green bg-white text-gray-700">
+        <option value="">Service type *</option>
+        <optgroup label="Property Snagging">
+          <option value="Stage 1 Snagging — New Build Handover">Stage 1 Snagging — New Build Handover</option>
+          <option value="Stage 2 De-Snagging">Stage 2 De-Snagging</option>
+          <option value="DLP / 11th Month Inspection">DLP / 11th Month Inspection</option>
+          <option value="Post-Renovation Inspection">Post-Renovation Inspection</option>
+          <option value="Move-In / Move-Out Inspection">Move-In / Move-Out Inspection</option>
+          <option value="Secondary Market Inspection">Secondary Market Inspection</option>
+          <option value="Developer / Bulk Projects">Developer / Bulk Projects</option>
+        </optgroup>
+        <optgroup label="RERA Services">
+          <option value="Reserve Fund Study">Reserve Fund Study</option>
+          <option value="Service Charge Allocation">Service Charge Allocation</option>
+          <option value="Reinstatement Cost Assessment">Reinstatement Cost Assessment</option>
+          <option value="Building Completion Audit">Building Completion Audit</option>
+          <option value="Building Condition Survey">Building Condition Survey</option>
+        </optgroup>
+        <optgroup label="Technical Inspections">
+          <option value="Technical Due Diligence">Technical Due Diligence</option>
+          <option value="Dilapidation Survey">Dilapidation Survey</option>
+          <option value="Thermographic Survey">Thermographic Survey</option>
+          <option value="Noise / Acoustic Survey">Noise / Acoustic Survey</option>
+          <option value="Structural Survey">Structural Survey</option>
+        </optgroup>
+        <option value="Interior Fit-Out">Interior Fit-Out</option>
+      </select>
       <input required placeholder="Full name *" value={fields.name}
         onChange={(e) => set("name", e.target.value)}
         className="w-full text-sm px-3 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-brand-green bg-white" />
