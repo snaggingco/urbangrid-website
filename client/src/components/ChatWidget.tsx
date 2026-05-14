@@ -144,7 +144,7 @@ function BookingForm({ onSubmit }: { onSubmit: (summary: string) => void }) {
     onSubmit(summary);
   }
 
-  const required = fields.name && fields.phone && fields.email && fields.serviceType && fields.sqft;
+  const required = fields.name && fields.phone && fields.email && fields.serviceType && fields.propertyType && fields.sqft;
   if (submitted) return null;
 
   return (
