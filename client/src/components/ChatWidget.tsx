@@ -65,43 +65,43 @@ function renderMarkdown(text: string): React.ReactNode[] {
   return parts;
 }
 
-/* Detect Lena's pricing breakdown and split it out as a structured table.
-   Handles markdown bold, •/-/* bullets, and plain text formats. */
-function parsePricingTable(text: string): { cleanText: string; rows: { label: string; value: string }[]; addOn?: string } | null {
-  // Flexible header matching — Lena uses several variations
-  const hasHeader = /(?:Here's the fee breakdown for|calculate your.*snagging inspection fee|FEE ESTIMATE)/i.test(text);
-  if (!hasHeader) return null;
+/* Detect Lena's pricing breakdown and render it as a structured table.
+   Triggers on any message that contains at least 3 of the known pricing fields,
+   regardless of whether a header is present. */
+function parsePricingTable(text: string): { cleanText: string; rows: { label: string; value: string }[] } | null {
+  // Normalise: strip markdown bold, convert dash bullets to bullet char
+  const plain = text.replace(/\*\*/g, "").replace(/^[ \t]*-[ \t]/gm, "\u2022 ");
 
-  // Strip markdown bold so regexes work on plain text; also normalise dash bullets
-  const plain = text.replace(/\*\*/g, "").replace(/^- /gm, "\u2022 ");
+  // Known pricing field patterns (prefix = optional bullet/whitespace)
+  const PFX = /(?:[\u2022\*][ \t]*)?/;
+  const FIELDS: Array<[RegExp, string]> = [
+    [new RegExp(PFX.source + "Service:\\s*(.+)", "im"), "Service"],
+    [new RegExp(PFX.source + "Built-Up Area:\\s*(.+)", "im"), "Built-Up Area"],
+    [new RegExp(PFX.source + "Fee \\(excl\\.? VAT\\):\\s*(.+)", "im"), "Fee (excl. VAT)"],
+    [new RegExp(PFX.source + "VAT \\(5%\\):\\s*(.+)", "im"), "VAT (5%)"],
+    [new RegExp(PFX.source + "Total \\(incl\\.? VAT\\):\\s*(.+)", "im"), "Total (incl. VAT)"],
+    [new RegExp(PFX.source + "De[-\\s]?[Ss]nagging Add-On[^:]*:\\s*(.+)", "im"), "De-snagging Add-On (incl. VAT)"],
+  ];
 
   const rows: { label: string; value: string }[] = [];
-  let addOn: string | undefined;
-
-  const extract = (regex: RegExp, label: string) => {
+  for (const [regex, label] of FIELDS) {
     const m = plain.match(regex);
     if (m) rows.push({ label, value: m[1].trim() });
-  };
+  }
 
-  extract(/(?:\u2022\s*)?Service:\s*(.+)/im, "Service");
-  extract(/(?:\u2022\s*)?Built-Up Area:\s*(.+)/im, "Built-Up Area");
-  extract(/(?:\u2022\s*)?Fee \(excl\. VAT\):\s*(.+)/im, "Fee (excl. VAT)");
-  extract(/(?:\u2022\s*)?VAT \(5%\):\s*(.+)/im, "VAT (5%)");
-  extract(/(?:\u2022\s*)?Total \(incl\. VAT\):\s*(.+)/im, "Total (incl. VAT)");
-  extract(/(?:\u2022\s*)?De[-\s]?[Ss]nagging Add-On \(incl\. 5% VAT\):\s*(.+)/im, "De-snagging Add-On (incl. VAT)");
+  // Only render as table if we found at least 3 pricing fields
+  if (rows.length < 3) return null;
 
-  if (rows.length === 0) return null;
-
-  // Strip pricing lines, header, and all markdown bold from clean text
+  // Build clean surrounding text by stripping all pricing lines and known headers
   let cleanText = text
     .replace(/\*\*/g, "")
-    .replace(/(?:\u2022\s*|-\s*)?Service:\s*.+/gim, "")
-    .replace(/(?:\u2022\s*|-\s*)?Built-Up Area:\s*.+/gim, "")
-    .replace(/(?:\u2022\s*|-\s*)?Fee \(excl\. VAT\):\s*.+/gim, "")
-    .replace(/(?:\u2022\s*|-\s*)?VAT \(5%\):\s*.+/gim, "")
-    .replace(/(?:\u2022\s*|-\s*)?Total \(incl\. VAT\):\s*.+/gim, "")
-    .replace(/(?:\u2022\s*|-\s*)?De[-\s]?[Ss]nagging Add-On[^\n]*/gim, "")
-    .replace(/(?:Here's the fee breakdown for your snagging inspection|calculate your.*snagging inspection fee|FEE ESTIMATE)[:.]*\n*/gim, "")
+    .replace(/[ \t]*[\u2022\*\-]?[ \t]*Service:\s*.+/gim, "")
+    .replace(/[ \t]*[\u2022\*\-]?[ \t]*Built-Up Area:\s*.+/gim, "")
+    .replace(/[ \t]*[\u2022\*\-]?[ \t]*Fee \(excl\.? VAT\):\s*.+/gim, "")
+    .replace(/[ \t]*[\u2022\*\-]?[ \t]*VAT \(5%\):\s*.+/gim, "")
+    .replace(/[ \t]*[\u2022\*\-]?[ \t]*Total \(incl\.? VAT\):\s*.+/gim, "")
+    .replace(/[ \t]*[\u2022\*\-]?[ \t]*De[-\s]?[Ss]nagging Add-On[^\n]*/gim, "")
+    .replace(/(?:Here's the fee breakdown[^\n]*|calculate your[^\n]*snagging inspection fee[^\n]*|FEE ESTIMATE[^\n]*)\n*/gim, "")
     .replace(/\n{3,}/g, "\n\n")
     .trim();
 
