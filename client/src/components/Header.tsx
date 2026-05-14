@@ -24,12 +24,6 @@ export default function Header({ isAdmin = false }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mobileLocationsOpen, setMobileLocationsOpen] = useState(false);
 
-  React.useEffect(() => {
-    const handleScroll = () => {};
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   const navigation = [
     { name: 'Home', href: '/' },
     { name: 'About', href: '/about' },

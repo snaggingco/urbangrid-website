@@ -67,13 +67,13 @@ export function getSitemapUrls(baseUrl: string, blogPosts: Array<{slug: string, 
     { loc: `${baseUrl}/services/technical-inspections/structural-survey`, priority: 0.8, changefreq: 'monthly' },
 
     // Location pages — all 7 UAE emirates
-    { loc: `${baseUrl}/locations/dubai`, priority: 0.9, changefreq: 'monthly' },
-    { loc: `${baseUrl}/locations/abu-dhabi`, priority: 0.9, changefreq: 'monthly' },
-    { loc: `${baseUrl}/locations/sharjah`, priority: 0.9, changefreq: 'monthly' },
+    { loc: `${baseUrl}/locations/dubai`, priority: 0.8, changefreq: 'monthly' },
+    { loc: `${baseUrl}/locations/abu-dhabi`, priority: 0.8, changefreq: 'monthly' },
+    { loc: `${baseUrl}/locations/sharjah`, priority: 0.8, changefreq: 'monthly' },
     { loc: `${baseUrl}/locations/ajman`, priority: 0.8, changefreq: 'monthly' },
     { loc: `${baseUrl}/locations/ras-al-khaimah`, priority: 0.8, changefreq: 'monthly' },
     { loc: `${baseUrl}/locations/fujairah`, priority: 0.8, changefreq: 'monthly' },
-    { loc: `${baseUrl}/locations/umm-al-quwain`, priority: 0.7, changefreq: 'monthly' },
+    { loc: `${baseUrl}/locations/umm-al-quwain`, priority: 0.8, changefreq: 'monthly' },
 
     // Note: blog posts below are added dynamically from the DB (status='published' only)
   ];

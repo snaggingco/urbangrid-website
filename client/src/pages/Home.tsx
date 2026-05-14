@@ -590,6 +590,7 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Primary 3-city cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-zinc-200 border border-zinc-200">
             {[
               { city: "Dubai", href: "/locations/dubai", stat: "15,000+", note: "Inspections completed", desc: "Dubai Marina, Downtown, Business Bay, Palm Jumeirah and all Dubai areas.", icon: "fas fa-building" },
@@ -611,7 +612,24 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="mt-12 text-center">
+          {/* Secondary 4-city links */}
+          <div className="mt-4 grid grid-cols-2 md:grid-cols-4 divide-x divide-zinc-200 border border-t-0 border-zinc-200">
+            {[
+              { city: "Ajman", href: "/locations/ajman" },
+              { city: "Ras Al Khaimah", href: "/locations/ras-al-khaimah" },
+              { city: "Fujairah", href: "/locations/fujairah" },
+              { city: "Umm Al Quwain", href: "/locations/umm-al-quwain" },
+            ].map((loc) => (
+              <Link key={loc.city} href={loc.href}>
+                <div className="px-6 py-4 group cursor-pointer hover:bg-zinc-50 transition-colors flex items-center justify-between">
+                  <span className="text-xs font-medium text-zinc-600 group-hover:text-brand-green transition-colors">{loc.city}</span>
+                  <ArrowRight className="w-3 h-3 text-zinc-300 group-hover:text-brand-green transition-colors" />
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          <div className="mt-10 text-center">
             <Link href="/contact">
               <span className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all cursor-pointer">
                 Request a Quote in Your Area <ArrowRight className="w-3 h-3" />
