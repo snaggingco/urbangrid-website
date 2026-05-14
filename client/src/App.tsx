@@ -27,6 +27,15 @@ const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("@/pages/TermsOfService"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
+// Lazy-loaded location pages
+const LocationDubai = lazy(() => import("@/pages/locations/Dubai"));
+const LocationAbuDhabi = lazy(() => import("@/pages/locations/AbuDhabi"));
+const LocationSharjah = lazy(() => import("@/pages/locations/Sharjah"));
+const LocationAjman = lazy(() => import("@/pages/locations/Ajman"));
+const LocationRasAlKhaimah = lazy(() => import("@/pages/locations/RasAlKhaimah"));
+const LocationFujairah = lazy(() => import("@/pages/locations/Fujairah"));
+const LocationUmmAlQuwain = lazy(() => import("@/pages/locations/UmmAlQuwain"));
+
 // Lazy-loaded admin pages
 const Dashboard = lazy(() => import("@/pages/admin/Dashboard"));
 const AddBlog = lazy(() => import("@/pages/admin/AddBlog"));
@@ -72,6 +81,15 @@ function Router() {
 
             <Route path="/blog" component={Blog} />
             <Route path="/blog/:slug" component={BlogDetail} />
+
+            <Route path="/locations/dubai" component={LocationDubai} />
+            <Route path="/locations/abu-dhabi" component={LocationAbuDhabi} />
+            <Route path="/locations/sharjah" component={LocationSharjah} />
+            <Route path="/locations/ajman" component={LocationAjman} />
+            <Route path="/locations/ras-al-khaimah" component={LocationRasAlKhaimah} />
+            <Route path="/locations/fujairah" component={LocationFujairah} />
+            <Route path="/locations/umm-al-quwain" component={LocationUmmAlQuwain} />
+
             <Route path="/careers" component={Careers} />
             <Route path="/contact" component={Contact} />
             <Route path="/broker-referrals" component={BrokerReferrals} />

@@ -127,6 +127,43 @@ const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
     title: 'Structural Survey UAE - Building Integrity Safety Assessment',
     description: 'Expert structural surveys examining building integrity and safety. Load-bearing analysis, building code compliance, structural engineering assessment across UAE.',
     keywords: 'structural survey UAE, building integrity assessment Dubai, structural inspection, load bearing analysis UAE, structural safety Abu Dhabi'
+  },
+
+  // Location pages
+  '/locations/dubai': {
+    title: 'Snagging Company Dubai | Property Inspection Services | UrbanGrid',
+    description: 'Dubai\'s trusted property snagging company. Independent inspection for Emaar, Damac, Sobha, Nakheel handovers across Downtown Dubai, Marina, Palm Jumeirah, JVC & all areas. Reports in 24 hours.',
+    keywords: 'snagging company dubai, property inspection dubai, property snagging dubai, snagging dubai, home inspection dubai, new build snagging dubai, apartment snagging dubai, villa inspection dubai'
+  },
+  '/locations/abu-dhabi': {
+    title: 'Snagging Company Abu Dhabi | Property Inspection Services | UrbanGrid',
+    description: 'Abu Dhabi\'s trusted property snagging company. Independent inspection across Yas Island, Al Reem, Saadiyat, Al Raha and all communities. Aldar, Imkan & all developers. Reports in 24 hours.',
+    keywords: 'snagging company abu dhabi, property inspection abu dhabi, property snagging abu dhabi, snagging abu dhabi, home inspection abu dhabi, villa inspection abu dhabi'
+  },
+  '/locations/sharjah': {
+    title: 'Snagging Company Sharjah | Property Inspection Services | UrbanGrid',
+    description: 'Sharjah\'s trusted property snagging company. Independent inspection across Aljada, Hayyan, Maryam Island, Al Zahia and all Sharjah communities. Reports in 24 hours.',
+    keywords: 'snagging company sharjah, property inspection sharjah, property snagging sharjah, snagging sharjah, home inspection sharjah, Aljada snagging, Arada inspection'
+  },
+  '/locations/ajman': {
+    title: 'Snagging Company Ajman | Property Inspection Services | UrbanGrid',
+    description: 'Professional property snagging and inspection in Ajman. ARRA-compliant process across Emirates City, Al Rashidiya, Al Nuaimia and all Ajman communities. Reports in 24 hours.',
+    keywords: 'snagging company ajman, property inspection ajman, property snagging ajman, snagging ajman, home inspection ajman'
+  },
+  '/locations/ras-al-khaimah': {
+    title: 'Snagging Company Ras Al Khaimah | Property Inspection | UrbanGrid',
+    description: 'Professional property snagging and inspection in Ras Al Khaimah. Al Hamra Village, Mina Al Arab, Al Marjan Island and all RAK communities. Engineer-led, reports in 24 hours.',
+    keywords: 'snagging company ras al khaimah, property inspection ras al khaimah, property snagging RAK, snagging ras al khaimah, Al Hamra snagging'
+  },
+  '/locations/fujairah': {
+    title: 'Snagging Company Fujairah | Property Inspection Services | UrbanGrid',
+    description: 'Professional property snagging and inspection in Fujairah. Engineer-led inspections across Fujairah City, Dibba, Al Aqah and all communities. Reports in 24 hours.',
+    keywords: 'snagging company fujairah, property inspection fujairah, property snagging fujairah, snagging fujairah, home inspection fujairah'
+  },
+  '/locations/umm-al-quwain': {
+    title: 'Snagging Company Umm Al Quwain | Property Inspection | UrbanGrid',
+    description: 'Professional property snagging and inspection in Umm Al Quwain. Engineer-led inspections across UAQ City, Al Salam City, UAQ Marina and all communities. Reports in 24 hours.',
+    keywords: 'snagging company umm al quwain, property inspection umm al quwain, property snagging UAQ, snagging umm al quwain, home inspection UAQ'
   }
 };
 

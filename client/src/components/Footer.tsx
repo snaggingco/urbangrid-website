@@ -18,12 +18,22 @@ export default function Footer() {
     { name: 'Careers', href: '/careers' },
   ];
 
+  const locationLinks = [
+    { name: 'Dubai', href: '/locations/dubai' },
+    { name: 'Abu Dhabi', href: '/locations/abu-dhabi' },
+    { name: 'Sharjah', href: '/locations/sharjah' },
+    { name: 'Ajman', href: '/locations/ajman' },
+    { name: 'Ras Al Khaimah', href: '/locations/ras-al-khaimah' },
+    { name: 'Fujairah', href: '/locations/fujairah' },
+    { name: 'Umm Al Quwain', href: '/locations/umm-al-quwain' },
+  ];
+
   return (
     <footer className="bg-zinc-950 text-white pt-24 pb-12 border-t border-zinc-900">
       <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-20">
           {/* Company Info */}
-          <div className="space-y-8">
+          <div className="lg:col-span-2 space-y-8">
             <div className="text-lg font-bold tracking-tight text-white">
               UrbanGrid
             </div>
@@ -42,7 +52,7 @@ export default function Footer() {
               </a>
             </div>
           </div>
-          
+
           {/* Quick Links */}
           <div>
             <h3 className="text-[10px] font-semibold tracking-[0.25em] text-zinc-600 uppercase mb-8">Quick Links</h3>
@@ -58,12 +68,12 @@ export default function Footer() {
               ))}
             </ul>
           </div>
-          
-          {/* Services / More */}
+
+          {/* Service Locations */}
           <div>
-            <h3 className="text-[10px] font-semibold tracking-[0.25em] text-zinc-600 uppercase mb-8">Services</h3>
+            <h3 className="text-[10px] font-semibold tracking-[0.25em] text-zinc-600 uppercase mb-8">Locations</h3>
             <ul className="space-y-4">
-              {serviceLinks.map((link) => (
+              {locationLinks.map((link) => (
                 <li key={link.name}>
                   <Link href={link.href}>
                     <span className="text-zinc-400 hover:text-white transition-colors cursor-pointer text-xs">
@@ -74,7 +84,7 @@ export default function Footer() {
               ))}
             </ul>
           </div>
-          
+
           {/* Contact Info */}
           <div className="space-y-8">
             <h3 className="text-[10px] font-semibold tracking-[0.25em] text-zinc-600 uppercase mb-8">Contact Us</h3>
@@ -85,8 +95,8 @@ export default function Footer() {
                 </span>
               </div>
               <div className="flex flex-col space-y-2">
-                <a 
-                  href="tel:+971567427634" 
+                <a
+                  href="tel:+971567427634"
                   onClick={() => trackConversion('call_click')}
                   className="text-zinc-400 hover:text-white transition-colors text-xs gtm-call-button"
                 >
@@ -99,7 +109,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        
+
         {/* Copyright */}
         <div className="border-t border-zinc-800 pt-10 flex flex-col md:flex-row justify-between items-center text-zinc-500 text-[10px] uppercase tracking-wider">
           <p className="text-center md:text-left">© {new Date().getFullYear()} UrbanGrid Real Estate Consultancies L.L.C. Licensed by RERA & Dubai Economy Department.</p>

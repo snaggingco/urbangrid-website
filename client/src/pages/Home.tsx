@@ -592,17 +592,22 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-zinc-200 border border-zinc-200">
             {[
-              { city: "Dubai", stat: "15,000+", note: "Inspections completed", desc: "Dubai Marina, Downtown, Business Bay, Palm Jumeirah and all Dubai areas.", icon: "fas fa-building" },
-              { city: "Abu Dhabi", stat: "12,000+", note: "Inspections completed", desc: "Saadiyat Island, Yas Island, Al Reem and the entire capital.", icon: "fas fa-mosque" },
-              { city: "Sharjah", stat: "8,000+", note: "Inspections completed", desc: "Residential communities, new developments and heritage properties.", icon: "fas fa-university" }
+              { city: "Dubai", href: "/locations/dubai", stat: "15,000+", note: "Inspections completed", desc: "Dubai Marina, Downtown, Business Bay, Palm Jumeirah and all Dubai areas.", icon: "fas fa-building" },
+              { city: "Abu Dhabi", href: "/locations/abu-dhabi", stat: "12,000+", note: "Inspections completed", desc: "Saadiyat Island, Yas Island, Al Reem and the entire capital.", icon: "fas fa-mosque" },
+              { city: "Sharjah", href: "/locations/sharjah", stat: "8,000+", note: "Inspections completed", desc: "Residential communities, new developments and heritage properties.", icon: "fas fa-university" }
             ].map((loc) => (
-              <div key={loc.city} className="p-8 lg:p-10 h-full">
-                <i className={`${loc.icon} text-brand-green text-xl mb-6 block`}></i>
-                <div className="text-2xl font-bold text-brand-green mb-1">{loc.stat}</div>
-                <div className="text-[10px] uppercase tracking-widest text-zinc-400 mb-4">{loc.note}</div>
-                <h3 className="text-lg font-bold text-zinc-900 mb-3">{loc.city}</h3>
-                <p className="text-zinc-500 text-xs leading-relaxed">{loc.desc}</p>
-              </div>
+              <Link key={loc.city} href={loc.href}>
+                <div className="p-8 lg:p-10 h-full group cursor-pointer hover:bg-zinc-50 transition-colors">
+                  <i className={`${loc.icon} text-brand-green text-xl mb-6 block`}></i>
+                  <div className="text-2xl font-bold text-brand-green mb-1">{loc.stat}</div>
+                  <div className="text-[10px] uppercase tracking-widest text-zinc-400 mb-4">{loc.note}</div>
+                  <h3 className="text-lg font-bold text-zinc-900 mb-3 group-hover:text-brand-green transition-colors">{loc.city}</h3>
+                  <p className="text-zinc-500 text-xs leading-relaxed">{loc.desc}</p>
+                  <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-brand-green mt-4 opacity-0 group-hover:opacity-100 transition-opacity">
+                    View {loc.city} <ArrowRight className="w-3 h-3" />
+                  </span>
+                </div>
+              </Link>
             ))}
           </div>
 

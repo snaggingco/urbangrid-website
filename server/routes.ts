@@ -100,8 +100,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
 </body>
 </html>`);
   };
-  app.get('/locations', sendLocationGone);
-  app.get('/locations/*', sendLocationGone);
+  // Only old sub-service combo URLs (e.g. /locations/dubai/snagging-company) return 410.
+  // The 7 top-level emirate pages now serve real content via the React SPA.
+  app.get('/locations/:emirate/:service', sendLocationGone);
 
   // ONE-TIME MIGRATION: hard-delete all blog posts except the 6 canonical ones.
   // Remove this endpoint after running against production.
