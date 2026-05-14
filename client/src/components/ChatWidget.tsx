@@ -66,13 +66,14 @@ function renderMarkdown(text: string): React.ReactNode[] {
 }
 
 /* Detect Lena's pricing breakdown and split it out as a structured table.
-   Handles markdown bold (**text**), bullet points, and plain text formats. */
+   Handles markdown bold, •/-/* bullets, and plain text formats. */
 function parsePricingTable(text: string): { cleanText: string; rows: { label: string; value: string }[]; addOn?: string } | null {
-  const hasHeader = /Here's the fee breakdown for your snagging inspection/i.test(text);
+  // Flexible header matching — Lena uses several variations
+  const hasHeader = /(?:Here's the fee breakdown for|calculate your.*snagging inspection fee|FEE ESTIMATE)/i.test(text);
   if (!hasHeader) return null;
 
-  // Strip all markdown bold markers so regexes work on plain text
-  const plain = text.replace(/\*\*/g, "");
+  // Strip markdown bold so regexes work on plain text; also normalise dash bullets
+  const plain = text.replace(/\*\*/g, "").replace(/^- /gm, "\u2022 ");
 
   const rows: { label: string; value: string }[] = [];
   let addOn: string | undefined;
@@ -87,26 +88,24 @@ function parsePricingTable(text: string): { cleanText: string; rows: { label: st
   extract(/(?:\u2022\s*)?Fee \(excl\. VAT\):\s*(.+)/im, "Fee (excl. VAT)");
   extract(/(?:\u2022\s*)?VAT \(5%\):\s*(.+)/im, "VAT (5%)");
   extract(/(?:\u2022\s*)?Total \(incl\. VAT\):\s*(.+)/im, "Total (incl. VAT)");
-
-  const addOnMatch = plain.match(/(?:\u2022\s*)?De[-\s]?[Ss]nagging Add-On:\s*(.+)/im);
-  if (addOnMatch) addOn = addOnMatch[1].trim();
+  extract(/(?:\u2022\s*)?De[-\s]?[Ss]nagging Add-On \(incl\. 5% VAT\):\s*(.+)/im, "De-snagging Add-On (incl. VAT)");
 
   if (rows.length === 0) return null;
 
-  // Strip pricing lines, header, and all remaining markdown bold from clean text
+  // Strip pricing lines, header, and all markdown bold from clean text
   let cleanText = text
-    .replace(/\*\*/g, "") // remove all markdown bold markers first
-    .replace(/(?:\u2022\s*)?Service:\s*.+/gim, "")
-    .replace(/(?:\u2022\s*)?Built-Up Area:\s*.+/gim, "")
-    .replace(/(?:\u2022\s*)?Fee \(excl\. VAT\):\s*.+/gim, "")
-    .replace(/(?:\u2022\s*)?VAT \(5%\):\s*.+/gim, "")
-    .replace(/(?:\u2022\s*)?Total \(incl\. VAT\):\s*.+/gim, "")
-    .replace(/(?:\u2022\s*)?De[-\s]?[Ss]nagging Add-On:\s*.+/gim, "")
-    .replace(/Here's the fee breakdown for your snagging inspection[:.]*\n*/gim, "")
+    .replace(/\*\*/g, "")
+    .replace(/(?:\u2022\s*|-\s*)?Service:\s*.+/gim, "")
+    .replace(/(?:\u2022\s*|-\s*)?Built-Up Area:\s*.+/gim, "")
+    .replace(/(?:\u2022\s*|-\s*)?Fee \(excl\. VAT\):\s*.+/gim, "")
+    .replace(/(?:\u2022\s*|-\s*)?VAT \(5%\):\s*.+/gim, "")
+    .replace(/(?:\u2022\s*|-\s*)?Total \(incl\. VAT\):\s*.+/gim, "")
+    .replace(/(?:\u2022\s*|-\s*)?De[-\s]?[Ss]nagging Add-On[^\n]*/gim, "")
+    .replace(/(?:Here's the fee breakdown for your snagging inspection|calculate your.*snagging inspection fee|FEE ESTIMATE)[:.]*\n*/gim, "")
     .replace(/\n{3,}/g, "\n\n")
     .trim();
 
-  return { cleanText, rows, addOn };
+  return { cleanText, rows };
 }
 
 // ── Booking form ──────────────────────────────────────────────────────────────
@@ -500,20 +499,17 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
                             <div className="rounded-lg overflow-hidden border border-gray-200 shadow-sm">
                               <table className="w-full text-sm">
                                 <tbody>
-                                  {pricing.rows.map((row, ri) => (
-                                    <tr key={ri} className="border-b border-gray-100 last:border-0">
-                                      <td className="px-3 py-2 font-medium text-gray-700 bg-gray-50 w-[40%]">{row.label}</td>
-                                      <td className="px-3 py-2 text-gray-900 text-right font-semibold">{row.value}</td>
-                                    </tr>
-                                  ))}
+                                  {pricing.rows.map((row, ri) => {
+                                    const isAddOn = row.label.toLowerCase().includes("de-snag");
+                                    return (
+                                      <tr key={ri} className={`border-b border-gray-100 last:border-0 ${isAddOn ? "bg-green-50" : ""}`}>
+                                        <td className={`px-3 py-2 font-medium w-[40%] ${isAddOn ? "text-green-800" : "text-gray-700 bg-gray-50"}`}>{row.label}</td>
+                                        <td className={`px-3 py-2 text-right font-semibold ${isAddOn ? "text-green-900" : "text-gray-900"}`}>{row.value}</td>
+                                      </tr>
+                                    );
+                                  })}
                                 </tbody>
                               </table>
-                              {pricing.addOn && (
-                                <div className="px-3 py-2 bg-green-50 text-green-800 text-xs font-medium border-t border-green-200 flex items-center justify-between">
-                                  <span>De-snagging Add-On</span>
-                                  <span>{pricing.addOn}</span>
-                                </div>
-                              )}
                             </div>
                           </div>
                         );

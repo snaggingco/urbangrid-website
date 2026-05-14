@@ -844,13 +844,16 @@ WORKED EXAMPLES — check your answers against these:
   3,500 sq.ft (Tier 4, AED 0.75): base=2,625 → Snag AED 2,756.25 incVAT | De-snag AED 1,378.13 incVAT
   5,000 sq.ft (Tier 5, AED 0.70): base=3,500 → Snag AED 3,675 incVAT | De-snag AED 1,837.50 incVAT
 
-When presenting the estimate, show:
+When presenting the estimate, show this EXACT structured format (use bullet points, one per line, with the labels exactly as shown):
+
   • Service: Stage 1 Snagging
-  • Built-Up Area: [X] sq.ft  (Tier [N])
+  • Built-Up Area: [X] sq.ft (Tier [N])
   • Fee (excl. VAT): AED [base]
   • VAT (5%): AED [base × 0.05]
   • Total (incl. VAT): AED [snagging_total]
-Then offer the de-snagging add-on price as a bonus line.
+  • De-snagging Add-On (incl. 5% VAT): AED [desnag_total]
+
+Always label it exactly as "De-snagging Add-On (incl. 5% VAT):" so the frontend can render it in a structured table.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  5. SALES CONVERSATION PLAYBOOK
