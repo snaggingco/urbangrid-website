@@ -66,15 +66,27 @@ function isAdminAuthenticated(req: any, res: any, next: any) {
 }
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // 1) Canonical domain redirect (www → naked, alternate domains → canonical)
+  // 2) Trailing-slash redirect (/about/ → /about) for SEO consistency
   app.use((req, res, next) => {
     const host = req.headers.host || '';
+    const originalPath = req.originalUrl || '/';
+
+    // Domain redirect
     if (
       host.includes('urbangrid.replit.app') ||
       host.includes('snagging.me') ||
       host === 'www.urbangrid.ae'
     ) {
-      return res.redirect(301, `https://urbangrid.ae${req.originalUrl}`);
+      const cleanPath = originalPath.replace(/\/$/, '') || '/';
+      return res.redirect(301, `https://urbangrid.ae${cleanPath}`);
     }
+
+    // Trailing-slash redirect (skip root "/" and URLs that need a trailing slash like files/API)
+    if (originalPath.length > 1 && originalPath.endsWith('/') && !originalPath.includes('?')) {
+      return res.redirect(301, `https://urbangrid.ae${originalPath.slice(0, -1)}`);
+    }
+
     next();
   });
 
@@ -1184,8 +1196,13 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
       res.setHeader('Cache-Control', 'public, max-age=3600');
       return res.send(html);
-    } catch {
-      return next();
+    } catch (err: any) {
+      console.error('serveSPAWithMeta error:', err?.message || err);
+      // Explicit 500 so the error is visible and Google doesn't index generic fallback tags
+      res.status(500).setHeader('Content-Type', 'text/html; charset=utf-8');
+      return res.send(`<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="robots" content="noindex, nofollow"><title>Error</title></head>
+<body><h1>Server Error</h1><p>Please try again later.</p></body></html>`);
     }
   };
 
@@ -1269,7 +1286,13 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
   app.get('/services/:category/:slug', (req, res, next) => {
     const { category, slug } = req.params;
     const svc = serviceSSRData[slug];
-    if (!svc || svc.category !== category) return next();
+    if (!svc || svc.category !== category) {
+      // Explicit 404 so Google does not index generic fallback tags as a soft-404
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      return res.status(404).send(`<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="robots" content="noindex, nofollow"><title>404 Not Found | UrbanGrid</title></head>
+<body><h1>404 Not Found</h1><p>The page you requested does not exist. Visit <a href="https://urbangrid.ae/services">our services</a> or the <a href="https://urbangrid.ae/">homepage</a>.</p></body></html>`);
+    }
     const rawDesc = svc.description.length > 158 ? svc.description.slice(0, 155) + '...' : svc.description;
     return serveSPAWithMeta(res, next, {
       title: `${svc.title} | UrbanGrid UAE`,
@@ -1285,8 +1308,14 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
     try {
       const { slug } = req.params;
       const post = await storage.getBlogPostBySlug(slug);
-      
-      if (!post) return next();
+
+      if (!post) {
+        // Explicit 404 so Google does not index generic fallback tags as a soft-404
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        return res.status(404).send(`<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="robots" content="noindex, nofollow"><title>404 Not Found | UrbanGrid</title></head>
+<body><h1>404 Not Found</h1><p>The blog post you requested does not exist. Visit <a href="https://urbangrid.ae/blog">our blog</a> or the <a href="https://urbangrid.ae/">homepage</a>.</p></body></html>`);
+      }
 
       if (post.status !== 'published') {
         // Archived/removed post: render 410 with noindex so Google deindexes it permanently.
@@ -1381,10 +1410,36 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
 </html>`;
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
       return res.send(html);
-    } catch (error) {
-      console.error("Error rendering blog page:", error);
+    } catch (error: any) {
+      console.error("Error rendering blog page:", error?.message || error);
+      // Explicit 500 so errors are visible and not silently masked by generic SPA tags
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      return res.status(500).send(`<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="robots" content="noindex, nofollow"><title>Error</title></head>
+<body><h1>Server Error</h1><p>Please try again later.</p></body></html>`);
+    }
+  });
+
+  // Final 404 catch-all for unknown GET pages.
+  // Registered BEFORE Vite/SPA catch-all so unknown pages return real 404s
+  // instead of generic index.html with 200 OK (soft-404 SEO penalty).
+  // Skips API, Vite HMR, and static assets so they fall through correctly.
+  app.use((req, res, next) => {
+    if (req.method !== 'GET') return next();
+    const p = req.path;
+    if (
+      p.startsWith('/api') ||
+      p.startsWith('/__repl') ||
+      p.startsWith('/@') ||
+      p.startsWith('/@fs') ||
+      p.match(/\.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|json|xml|txt|pdf|webp|map|ts|tsx|jsx)$/)
+    ) {
       return next();
     }
+    res.setHeader('Content-Type', 'text/html; charset=utf-8');
+    res.status(404).send(`<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="robots" content="noindex, nofollow"><title>404 Not Found | UrbanGrid</title></head>
+<body><h1>404 Not Found</h1><p>The page you requested does not exist. Visit <a href="https://urbangrid.ae/">our homepage</a> or <a href="https://urbangrid.ae/services">our services</a>.</p></body></html>`);
   });
 
   const httpServer = createServer(app);
