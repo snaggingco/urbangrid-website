@@ -61,6 +61,10 @@ export interface IStorage {
     limit?: number;
     offset?: number;
   }): Promise<Inspector[]>;
+  getInspectorsCount(options?: {
+    isActive?: boolean;
+    search?: string;
+  }): Promise<number>;
   updateInspector(id: number, inspector: Partial<InsertInspector>): Promise<Inspector | undefined>;
   deleteInspector(id: number): Promise<boolean>;
 
@@ -302,6 +306,33 @@ export class DatabaseStorage implements IStorage {
     }
 
     return await query;
+  }
+
+  async getInspectorsCount(options?: {
+    isActive?: boolean;
+    search?: string;
+  }): Promise<number> {
+    let query = db.select({ count: count() }).from(inspectors);
+
+    const conditions = [];
+    if (options?.isActive !== undefined) {
+      conditions.push(eq(inspectors.isActive, options.isActive));
+    }
+    if (options?.search) {
+      conditions.push(
+        or(
+          ilike(inspectors.name, `%${options.search}%`),
+          ilike(inspectors.email, `%${options.search}%`)
+        )
+      );
+    }
+
+    if (conditions.length > 0) {
+      query = query.where(and(...conditions));
+    }
+
+    const result = await query;
+    return result[0]?.count ?? 0;
   }
 
   async updateInspector(id: number, inspector: Partial<InsertInspector>): Promise<Inspector | undefined> {

@@ -6,12 +6,8 @@ import { storage } from "./storage";
 import { setupLocalAuth } from "./adminAuth";
 import { setupInspectorAuth } from "./inspectorAuth";
 import { insertBlogPostSchema, insertContactSubmissionSchema, insertInspectorSchema, insertConversionLogSchema } from "@shared/schema";
-import bcrypt from "bcryptjs";
 import { z } from "zod";
 import nodemailer from "nodemailer";
-import { db } from "./db";
-import { blogPosts } from "@shared/schema";
-import { notInArray } from "drizzle-orm";
 import OpenAI from "openai";
 
 // Generate slug from title
@@ -104,60 +100,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // The 7 top-level emirate pages now serve real content via the React SPA.
   app.get('/locations/:emirate/:service', sendLocationGone);
 
-  // ONE-TIME MIGRATION: hard-delete all blog posts except the 6 canonical ones.
-  // Remove this endpoint after running against production.
-  app.post('/api/admin/migrate-delete-blogs', async (req, res) => {
-    const secret = req.query.secret as string;
-    if (secret !== 'ug-delete-2026-seo') {
-      return res.status(403).json({ error: 'Forbidden' });
-    }
-    const keepSlugs = [
-      'nfpa-72-fire-alarm-systems-property-snagging-uae',
-      'nfpa-25-fire-protection-systems-property-snagging-uae',
-      'nfpa-70-national-electrical-code-property-snagging-uae',
-      'nfpa-101-life-safety-code-property-snagging-uae',
-      'ashrae-standard-180-building-commissioning-property-snagging-uae',
-      'case-study-palm-jumeirah-penthouse-inspection-mep-defects',
-    ];
-    try {
-      const deleted = await db
-        .delete(blogPosts)
-        .where(notInArray(blogPosts.slug, keepSlugs))
-        .returning({ id: blogPosts.id });
-      const remaining = await db.select({ slug: blogPosts.slug }).from(blogPosts);
-      return res.json({ deleted: deleted.length, remaining: remaining.length });
-    } catch (err: any) {
-      return res.status(500).json({ error: err.message });
-    }
-  });
-
   // Auth middleware
   setupLocalAuth(app);
   setupInspectorAuth(app);
-
-  // Note: Inspector auth user endpoint is handled in inspectorAuth.ts
-  // This endpoint is overridden by setupInspectorAuth for dual authentication
-  app.get('/api/auth/user-backup', async (req: any, res) => {
-    try {
-      // Check if user is authenticated via local admin auth
-      if (req.isAuthenticated() && req.user?.claims?.sub === 'super-admin') {
-        return res.json({
-          id: 'super-admin',
-          email: 'admin@urbangrid.ae',
-          firstName: 'Arif',
-          lastName: 'Admin',
-          role: 'admin',
-          profileImageUrl: null
-        });
-      }
-
-      // Not authenticated
-      res.status(401).json({ message: "Unauthorized" });
-    } catch (error) {
-      console.error("Error fetching user:", error);
-      res.status(500).json({ message: "Failed to fetch user" });
-    }
-  });
 
   // Conversion tracking
   app.post('/api/track-conversion', async (req, res) => {
@@ -1295,28 +1240,30 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
   }
 
   // Server-side rendered service detail pages for SEO
-  // All data is static — no DB needed. Serves complete HTML with meta tags instantly.
+  // Must stay in sync with client/src/pages/ServiceDetail.tsx servicesData.
+  // Only the 16 active service slugs are listed here. Dead slugs have been removed.
   const serviceSSRData: Record<string, { title: string; description: string; image: string; category: string }> = {
-    'new-build-snagging':            { title: 'New Build Snagging', description: 'Comprehensive inspection for newly completed properties covering finishes, MEP systems, and quality compliance with international standards.', image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
-    'snagging-company':              { title: 'Property Snagging Company', description: 'UrbanGrid offers professional property snagging services to identify defects and protect your investment before handover.', image: 'https://images.unsplash.com/photo-1513694203232-719a280e022f?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
-    'pre-purchase-inspection':       { title: 'Pre-Purchase Property Inspection', description: 'Detailed inspection services for buyers to assess property condition before purchase with expert reports and recommendations.', image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
-    'handover-inspection':            { title: 'Handover Inspection', description: 'Independent property handover inspections designed to uncover defects before you accept keys from the developer.', image: 'https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
-    'warranty-inspection':            { title: 'Warranty Inspection', description: 'Comprehensive warranty-period inspections to identify latent defects and ensure post-handover peace of mind.', image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
-    'defect-listing':                 { title: 'Defect Listing', description: 'Detailed defect listings with photographic evidence and prioritized recommendations for repair and remediation.', image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
-    'rera-compliance-inspection':     { title: 'RERA Compliance Inspection', description: 'Inspection services aligned with RERA requirements to support compliance and quality assurance in Dubai and the UAE.', image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&h=600', category: 'rera-services' },
-    'snagging-report':                { title: 'Snagging Report', description: 'Clear, actionable snagging reports that summarize defects, categorize issues, and guide remediation efforts.', image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
-    'post-renovation-inspection':     { title: 'Post-Renovation Inspection', description: 'Thorough inspections after renovation works to verify quality, workmanship, and compliance with standards.', image: 'https://images.unsplash.com/photo-1484154218962-a197022b5858?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
-    'move-in-move-out-inspection':    { title: 'Move-In Move-Out Inspection', description: 'Condition assessments for tenants and landlords during move-in and move-out transitions to document property state.', image: 'https://images.unsplash.com/photo-1555636222-cae831e670b3?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
-    'mep-inspection':                 { title: 'MEP Inspection', description: 'Mechanical, electrical, and plumbing inspections to assess system performance, safety, and compliance.', image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
-    'electrical-inspection':          { title: 'Electrical Inspection', description: 'Professional electrical system inspections covering distribution boards, wiring, protection devices, and safety.', image: 'https://images.unsplash.com/photo-1519904981063-b0cf448d479e?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
-    'plumbing-inspection':            { title: 'Plumbing Inspection', description: 'Comprehensive plumbing assessments covering supply, drainage, leaks, fixtures, and functional performance.', image: 'https://images.unsplash.com/photo-1504615755583-2916b52192d3?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
-    'hvac-inspection':                { title: 'HVAC Inspection', description: 'Detailed HVAC inspections to evaluate cooling performance, ventilation, controls, and maintenance condition.', image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
-    'fire-safety-inspection':         { title: 'Fire Safety Inspection', description: 'Fire safety inspections aligned with NFPA standards to evaluate alarms, suppression, exits, and life safety measures.', image: 'https://images.unsplash.com/photo-1516747773446-6e5c6c7d5c2e?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
-    'dlp-snagging':                   { title: 'DLP Snagging', description: 'Detailed DLP period inspections to identify defects that appear after handover and during the liability period.', image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
-    'thermal-imaging':                { title: 'Thermal Imaging Inspection', description: 'Infrared thermal inspections to detect hidden issues such as moisture intrusion, insulation gaps, and electrical hotspots.', image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
-    'acoustic-survey':                { title: 'Acoustic Survey', description: 'Noise and sound performance surveys to help identify issues with acoustic comfort and regulatory compliance.', image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
-    'water-leak-detection':           { title: 'Water Leak Detection', description: 'Non-invasive leak detection inspections to locate hidden leaks before they cause expensive damage.', image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
-    'structural-survey':              { title: 'Structural Survey', description: 'Detailed structural engineering assessment following ASTM E2018 standards, examining building integrity and load-bearing elements.', image: 'https://images.unsplash.com/photo-1581094613018-d1db5d0b5b30?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
+    // Property Snagging (6 services)
+    'new-build-snagging':            { title: 'New Build Handover Snagging & Inspection', description: 'Comprehensive pre-handover inspection of newly constructed properties to identify defects, incomplete work, and quality issues before you take possession.', image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
+    'post-renovation-inspection':    { title: 'Post Renovation / Fit-out Snagging Inspection', description: 'Quality assessment after renovation or fit-out work to ensure all improvements meet specifications and industry standards.', image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
+    'dlp-snagging':                  { title: 'Property Defect Liability Period (DLP) Snagging', description: 'Strategic inspection during the defect liability period to identify and document all issues before warranty expires.', image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
+    'move-in-move-out':              { title: 'Property Move-in / Move-out Snagging', description: 'Detailed condition reports for rental properties to protect both tenants and landlords during property transitions.', image: 'https://images.unsplash.com/photo-1555636222-cae831e670b3?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
+    'secondary-market':              { title: 'Secondary Market Property Snagging', description: 'Pre-purchase inspections for existing properties to help buyers make informed decisions and negotiate fair prices.', image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
+    'developer-projects':            { title: 'Developer and Contractor Project Snagging', description: 'Quality control inspections for developers and contractors to ensure projects meet industry standards and client expectations.', image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1200&h=600', category: 'property-snagging' },
+
+    // RERA Services (5 services)
+    'reserve-fund-study':            { title: 'Reserve Fund Study / Sinking Fund', description: 'Comprehensive analysis of building reserve fund requirements and long-term capital expenditure planning for strata properties in compliance with RERA regulations.', image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&h=600', category: 'rera-services' },
+    'service-charge-allocation':     { title: 'Service Charge Cost Allocation', description: 'Detailed assessment and allocation of service charges across common property areas ensuring fair distribution and full compliance with RERA guidelines.', image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&h=600', category: 'rera-services' },
+    'reinstatement-cost-assessment': { title: 'Reinstatement Cost Assessment', description: 'Professional assessment of property reinstatement costs for insurance and RERA compliance purposes across Dubai and the UAE.', image: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&h=600', category: 'rera-services' },
+    'building-completion-audit':     { title: 'Building Completion Audit', description: 'Comprehensive audit of building completion status verifying all regulatory requirements and quality standards before final handover.', image: 'https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&h=600', category: 'rera-services' },
+    'building-condition-survey':     { title: 'Building Condition Survey', description: 'Detailed assessment of building condition covering structural, MEP, and finish elements for maintenance planning and compliance reporting.', image: 'https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=1200&h=600', category: 'rera-services' },
+
+    // Technical Inspections (5 services)
+    'technical-due-diligence':       { title: 'Technical Due Diligence', description: 'In-depth technical assessment for property acquisitions and investments, evaluating structural integrity, MEP systems, and compliance status.', image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
+    'dilapidation-survey':           { title: 'Dilapidation Survey', description: 'Pre and post-construction condition surveys documenting existing property state to protect against damage claims during adjacent development works.', image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
+    'thermographic-survey':          { title: 'Thermographic Survey', description: 'Infrared thermal imaging inspections to detect hidden moisture, insulation defects, electrical hotspots, and energy efficiency issues.', image: 'https://images.unsplash.com/photo-1516747773446-6e5c6c7d5c2e?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
+    'noise-survey':                  { title: 'Noise Survey', description: 'Professional acoustic and noise level surveys for residential and commercial properties ensuring compliance with UAE environmental standards.', image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
+    'structural-survey':             { title: 'Structural Survey', description: 'Detailed structural engineering assessment examining building integrity, load-bearing elements, and compliance with international standards.', image: 'https://images.unsplash.com/photo-1581094613018-d1db5d0b5b30?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
   };
 
   app.get('/services/:category/:slug', (req, res, next) => {
