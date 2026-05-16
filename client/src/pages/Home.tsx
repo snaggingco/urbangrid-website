@@ -149,12 +149,13 @@ export default function Home() {
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <section className="relative min-h-screen flex flex-col justify-center bg-zinc-900 mt-8 lg:mt-12 overflow-hidden">
         <img
-          src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&h=1000&q=80"
+          src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=750&q=60"
           alt=""
           aria-hidden="true"
           className="absolute inset-0 w-full h-full object-cover opacity-20"
-          width="1600"
-          height="1000"
+          width="1200"
+          height="750"
+          fetchpriority="high"
           decoding="async"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-zinc-900/60 via-zinc-900/45 to-zinc-900" />
@@ -281,10 +282,10 @@ export default function Home() {
             </div>
             <div className="flex items-center gap-8 lg:gap-12">
               <div className="p-6 border border-zinc-100 hover:border-brand-green/30 transition-colors">
-                <img src={internachi1} alt="InterNACHI Certification" className="h-16 lg:h-20 w-auto object-contain" loading="lazy" />
+                <img src={internachi1} alt="InterNACHI Certification" className="h-16 lg:h-20 w-auto object-contain" loading="lazy" width="80" height="69" />
               </div>
               <div className="p-6 border border-zinc-100 hover:border-brand-green/30 transition-colors">
-                <img src={internachi2} alt="InterNACHI Badge" className="h-16 lg:h-20 w-auto object-contain" loading="lazy" />
+                <img src={internachi2} alt="InterNACHI Badge" className="h-16 lg:h-20 w-auto object-contain" loading="lazy" width="80" height="80" />
               </div>
             </div>
           </div>
@@ -413,7 +414,7 @@ export default function Home() {
 
             <div className="relative">
               <img
-                src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=700&h=520&q=80"
+                src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=700&h=520&q=70"
                 alt="Professional property inspection team"
                 className="w-full object-cover"
                 width="700"

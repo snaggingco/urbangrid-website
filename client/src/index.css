@@ -10,6 +10,17 @@
 @import "@fortawesome/fontawesome-free/css/brands.min.css";
 @import "@fortawesome/fontawesome-free/css/regular.min.css";
 
+/* Override FontAwesome font-display: block → swap for visible text during load */
+/* This prevents invisible text on first paint (Lighthouse "Font display" audit) */
+@font-face {
+  font-family: "Font Awesome 6 Free";
+  font-display: swap;
+}
+@font-face {
+  font-family: "Font Awesome 6 Brands";
+  font-display: swap;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

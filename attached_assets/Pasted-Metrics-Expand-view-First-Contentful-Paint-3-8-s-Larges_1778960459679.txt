@@ -1,0 +1,251 @@
+Metrics
+Expand view
+First Contentful Paint
+3.8 s
+Largest Contentful Paint
+12.0 s
+Total Blocking Time
+370 ms
+Cumulative Layout Shift
+0.011
+Speed Index
+5.1 s
+Captured at May 16, 2026, 11:33 PM GMT+4
+Emulated Moto G Power with Lighthouse 13.0.1
+Single page session
+Initial page load
+Slow 4G throttling
+Using HeadlessChromium 146.0.7680.177 with lr
+View Treemap
+Screenshot
+Screenshot
+Screenshot
+Screenshot
+Screenshot
+Screenshot
+Screenshot
+Screenshot
+Show audits relevant to:
+
+All
+
+FCP
+
+LCP
+
+TBT
+
+CLS
+Insights
+Render blocking requests Est savings of 2,580 ms
+Requests are blocking the page's initial render, which may delay LCP. Deferring or inlining can move these network requests out of the critical path.LCPFCPUnscored
+URL
+Transfer Size
+Duration
+urbangrid.ae 1st party
+42.3 KiB	490 ms
+/assets/index-CWrGNR5A.css(urbangrid.ae)
+42.3 KiB
+490 ms
+Font display Est savings of 390 ms
+Consider setting font-display to swap or optional to ensure text is consistently visible. swap can be further optimized to mitigate layout shifts with font metric overrides.FCPUnscored
+URL
+Est Savings
+urbangrid.ae 1st party
+/assets/fa-solid-….woff2(urbangrid.ae)
+390 ms
+/assets/fa-brands….woff2(urbangrid.ae)
+340 ms
+Improve image delivery Est savings of 612 KiB
+Reducing the download time of images can improve the perceived load time of the page and LCP. Learn more about optimizing image sizeLCPFCPUnscored
+URL
+Resource Size
+Est Savings
+unsplash.com
+336.1 KiB	254.6 KiB
+div.min-h-screen > main#main-content > section.relative > img.absolute
+<img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.…" alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover opacity-20" width="1600" height="1000" decoding="async">
+/photo-151…-5ea266f8880c?ixlib=…(images.unsplash.com)
+336.1 KiB
+254.6 KiB
+Increasing the image compression factor could improve this image's download size.
+254.6 KiB
+urbangrid.ae 1st party
+357.9 KiB	357.5 KiB
+InterNACHI Certification
+<img src="/assets/internachi-urRAxLMC.webp" alt="InterNACHI Certification" class="h-16 lg:h-20 w-auto object-contain" loading="lazy">
+/assets/internachi-urRAxLMC.webp(urbangrid.ae)
+211.7 KiB
+211.4 KiB
+This image file is larger than it needs to be (2000x1726) for its displayed dimensions (74x64). Use responsive images to reduce the image download size.
+211.4 KiB
+InterNACHI Badge
+<img src="/assets/internachi2-CW6M2-V2.webp" alt="InterNACHI Badge" class="h-16 lg:h-20 w-auto object-contain" loading="lazy">
+/assets/internach….webp(urbangrid.ae)
+146.3 KiB
+146.1 KiB
+This image file is larger than it needs to be (1800x1800) for its displayed dimensions (64x64). Use responsive images to reduce the image download size.
+146.1 KiB
+Forced reflow
+A forced reflow occurs when JavaScript queries geometric properties (such as offsetWidth) after styles have been invalidated by a change to the DOM state. This can result in poor performance. Learn more about forced reflows and possible mitigations.Unscored
+Top function call
+Total reflow time
+/assets/index-BHenHSXN.js:42:34195(urbangrid.ae)
+227 ms
+Source
+Total reflow time
+/assets/index-BHenHSXN.js:282:9991(urbangrid.ae)
+227 ms
+LCP request discovery
+Optimize LCP by making the LCP image discoverable from the HTML immediately, and avoiding lazy-loadingLCPUnscored
+lazy load not applied
+fetchpriority=high should be applied
+Request is discoverable in initial document
+div.min-h-screen > main#main-content > section.relative > img.absolute
+<img src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.…" alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover opacity-20" width="1600" height="1000" decoding="async">
+Network dependency tree
+Avoid chaining critical requests by reducing the length of chains, reducing the download size of resources, or deferring the download of unnecessary resources to improve page load.LCPUnscored
+Maximum critical path latency: 1,474 ms
+Initial Navigation
+https://urbangrid.ae - 184 ms, 3.26 KiB
+/assets/index-BHenHSXN.js(urbangrid.ae) - 709 ms, 198.10 KiB
+…auth/user(urbangrid.ae) - 938 ms, 1.46 KiB
+/assets/index-CWrGNR5A.css(urbangrid.ae) - 454 ms, 42.35 KiB
+/assets/inter-lat….woff2(urbangrid.ae) - 1,272 ms, 24.57 KiB
+/assets/inter-lat….woff2(urbangrid.ae) - 1,377 ms, 25.16 KiB
+/assets/inter-lat….woff2(urbangrid.ae) - 1,273 ms, 25.36 KiB
+/assets/inter-lat….woff2(urbangrid.ae) - 1,273 ms, 25.27 KiB
+/assets/fa-solid-….woff2(urbangrid.ae) - 1,474 ms, 113.51 KiB
+/assets/fa-brands….woff2(urbangrid.ae) - 1,432 ms, 108.99 KiB
+Preconnected origins
+preconnect hints help the browser establish a connection earlier in the page load, saving time when the first request for that origin is made. The following are the origins that the page preconnected to.
+Origin
+Source
+https://cdnjs.cloudflare.com/
+head > link
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="">
+Unused preconnect. Only use preconnect for origins that the page is likely to request.
+Preconnect candidates
+Add preconnect hints to your most important origins, but try to use no more than 4.
+Origin
+Est LCP savings
+https://purecatamphetamine.github.io
+310 ms
+Use efficient cache lifetimes Est savings of 1 KiB
+A long cache lifetime can speed up repeat visits to your page. Learn more about caching.LCPFCPUnscored
+Request
+Cache TTL
+Transfer Size
+GitHub utility
+1 KiB
+…3x2/AE.svg(purecatamphetamine.github.io)
+10m
+1 KiB
+Layout shift culprits
+Optimize DOM size
+LCP breakdown
+3rd parties
+These insights are also available in the Chrome DevTools Performance Panel - record a trace to view more detailed information.
+Diagnostics
+Reduce JavaScript execution time 1.7 s
+Consider reducing the time spent parsing, compiling, and executing JS. You may find delivering smaller JS payloads helps with this. Learn how to reduce Javascript execution time.TBTUnscored
+URL
+Total CPU Time
+Script Evaluation
+Script Parse
+urbangrid.ae 1st party
+1,746 ms	1,046 ms	55 ms
+/assets/index-BHenHSXN.js(urbangrid.ae)
+1,255 ms
+877 ms
+54 ms
+https://urbangrid.ae
+490 ms
+169 ms
+1 ms
+Google Tag Manager tag-manager 
+543 ms	258 ms	280 ms
+/gtag/js?id=G-6LDP4K8LQZ&cx=c&gtm=4e65d0(www.googletagmanager.com)
+153 ms
+93 ms
+59 ms
+/gtm.js?id=GTM-NGVDWWRF(www.googletagmanager.com)
+151 ms
+95 ms
+55 ms
+/gtag/js?id=AW-114…(www.googletagmanager.com)
+141 ms
+52 ms
+85 ms
+/gtag/js?id=AW-114…&cx=c&gtm=4e65d0(www.googletagmanager.com)
+98 ms
+17 ms
+80 ms
+Unattributable
+207 ms	31 ms	0 ms
+Unattributable
+207 ms
+31 ms
+0 ms
+Minimize main-thread work 2.5 s
+Consider reducing the time spent parsing, compiling and executing JS. You may find delivering smaller JS payloads helps with this. Learn how to minimize main-thread workTBTUnscored
+Category
+Time Spent
+Script Evaluation
+1,343 ms
+Style & Layout
+384 ms
+Script Parsing & Compilation
+337 ms
+Other
+266 ms
+Rendering
+116 ms
+Garbage Collection
+64 ms
+Parse HTML & CSS
+10 ms
+Reduce unused JavaScript Est savings of 377 KiB
+Reduce unused JavaScript and defer loading scripts until they are required to decrease bytes consumed by network activity. Learn how to reduce unused JavaScript.LCPFCPUnscored
+URL
+Transfer Size
+Est Savings
+Google Tag Manager tag-manager 
+620.7 KiB	303.7 KiB
+/gtag/js?id=AW-114…&cx=c&gtm=4e65d0(www.googletagmanager.com)
+172.7 KiB
+113.6 KiB
+/gtm.js?id=GTM-NGVDWWRF(www.googletagmanager.com)
+140.9 KiB
+66.3 KiB
+/gtag/js?id=G-6LDP4K8LQZ&cx=c&gtm=4e65d0(www.googletagmanager.com)
+134.4 KiB
+65.7 KiB
+/gtag/js?id=AW-114…(www.googletagmanager.com)
+172.6 KiB
+58.0 KiB
+urbangrid.ae 1st party
+196.5 KiB	73.8 KiB
+/assets/index-BHenHSXN.js(urbangrid.ae)
+196.5 KiB
+73.8 KiB
+Reduce unused CSS Est savings of 35 KiB
+Reduce unused rules from stylesheets and defer CSS not used for above-the-fold content to decrease bytes consumed by network activity. Learn how to reduce unused CSS.LCPFCPUnscored
+URL
+Transfer Size
+Est Savings
+urbangrid.ae 1st party
+40.8 KiB	35.3 KiB
+/assets/index-CWrGNR5A.css(urbangrid.ae)
+40.8 KiB
+35.3 KiB
+Image elements do not have explicit width and height
+Set an explicit width and height on image elements to reduce layout shifts and improve CLS. Learn how to set image dimensionsCLSUnscored
+URL
+urbangrid.ae 1st party
+InterNACHI Certification
+<img src="/assets/internachi-urRAxLMC.webp" alt="InterNACHI Certification" class="h-16 lg:h-20 w-auto object-contain" loading="lazy">
+/assets/internachi-urRAxLMC.webp(urbangrid.ae)
+InterNACHI Badge
+<img src="/assets/internachi2-CW6M2-V2.webp" alt="InterNACHI Badge" class="h-16 lg:h-20 w-auto object-contain" loading="lazy">
+/assets/internach….webp(urbangrid.ae)
