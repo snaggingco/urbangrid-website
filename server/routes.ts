@@ -9,6 +9,7 @@ import { insertBlogPostSchema, insertContactSubmissionSchema, insertInspectorSch
 import { z } from "zod";
 import nodemailer from "nodemailer";
 import OpenAI from "openai";
+import { homepageSchema, locationSchema, serviceSchema } from "./schema";
 
 // Generate slug from title
 function generateSlug(title: string): string {
@@ -1236,12 +1237,14 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
   for (const page of corePages) {
     app.get(page.path, (req, res, next) => {
       const canonical = `https://urbangrid.ae${page.path === '/' ? '' : page.path}` || 'https://urbangrid.ae';
+      const extraHeadTags = page.path === '/' ? homepageSchema() : undefined;
       return serveSPAWithMeta(res, next, {
         title: page.title,
         description: page.description,
         canonical: page.path === '/' ? 'https://urbangrid.ae/' : `https://urbangrid.ae${page.path}`,
         h1: page.h1,
         noindex: page.noindex,
+        extraHeadTags,
       });
     });
   }
@@ -1261,11 +1264,14 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
 
   for (const page of locationPages) {
     app.get(page.path, (req, res, next) => {
+      const emirate = page.path.replace('/locations/', '');
+      const emirateTitle = emirate.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
       return serveSPAWithMeta(res, next, {
         title: page.title,
         description: page.description,
         canonical: `https://urbangrid.ae${page.path}`,
         h1: page.h1,
+        extraHeadTags: locationSchema(emirate, emirateTitle, page.description),
       });
     });
   }
@@ -1308,12 +1314,17 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
 <body><h1>404 Not Found</h1><p>The page you requested does not exist. Visit <a href="https://urbangrid.ae/services">our services</a> or the <a href="https://urbangrid.ae/">homepage</a>.</p></body></html>`);
     }
     const rawDesc = svc.description.length > 158 ? svc.description.slice(0, 155) + '...' : svc.description;
+    const serviceCategory = category === 'property-snagging' ? 'Property Snagging' :
+                           category === 'rera-services' ? 'RERA Services' :
+                           category === 'technical-inspections' ? 'Technical Inspections' : 'Property Inspection';
+    const servicePath = `/services/${category}/${slug}`;
     return serveSPAWithMeta(res, next, {
       title: `${svc.title} | UrbanGrid UAE`,
       description: rawDesc,
-      canonical: `https://urbangrid.ae/services/${category}/${slug}`,
+      canonical: `https://urbangrid.ae${servicePath}`,
       h1: svc.title,
       image: svc.image,
+      extraHeadTags: serviceSchema(servicePath, svc.title, rawDesc, serviceCategory, `https://urbangrid.ae${servicePath}`),
     });
   });
 
