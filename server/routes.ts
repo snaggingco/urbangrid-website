@@ -1153,6 +1153,8 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
   const serveSPAWithMeta = (res: any, next: any, opts: {
     title: string; description: string; canonical: string; h1: string;
     image?: string; noindex?: boolean;
+    ogType?: string;
+    extraHeadTags?: string;
   }) => {
     // Dev: let Vite's catch-all handle the request so HMR preamble is correctly injected
     if (process.env.NODE_ENV !== 'production') return next();
@@ -1165,13 +1167,14 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
       const d = esc(opts.description);
       const img = opts.image ? esc(opts.image) : 'https://urbangrid.ae/og-image.jpg';
       const robots = opts.noindex ? 'noindex, nofollow' : 'index, follow';
+      const ogType = opts.ogType || 'website';
       const headTags = `
   <meta charset="UTF-8" />
   <title>${t}</title>
   <meta name="description" content="${d}">
   <meta name="robots" content="${robots}">
   <link rel="canonical" href="${opts.canonical}">
-  <meta property="og:type" content="website">
+  <meta property="og:type" content="${ogType}">
   <meta property="og:title" content="${t}">
   <meta property="og:description" content="${d}">
   <meta property="og:url" content="${opts.canonical}">
@@ -1179,7 +1182,8 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
   <meta property="og:site_name" content="UrbanGrid Property Inspection">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${t}">
-  <meta name="twitter:description" content="${d}">`;
+  <meta name="twitter:description" content="${d}">
+  ${opts.extraHeadTags || ''}`;
       // Strip all base meta tags that will be replaced by the injected headTags
       html = html.replace(/<meta charset="[^"]*"\s*\/?>\s*/gi, '');
       html = html.replace(/<title>[^<]*<\/title>\s*/i, '');
@@ -1310,11 +1314,13 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
       const post = await storage.getBlogPostBySlug(slug);
 
       if (!post) {
-        // Explicit 404 so Google does not index generic fallback tags as a soft-404
+        // Blog slug not found in DB: treat as permanently removed (matches API 410 behavior).
+        // These slugs were previously published and removed during the 186→31 URL trim.
         res.setHeader('Content-Type', 'text/html; charset=utf-8');
-        return res.status(404).send(`<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="robots" content="noindex, nofollow"><title>404 Not Found | UrbanGrid</title></head>
-<body><h1>404 Not Found</h1><p>The blog post you requested does not exist. Visit <a href="https://urbangrid.ae/blog">our blog</a> or the <a href="https://urbangrid.ae/">homepage</a>.</p></body></html>`);
+        res.setHeader('X-Robots-Tag', 'noindex, nofollow');
+        return res.status(410).send(`<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="robots" content="noindex, nofollow"><title>Removed | UrbanGrid</title></head>
+<body><h1>Permanently Removed</h1><p>This blog post has been permanently removed. Visit <a href="https://urbangrid.ae/blog">our blog</a> or the <a href="https://urbangrid.ae/">homepage</a>.</p></body></html>`);
       }
 
       if (post.status !== 'published') {
@@ -1345,10 +1351,6 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
       const title = `${post.title.length > 56 ? post.title.slice(0, 53) + '...' : post.title} | UrbanGrid`;
       const desc = (post.excerpt || post.content || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 158);
       const image = post.featuredImage || 'https://urbangrid.ae/og-image.jpg';
-      const safeTitle = title.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      const safeDesc = desc.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      const safeImage = image.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-      const safeUrl = canonical.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       const datePublished = post.createdAt ? new Date(post.createdAt).toISOString() : new Date().toISOString();
       const dateModified = post.updatedAt ? new Date(post.updatedAt).toISOString() : datePublished;
       const authorName = 'UrbanGrid Editorial Team';
@@ -1356,7 +1358,7 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         "headline": post.title,
-        "description": safeDesc,
+        "description": desc,
         "image": image,
         "url": canonical,
         "datePublished": datePublished,
@@ -1380,36 +1382,20 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
           "@id": canonical
         }
       });
-      const html = `<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${safeTitle}</title>
-  <meta name="description" content="${safeDesc}">
-  <link rel="canonical" href="${safeUrl}">
-  <meta property="og:type" content="article">
-  <meta property="og:title" content="${safeTitle}">
-  <meta property="og:description" content="${safeDesc}">
-  <meta property="og:image" content="${safeImage}">
-  <meta property="og:url" content="${safeUrl}">
-  <meta property="og:site_name" content="UrbanGrid Property Inspection">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="${safeTitle}">
-  <meta name="twitter:description" content="${safeDesc}">
-  <meta name="twitter:image" content="${safeImage}">
+      const extraHeadTags = `
   <meta property="article:published_time" content="${datePublished}">
   <meta property="article:modified_time" content="${dateModified}">
   <meta property="article:author" content="${authorName.replace(/"/g, '&quot;')}">
-  <script type="application/ld+json">${jsonLd}</script>
-</head>
-<body>
-  <h1>${post.title.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')}</h1>
-  <p>By <span itemprop="author">${authorName}</span> — <time datetime="${datePublished}">${new Date(datePublished).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</time></p>
-</body>
-</html>`;
-      res.setHeader('Content-Type', 'text/html; charset=utf-8');
-      return res.send(html);
+  <script type="application/ld+json">${jsonLd}</script>`;
+      return serveSPAWithMeta(res, next, {
+        title,
+        description: desc,
+        canonical,
+        h1: post.title,
+        image,
+        ogType: 'article',
+        extraHeadTags,
+      });
     } catch (error: any) {
       console.error("Error rendering blog page:", error?.message || error);
       // Explicit 500 so errors are visible and not silently masked by generic SPA tags
@@ -1420,11 +1406,11 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
     }
   });
 
-  // Final 404 catch-all for unknown GET pages.
-  // Registered BEFORE Vite/SPA catch-all so unknown pages return real 404s
-  // instead of generic index.html with 200 OK (soft-404 SEO penalty).
-  // Skips API, Vite HMR, and static assets so they fall through correctly.
+  // Final 404 catch-all for unknown GET pages (production only).
+  // In dev, Vite's catch-all must handle the SPA — bypassing it breaks React boot.
+  // In production, this prevents soft-404s where Google indexes generic tags.
   app.use((req, res, next) => {
+    if (process.env.NODE_ENV !== 'production') return next();
     if (req.method !== 'GET') return next();
     const p = req.path;
     if (
