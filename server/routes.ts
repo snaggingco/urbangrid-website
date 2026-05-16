@@ -1223,8 +1223,16 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="${t}">
   <meta name="twitter:description" content="${d}">`;
-      html = html.replace(/<meta charset="[^"]*"\s*\/?>/i, '');
+      // Strip all base meta tags that will be replaced by the injected headTags
+      html = html.replace(/<meta charset="[^"]*"\s*\/?>\s*/gi, '');
       html = html.replace(/<title>[^<]*<\/title>\s*/i, '');
+      html = html.replace(/<meta name="description"[^>]*>\s*/gi, '');
+      html = html.replace(/<meta name="keywords"[^>]*>\s*/gi, '');
+      html = html.replace(/<meta name="robots"[^>]*>\s*/gi, '');
+      html = html.replace(/<meta name="author"[^>]*>\s*/gi, '');
+      html = html.replace(/<link rel="canonical"[^>]*>\s*/gi, '');
+      html = html.replace(/<meta property="og:[^"]*"[^>]*>\s*/gi, '');
+      html = html.replace(/<meta name="twitter:[^"]*"[^>]*>\s*/gi, '');
       html = html.replace('<head>', `<head>${headTags}`);
       const h1Tag = `<h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">${esc(opts.h1)}</h1>`;
       html = html.replace('<body>', `<body>\n  ${h1Tag}`);
@@ -1258,6 +1266,30 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
         canonical: page.path === '/' ? 'https://urbangrid.ae/' : `https://urbangrid.ae${page.path}`,
         h1: page.h1,
         noindex: page.noindex,
+      });
+    });
+  }
+
+  // Server-side rendered location pages for SEO
+  // These pages were previously returning 410 Gone in production.
+  // They MUST be registered BEFORE the Vite catch-all so they get proper meta tags.
+  const locationPages: Array<{ path: string; title: string; description: string; h1: string }> = [
+    { path: '/locations/dubai',           title: 'Snagging Company Dubai | Property Inspection Services | UrbanGrid',          h1: 'Property Snagging & Inspection in Dubai',           description: 'Dubai\'s trusted property snagging company. Independent inspection for Emaar, Damac, Sobha, Nakheel handovers across Downtown Dubai, Marina, Palm Jumeirah, JVC & all areas. Reports in 24 hours.' },
+    { path: '/locations/abu-dhabi',       title: 'Snagging Company Abu Dhabi | Property Inspection | UrbanGrid',              h1: 'Property Snagging & Inspection in Abu Dhabi',       description: 'Abu Dhabi\'s trusted property snagging company. Independent inspection across Yas Island, Al Reem, Saadiyat, Al Raha and all communities. Aldar, Imkan & all developers. Reports in 24 hours.' },
+    { path: '/locations/sharjah',         title: 'Snagging Company Sharjah | Property Inspection Services | UrbanGrid',        h1: 'Property Snagging & Inspection in Sharjah',         description: 'Sharjah\'s trusted property snagging company. Independent inspection across Aljada, Hayyan, Maryam Island, Al Zahia and all Sharjah communities. Reports in 24 hours.' },
+    { path: '/locations/ajman',           title: 'Snagging Company Ajman | Property Inspection Services | UrbanGrid',          h1: 'Property Snagging & Inspection in Ajman',           description: 'Professional property snagging and inspection in Ajman. ARRA-compliant process across Emirates City, Al Rashidiya, Al Nuaimia and all Ajman communities. Reports in 24 hours.' },
+    { path: '/locations/ras-al-khaimah',  title: 'Snagging Company Ras Al Khaimah | Property Inspection | UrbanGrid',          h1: 'Property Snagging & Inspection in Ras Al Khaimah', description: 'Professional property snagging and inspection in Ras Al Khaimah. Al Hamra Village, Mina Al Arab, Al Marjan Island and all RAK communities. Engineer-led, reports in 24 hours.' },
+    { path: '/locations/fujairah',        title: 'Snagging Company Fujairah | Property Inspection Services | UrbanGrid',      h1: 'Property Snagging & Inspection in Fujairah',       description: 'Professional property snagging and inspection in Fujairah. Engineer-led inspections across Fujairah City, Dibba, Al Aqah and all communities. Reports in 24 hours.' },
+    { path: '/locations/umm-al-quwain',   title: 'Snagging Company Umm Al Quwain | Property Inspection | UrbanGrid',          h1: 'Property Snagging & Inspection in Umm Al Quwain',   description: 'Professional property snagging and inspection in Umm Al Quwain. Engineer-led inspections across UAQ City, Al Salam City, UAQ Marina and all communities. Reports in 24 hours.' },
+  ];
+
+  for (const page of locationPages) {
+    app.get(page.path, (req, res, next) => {
+      return serveSPAWithMeta(res, next, {
+        title: page.title,
+        description: page.description,
+        canonical: `https://urbangrid.ae${page.path}`,
+        h1: page.h1,
       });
     });
   }
