@@ -94,7 +94,7 @@ export default function Blog() {
             <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold text-white leading-tight mb-8">
               Blogs
             </h1>
-            <p className="text-lg text-zinc-400 leading-relaxed max-w-2xl">
+            <p className="text-lg text-zinc-500 leading-relaxed max-w-2xl">
               Stay informed with the latest property snagging and inspection insights, UAE market trends, and expert advice from our professional team.
             </p>
           </div>
@@ -106,7 +106,7 @@ export default function Blog() {
         <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
           <form onSubmit={handleSearch} className="flex flex-col md:flex-row gap-6 items-end">
             <div className="flex-1 w-full">
-              <label className="text-[10px] uppercase tracking-[0.18em] text-zinc-400 mb-2 block">Search Articles</label>
+              <label className="text-[10px] uppercase tracking-[0.18em] text-zinc-500 mb-2 block">Search Articles</label>
               <Input
                 type="text"
                 placeholder="Keywords..."
@@ -117,7 +117,7 @@ export default function Blog() {
             </div>
             
             <div className="md:w-64 w-full">
-              <label className="text-[10px] uppercase tracking-[0.18em] text-zinc-400 mb-2 block">Category</label>
+              <label className="text-[10px] uppercase tracking-[0.18em] text-zinc-500 mb-2 block">Category</label>
               <Select value={category || "all"} onValueChange={handleCategoryChange}>
                 <SelectTrigger className="rounded-none border-zinc-200 focus:border-brand-green focus:ring-0 h-12">
                   <SelectValue placeholder="Category" />
@@ -200,7 +200,7 @@ export default function Blog() {
                             </span>
                           )}
                           <span className="w-1 h-1 bg-zinc-300 rounded-full"></span>
-                          <span className="text-[10px] uppercase tracking-[0.18em] text-zinc-400">
+                          <span className="text-[10px] uppercase tracking-[0.18em] text-zinc-500">
                             {formatDate(post.createdAt!.toString())}
                           </span>
                         </div>
@@ -221,7 +221,7 @@ export default function Blog() {
                           </span>
                           
                           {post.author && (
-                            <span className="text-[10px] uppercase tracking-[0.18em] text-zinc-400 font-medium">
+                            <span className="text-[10px] uppercase tracking-[0.18em] text-zinc-500 font-medium">
                               By {post.author.firstName}
                             </span>
                           )}

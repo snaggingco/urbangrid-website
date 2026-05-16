@@ -151,7 +151,7 @@ export default function BlogDetail() {
                       href={button.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-8 h-8 flex items-center justify-center bg-zinc-900 text-zinc-400 hover:bg-brand-green hover:text-white transition-all rounded-none"
+                      className="w-8 h-8 flex items-center justify-center bg-zinc-900 text-zinc-500 hover:bg-brand-green hover:text-white transition-all rounded-none"
                       aria-label={`Share on ${button.name}`}
                     >
                       <i className={button.icon + " text-xs"}></i>
@@ -217,7 +217,7 @@ export default function BlogDetail() {
             {post.tags && post.tags.length > 0 && (
               <div className="mt-16 pt-8 border-t border-zinc-100">
                 <div className="flex flex-wrap items-center gap-3">
-                  <span className="text-[10px] font-bold tracking-widest text-zinc-400 uppercase">Tags</span>
+                  <span className="text-[10px] font-bold tracking-widest text-zinc-500 uppercase">Tags</span>
                   {post.tags.map((tag, index) => (
                     <span key={index} className="text-[10px] uppercase tracking-widest bg-zinc-50 text-zinc-500 px-3 py-1 font-bold border border-zinc-100">
                       {tag}
@@ -320,7 +320,7 @@ export default function BlogDetail() {
                         <p className="text-sm text-zinc-500 line-clamp-2 leading-relaxed mb-6">
                           {relatedPost.excerpt}
                         </p>
-                        <span className="text-[10px] uppercase tracking-[0.18em] text-zinc-400 font-bold">
+                        <span className="text-[10px] uppercase tracking-[0.18em] text-zinc-500 font-bold">
                           {formatDate(relatedPost.createdAt!.toString())}
                         </span>
                       </div>

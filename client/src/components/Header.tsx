@@ -202,7 +202,7 @@ export default function Header({ isAdmin = false }: HeaderProps) {
 
                         {/* Mobile login */}
                         <div className="border-t border-zinc-100 pt-6 mt-6">
-                          <p className="text-[10px] font-semibold tracking-[0.25em] text-zinc-400 uppercase mb-4">Login Options</p>
+                          <p className="text-[10px] font-semibold tracking-[0.25em] text-zinc-500 uppercase mb-4">Login Options</p>
                           <div className="flex flex-col space-y-4 items-start">
                             <button
                               className="text-xs font-medium text-brand-green border-b border-brand-green pb-0.5"

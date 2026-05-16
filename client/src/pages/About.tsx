@@ -59,7 +59,7 @@ export default function About() {
           <h1 className="text-5xl sm:text-6xl lg:text-8xl font-bold text-white leading-tight mb-6">
             About UrbanGrid
           </h1>
-          <p className="text-sm text-zinc-400 leading-relaxed max-w-2xl">
+          <p className="text-sm text-zinc-500 leading-relaxed max-w-2xl">
             Your trusted partner for professional property inspection and snagging services across the UAE, ensuring quality, compliance, and peace of mind.
           </p>
         </div>
@@ -93,7 +93,7 @@ export default function About() {
                   <div className="text-4xl font-bold text-brand-green mb-2">
                     {achievement.number}
                   </div>
-                  <div className="text-[10px] uppercase tracking-[0.18em] text-zinc-400 font-medium">
+                  <div className="text-[10px] uppercase tracking-[0.18em] text-zinc-500 font-medium">
                     {achievement.label}
                   </div>
                 </div>
@@ -203,7 +203,7 @@ export default function About() {
               <h2 className="text-4xl lg:text-5xl font-bold mb-6">
                 Ready to Work <br />with the Best?
               </h2>
-              <p className="text-sm text-zinc-400 leading-relaxed">
+              <p className="text-sm text-zinc-500 leading-relaxed">
                 Join thousands of satisfied clients who trust UrbanGrid for their property inspection needs.
               </p>
             </div>

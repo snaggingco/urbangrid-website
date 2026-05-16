@@ -800,7 +800,7 @@ export default function ServiceDetail() {
                 <div className="divide-y divide-zinc-200">
                   {service.features.map((feature, idx) => (
                     <div key={idx} className="py-6 flex gap-6 items-start group">
-                      <span className="text-[10px] font-bold text-zinc-300 mt-1">{String(idx + 1).padStart(2, '0')}</span>
+                      <span className="text-[10px] font-bold text-zinc-500 mt-1">{String(idx + 1).padStart(2, '0')}</span>
                       <p className="text-sm text-zinc-600 font-medium group-hover:text-zinc-900 transition-colors">{feature}</p>
                     </div>
                   ))}
@@ -831,7 +831,7 @@ export default function ServiceDetail() {
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
               {service.process.map((step, idx) => (
                 <div key={idx} className="pt-8 border-t border-zinc-200 relative group">
-                  <span className="text-[10px] font-bold text-zinc-300 absolute top-4 right-0">{String(idx + 1).padStart(2, '0')}</span>
+                  <span className="text-[10px] font-bold text-zinc-500 absolute top-4 right-0">{String(idx + 1).padStart(2, '0')}</span>
                   <p className="text-sm text-zinc-600 leading-relaxed font-medium">{step}</p>
                 </div>
               ))}

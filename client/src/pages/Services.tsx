@@ -341,7 +341,7 @@ export default function Services() {
                   className={`pb-4 text-[10px] uppercase tracking-[0.18em] font-semibold transition-all relative ${
                     activeSection === section.key
                       ? 'text-zinc-900'
-                      : 'text-zinc-400 hover:text-zinc-600'
+                      : 'text-zinc-500 hover:text-zinc-700'
                   }`}
                 >
                   {section.label}
@@ -382,11 +382,11 @@ export default function Services() {
                       {service.title}
                     </h3>
                     <div className="flex flex-wrap gap-4 mt-4">
-                      <div className="flex items-center text-[10px] uppercase tracking-wider text-zinc-400">
+                      <div className="flex items-center text-[10px] uppercase tracking-wider text-zinc-500">
                         <i className="fas fa-clock mr-2 text-brand-green/50"></i>
                         {service.duration}
                       </div>
-                      <div className="flex items-center text-[10px] uppercase tracking-wider text-zinc-400">
+                      <div className="flex items-center text-[10px] uppercase tracking-wider text-zinc-500">
                         <i className="fas fa-tag mr-2 text-brand-green/50"></i>
                         {service.price}
                       </div>
@@ -399,7 +399,7 @@ export default function Services() {
                     </p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4">
                       {service.features.slice(0, 4).map((feature, idx) => (
-                        <div key={idx} className="flex items-start text-[10px] text-zinc-400 uppercase tracking-tight">
+                        <div key={idx} className="flex items-start text-[10px] text-zinc-500 uppercase tracking-tight">
                           <span className="text-brand-green mr-2">/</span>
                           {feature}
                         </div>
@@ -411,7 +411,7 @@ export default function Services() {
                     <Link href={`/services/${activeSection}/${service.slug}`} className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all whitespace-nowrap">
                       View Details <i className="fas fa-arrow-right text-[8px]"></i>
                     </Link>
-                    <a href="/contact" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-400 hover:text-zinc-900 transition-all whitespace-nowrap">
+                    <a href="/contact" className="inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-zinc-500 hover:text-zinc-900 transition-all whitespace-nowrap">
                       Inquiry <i className="fas fa-envelope text-[8px]"></i>
                     </a>
                   </div>

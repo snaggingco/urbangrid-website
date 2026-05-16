@@ -66,7 +66,7 @@ export default function SampleReportModal({ isOpen, onClose }: Props) {
             <FileText className="w-5 h-5 text-brand-green shrink-0" />
             <div>
               <p className="text-white text-sm font-bold">Download Sample Report</p>
-              <p className="text-zinc-400 text-[11px] mt-0.5">See exactly what our clients receive</p>
+              <p className="text-zinc-500 text-[11px] mt-0.5">See exactly what our clients receive</p>
             </div>
           </div>
           <button
@@ -97,7 +97,7 @@ export default function SampleReportModal({ isOpen, onClose }: Props) {
                     onChange={(e) => setFormData(p => ({ ...p, name: e.target.value }))}
                     placeholder="Your name"
                     required
-                    className="h-11 px-0 bg-transparent border-0 border-b border-zinc-200 rounded-none focus-visible:ring-0 focus-visible:border-brand-green text-sm text-zinc-900 placeholder:text-zinc-300"
+                    className="h-11 px-0 bg-transparent border-0 border-b border-zinc-200 rounded-none focus-visible:ring-0 focus-visible:border-brand-green text-sm text-zinc-900 placeholder:text-zinc-500"
                   />
                 </div>
 
@@ -111,7 +111,7 @@ export default function SampleReportModal({ isOpen, onClose }: Props) {
                     onChange={(e) => setFormData(p => ({ ...p, email: e.target.value }))}
                     placeholder="your@email.com"
                     required
-                    className="h-11 px-0 bg-transparent border-0 border-b border-zinc-200 rounded-none focus-visible:ring-0 focus-visible:border-brand-green text-sm text-zinc-900 placeholder:text-zinc-300"
+                    className="h-11 px-0 bg-transparent border-0 border-b border-zinc-200 rounded-none focus-visible:ring-0 focus-visible:border-brand-green text-sm text-zinc-900 placeholder:text-zinc-500"
                   />
                 </div>
 
@@ -144,7 +144,7 @@ export default function SampleReportModal({ isOpen, onClose }: Props) {
                       <><span>Get the Sample Report</span><ArrowRight className="w-4 h-4" /></>
                     )}
                   </Button>
-                  <p className="mt-4 text-[9px] text-zinc-400 uppercase tracking-tighter text-center">
+                  <p className="mt-4 text-[9px] text-zinc-500 uppercase tracking-tighter text-center">
                     Your details are protected. We'll never share them with third parties.
                   </p>
                 </div>

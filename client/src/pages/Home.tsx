@@ -195,7 +195,7 @@ export default function Home() {
 
             <button
               onClick={() => setReportModalOpen(true)}
-              className="inline-flex items-center gap-2 border border-zinc-600 text-zinc-300 px-8 py-[14px] text-sm font-semibold hover:border-white hover:text-white transition-all"
+              className="inline-flex items-center gap-2 border border-zinc-600 text-zinc-400 px-8 py-[14px] text-sm font-semibold hover:border-white hover:text-white transition-all"
             >
               Download Sample Report
               <ArrowRight className="w-4 h-4" />
@@ -203,7 +203,7 @@ export default function Home() {
           </div>
 
           {/* Trust badges */}
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] text-zinc-400 font-medium mb-8">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] text-zinc-500 font-medium mb-8">
             <span className="flex items-center gap-1.5"><Shield className="w-3 h-3 text-brand-green" />Reports within 24 hours</span>
             <span className="text-zinc-700">·</span>
             <span>Contractor-ready format</span>
@@ -226,7 +226,7 @@ export default function Home() {
                 <DropdownMenuContent className="w-64 bg-zinc-900 border-zinc-700 rounded-none p-2 shadow-2xl">
                   {category.services.map((service) => (
                     <DropdownMenuItem key={service.id} className="focus:bg-brand-green/10 focus:text-brand-green cursor-pointer rounded-none py-3 px-4">
-                      <Link href={`/services/${category.categorySlug}/${service.slug}`} className="w-full flex items-center justify-between group text-zinc-300 hover:text-white">
+                      <Link href={`/services/${category.categorySlug}/${service.slug}`} className="w-full flex items-center justify-between group text-zinc-400 hover:text-white">
                         <span className="text-xs font-medium">{service.title}</span>
                         <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all" />
                       </Link>
@@ -356,7 +356,7 @@ export default function Home() {
                 className={`px-4 sm:px-6 py-3 text-xs font-semibold tracking-wide transition-all border-b-2 -mb-px ${
                   activeTab === tab.key
                     ? 'border-brand-green text-brand-green'
-                    : 'border-transparent text-zinc-400 hover:text-zinc-700'
+                    : 'border-transparent text-zinc-500 hover:text-zinc-700'
                 }`}
               >
                 {tab.label}
@@ -370,17 +370,17 @@ export default function Home() {
               <Link key={service.id} href={`/services/${serviceCategories[activeTab].categorySlug}/${service.slug}`}>
                 <div className="group flex items-start justify-between gap-6 py-7 cursor-pointer hover:bg-zinc-100 -mx-4 px-4 transition-colors">
                   <div className="flex items-start gap-6">
-                    <span className="text-[10px] font-semibold tracking-widest text-zinc-300 pt-1 w-6 shrink-0">
+                    <span className="text-[10px] font-semibold tracking-widest text-zinc-500 pt-1 w-6 shrink-0">
                       {String(idx + 1).padStart(2, '0')}
                     </span>
                     <div>
                       <h3 className="text-base font-semibold text-zinc-900 group-hover:text-brand-green transition-colors mb-1">
                         {service.title}
                       </h3>
-                      <p className="text-zinc-400 text-xs leading-relaxed max-w-lg">{service.description}</p>
+                      <p className="text-zinc-500 text-xs leading-relaxed max-w-lg">{service.description}</p>
                     </div>
                   </div>
-                  <ArrowRight className="w-4 h-4 text-zinc-300 group-hover:text-brand-green group-hover:translate-x-1 transition-all mt-1 shrink-0" />
+                  <ArrowRight className="w-4 h-4 text-zinc-500 group-hover:text-brand-green group-hover:translate-x-1 transition-all mt-1 shrink-0" />
                 </div>
               </Link>
             ))}
@@ -424,7 +424,7 @@ export default function Home() {
               />
               <div className="absolute -bottom-6 -right-6 bg-zinc-950 text-white p-6">
                 <div className="text-3xl font-bold text-brand-green">600,000+</div>
-                <div className="text-xs text-zinc-400 mt-1 uppercase tracking-widest">Defects Documented</div>
+                <div className="text-xs text-zinc-500 mt-1 uppercase tracking-widest">Defects Documented</div>
               </div>
             </div>
           </div>
@@ -483,7 +483,7 @@ export default function Home() {
                 <div className="flex items-center justify-between pt-4 border-t border-zinc-100">
                   <div>
                     <p className="text-xs font-bold text-zinc-900">{t.name}</p>
-                    <p className="text-[11px] text-zinc-400 mt-0.5">{t.property}</p>
+                    <p className="text-[11px] text-zinc-500 mt-0.5">{t.property}</p>
                   </div>
                   <div className="flex">
                     {Array.from({ length: t.rating }).map((_, i) => (
@@ -496,11 +496,9 @@ export default function Home() {
           </div>
 
           <div className="mt-10 text-center">
-            <Link href="/contact">
-              <Button className="bg-brand-green text-white hover:bg-emerald-700 px-8 py-6 text-sm font-semibold rounded-none">
-                Book Your Inspection Today
-              </Button>
-            </Link>
+            <Button asChild className="bg-brand-green text-white hover:bg-emerald-700 px-8 py-6 text-sm font-semibold rounded-none">
+              <Link href="/contact">Book Your Inspection Today</Link>
+            </Button>
           </div>
         </div>
       </section>
@@ -602,7 +600,7 @@ export default function Home() {
                 <div className="p-8 lg:p-10 h-full group cursor-pointer hover:bg-zinc-50 transition-colors">
                   <i className={`${loc.icon} text-brand-green text-xl mb-6 block`}></i>
                   <div className="text-2xl font-bold text-brand-green mb-1">{loc.stat}</div>
-                  <div className="text-[10px] uppercase tracking-widest text-zinc-400 mb-4">{loc.note}</div>
+                  <div className="text-[10px] uppercase tracking-widest text-zinc-500 mb-4">{loc.note}</div>
                   <h3 className="text-lg font-bold text-zinc-900 mb-3 group-hover:text-brand-green transition-colors">{loc.city}</h3>
                   <p className="text-zinc-500 text-xs leading-relaxed">{loc.desc}</p>
                   <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-brand-green mt-4 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -624,7 +622,7 @@ export default function Home() {
               <Link key={loc.city} href={loc.href}>
                 <div className="px-6 py-4 group cursor-pointer hover:bg-zinc-50 transition-colors flex items-center justify-between">
                   <span className="text-xs font-medium text-zinc-600 group-hover:text-brand-green transition-colors">{loc.city}</span>
-                  <ArrowRight className="w-3 h-3 text-zinc-300 group-hover:text-brand-green transition-colors" />
+                  <ArrowRight className="w-3 h-3 text-zinc-500 group-hover:text-brand-green transition-colors" />
                 </div>
               </Link>
             ))}
@@ -675,18 +673,16 @@ export default function Home() {
               </h2>
             </div>
             <div className="flex flex-col gap-4 lg:items-end">
-              <p className="text-zinc-400 text-sm leading-relaxed max-w-xs lg:text-right">
+              <p className="text-zinc-500 text-sm leading-relaxed max-w-xs lg:text-right">
                 Reports delivered within 24 hours. Engineers across all 7 Emirates. The UAE's most thorough inspection, or your money back.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 mt-4">
-                <Link href="/contact">
-                  <Button size="lg" className="bg-brand-green text-white hover:bg-emerald-700 px-8 py-6 text-sm font-semibold rounded-none">
-                    Get a Free Quote
-                  </Button>
-                </Link>
+                <Button asChild size="lg" className="bg-brand-green text-white hover:bg-emerald-700 px-8 py-6 text-sm font-semibold rounded-none">
+                  <Link href="/contact">Get a Free Quote</Link>
+                </Button>
                 <a
                   href="tel:+971567427634"
-                  className="inline-flex items-center justify-center border border-zinc-600 text-zinc-300 px-8 py-6 font-medium text-sm hover:border-white hover:text-white transition-all"
+                  className="inline-flex items-center justify-center border border-zinc-600 text-zinc-400 px-8 py-6 font-medium text-sm hover:border-white hover:text-white transition-all"
                 >
                   <i className="fas fa-phone mr-3 text-brand-green"></i>
                   +971 567427634

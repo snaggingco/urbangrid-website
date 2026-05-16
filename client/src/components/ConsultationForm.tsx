@@ -68,7 +68,7 @@ export default function ConsultationForm() {
             </p>
             <h2 className="text-4xl lg:text-6xl font-bold text-zinc-900 leading-tight mb-8">
               Expert Guidance <br />
-              <span className="text-zinc-400 text-3xl lg:text-5xl font-light">For Your Property.</span>
+              <span className="text-zinc-500 text-3xl lg:text-5xl font-light">For Your Property.</span>
             </h2>
             <p className="text-base text-zinc-500 leading-relaxed max-w-md font-light">
               Fill out the form and our property inspection experts will contact you within 24 hours to discuss your requirements and provide a tailored quote.
@@ -80,7 +80,7 @@ export default function ConsultationForm() {
                   <span className="text-xs font-bold">01</span>
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-bold mb-1">Methodology</p>
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-bold mb-1">Methodology</p>
                   <p className="text-sm text-zinc-600">Expert Analysis</p>
                 </div>
               </div>
@@ -89,7 +89,7 @@ export default function ConsultationForm() {
                   <span className="text-xs font-bold">02</span>
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-bold mb-1">Documentation</p>
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-bold mb-1">Documentation</p>
                   <p className="text-sm text-zinc-600">Detailed Reporting</p>
                 </div>
               </div>
@@ -98,7 +98,7 @@ export default function ConsultationForm() {
                   <span className="text-xs font-bold">03</span>
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-bold mb-1">Efficiency</p>
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 font-bold mb-1">Efficiency</p>
                   <p className="text-sm text-zinc-600">Quick Turnaround</p>
                 </div>
               </div>
@@ -121,7 +121,7 @@ export default function ConsultationForm() {
                     onChange={(e) => handleInputChange("name", e.target.value)}
                     placeholder="Enter your name"
                     required
-                    className="h-12 px-0 bg-transparent border-0 border-b border-zinc-200 rounded-none focus-visible:ring-0 focus-visible:border-brand-green text-sm text-zinc-900 placeholder:text-zinc-300 transition-colors"
+                    className="h-12 px-0 bg-transparent border-0 border-b border-zinc-200 rounded-none focus-visible:ring-0 focus-visible:border-brand-green text-sm text-zinc-900 placeholder:text-zinc-500 transition-colors"
                   />
                 </div>
                 
@@ -138,7 +138,7 @@ export default function ConsultationForm() {
                     onChange={(e) => handleInputChange("email", e.target.value)}
                     placeholder="your@email.com"
                     required
-                    className="h-12 px-0 bg-transparent border-0 border-b border-zinc-200 rounded-none focus-visible:ring-0 focus-visible:border-brand-green text-sm text-zinc-900 placeholder:text-zinc-300 transition-colors"
+                    className="h-12 px-0 bg-transparent border-0 border-b border-zinc-200 rounded-none focus-visible:ring-0 focus-visible:border-brand-green text-sm text-zinc-900 placeholder:text-zinc-500 transition-colors"
                   />
                 </div>
                 
@@ -179,7 +179,7 @@ export default function ConsultationForm() {
                     </>
                   )}
                 </Button>
-                <p className="mt-8 text-[9px] text-zinc-400 uppercase tracking-tighter text-center">
+                <p className="mt-8 text-[9px] text-zinc-500 uppercase tracking-tighter text-center">
                   * Guaranteed privacy. Your data is protected by industry standards.
                 </p>
               </div>

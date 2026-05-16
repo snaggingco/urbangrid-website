@@ -1,0 +1,190 @@
+Accessibility
+These checks highlight opportunities to improve the accessibility of your web app. Automatic detection can only detect a subset of issues and does not guarantee the accessibility of your web app, so manual testing is also encouraged.
+Names and labels
+Buttons do not have an accessible name
+When a button doesn't have an accessible name, screen readers announce it as "button", making it unusable for users who rely on screen readers. Learn how to make buttons more accessible.
+Failing Elements
+div.min-h-screen > div.fixed > form.border-t > button.bg-brand-green
+<button type="submit" disabled="" class="bg-brand-green text-white w-9 h-9 rounded-xl flex items-center justify-cen…">
+These are opportunities to improve the semantics of the controls in your application. This may enhance the experience for users of assistive technology, like a screen reader.
+Contrast
+Background and foreground colors do not have a sufficient contrast ratio.
+Low-contrast text is difficult or impossible for many users to read. Learn how to provide sufficient color contrast.
+Failing Elements
+For Your Property.
+<span class="text-zinc-400 text-3xl lg:text-5xl font-light">
+FREE CONSULTATION Expert Guidance For Your Property. Fill out the form and ou…
+<section class="py-24 lg:py-32 bg-white text-zinc-900 overflow-hidden border-y border-zinc…">
+METHODOLOGY
+<p class="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-bold mb-1">
+FREE CONSULTATION Expert Guidance For Your Property. Fill out the form and ou…
+<section class="py-24 lg:py-32 bg-white text-zinc-900 overflow-hidden border-y border-zinc…">
+DOCUMENTATION
+<p class="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-bold mb-1">
+FREE CONSULTATION Expert Guidance For Your Property. Fill out the form and ou…
+<section class="py-24 lg:py-32 bg-white text-zinc-900 overflow-hidden border-y border-zinc…">
+EFFICIENCY
+<p class="text-[10px] uppercase tracking-[0.2em] text-zinc-400 font-bold mb-1">
+FREE CONSULTATION Expert Guidance For Your Property. Fill out the form and ou…
+<section class="py-24 lg:py-32 bg-white text-zinc-900 overflow-hidden border-y border-zinc…">
+* GUARANTEED PRIVACY. YOUR DATA IS PROTECTED BY INDUSTRY STANDARDS.
+<p class="mt-8 text-[9px] text-zinc-400 uppercase tracking-tighter text-center">
+FULL NAME * EMAIL ADDRESS * PHONE NUMBER * Afghanistan Åland Islands Albania Al…
+<div class="relative bg-zinc-50 p-8 lg:p-12 border border-zinc-100">
+RERA Services
+<button class="px-4 sm:px-6 py-3 text-xs font-semibold tracking-wide transition-all borde…">
+SERVICES Our Professional Services Engineer-led inspections that have uncover…
+<section class="py-24 lg:py-32 bg-zinc-50">
+Technical Inspections
+<button class="px-4 sm:px-6 py-3 text-xs font-semibold tracking-wide transition-all borde…">
+SERVICES Our Professional Services Engineer-led inspections that have uncover…
+<section class="py-24 lg:py-32 bg-zinc-50">
+01
+<span class="text-[10px] font-semibold tracking-widest text-zinc-300 pt-1 w-6 shrink-0">
+SERVICES Our Professional Services Engineer-led inspections that have uncover…
+<section class="py-24 lg:py-32 bg-zinc-50">
+We inspect your new property before you accept the keys — identifying every def…
+<p class="text-zinc-400 text-xs leading-relaxed max-w-lg">
+SERVICES Our Professional Services Engineer-led inspections that have uncover…
+<section class="py-24 lg:py-32 bg-zinc-50">
+02
+<span class="text-[10px] font-semibold tracking-widest text-zinc-300 pt-1 w-6 shrink-0">
+SERVICES Our Professional Services Engineer-led inspections that have uncover…
+<section class="py-24 lg:py-32 bg-zinc-50">
+After fit-out or renovation work, we verify every detail meets your specificati…
+<p class="text-zinc-400 text-xs leading-relaxed max-w-lg">
+SERVICES Our Professional Services Engineer-led inspections that have uncover…
+<section class="py-24 lg:py-32 bg-zinc-50">
+03
+<span class="text-[10px] font-semibold tracking-widest text-zinc-300 pt-1 w-6 shrink-0">
+SERVICES Our Professional Services Engineer-led inspections that have uncover…
+<section class="py-24 lg:py-32 bg-zinc-50">
+We identify hidden issues before your Defects Liability Period expires — giving…
+<p class="text-zinc-400 text-xs leading-relaxed max-w-lg">
+SERVICES Our Professional Services Engineer-led inspections that have uncover…
+<section class="py-24 lg:py-32 bg-zinc-50">
+04
+<span class="text-[10px] font-semibold tracking-widest text-zinc-300 pt-1 w-6 shrink-0">
+SERVICES Our Professional Services Engineer-led inspections that have uncover…
+<section class="py-24 lg:py-32 bg-zinc-50">
+A detailed condition report protects your deposit and documents the property's …
+<p class="text-zinc-400 text-xs leading-relaxed max-w-lg">
+SERVICES Our Professional Services Engineer-led inspections that have uncover…
+<section class="py-24 lg:py-32 bg-zinc-50">
+05
+<span class="text-[10px] font-semibold tracking-widest text-zinc-300 pt-1 w-6 shrink-0">
+SERVICES Our Professional Services Engineer-led inspections that have uncover…
+<section class="py-24 lg:py-32 bg-zinc-50">
+Before you commit to a resale property, we uncover hidden defects that give you…
+<p class="text-zinc-400 text-xs leading-relaxed max-w-lg">
+SERVICES Our Professional Services Engineer-led inspections that have uncover…
+<section class="py-24 lg:py-32 bg-zinc-50">
+06
+<span class="text-[10px] font-semibold tracking-widest text-zinc-300 pt-1 w-6 shrink-0">
+SERVICES Our Professional Services Engineer-led inspections that have uncover…
+<section class="py-24 lg:py-32 bg-zinc-50">
+We provide independent quality control for your project — catching defects befo…
+<p class="text-zinc-400 text-xs leading-relaxed max-w-lg">
+SERVICES Our Professional Services Engineer-led inspections that have uncover…
+<section class="py-24 lg:py-32 bg-zinc-50">
+600,000+
+<div class="text-3xl font-bold text-brand-green">
+600,000+ DEFECTS DOCUMENTED
+<div class="absolute -bottom-6 -right-6 bg-zinc-950 text-white p-6">
+3BR Apartment · Dubai Marina
+<p class="text-[11px] text-zinc-400 mt-0.5">
+"They found 31 defects the developer's own team missed — including two live wir…
+<div class="bg-white p-8 flex flex-col gap-5">
+2BR Apartment · Downtown Dubai
+<p class="text-[11px] text-zinc-400 mt-0.5">
+"Water was seeping into the bathroom wall — invisible to the eye. UrbanGrid cau…
+<div class="bg-white p-8 flex flex-col gap-5">
+4BR Villa · Arabian Ranches
+<p class="text-[11px] text-zinc-400 mt-0.5">
+"23 snagging items documented with photos. The developer resolved every single …
+<div class="bg-white p-8 flex flex-col gap-5">
+1BR Studio · Business Bay
+<p class="text-[11px] text-zinc-400 mt-0.5">
+"Got the report within 24 hours, clear enough that even my developer's site man…
+<div class="bg-white p-8 flex flex-col gap-5">
+2BR Apartment · Yas Island, Abu Dhabi
+<p class="text-[11px] text-zinc-400 mt-0.5">
+"The AC system was undersized for the apartment — an AED 18,000 problem UrbanGr…
+<div class="bg-white p-8 flex flex-col gap-5">
+3BR Apartment · Al Reem Island, Abu Dhabi
+<p class="text-[11px] text-zinc-400 mt-0.5">
+"Used UrbanGrid for a secondary market purchase. Their report helped me negotia…
+<div class="bg-white p-8 flex flex-col gap-5">
+NFPA
+<p class="text-[10px] font-semibold tracking-[0.25em] uppercase mb-6 text-red-500">
+STANDARDS International Standards We Follow Our inspections strictly adhere t…
+<section class="py-24 lg:py-32 bg-zinc-50">
+ASHRAE
+<p class="text-[10px] font-semibold tracking-[0.25em] uppercase mb-6 text-blue-500">
+STANDARDS International Standards We Follow Our inspections strictly adhere t…
+<section class="py-24 lg:py-32 bg-zinc-50">
+INSPECTIONS COMPLETED
+<div class="text-[10px] uppercase tracking-widest text-zinc-400 mb-4">
+COVERAGE Snagging Services Across UAE Professional property inspection servic…
+<section class="py-24 lg:py-32 bg-white">
+INSPECTIONS COMPLETED
+<div class="text-[10px] uppercase tracking-widest text-zinc-400 mb-4">
+COVERAGE Snagging Services Across UAE Professional property inspection servic…
+<section class="py-24 lg:py-32 bg-white">
+INSPECTIONS COMPLETED
+<div class="text-[10px] uppercase tracking-widest text-zinc-400 mb-4">
+COVERAGE Snagging Services Across UAE Professional property inspection servic…
+<section class="py-24 lg:py-32 bg-white">
+GET STARTED
+<p class="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-6">
+GET STARTED Don't Accept Your Property Without Reading the Report First. Repo…
+<section class="py-24 lg:py-32 bg-zinc-950 text-white">
+RERA Approved
+<span>
+GET STARTED Don't Accept Your Property Without Reading the Report First. Repo…
+<section class="py-24 lg:py-32 bg-zinc-950 text-white">
+International Standards
+<span>
+GET STARTED Don't Accept Your Property Without Reading the Report First. Repo…
+<section class="py-24 lg:py-32 bg-zinc-950 text-white">
+InterNACHI Certified
+<span>
+GET STARTED Don't Accept Your Property Without Reading the Report First. Repo…
+<section class="py-24 lg:py-32 bg-zinc-950 text-white">
+4.9 ★ · 1,200+ Google Reviews
+<span>
+GET STARTED Don't Accept Your Property Without Reading the Report First. Repo…
+<section class="py-24 lg:py-32 bg-zinc-950 text-white">
+QUICK LINKS
+<h3 class="text-[10px] font-semibold tracking-[0.25em] text-zinc-600 uppercase mb-8">
+UrbanGrid UAE's premier property inspection and snagging company. Delivering i…
+<footer class="bg-zinc-950 text-white pt-24 pb-12 border-t border-zinc-900">
+LOCATIONS
+<h3 class="text-[10px] font-semibold tracking-[0.25em] text-zinc-600 uppercase mb-8">
+UrbanGrid UAE's premier property inspection and snagging company. Delivering i…
+<footer class="bg-zinc-950 text-white pt-24 pb-12 border-t border-zinc-900">
+CONTACT US
+<h3 class="text-[10px] font-semibold tracking-[0.25em] text-zinc-600 uppercase mb-8">
+UrbanGrid UAE's premier property inspection and snagging company. Delivering i…
+<footer class="bg-zinc-950 text-white pt-24 pb-12 border-t border-zinc-900">
+© 2026 URBANGRID REAL ESTATE CONSULTANCIES L.L.C. LICENSED BY RERA & DUBAI ECON…
+<p class="text-center md:text-left">
+UrbanGrid UAE's premier property inspection and snagging company. Delivering i…
+<footer class="bg-zinc-950 text-white pt-24 pb-12 border-t border-zinc-900">
+PRIVACY POLICY
+<span class="hover:text-white transition-colors cursor-pointer">
+UrbanGrid UAE's premier property inspection and snagging company. Delivering i…
+<footer class="bg-zinc-950 text-white pt-24 pb-12 border-t border-zinc-900">
+TERMS OF SERVICE
+<span class="hover:text-white transition-colors cursor-pointer">
+UrbanGrid UAE's premier property inspection and snagging company. Delivering i…
+<footer class="bg-zinc-950 text-white pt-24 pb-12 border-t border-zinc-900">
+These are opportunities to improve the legibility of your content.
+Best practices
+Touch targets do not have sufficient size or spacing.
+Touch targets with sufficient size and spacing help users who may have difficulty targeting small controls to activate the targets. Learn more about touch targets.
+Failing Elements
+Get a Free Quote
+<a href="/contact">
+Get a Free Quote
+<button class="inline-flex items-center justify-center gap-2 whitespace-nowrap ring-offse…">
