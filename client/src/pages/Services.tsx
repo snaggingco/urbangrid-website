@@ -78,7 +78,7 @@ export default function Services() {
             "Tenant/landlord mediation"
           ],
           duration: "1-2 hours",
-          price: "From AED 500"
+          price: "From AED 800"
         },
         {
           id: 5,

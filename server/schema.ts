@@ -144,7 +144,7 @@ export function serviceSchema(servicePath: string, serviceTitle: string, service
   const faqs = serviceFAQs[slug] || [
     { q: `What is ${serviceCategory}?`, a: serviceDesc },
     { q: 'How long does the inspection take?', a: 'Inspection duration varies by service type and property size, typically ranging from 2-8 hours for comprehensive assessments.' },
-    { q: 'Do you provide same-day reports?', a: 'Yes, we provide detailed inspection reports on the same day with photographic evidence and professional recommendations.' }
+    { q: 'How quickly do you deliver inspection reports?', a: 'We deliver detailed inspection reports within 24 hours, complete with photographic evidence and professional recommendations.' }
   ];
 
   const faqJson = {

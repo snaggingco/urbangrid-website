@@ -29,8 +29,8 @@ interface SEOProps {
 // SEO data for each route
 const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
   '/': {
-    title: 'Property Snagging UAE | UrbanGrid Inspection | Same-Day Reports',
-    description: 'UAE\'s trusted property inspection company. Professional snagging services across Dubai, Abu Dhabi, Sharjah. RERA certified, same-day reports. Call +971 567427634.',
+    title: 'Property Snagging Dubai & UAE | From AED 800 | UrbanGrid',
+    description: 'Independent property snagging across Dubai, Abu Dhabi & UAE. RERA, NFPA & ASHRAE certified engineers. Reports in 24 hours. From AED 800.',
     ogImage: 'https://urbangrid.ae/og-image.jpg'
   },
   '/about': {
@@ -40,8 +40,8 @@ const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
     ogImage: 'https://urbangrid.ae/og-image.jpg'
   },
   '/services': {
-    title: 'Property Inspection Services UAE - Snagging & Assessment | UrbanGrid',
-    description: 'Professional property inspection services: new build snagging, pre-purchase inspections, villa assessments, apartment snagging across UAE. Same-day reports available.',
+    title: 'Snagging & Inspection Services UAE | From AED 800 | UrbanGrid',
+    description: 'Property snagging, RERA reports & technical inspections across Dubai, Abu Dhabi & UAE. Engineer-led, photo reports in 24 hours. From AED 800.',
     keywords: 'property inspection services UAE, snagging services Dubai, pre-purchase inspection, villa snagging, apartment inspection',
     ogImage: 'https://urbangrid.ae/og-image.jpg'
   },
@@ -60,33 +60,33 @@ const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
 
   // Property Snagging Services
   '/services/property-snagging/new-build-snagging': {
-    title: 'New Build Handover Snagging Dubai Abu Dhabi UAE - Professional Inspection',
-    description: 'Expert new build snagging services across UAE. Pre-handover inspections identifying defects before you accept your property. Professional reports, developer liaison, warranty protection.',
+    title: 'New Build Snagging Dubai & UAE | From AED 800 | UrbanGrid',
+    description: 'Independent new build handover snagging across Dubai, Abu Dhabi & UAE. Catch developer defects before you sign. Engineer-led report in 24h. From AED 800.',
     keywords: 'new build snagging UAE, handover inspection Dubai, new property snagging Abu Dhabi, pre-handover inspection, property defects UAE, new build inspection'
   },
   '/services/property-snagging/post-renovation-inspection': {
-    title: 'Post Renovation Inspection UAE - Quality Assessment After Fit-out Work',
-    description: 'Professional post-renovation inspection services ensuring fit-out work meets specifications. Quality control, compliance verification, warranty documentation across Dubai, Abu Dhabi, UAE.',
+    title: 'Post-Renovation Snagging Dubai & UAE | From AED 800 | UrbanGrid',
+    description: 'Independent post-renovation & fit-out inspection across Dubai, Abu Dhabi & UAE. Verify contractor work before final payment. Report in 24h. From AED 800.',
     keywords: 'post renovation inspection UAE, fit-out inspection Dubai, renovation quality control, post construction inspection Abu Dhabi, fit-out snagging'
   },
   '/services/property-snagging/dlp-snagging': {
-    title: 'DLP Snagging UAE - Defect Liability Period Inspection Before Warranty Expires',
-    description: 'Strategic DLP snagging services maximizing warranty claims before expiry. Expert defect identification, developer liaison, free rectification claims across UAE.',
+    title: 'DLP Snagging Dubai & UAE | Defect Liability | From AED 800',
+    description: 'Independent DLP inspection across Dubai, Abu Dhabi & UAE. Maximise free developer rectification before your 1-year warranty ends. Report in 24h. From AED 800.',
     keywords: 'DLP snagging UAE, defect liability period inspection, warranty snagging Dubai, property warranty claims, DLP inspection Abu Dhabi'
   },
   '/services/property-snagging/move-in-move-out': {
-    title: 'Move-in Move-out Inspection UAE - Rental Property Condition Reports',
-    description: 'Professional move-in/move-out inspections protecting tenants and landlords. Detailed condition reports, security deposit protection, rental property assessments UAE.',
+    title: 'Move-In / Move-Out Inspection Dubai & UAE | From AED 800',
+    description: 'Independent tenant & landlord condition reports across Dubai, Abu Dhabi & UAE. Protect your security deposit with a photo report in 24h. From AED 800.',
     keywords: 'move in move out inspection UAE, rental property inspection Dubai, tenant move out inspection, landlord protection UAE, security deposit inspection'
   },
   '/services/property-snagging/secondary-market': {
-    title: 'Secondary Market Property Inspection UAE - Pre-Purchase Assessment',
-    description: 'Expert pre-purchase inspections for existing properties. Investment protection, hidden defect detection, negotiation support, market analysis across Dubai, Abu Dhabi, UAE.',
+    title: 'Pre-Purchase Inspection Dubai & UAE | From AED 800 | UrbanGrid',
+    description: 'Independent secondary-market property inspection across Dubai, Abu Dhabi & UAE. Find hidden defects before you buy. Engineer-led report in 24h. From AED 800.',
     keywords: 'secondary market inspection UAE, pre-purchase inspection Dubai, existing property inspection, investment property assessment, property buying inspection'
   },
   '/services/property-snagging/developer-projects': {
-    title: 'Developer Contractor Snagging UAE - Quality Control Project Inspection',
-    description: 'Independent quality control inspections for developers and contractors. Project compliance, industry standards verification, client satisfaction assurance across UAE.',
+    title: 'Developer & Contractor Snagging UAE | From AED 800 | UrbanGrid',
+    description: 'Independent third-party QA snagging for developers & contractors across Dubai, Abu Dhabi & UAE. NFPA & ASHRAE benchmarked. Handover-ready reports.',
     keywords: 'developer snagging UAE, contractor quality control, project inspection Dubai, construction quality assurance, developer quality control UAE'
   },
 
@@ -139,9 +139,9 @@ const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
     keywords: 'noise survey UAE, acoustic assessment Dubai, noise level testing, sound measurement UAE, acoustic compliance Abu Dhabi'
   },
   '/services/technical-inspections/structural-survey': {
-    title: 'Structural Survey UAE - Building Integrity Safety Assessment',
-    description: 'Expert structural surveys examining building integrity and safety. Load-bearing analysis, building code compliance, structural engineering assessment across UAE.',
-    keywords: 'structural survey UAE, building integrity assessment Dubai, structural inspection, load bearing analysis UAE, structural safety Abu Dhabi'
+    title: 'Structural Survey Dubai & UAE | Certified Engineers | UrbanGrid',
+    description: 'Independent structural surveys across Dubai, Abu Dhabi & UAE. Load-bearing analysis, foundation & settlement assessment by certified engineers. From AED 800.',
+    keywords: 'structural survey UAE, building integrity assessment Dubai, structural inspection, load bearing analysis UAE, structural safety Abu Dhabi, certified structural assessment UAE'
   },
 
   // Location pages

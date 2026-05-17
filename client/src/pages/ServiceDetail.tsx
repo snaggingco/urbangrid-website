@@ -53,7 +53,7 @@ const servicesData: Record<string, ServiceData> = {
       "Leverage for negotiations with developers"
     ],
     duration: "4-8 hours",
-    price: "Minimum AED 700 | From AED 1 / Sq.ft (700+ sq.ft)",
+    price: "Minimum AED 800 | From AED 1 / Sq.ft (700+ sq.ft)",
     includes: [
       "Professional inspection team",
       "Digital report with photos",
@@ -96,7 +96,7 @@ const servicesData: Record<string, ServiceData> = {
       "Support for contractor negotiations"
     ],
     duration: "3-6 hours",
-    price: "Minimum AED 700 | From AED 1 / Sq.ft (700+ sq.ft)",
+    price: "Minimum AED 800 | From AED 1 / Sq.ft (700+ sq.ft)",
     includes: [
       "Comprehensive quality assessment",
       "Detailed inspection report",
@@ -139,7 +139,7 @@ const servicesData: Record<string, ServiceData> = {
       "Extended property protection"
     ],
     duration: "5-9 hours", 
-    price: "Minimum AED 700 | From AED 0.5 / Sq.ft (700+ sq.ft)",
+    price: "Minimum AED 800 | From AED 0.5 / Sq.ft (700+ sq.ft)",
     includes: [
       "Comprehensive re-inspection",
       "Defect tracking system",
@@ -182,7 +182,7 @@ const servicesData: Record<string, ServiceData> = {
       "Mediation support if needed"
     ],
     duration: "2-4 hours",
-    price: "Minimum AED 700 | From AED 0.5 / Sq.ft (700+ sq.ft)",
+    price: "Minimum AED 800 | From AED 0.5 / Sq.ft (700+ sq.ft)",
     includes: [
       "Detailed condition report",
       "Comprehensive photo documentation",
@@ -225,7 +225,7 @@ const servicesData: Record<string, ServiceData> = {
       "Avoid costly surprises"
     ],
     duration: "3-5 hours",
-    price: "Minimum AED 700 | From AED 1 / Sq.ft (700+ sq.ft)",
+    price: "Minimum AED 800 | From AED 1 / Sq.ft (700+ sq.ft)",
     includes: [
       "Pre-purchase inspection",
       "Market assessment report",
