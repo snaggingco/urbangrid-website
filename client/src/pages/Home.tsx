@@ -162,10 +162,6 @@ export default function Home() {
 
         <div className={`relative z-10 max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 pt-10 sm:pt-18 pb-16 sm:pb-48 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
 
-          <p className="text-[10px] sm:text-xs font-semibold tracking-[0.25em] text-brand-green uppercase mb-3 sm:mb-6">
-            Available Now Across UAE
-          </p>
-
           <h1 className="text-[1.65rem] sm:text-4xl lg:text-7xl font-bold text-white leading-snug sm:leading-[1.05] tracking-tight mb-3 sm:mb-5 max-w-3xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
             UAE's Leading Home Inspection<br />
             <span className="text-brand-white">&amp; Snagging Company.</span>
@@ -175,10 +171,8 @@ export default function Home() {
             40,000+ UAE properties inspected. 600,000+ defects documented.
           </p>
 
-          {/* Lena AI chat bar — hidden on mobile (floating bar already provides chat/call/WhatsApp) */}
-          <div className="hidden sm:block mb-5">
-            <HeroChatBar />
-          </div>
+          {/* Lena AI chat bar — optimized for mobile */}
+          <HeroChatBar />
 
           {/* CTA buttons */}
           <div className="flex flex-col items-start gap-3 mb-4 sm:mb-6">
@@ -238,29 +232,29 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Stats strip — hidden on mobile (floating bar takes that space), visible on desktop */}
-        <div className="hidden md:block absolute bottom-0 left-0 right-0 border-t border-white/10 z-20">
+        {/* Stats strip — compact 2-col grid on mobile, full on desktop */}
+        <div className="absolute bottom-0 left-0 right-0 border-t border-white/10 z-20">
           <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
-            <div className="grid grid-cols-3 lg:grid-cols-5 border-b-0">
-              <div className="py-5 pr-4 border-r border-white/10">
-                <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">{counts.inspections.toLocaleString()}+</div>
-                <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Properties Inspected</div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 border-b-0">
+              <div className="py-2 md:py-5 px-2 md:px-4 border-r border-white/10">
+                <div className="text-base sm:text-xl md:text-2xl lg:text-3xl font-bold text-white">{counts.inspections.toLocaleString()}+</div>
+                <div className="text-[8px] md:text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-0.5 md:mt-1">Properties Inspected</div>
               </div>
-              <div className="py-5 px-4 border-r border-white/10">
-                <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">{counts.defects.toLocaleString()}+</div>
-                <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Defects Found</div>
+              <div className="py-2 md:py-5 px-2 md:px-4 border-r border-white/10">
+                <div className="text-base sm:text-xl md:text-2xl lg:text-3xl font-bold text-white">{counts.defects.toLocaleString()}+</div>
+                <div className="text-[8px] md:text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-0.5 md:mt-1">Defects Found</div>
               </div>
-              <div className="py-5 px-4 border-r border-white/10">
-                <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-brand-green">AED {counts.saving.toLocaleString()}+</div>
-                <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Avg. Client Saving</div>
+              <div className="py-2 md:py-5 px-2 md:px-4 border-r border-white/10 border-t border-white/10 md:border-t-0">
+                <div className="text-base sm:text-xl md:text-2xl lg:text-3xl font-bold text-brand-green">AED {counts.saving.toLocaleString()}+</div>
+                <div className="text-[8px] md:text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-0.5 md:mt-1">Avg. Client Saving</div>
               </div>
-              <div className="py-5 px-4 border-r border-white/10">
-                <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">{counts.cities}</div>
-                <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Emirates Covered</div>
+              <div className="py-2 md:py-5 px-2 md:px-4 border-r border-white/10 border-t border-white/10 md:border-t-0">
+                <div className="text-base sm:text-xl md:text-2xl lg:text-3xl font-bold text-white">{counts.cities}</div>
+                <div className="text-[8px] md:text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-0.5 md:mt-1">Emirates Covered</div>
               </div>
-              <div className="py-5 pl-4">
-                <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">{counts.rating} <span className="text-yellow-500 text-base">★</span></div>
-                <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Client Satisfaction</div>
+              <div className="py-2 md:py-5 px-2 md:px-4 border-t border-white/10 md:border-t-0 col-span-2 md:col-span-1">
+                <div className="text-base sm:text-xl md:text-2xl lg:text-3xl font-bold text-white">{counts.rating} <span className="text-yellow-500 text-sm md:text-base">★</span></div>
+                <div className="text-[8px] md:text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-0.5 md:mt-1">Client Satisfaction</div>
               </div>
             </div>
           </div>
