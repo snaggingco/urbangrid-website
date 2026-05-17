@@ -147,7 +147,7 @@ export default function Home() {
   return (
     <>
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
-      <section className="relative min-h-screen flex flex-col justify-center bg-zinc-900 mt-8 lg:mt-12 overflow-hidden">
+      <section className="relative min-h-[75vh] sm:min-h-[85vh] md:min-h-screen flex flex-col justify-start md:justify-center bg-zinc-900 mt-8 lg:mt-12 overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=750&q=60"
           alt=""
@@ -160,26 +160,28 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-zinc-900/60 via-zinc-900/45 to-zinc-900" />
 
-        <div className={`relative z-10 max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 pt-14 sm:pt-18 pb-36 sm:pb-48 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        <div className={`relative z-10 max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 pt-10 sm:pt-18 pb-16 sm:pb-48 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
 
-          <p className="text-[10px] sm:text-xs font-semibold tracking-[0.25em] text-brand-green uppercase mb-6">
+          <p className="text-[10px] sm:text-xs font-semibold tracking-[0.25em] text-brand-green uppercase mb-3 sm:mb-6">
             Available Now Across UAE
           </p>
 
-          <h1 className="text-[1.65rem] sm:text-4xl lg:text-7xl font-bold text-white leading-snug sm:leading-[1.05] tracking-tight mb-5 max-w-3xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
+          <h1 className="text-[1.65rem] sm:text-4xl lg:text-7xl font-bold text-white leading-snug sm:leading-[1.05] tracking-tight mb-3 sm:mb-5 max-w-3xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
             UAE's Leading Home Inspection<br />
             <span className="text-brand-white">&amp; Snagging Company.</span>
           </h1>
 
-          <p className="text-sm sm:text-lg text-zinc-200 mb-8 max-w-lg leading-relaxed font-normal">
+          <p className="text-sm sm:text-lg text-zinc-200 mb-5 sm:mb-8 max-w-lg leading-relaxed font-normal">
             40,000+ UAE properties inspected. 600,000+ defects documented.
           </p>
 
-          {/* Lena AI chat bar */}
-          <HeroChatBar />
+          {/* Lena AI chat bar — hidden on mobile (floating bar already provides chat/call/WhatsApp) */}
+          <div className="hidden sm:block mb-5">
+            <HeroChatBar />
+          </div>
 
           {/* CTA buttons */}
-          <div className="flex flex-col items-start gap-3 mb-6">
+          <div className="flex flex-col items-start gap-3 mb-4 sm:mb-6">
             <Link href="/contact">
               <Button
                 size="lg"
@@ -202,19 +204,17 @@ export default function Home() {
             </button>
           </div>
 
-          {/* Trust badges */}
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[11px] text-zinc-500 font-medium mb-8">
-            <span className="flex items-center gap-1.5"><Shield className="w-3 h-3 text-brand-green" />Reports within 24 hours</span>
-            <span className="text-zinc-700">·</span>
-            <span>Contractor-ready format</span>
+          {/* Trust badges — compact on mobile */}
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-[11px] text-zinc-500 font-medium mb-4 sm:mb-8">
+            <span className="flex items-center gap-1.5"><Shield className="w-3 h-3 text-brand-green" />Reports within 24h</span>
+            <span className="text-zinc-700 hidden sm:inline">·</span>
+            <span className="hidden sm:inline">Contractor-ready format</span>
             <span className="text-zinc-700">·</span>
             <span>7 Emirates covered</span>
-            <span className="text-zinc-700">·</span>
-            <span>10+ years experience</span>
           </div>
 
-          {/* Service dropdowns */}
-          <div className="flex flex-wrap gap-3">
+          {/* Service dropdowns — hidden on mobile */}
+          <div className="hidden md:flex flex-wrap gap-3">
             {Object.entries(serviceCategories).map(([key, category]) => (
               <DropdownMenu key={key}>
                 <DropdownMenuTrigger asChild>
@@ -238,10 +238,10 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Stats strip — 5 animated tiles, all visible at every breakpoint */}
-        <div className="absolute bottom-0 left-0 right-0 border-t border-white/10 z-20">
+        {/* Stats strip — hidden on mobile (floating bar takes that space), visible on desktop */}
+        <div className="hidden md:block absolute bottom-0 left-0 right-0 border-t border-white/10 z-20">
           <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 border-b-0">
+            <div className="grid grid-cols-3 lg:grid-cols-5 border-b-0">
               <div className="py-5 pr-4 border-r border-white/10">
                 <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">{counts.inspections.toLocaleString()}+</div>
                 <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Properties Inspected</div>
@@ -250,15 +250,15 @@ export default function Home() {
                 <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">{counts.defects.toLocaleString()}+</div>
                 <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Defects Found</div>
               </div>
-              <div className="py-5 px-4 border-r border-white/10 col-span-2 sm:col-span-1">
+              <div className="py-5 px-4 border-r border-white/10">
                 <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-brand-green">AED {counts.saving.toLocaleString()}+</div>
                 <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Avg. Client Saving</div>
               </div>
-              <div className="py-5 px-4 border-r border-white/10 border-t border-white/10 sm:border-t-0">
+              <div className="py-5 px-4 border-r border-white/10">
                 <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">{counts.cities}</div>
                 <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Emirates Covered</div>
               </div>
-              <div className="py-5 pl-4 border-t border-white/10 sm:border-t-0">
+              <div className="py-5 pl-4">
                 <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-white">{counts.rating} <span className="text-yellow-500 text-base">★</span></div>
                 <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Client Satisfaction</div>
               </div>
