@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import NotFound from "@/pages/not-found";
 import SEO from "@/components/SEO";
+import { serviceFAQs } from "@shared/faqs";
 
 interface ServiceData {
   slug: string;
@@ -839,40 +840,20 @@ export default function ServiceDetail() {
           </div>
         </section>
 
-        {/* FAQ Section - Clean Editorial Style */}
+        {/* FAQ Section - renders exact same Q&A as server-side FAQPage schema */}
         <section className="py-24 lg:py-32 bg-zinc-50">
           <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
             <div className="max-w-3xl">
               <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Inquiry & FAQ</p>
               <h2 className="text-4xl font-bold text-zinc-900 mb-16 leading-tight">Frequently Asked Questions</h2>
-              
+
               <div className="divide-y divide-zinc-200">
-                <div className="py-10">
-                  <h3 className="text-lg font-bold text-zinc-900 mb-4">
-                    What are the costs for {service.title.toLowerCase()}?
-                  </h3>
-                  <p className="text-sm text-zinc-500 leading-relaxed">
-                    Our {service.title.toLowerCase()} services start from {service.price}. Final pricing depends on property size, location, and specific requirements. Contact us for a free, no-obligation quote tailored to your needs.
-                  </p>
-                </div>
-                
-                <div className="py-10">
-                  <h3 className="text-lg font-bold text-zinc-900 mb-4">
-                    How long does the {service.title.toLowerCase()} process take?
-                  </h3>
-                  <p className="text-sm text-zinc-500 leading-relaxed">
-                    Typically takes {service.duration}. We provide same-day reports with detailed findings, photographs, and professional recommendations. Urgent inspections can be arranged within 24 hours.
-                  </p>
-                </div>
-                
-                <div className="py-10">
-                  <h3 className="text-lg font-bold text-zinc-900 mb-4">
-                    Do you provide services across all UAE emirates?
-                  </h3>
-                  <p className="text-sm text-zinc-500 leading-relaxed">
-                    Yes, we provide comprehensive {service.title.toLowerCase()} services across Dubai, Abu Dhabi, Sharjah, Ajman, Fujairah, Ras Al Khaimah, and Umm Al Quwain. Our certified team ensures consistent quality standards nationwide.
-                  </p>
-                </div>
+                {(serviceFAQs[slug] || []).map((faq, i) => (
+                  <div className="py-10" key={i}>
+                    <h3 className="text-lg font-bold text-zinc-900 mb-4">{faq.q}</h3>
+                    <p className="text-sm text-zinc-500 leading-relaxed">{faq.a}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
