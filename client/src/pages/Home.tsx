@@ -166,13 +166,13 @@ export default function Home() {
             Available Now Across UAE
           </p>
 
-          <h1 className="text-3xl sm:text-4xl lg:text-7xl font-bold text-white leading-[1.02] tracking-tight mb-5 max-w-3xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
+          <h1 className="text-[1.65rem] sm:text-4xl lg:text-7xl font-bold text-white leading-snug sm:leading-[1.05] tracking-tight mb-5 max-w-3xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
             UAE's Leading Home Inspection<br />
             <span className="text-brand-white">&amp; Snagging Company.</span>
           </h1>
 
           <p className="text-sm sm:text-lg text-zinc-200 mb-8 max-w-lg leading-relaxed font-normal">
-            40,000+ UAE properties inspected for snagging and home inspection. 600,000+ defects documented.
+            40,000+ UAE properties inspected. 600,000+ defects documented.
           </p>
 
           {/* Lena AI chat bar */}

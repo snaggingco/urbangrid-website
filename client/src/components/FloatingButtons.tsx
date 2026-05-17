@@ -146,23 +146,23 @@ export default function FloatingButtons() {
       </div>
 
       {/* ── Mobile bar ── */}
-      <div className="fixed bottom-4 left-4 right-4 z-50 md:hidden">
-        <div className="bg-white/95 backdrop-blur-sm rounded-xl p-4 shadow-2xl border border-gray-200">
+      <div className="fixed bottom-3 left-4 right-4 z-50 md:hidden">
+        <div className="bg-white/95 backdrop-blur-sm rounded-xl p-3 shadow-2xl border border-gray-200">
           <div className="flex items-center justify-between">
-            <div className="flex-1">
-              <p className="text-sm font-semibold text-brand-black">Need Help?</p>
-              <p className="text-xs text-text-grey">Chat with Lena AI or call us</p>
+            <div className="flex-1 pr-3">
+              <p className="text-[13px] font-semibold text-brand-black">Need Help?</p>
+              <p className="text-[11px] text-text-grey leading-tight">Call or chat with Lena</p>
             </div>
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2.5">
               {/* Lena (mobile) */}
               <button
                 onClick={openChat}
-                className="relative bg-brand-green text-white w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:scale-105 flex items-center justify-center"
+                className="relative bg-brand-green text-white w-10 h-10 rounded-full shadow-lg transition-all duration-300 hover:scale-105 flex items-center justify-center"
                 aria-label="Chat with Lena AI"
               >
-                <MessageCircle size={20} />
+                <MessageCircle size={18} />
                 {hasNotification && !isChatOpen && (
-                  <span className="absolute -top-1 -right-1 w-3.5 h-3.5 bg-red-500 rounded-full border-2 border-white animate-pulse" />
+                  <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-white animate-pulse" />
                 )}
               </button>
 
@@ -171,19 +171,19 @@ export default function FloatingButtons() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => trackConversion("whatsapp_click")}
-                className="bg-green-500 hover:bg-green-600 text-white w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:scale-105 flex items-center justify-center"
+                className="bg-green-500 hover:bg-green-600 text-white w-10 h-10 rounded-full shadow-lg transition-all duration-300 hover:scale-105 flex items-center justify-center"
                 aria-label="Contact us on WhatsApp"
               >
-                <i className="fab fa-whatsapp text-lg" />
+                <i className="fab fa-whatsapp text-base" />
               </a>
 
               <a
                 href="tel:+971567427634"
                 onClick={() => trackConversion("call_click")}
-                className="bg-brand-green hover:bg-opacity-90 text-white w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:scale-105 flex items-center justify-center gtm-call-button"
+                className="bg-brand-green hover:bg-opacity-90 text-white w-10 h-10 rounded-full shadow-lg transition-all duration-300 hover:scale-105 flex items-center justify-center gtm-call-button"
                 aria-label="Call us"
               >
-                <i className="fas fa-phone text-lg" />
+                <i className="fas fa-phone text-base" />
               </a>
             </div>
           </div>
