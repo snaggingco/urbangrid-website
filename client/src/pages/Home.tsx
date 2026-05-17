@@ -160,7 +160,7 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-zinc-900/60 via-zinc-900/45 to-zinc-900" />
 
-        <div className={`relative z-10 max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 pt-10 sm:pt-18 pb-16 sm:pb-48 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        <div className={`relative z-10 max-w-6xl mx-auto px-7 sm:px-10 lg:px-16 pt-14 sm:pt-18 pb-24 sm:pb-48 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
 
           <h1 className="text-[1.65rem] sm:text-4xl lg:text-7xl font-bold text-white leading-snug sm:leading-[1.05] tracking-tight mb-3 sm:mb-5 max-w-3xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
             UAE's Leading Home Inspection<br />
