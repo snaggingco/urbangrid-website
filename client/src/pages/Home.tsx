@@ -147,7 +147,7 @@ export default function Home() {
   return (
     <>
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
-      <section className="relative min-h-[80vh] sm:min-h-[85vh] md:min-h-screen flex flex-col justify-center bg-zinc-900 mt-8 lg:mt-12 overflow-hidden">
+      <section className="relative flex flex-col justify-start md:justify-center bg-zinc-900 mt-8 lg:mt-12 overflow-hidden">
         <img
           src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=750&q=60"
           alt=""
@@ -160,29 +160,27 @@ export default function Home() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-zinc-900/60 via-zinc-900/45 to-zinc-900" />
 
-        <div className={`relative z-10 max-w-6xl mx-auto w-full px-6 sm:px-10 lg:px-16 pt-10 sm:pt-16 pb-10 sm:pb-48 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        <div className={`relative z-10 max-w-6xl mx-auto w-full px-6 sm:px-10 lg:px-16 pt-8 sm:pt-16 pb-8 sm:pb-48 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
 
-          <h1 className="text-[1.75rem] sm:text-4xl lg:text-7xl font-bold text-white leading-[1.2] sm:leading-[1.05] tracking-tight mb-4 sm:mb-5 max-w-3xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
-            UAE's Leading Home Inspection
-            <span className="block text-brand-white">&amp; Snagging Company.</span>
+          <h1 className="text-[1.5rem] sm:text-4xl lg:text-7xl font-bold text-white leading-snug sm:leading-[1.05] tracking-tight mb-3 sm:mb-5 max-w-3xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
+            UAE's Leading Home Inspection <span className="sm:block">&amp; Snagging Company.</span>
           </h1>
 
-          <p className="text-sm sm:text-lg text-zinc-300 mb-6 sm:mb-8 max-w-lg leading-relaxed font-normal">
+          <p className="text-sm sm:text-lg text-zinc-300 mb-5 sm:mb-8 max-w-lg leading-relaxed">
             40,000+ UAE properties inspected. 600,000+ defects documented.
           </p>
 
           {/* Lena AI chat bar */}
           <HeroChatBar />
 
-          {/* CTA buttons */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6 sm:mb-6">
-            <Link href="/contact">
+          {/* CTAs */}
+          <div className="flex flex-col gap-3 mb-5">
+            <Link href="/contact" className="w-full sm:w-auto">
               <Button
                 size="lg"
-                className="bg-brand-green text-white hover:bg-emerald-700 transition-all px-8 py-6 text-sm font-semibold tracking-wide rounded-none group relative overflow-hidden active:scale-95 w-full sm:w-auto"
+                className="bg-brand-green text-white hover:bg-emerald-700 transition-all px-6 py-5 text-sm font-semibold tracking-wide rounded-none group relative overflow-hidden active:scale-95 w-full sm:w-auto"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-shimmer" />
-                <span className="flex items-center gap-3">
+                <span className="flex items-center justify-center gap-2">
                   Book Inspection
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
@@ -191,20 +189,19 @@ export default function Home() {
 
             <button
               onClick={() => setReportModalOpen(true)}
-              className="inline-flex items-center gap-2 border border-zinc-600 text-zinc-400 px-8 py-[14px] text-sm font-semibold hover:border-white hover:text-white transition-all w-full sm:w-auto justify-center sm:justify-start"
+              className="text-zinc-400 text-sm font-medium hover:text-white transition-colors text-left"
             >
-              Download Sample Report
-              <ArrowRight className="w-4 h-4" />
+              Download Sample Report →
             </button>
           </div>
 
           {/* Trust badges */}
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11px] text-zinc-500 font-medium">
-            <span className="flex items-center gap-1.5"><Shield className="w-3 h-3 text-brand-green" />Reports within 24h</span>
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] sm:text-[11px] text-zinc-500 font-medium">
+            <span className="flex items-center gap-1"><Shield className="w-3 h-3 text-brand-green" />24h Reports</span>
             <span className="text-zinc-700">·</span>
-            <span>Contractor-ready format</span>
+            <span>7 Emirates</span>
             <span className="text-zinc-700">·</span>
-            <span>7 Emirates covered</span>
+            <span>5.0* Rating</span>
           </div>
 
           {/* Service dropdowns — desktop only */}
@@ -232,7 +229,7 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Stats strip — desktop only (absolute at bottom) */}
+        {/* Stats strip — desktop only */}
         <div className="hidden md:block absolute bottom-0 left-0 right-0 border-t border-white/10 z-20">
           <div className="max-w-6xl mx-auto px-10 lg:px-16">
             <div className="grid grid-cols-5">
@@ -261,23 +258,25 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Stats strip — mobile only, below hero so it never clashes with floating bar */}
-      <div className="md:hidden bg-zinc-900 border-t border-white/10">
-        <div className="grid grid-cols-3 divide-x divide-white/10">
-          <div className="py-4 px-3 text-center">
-            <div className="text-lg font-bold text-white">{counts.inspections.toLocaleString()}+</div>
-            <div className="text-[8px] uppercase tracking-[0.12em] text-zinc-500 font-medium mt-0.5">Inspected</div>
-          </div>
-          <div className="py-4 px-3 text-center">
-            <div className="text-lg font-bold text-brand-green">AED {counts.saving.toLocaleString()}+</div>
-            <div className="text-[8px] uppercase tracking-[0.12em] text-zinc-500 font-medium mt-0.5">Avg. Saving</div>
-          </div>
-          <div className="py-4 px-3 text-center">
-            <div className="text-lg font-bold text-white">{counts.rating} <span className="text-yellow-400 text-sm">*</span></div>
-            <div className="text-[8px] uppercase tracking-[0.12em] text-zinc-500 font-medium mt-0.5">Satisfaction</div>
+      {/* Stats strip — mobile: clean light section below hero */}
+      <section className="md:hidden bg-white border-y border-zinc-100">
+        <div className="max-w-6xl mx-auto px-6 py-5">
+          <div className="grid grid-cols-3 gap-4 text-center">
+            <div>
+              <div className="text-xl font-bold text-zinc-900">{counts.inspections.toLocaleString()}+</div>
+              <div className="text-[10px] uppercase tracking-wider text-zinc-500 mt-0.5">Inspected</div>
+            </div>
+            <div>
+              <div className="text-xl font-bold text-brand-green">AED {counts.saving.toLocaleString()}+</div>
+              <div className="text-[10px] uppercase tracking-wider text-zinc-500 mt-0.5">Avg. Saving</div>
+            </div>
+            <div>
+              <div className="text-xl font-bold text-zinc-900">{counts.rating}*</div>
+              <div className="text-[10px] uppercase tracking-wider text-zinc-500 mt-0.5">Satisfaction</div>
+            </div>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* ── CERTIFICATION STRIP ───────────────────────────────────────────── */}
       <section className="py-16 bg-white border-b border-zinc-100">
