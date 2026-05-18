@@ -2,10 +2,16 @@ import { useState, useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { openLenaWithMessage } from "@/lib/lenaStore";
 
-const CHIPS = [
+const CHIPS_DESKTOP = [
   "Get a price estimate",
   "What's included in an inspection?",
   "Do you cover my area?",
+];
+
+const CHIPS_MOBILE = [
+  "Price estimate",
+  "What's included?",
+  "My area?",
 ];
 
 export default function HeroChatBar() {
@@ -51,13 +57,24 @@ export default function HeroChatBar() {
         </button>
       </form>
 
-      {/* Suggestion chips — tablet+ only */}
-      <div className="hidden md:flex gap-2 mt-2 overflow-x-auto pb-0.5 scrollbar-hide w-full">
-        {CHIPS.map((chip) => (
+      {/* Suggestion chips — shorter text on mobile, scrollable */}
+      <div className="flex gap-1.5 sm:gap-2 mt-2 overflow-x-auto pb-0.5 scrollbar-hide w-full">
+        {/* Mobile chips */}
+        {CHIPS_MOBILE.map((chip, i) => (
+          <button
+            key={chip}
+            onClick={() => submit(CHIPS_DESKTOP[i])}
+            className="sm:hidden flex-shrink-0 text-[11px] text-zinc-300 border border-zinc-600 hover:border-brand-green hover:text-white px-2.5 py-1 rounded-full transition-all duration-150 whitespace-nowrap"
+          >
+            {chip}
+          </button>
+        ))}
+        {/* Desktop chips */}
+        {CHIPS_DESKTOP.map((chip) => (
           <button
             key={chip}
             onClick={() => submit(chip)}
-            className="flex-shrink-0 text-xs text-zinc-300 border border-zinc-600 hover:border-brand-green hover:text-white px-3 py-1.5 rounded-full transition-all duration-150 whitespace-nowrap"
+            className="hidden sm:block flex-shrink-0 text-xs text-zinc-300 border border-zinc-600 hover:border-brand-green hover:text-white px-3 py-1.5 rounded-full transition-all duration-150 whitespace-nowrap"
           >
             {chip}
           </button>
