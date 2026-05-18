@@ -131,7 +131,7 @@ ${formData.message}`,
     {
       icon: <Users className="h-6 w-6 text-brand-green" />,
       title: "Client Satisfaction",
-      value: "4.9/5",
+      value: "5.0/5",
       description: "Average client rating for our professional services"
     },
     {

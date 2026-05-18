@@ -37,7 +37,7 @@ export default function Home() {
         defects: Math.floor((600000 / steps) * step),
         saving: Math.floor((50000 / steps) * step),
         cities: Math.floor((7 / steps) * step),
-        rating: Math.min(4.9, parseFloat(((4.9 / steps) * step).toFixed(1)))
+        rating: Math.min(5, parseFloat(((5 / steps) * step).toFixed(1)))
       });
       if (step >= steps) clearInterval(timer);
     }, interval);
@@ -481,7 +481,7 @@ export default function Home() {
                   {[1,2,3,4,5].map(i => <Star key={i} className="w-4 h-4 fill-yellow-500 text-yellow-500" />)}
                 </div>
                 <p className="text-zinc-500 text-sm">
-                  Based on <span className="font-semibold text-zinc-900">1,200+ verified Google reviews</span> · 4.9 ★ average
+                  Based on <span className="font-semibold text-zinc-900">1,200+ verified Google reviews</span> · 5.0 * average
                 </p>
               </div>
             </div>
@@ -718,7 +718,7 @@ export default function Home() {
             </div>
             <div className="flex items-center gap-2 text-zinc-500 text-xs font-medium">
               <Star className="w-3 h-3 text-yellow-500" />
-              <span>4.9 ★ · 1,200+ Google Reviews</span>
+              <span>5.0 * · 1,200+ Google Reviews</span>
             </div>
           </div>
         </div>
