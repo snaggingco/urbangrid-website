@@ -232,49 +232,48 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Stats strip — desktop only (absolute at bottom) */}
-        <div className="hidden md:block absolute bottom-0 left-0 right-0 border-t border-white/10 z-20">
-          <div className="max-w-6xl mx-auto px-10 lg:px-16">
-            <div className="grid grid-cols-5">
-              <div className="py-5 px-4 border-r border-white/10">
-                <div className="text-2xl lg:text-3xl font-bold text-white">{counts.inspections.toLocaleString()}+</div>
-                <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Properties Inspected</div>
-              </div>
-              <div className="py-5 px-4 border-r border-white/10">
-                <div className="text-2xl lg:text-3xl font-bold text-white">{counts.defects.toLocaleString()}+</div>
-                <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Defects Found</div>
-              </div>
-              <div className="py-5 px-4 border-r border-white/10">
-                <div className="text-2xl lg:text-3xl font-bold text-brand-green">AED {counts.saving.toLocaleString()}+</div>
-                <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Avg. Client Saving</div>
-              </div>
-              <div className="py-5 px-4 border-r border-white/10">
-                <div className="text-2xl lg:text-3xl font-bold text-white">{counts.cities}</div>
-                <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Emirates Covered</div>
-              </div>
-              <div className="py-5 pl-4">
-                <div className="text-2xl lg:text-3xl font-bold text-white">{counts.rating} <span className="text-yellow-500 text-base">*</span></div>
-                <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Client Satisfaction</div>
-              </div>
-            </div>
-          </div>
-        </div>
       </section>
 
-      {/* Stats strip — mobile only, below hero so it never clashes with floating bar */}
-      <div className="md:hidden bg-zinc-900 border-t border-white/10">
-        <div className="grid grid-cols-3 divide-x divide-white/10">
-          <div className="py-4 px-3 text-center">
-            <div className="text-lg font-bold text-white">{counts.inspections.toLocaleString()}+</div>
-            <div className="text-[8px] uppercase tracking-[0.12em] text-zinc-500 font-medium mt-0.5">Inspected</div>
+      {/* Stats strip — mobile: 3 key stats in one row. Desktop: all 5 */}
+      <div className="bg-zinc-900 border-t border-white/10">
+        <div className="max-w-6xl mx-auto px-4 sm:px-10 lg:px-16">
+          {/* Mobile */}
+          <div className="md:hidden grid grid-cols-3 divide-x divide-white/10">
+            <div className="py-3 px-1 text-center">
+              <div className="text-sm font-bold text-white">{counts.inspections.toLocaleString()}+</div>
+              <div className="text-[7px] uppercase tracking-[0.1em] text-zinc-500 font-medium mt-0.5">Inspected</div>
+            </div>
+            <div className="py-3 px-1 text-center">
+              <div className="text-sm font-bold text-brand-green">AED {counts.saving.toLocaleString()}+</div>
+              <div className="text-[7px] uppercase tracking-[0.1em] text-zinc-500 font-medium mt-0.5">Avg. Saving</div>
+            </div>
+            <div className="py-3 px-1 text-center">
+              <div className="text-sm font-bold text-white">{counts.rating} <span className="text-yellow-500 text-[10px]">*</span></div>
+              <div className="text-[7px] uppercase tracking-[0.1em] text-zinc-500 font-medium mt-0.5">Satisfaction</div>
+            </div>
           </div>
-          <div className="py-4 px-3 text-center">
-            <div className="text-lg font-bold text-brand-green">AED {counts.saving.toLocaleString()}+</div>
-            <div className="text-[8px] uppercase tracking-[0.12em] text-zinc-500 font-medium mt-0.5">Avg. Saving</div>
-          </div>
-          <div className="py-4 px-3 text-center">
-            <div className="text-lg font-bold text-white">{counts.rating} <span className="text-yellow-400 text-sm">*</span></div>
-            <div className="text-[8px] uppercase tracking-[0.12em] text-zinc-500 font-medium mt-0.5">Satisfaction</div>
+          {/* Desktop */}
+          <div className="hidden md:grid grid-cols-5 divide-x divide-white/10">
+            <div className="py-5 px-4">
+              <div className="text-xl lg:text-2xl font-bold text-white">{counts.inspections.toLocaleString()}+</div>
+              <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Properties Inspected</div>
+            </div>
+            <div className="py-5 px-4">
+              <div className="text-xl lg:text-2xl font-bold text-white">{counts.defects.toLocaleString()}+</div>
+              <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Defects Found</div>
+            </div>
+            <div className="py-5 px-4">
+              <div className="text-xl lg:text-2xl font-bold text-brand-green">AED {counts.saving.toLocaleString()}+</div>
+              <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Avg. Client Saving</div>
+            </div>
+            <div className="py-5 px-4">
+              <div className="text-xl lg:text-2xl font-bold text-white">{counts.cities}</div>
+              <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Emirates Covered</div>
+            </div>
+            <div className="py-5 px-4">
+              <div className="text-xl lg:text-2xl font-bold text-white">{counts.rating} <span className="text-yellow-500 text-sm">*</span></div>
+              <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Client Satisfaction</div>
+            </div>
           </div>
         </div>
       </div>
