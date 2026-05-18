@@ -253,7 +253,7 @@ export default function Home() {
                 <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Emirates Covered</div>
               </div>
               <div className="py-5 pl-4">
-                <div className="text-2xl lg:text-3xl font-bold text-white">{counts.rating} <span className="text-yellow-500 text-base">★</span></div>
+                <div className="text-2xl lg:text-3xl font-bold text-white">{counts.rating} <span className="text-yellow-500 text-base">*</span></div>
                 <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Client Satisfaction</div>
               </div>
             </div>
@@ -273,7 +273,7 @@ export default function Home() {
             <div className="text-[8px] uppercase tracking-[0.12em] text-zinc-500 font-medium mt-0.5">Avg. Saving</div>
           </div>
           <div className="py-4 px-3 text-center">
-            <div className="text-lg font-bold text-white">{counts.rating} <span className="text-yellow-400 text-sm">★</span></div>
+            <div className="text-lg font-bold text-white">{counts.rating} <span className="text-yellow-400 text-sm">*</span></div>
             <div className="text-[8px] uppercase tracking-[0.12em] text-zinc-500 font-medium mt-0.5">Satisfaction</div>
           </div>
         </div>
