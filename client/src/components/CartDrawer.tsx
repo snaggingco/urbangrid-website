@@ -5,7 +5,7 @@ import { ShoppingCart, Trash2, Loader2, AlertCircle } from "lucide-react";
 import { apiRequest } from "@/lib/queryClient";
 
 export default function CartDrawer() {
-  const { items, removeItem, totalAmount, totalItems, isCartOpen, closeCart } = useCart();
+  const { items, removeItem, clearCart, totalAmount, totalItems, isCartOpen, closeCart } = useCart();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -15,9 +15,6 @@ export default function CartDrawer() {
     setError(null);
     try {
       const res = await apiRequest("POST", "/api/checkout", {
-        // quoteToken is an HMAC-SHA256 signature issued by the server's chat endpoint.
-        // The checkout endpoint verifies it — any tampering with serviceKey or unitAmount
-        // will fail verification and the session will be rejected.
         items: items.map((i) => ({
           serviceKey: i.serviceKey,
           quantity: i.quantity,
@@ -61,25 +58,42 @@ export default function CartDrawer() {
               <p className="text-zinc-400 text-xs">Ask Lena AI for a price estimate, then add a service to get started.</p>
             </div>
           ) : (
-            items.map((item) => (
-              <div key={item.serviceKey} className="flex items-start gap-3 bg-zinc-50 rounded-xl p-3 border border-zinc-100">
-                <div className="flex-1 min-w-0">
-                  <p className="text-sm font-semibold text-zinc-900 truncate">{item.name}</p>
-                  <p className="text-xs text-zinc-500 mt-0.5">Qty: {item.quantity}</p>
-                  <p className="text-sm font-bold text-brand-green mt-1">
-                    AED {(item.unitAmount * item.quantity).toLocaleString()}
-                    <span className="text-xs font-normal text-zinc-400 ml-1">incl. VAT</span>
-                  </p>
-                </div>
+            <div className="space-y-3">
+              <div className="flex justify-end">
                 <button
-                  onClick={() => removeItem(item.serviceKey)}
-                  className="text-zinc-300 hover:text-red-400 transition-colors p-1 flex-shrink-0"
-                  aria-label="Remove item"
+                  type="button"
+                  onClick={() => {
+                    if (confirm('Remove all items from your cart?')) clearCart();
+                  }}
+                  className="text-xs text-zinc-400 hover:text-red-500 hover:bg-red-50 rounded-md px-2 py-1 transition-all cursor-pointer"
                 >
-                  <Trash2 size={15} />
+                  Clear all
                 </button>
               </div>
-            ))
+              {items.map((item) => (
+                <div key={item.serviceKey} className="flex items-start gap-3 bg-zinc-50 rounded-xl p-3 border border-zinc-100">
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-semibold text-zinc-900 truncate">{item.name}</p>
+                    <p className="text-xs text-zinc-500 mt-0.5">Qty: {item.quantity}</p>
+                    <p className="text-sm font-bold text-brand-green mt-1">
+                      AED {(item.unitAmount * item.quantity).toLocaleString()}
+                      <span className="text-xs font-normal text-zinc-400 ml-1">incl. VAT</span>
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      removeItem(item.serviceKey);
+                    }}
+                    className="text-zinc-300 hover:text-red-500 hover:bg-red-50 rounded-md transition-all p-1.5 flex-shrink-0 cursor-pointer"
+                    aria-label="Remove item"
+                  >
+                    <Trash2 size={15} />
+                  </button>
+                </div>
+              ))}
+            </div>
           )}
         </div>
 
