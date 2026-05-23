@@ -15,11 +15,14 @@ export default function CartDrawer() {
     setError(null);
     try {
       const res = await apiRequest("POST", "/api/checkout", {
-        // Server validates serviceKey and unitAmount — no pricing can be tampered
+        // quoteToken is an HMAC-SHA256 signature issued by the server's chat endpoint.
+        // The checkout endpoint verifies it — any tampering with serviceKey or unitAmount
+        // will fail verification and the session will be rejected.
         items: items.map((i) => ({
           serviceKey: i.serviceKey,
           quantity: i.quantity,
           unitAmount: i.unitAmount,
+          quoteToken: i.quoteToken,
         })),
       });
       const data = await res.json();

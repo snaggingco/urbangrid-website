@@ -11,6 +11,7 @@ interface CartAction {
   serviceKey: string;
   name: string;
   unitAmount: number;
+  quoteToken?: string;
 }
 
 interface Message {
@@ -455,6 +456,7 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
       const reader = res.body?.getReader();
       const decoder = new TextDecoder();
       let rawContent = "";
+      let pendingQuoteToken: { serviceKey: string; amountAed: number; quoteToken: string } | null = null;
       setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
 
       while (reader) {
@@ -473,14 +475,29 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
                 return updated;
               });
             }
+            // Server sends a signed quote token after the stream when a price is quoted
+            if (data.quoteToken && data.serviceKey && data.amountAed) {
+              pendingQuoteToken = {
+                serviceKey: data.serviceKey,
+                amountAed: data.amountAed,
+                quoteToken: data.quoteToken,
+              };
+            }
           } catch {}
         }
       }
 
       const { formType, cartAction } = parseMessage(rawContent);
+      // Attach the server-signed token to the cart action so checkout can verify it
+      const signedCartAction = cartAction && pendingQuoteToken &&
+        pendingQuoteToken.serviceKey === cartAction.serviceKey &&
+        pendingQuoteToken.amountAed === cartAction.unitAmount
+          ? { ...cartAction, quoteToken: pendingQuoteToken.quoteToken }
+          : cartAction;
+
       setMessages((prev) => {
         const updated = [...prev];
-        updated[updated.length - 1] = { role: "assistant", content: rawContent, formType, cartAction };
+        updated[updated.length - 1] = { role: "assistant", content: rawContent, formType, cartAction: signedCartAction };
         return updated;
       });
 
@@ -652,17 +669,20 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
                       ) : (
                         <button
                           onClick={() => {
+                            if (!msg.cartAction!.quoteToken) return;
                             addItem({
                               serviceKey: msg.cartAction!.serviceKey,
                               name: msg.cartAction!.name,
                               unitAmount: msg.cartAction!.unitAmount,
+                              quoteToken: msg.cartAction!.quoteToken,
                             });
                             setMessages((prev) =>
                               prev.map((m, idx) => idx === i ? { ...m, cartAdded: true } : m)
                             );
                             openCart();
                           }}
-                          className="mt-2 flex items-center gap-1.5 w-full bg-brand-green text-white text-xs font-semibold px-3.5 py-2.5 rounded-xl hover:bg-opacity-90 transition-colors justify-center"
+                          disabled={!msg.cartAction.quoteToken}
+                          className="mt-2 flex items-center gap-1.5 w-full bg-brand-green text-white text-xs font-semibold px-3.5 py-2.5 rounded-xl hover:bg-opacity-90 transition-colors justify-center disabled:opacity-50 disabled:cursor-not-allowed"
                         >
                           <ShoppingCart size={13} />
                           Add to Cart — AED {msg.cartAction.unitAmount.toLocaleString()} incl. VAT

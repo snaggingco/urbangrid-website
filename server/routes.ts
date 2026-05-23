@@ -2,6 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import fs from "fs";
 import path from "path";
+import crypto from "crypto";
 import { storage } from "./storage";
 import { setupLocalAuth } from "./adminAuth";
 import { setupInspectorAuth } from "./inspectorAuth";
@@ -10,6 +11,36 @@ import { z } from "zod";
 import nodemailer from "nodemailer";
 import OpenAI from "openai";
 import { homepageSchema, locationSchema, serviceSchema } from "./schema";
+
+// ── Quote signing (HMAC-SHA256) ─────────────────────────────────────────────
+// Prevents client-side price tampering: every quoted price is signed by the
+// server before being embedded in the SHOW_CART_ACTION marker.
+// The checkout endpoint MUST verify this signature before creating the Stripe session.
+const QUOTE_SECRET = process.env.SESSION_SECRET || 'urbangrid-quote-secret-changeme';
+
+function signQuote(serviceKey: string, amountAed: number): string {
+  const payload = `${serviceKey}:${amountAed}`;
+  return crypto.createHmac('sha256', QUOTE_SECRET).update(payload).digest('hex');
+}
+
+function verifyQuote(serviceKey: string, amountAed: number, token: string): boolean {
+  const expected = signQuote(serviceKey, amountAed);
+  try {
+    return crypto.timingSafeEqual(Buffer.from(expected, 'hex'), Buffer.from(token, 'hex'));
+  } catch {
+    return false;
+  }
+}
+
+// Known services eligible for online checkout
+const CHECKOUT_SERVICES: Record<string, { name: string }> = {
+  'new-build-snagging':          { name: 'New Build Snagging Inspection' },
+  'post-renovation-inspection':  { name: 'Post-Renovation Inspection' },
+  'secondary-market-inspection': { name: 'Secondary Market Inspection' },
+  'de-snagging':                 { name: 'De-Snagging Verification Audit' },
+  'dlp-inspection':              { name: 'DLP 11th Month Inspection' },
+  'move-in-move-out':            { name: 'Move-In / Move-Out Inspection' },
+};
 
 // Generate slug from title
 function generateSlug(title: string): string {
@@ -1015,12 +1046,29 @@ Rules:
         max_completion_tokens: 400,
       });
 
+      let rawContent = '';
       for await (const chunk of stream) {
         const content = chunk.choices[0]?.delta?.content || '';
         if (content) {
+          rawContent += content;
           res.write(`data: ${JSON.stringify({ content })}\n\n`);
         }
       }
+
+      // If Lena quoted a price, sign it server-side so the checkout endpoint can
+      // verify the amount hasn't been tampered with on the client.
+      // Format: [SHOW_CART_ACTION:serviceKey:Display Name:amountAed]
+      const cartMatch = rawContent.match(/\[SHOW_CART_ACTION:([^:]+):([^:]+):(\d+)\]/i);
+      if (cartMatch) {
+        const serviceKey = cartMatch[1].trim();
+        const amountAed = parseInt(cartMatch[3], 10);
+        if (CHECKOUT_SERVICES[serviceKey] && amountAed > 0) {
+          const quoteToken = signQuote(serviceKey, amountAed);
+          // Send the signed token as a separate event so the client can store it
+          res.write(`data: ${JSON.stringify({ quoteToken, serviceKey, amountAed })}\n\n`);
+        }
+      }
+
       res.write(`data: ${JSON.stringify({ done: true })}\n\n`);
       res.end();
     } catch (error: any) {
@@ -1036,41 +1084,25 @@ Rules:
 
   // ─── Chat lead email endpoint ─────────────────────────────────────────────
   // ─── Stripe checkout ──────────────────────────────────────────────────────
-  // Trusted server-side pricing registry keyed by serviceKey.
-  // Each entry stores the AED total (incl. 5% VAT) as a whole number.
-  // The client ONLY sends serviceKey + quantity — it cannot supply or modify prices.
-  //
-  // NOTE: These are the *displayed* fixed prices shown in the cart (resolved by Lena
-  // after the booking form captures property sq.ft and service type). Because inspection
-  // fees are variable (tiered per sq.ft), the registry holds the *minimum* for each
-  // service category. Any item whose server-resolved amount differs is rejected.
-  // ──────────────────────────────────────────────────────────────────────────────
-  // Inspection services eligible for online checkout.
-  // unitAmountAed = price incl. VAT in whole AED that the client must agree with.
-  // The registry is the source of truth for allowed services and their display names.
-  const CHECKOUT_SERVICES: Record<string, { name: string; minAmountAed: number }> = {
-    'new-build-snagging':         { name: 'New Build Snagging Inspection',    minAmountAed: 840  },
-    'post-renovation-inspection': { name: 'Post-Renovation Inspection',        minAmountAed: 840  },
-    'secondary-market-inspection':{ name: 'Secondary Market Inspection',       minAmountAed: 840  },
-    'de-snagging':                { name: 'De-Snagging Verification Audit',    minAmountAed: 420  },
-    'dlp-inspection':             { name: 'DLP 11th Month Inspection',         minAmountAed: 420  },
-    'move-in-move-out':           { name: 'Move-In / Move-Out Inspection',     minAmountAed: 840  },
-  };
+  // Security model:
+  //   1. The chat endpoint signs each quoted price with HMAC-SHA256 (signQuote above).
+  //   2. The signed token is stored in the cart alongside serviceKey + amount.
+  //   3. This endpoint VERIFIES the token before creating the Stripe session.
+  //   4. Any tampering with serviceKey or amount invalidates the signature → rejected.
+  //   5. Success/cancel URLs are server-controlled — never accepted from client.
 
   app.post('/api/checkout', async (req, res) => {
     try {
-      // Client sends: [{ serviceKey, quantity, unitAmount }]
-      // unitAmount is the AED total incl. VAT that Lena quoted; server MUST validate it.
       const { items } = req.body;
 
       if (!Array.isArray(items) || items.length === 0) {
         return res.status(400).json({ message: 'Cart is empty' });
       }
 
-      // Validate and resolve each item against trusted server-side registry
       const lineItems: Array<{ price_data: object; quantity: number }> = [];
+
       for (const item of items) {
-        const { serviceKey, quantity, unitAmount } = item;
+        const { serviceKey, quantity, unitAmount, quoteToken } = item;
 
         // 1. Only known services allowed
         const trusted = CHECKOUT_SERVICES[serviceKey];
@@ -1084,20 +1116,24 @@ Rules:
           return res.status(400).json({ message: 'Invalid quantity' });
         }
 
-        // 3. Amount must be a whole AED number >= the service minimum
+        // 3. Amount must be a positive whole AED number
         const amt = Math.round(Number(unitAmount));
-        if (!Number.isFinite(amt) || amt < trusted.minAmountAed) {
-          return res.status(400).json({
-            message: `Invalid amount for ${trusted.name}. Minimum is AED ${trusted.minAmountAed}.`,
-          });
+        if (!Number.isFinite(amt) || amt <= 0) {
+          return res.status(400).json({ message: 'Invalid amount' });
+        }
+
+        // 4. HMAC token must match — this is the tamper-proof check.
+        //    The token was issued by the chat endpoint after Lena computed the price.
+        //    Any modification of serviceKey or amount on the client will fail this check.
+        if (!quoteToken || typeof quoteToken !== 'string' || !verifyQuote(serviceKey, amt, quoteToken)) {
+          return res.status(400).json({ message: 'Invalid or expired quote. Please request a new price estimate from Lena.' });
         }
 
         lineItems.push({
           price_data: {
             currency: 'aed',
-            product_data: { name: trusted.name },  // use server-side name, not client-supplied
-            // AED uses fils (1 AED = 100 fils)
-            unit_amount: amt * 100,
+            product_data: { name: trusted.name },
+            unit_amount: amt * 100,  // AED → fils (1 AED = 100 fils)
           },
           quantity: qty,
         });
@@ -1106,7 +1142,7 @@ Rules:
       const { getUncachableStripeClient } = await import('./stripeClient');
       const stripe = await getUncachableStripeClient();
 
-      // Success/cancel URLs are always server-controlled — never accept from client
+      // URLs are always server-controlled — never accept from client
       const base = `${req.protocol}://${req.get('host')}`;
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
@@ -1132,7 +1168,7 @@ Rules:
         return res.status(400).json({ message: 'Missing session_id' });
       }
       // Only allow Stripe session IDs (cs_test_* or cs_live_*)
-      if (!/^cs_(test|live)_[A-Za-z0-9]+$/.test(session_id)) {
+      if (!/^cs_(test|live)_[A-Za-z0-9_]+$/.test(session_id)) {
         return res.status(400).json({ message: 'Invalid session_id' });
       }
       const { getUncachableStripeClient } = await import('./stripeClient');

@@ -5,6 +5,7 @@ export interface CartItem {
   name: string;
   unitAmount: number;
   quantity: number;
+  quoteToken: string;
 }
 
 interface CartContextValue {
@@ -27,7 +28,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
-      return stored ? JSON.parse(stored) : [];
+      if (!stored) return [];
+      const parsed: CartItem[] = JSON.parse(stored);
+      // Drop any legacy items that pre-date HMAC signing (no quoteToken).
+      // Without a token the checkout endpoint will reject them anyway.
+      return parsed.filter((i) => typeof i.quoteToken === 'string' && i.quoteToken.length > 0);
     } catch {
       return [];
     }
