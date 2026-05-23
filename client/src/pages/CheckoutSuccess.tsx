@@ -86,7 +86,9 @@ export default function CheckoutSuccess() {
                 <span className="text-brand-green">AED {(order.amountTotal / 100).toLocaleString()}</span>
               </div>
               {order.customerEmail && (
-                <p className="text-xs text-zinc-400">Receipt sent to {order.customerEmail}</p>
+                <p className="text-xs text-zinc-400">
+                  Booking confirmation sent to <span className="font-medium text-zinc-600">{order.customerEmail}</span>
+                </p>
               )}
             </div>
           ) : null}
