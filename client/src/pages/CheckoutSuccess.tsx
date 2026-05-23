@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearch } from "wouter";
 import { Link } from "wouter";
-import { CheckCircle, Phone, MessageCircle, ArrowRight, Loader2 } from "lucide-react";
+import { CheckCircle, Phone, MessageCircle, ArrowRight, Loader2, FileText, Download } from "lucide-react";
 import { useCart } from "@/lib/cartStore";
 import SEO from "@/components/SEO";
 
@@ -17,6 +17,8 @@ interface OrderSummary {
   amountTotal: number;
   currency: string;
   lineItems: OrderLine[];
+  invoiceUrl: string | null;
+  invoicePdfUrl: string | null;
 }
 
 export default function CheckoutSuccess() {
@@ -87,11 +89,46 @@ export default function CheckoutSuccess() {
               </div>
               {order.customerEmail && (
                 <p className="text-xs text-zinc-400">
-                  Booking confirmation sent to <span className="font-medium text-zinc-600">{order.customerEmail}</span>
+                  Confirmation sent to <span className="font-medium text-zinc-600">{order.customerEmail}</span>
                 </p>
               )}
             </div>
           ) : null}
+
+          {/* Invoice download — shown once Stripe generates it */}
+          {order && (order.invoiceUrl || order.invoicePdfUrl) && (
+            <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-left">
+              <div className="flex items-center gap-2 mb-2">
+                <FileText size={16} className="text-brand-green" />
+                <p className="text-sm font-semibold text-brand-green">Your Invoice</p>
+              </div>
+              <p className="text-xs text-zinc-500 mb-3">Your official invoice has been generated and also emailed to you.</p>
+              <div className="flex gap-2 flex-wrap">
+                {order.invoiceUrl && (
+                  <a
+                    href={order.invoiceUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 bg-brand-green text-white text-xs font-semibold px-3 py-2 rounded-lg hover:bg-opacity-90 transition-colors"
+                  >
+                    <FileText size={13} />
+                    View Invoice
+                  </a>
+                )}
+                {order.invoicePdfUrl && (
+                  <a
+                    href={order.invoicePdfUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 bg-white border border-brand-green text-brand-green text-xs font-semibold px-3 py-2 rounded-lg hover:bg-green-50 transition-colors"
+                  >
+                    <Download size={13} />
+                    Download PDF
+                  </a>
+                )}
+              </div>
+            </div>
+          )}
 
           <div className="bg-zinc-50 border border-zinc-200 rounded-xl p-4 text-left space-y-2">
             <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">What happens next</p>

@@ -37,20 +37,30 @@ export class WebhookHandlers {
         return;
       }
 
-      // Line items may not be embedded in the event payload — fetch them from Stripe
+      // Fetch line items and invoice URL from Stripe
       let lineItems: Array<{ description: string; amount: number; quantity: number }> = [];
+      let invoiceUrl: string | null = null;
+      let invoicePdfUrl: string | null = null;
+
       try {
         const stripe = await getUncachableStripeClient();
         const expanded = await stripe.checkout.sessions.retrieve(session.id, {
-          expand: ['line_items'],
+          expand: ['line_items', 'invoice'],
         });
         lineItems = (expanded.line_items?.data ?? []).map((li: any) => ({
           description: li.description ?? li.price?.product?.name ?? 'Inspection Service',
           amount: li.amount_total ?? 0,
           quantity: li.quantity ?? 1,
         }));
+
+        // invoice_creation: { enabled: true } causes Stripe to auto-generate an invoice
+        const invoice = (expanded as any).invoice;
+        if (invoice && typeof invoice === 'object') {
+          invoiceUrl = invoice.hosted_invoice_url ?? null;
+          invoicePdfUrl = invoice.invoice_pdf ?? null;
+        }
       } catch (err: any) {
-        console.warn('[Webhook] Could not expand line items — sending email without item breakdown:', err?.message);
+        console.warn('[Webhook] Could not expand session — sending email without full details:', err?.message);
       }
 
       await sendBookingConfirmationEmail({
@@ -59,6 +69,8 @@ export class WebhookHandlers {
         amountTotal: session.amount_total ?? 0,
         currency: session.currency ?? 'aed',
         lineItems,
+        invoiceUrl,
+        invoicePdfUrl,
       });
     }
   }

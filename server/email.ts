@@ -98,10 +98,12 @@ interface BookingConfirmationData {
   amountTotal: number;
   currency: string;
   lineItems: Array<{ description: string; amount: number; quantity: number }>;
+  invoiceUrl?: string | null;
+  invoicePdfUrl?: string | null;
 }
 
 export async function sendBookingConfirmationEmail(data: BookingConfirmationData): Promise<boolean> {
-  const { customerEmail, sessionId, amountTotal, lineItems } = data;
+  const { customerEmail, sessionId, amountTotal, lineItems, invoiceUrl, invoicePdfUrl } = data;
 
   const refNumber = sessionId.replace(/^cs_(test|live)_/, '').slice(0, 12).toUpperCase();
 
@@ -222,6 +224,23 @@ export async function sendBookingConfirmationEmail(data: BookingConfirmationData
                   </td>
                 </tr>
               </table>
+
+              <!-- Invoice download -->
+              ${invoiceUrl || invoicePdfUrl ? `
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 24px;">
+                <tr>
+                  <td style="background-color: #F0FDF4; border: 1px solid #BBF7D0; border-radius: 8px; padding: 16px 20px;">
+                    <p style="margin: 0 0 12px; font-size: 13px; font-weight: bold; color: #064E3B;">&#x1F4CB; Your Invoice</p>
+                    <p style="margin: 0 0 14px; font-size: 13px; color: #374151; line-height: 1.5;">Your official invoice has been generated. You can view or download it using the links below.</p>
+                    <table cellpadding="0" cellspacing="0" border="0">
+                      <tr>
+                        ${invoiceUrl ? `<td style="padding-right: 8px;"><a href="${invoiceUrl}" style="display: inline-block; background-color: #064E3B; color: #ffffff; text-decoration: none; font-size: 13px; font-weight: bold; padding: 10px 20px; border-radius: 6px;">View Invoice</a></td>` : ''}
+                        ${invoicePdfUrl ? `<td><a href="${invoicePdfUrl}" style="display: inline-block; background-color: #ffffff; color: #064E3B; text-decoration: none; font-size: 13px; font-weight: bold; padding: 10px 20px; border-radius: 6px; border: 1px solid #064E3B;">Download PDF</a></td>` : ''}
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>` : ''}
 
               <!-- Contact -->
               <p style="margin: 0 0 8px; font-size: 14px; color: #374151;">Have questions? Contact us:</p>

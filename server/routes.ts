@@ -1195,6 +1195,8 @@ Rules:
         success_url: `${base}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${base}/checkout/cancel`,
         metadata: { source: 'urbangrid-website' },
+        // Ask Stripe to auto-generate a PDF invoice for this payment
+        invoice_creation: { enabled: true },
       });
 
       return res.json({ url: session.url });
@@ -1218,19 +1220,27 @@ Rules:
       const { getUncachableStripeClient } = await import('./stripeClient');
       const stripe = await getUncachableStripeClient();
       const session = await stripe.checkout.sessions.retrieve(session_id, {
-        expand: ['line_items'],
+        expand: ['line_items', 'invoice'],
       });
+      // Extract invoice URLs if Stripe generated one
+      const invoice = (session as any).invoice;
+      const invoiceUrl: string | null =
+        invoice && typeof invoice === 'object' ? (invoice.hosted_invoice_url ?? null) : null;
+      const invoicePdfUrl: string | null =
+        invoice && typeof invoice === 'object' ? (invoice.invoice_pdf ?? null) : null;
       // Return only safe fields — never expose raw session to client
       return res.json({
         status: session.payment_status,
         customerEmail: session.customer_details?.email ?? null,
-        amountTotal: session.amount_total,   // fils
+        amountTotal: session.amount_total,
         currency: session.currency,
         lineItems: (session.line_items?.data ?? []).map((li: any) => ({
           description: li.description,
           amount: li.amount_total,
           quantity: li.quantity,
         })),
+        invoiceUrl,
+        invoicePdfUrl,
       });
     } catch (error: any) {
       console.error('Session fetch error:', error?.message || error);
