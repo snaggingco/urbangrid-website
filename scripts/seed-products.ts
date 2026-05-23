@@ -1,7 +1,10 @@
 /**
- * Seed UrbanGrid inspection services as Stripe products.
- * Run once: npx tsx scripts/seed-products.ts
- * Idempotent — skips products that already exist.
+ * Seed UrbanGrid inspection services as Stripe Products + AED prices.
+ * Run once after connecting your Stripe account:
+ *   npx tsx scripts/seed-products.ts
+ *
+ * Idempotent — skips products/prices that already exist (matched by metadata.serviceKey).
+ * Service keys MUST match CHECKOUT_SERVICES in server/routes.ts exactly.
  */
 
 import path from "path";
@@ -9,67 +12,124 @@ import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// Load stripeClient from server directory
-const { getUncachableStripeClient } = await import(path.join(__dirname, "../server/stripeClient.js")).catch(
-  () => import(path.join(__dirname, "../server/stripeClient.ts"))
-);
+const { getUncachableStripeClient } = await import(
+  path.join(__dirname, "../server/stripeClient.ts")
+).catch(() => import(path.join(__dirname, "../server/stripeClient.js")));
 
+// All 6 bookable services.
+// startingPriceAed = the lowest possible price (smallest property / base tier).
+// Actual checkout sessions use dynamic price_data based on Lena's quote.
 const SERVICES = [
   {
-    name: "New Build Snagging",
-    description: "Comprehensive pre-handover inspection for newly constructed properties in the UAE.",
-    metadata: { serviceKey: "new-build-snagging", category: "property-snagging", pricingType: "tiered-sqft" },
+    serviceKey: "new-build-snagging",
+    name: "New Build Snagging Inspection",
+    description:
+      "Comprehensive pre-handover inspection for newly constructed UAE properties. Identifies defects before you accept the keys from the developer.",
+    startingPriceAed: 840,
   },
   {
+    serviceKey: "post-renovation-inspection",
     name: "Post-Renovation Inspection",
-    description: "Thorough check after home improvements to ensure contractor quality.",
-    metadata: { serviceKey: "post-renovation-inspection", category: "property-snagging", pricingType: "tiered-sqft" },
+    description:
+      "Thorough check after home improvements or contractor work. Ensures quality was delivered before final payment.",
+    startingPriceAed: 840,
   },
   {
-    name: "DLP Snagging",
-    description: "Defects Liability Period inspection — conducted before the developer's 1-year warranty expires.",
-    metadata: { serviceKey: "dlp-snagging", category: "property-snagging", pricingType: "desnagging" },
-  },
-  {
-    name: "Move-In Move-Out Inspection",
-    description: "Condition report for tenants and landlords to protect security deposits.",
-    metadata: { serviceKey: "move-in-move-out", category: "property-snagging", pricingType: "flat-sqft" },
-  },
-  {
+    serviceKey: "secondary-market-inspection",
     name: "Secondary Market Inspection",
-    description: "Pre-purchase inspection for resale properties to identify hidden defects.",
-    metadata: { serviceKey: "secondary-market", category: "property-snagging", pricingType: "tiered-sqft" },
+    description:
+      "Pre-purchase inspection for resale properties. Identifies hidden defects and gives you negotiating power.",
+    startingPriceAed: 840,
   },
-];
+  {
+    serviceKey: "de-snagging",
+    name: "De-Snagging Verification Audit",
+    description:
+      "Confirms that defects identified in the original snagging report have been properly rectified by the developer.",
+    startingPriceAed: 420,
+  },
+  {
+    serviceKey: "dlp-inspection",
+    name: "DLP 11th Month Inspection",
+    description:
+      "Defects Liability Period inspection — conducted before the developer's 1-year warranty expires.",
+    startingPriceAed: 420,
+  },
+  {
+    serviceKey: "move-in-move-out",
+    name: "Move-In / Move-Out Inspection",
+    description:
+      "Condition report for tenants and landlords. Protects security deposits with a documented property state.",
+    startingPriceAed: 840,
+  },
+] as const;
 
 async function seedProducts() {
   const stripe = await getUncachableStripeClient();
-  console.log("Seeding UrbanGrid inspection services to Stripe...\n");
+  console.log("Seeding UrbanGrid inspection services to Stripe…\n");
 
-  for (const service of SERVICES) {
+  for (const svc of SERVICES) {
+    // Check if a product with this serviceKey already exists
     const existing = await stripe.products.search({
-      query: `name:'${service.name}' AND active:'true'`,
+      query: `metadata['serviceKey']:'${svc.serviceKey}'`,
     });
+
+    let productId: string;
 
     if (existing.data.length > 0) {
-      console.log(`SKIP  ${service.name} — already exists (${existing.data[0].id})`);
-      continue;
+      productId = existing.data[0].id;
+      console.log(`SKIP  product: ${svc.name} (${productId})`);
+    } else {
+      const product = await stripe.products.create({
+        name: svc.name,
+        description: svc.description,
+        metadata: {
+          serviceKey: svc.serviceKey,
+          category: "property-inspection",
+          pricingType: "dynamic-sqft",
+          market: "UAE",
+        },
+      });
+      productId = product.id;
+      console.log(`CREATE product: ${svc.name} → ${productId}`);
     }
 
-    const product = await stripe.products.create({
-      name: service.name,
-      description: service.description,
-      metadata: service.metadata,
-    });
+    // Check if a starting-price in AED already exists for this product
+    const prices = await stripe.prices.list({ product: productId, active: true });
+    const aedPrice = prices.data.find(
+      (p) => p.currency === "aed" && p.metadata?.priceType === "starting"
+    );
 
-    console.log(`CREATED  ${product.name} — ${product.id}`);
+    if (aedPrice) {
+      console.log(
+        `SKIP  price:   AED ${svc.startingPriceAed} starting price (${aedPrice.id})`
+      );
+    } else {
+      const price = await stripe.prices.create({
+        product: productId,
+        currency: "aed",
+        unit_amount: svc.startingPriceAed * 100, // fils (1 AED = 100 fils)
+        metadata: {
+          serviceKey: svc.serviceKey,
+          priceType: "starting",
+          note: "Starting price only. Actual charge is calculated per sq.ft by Lena AI and verified server-side via HMAC.",
+        },
+      });
+      console.log(
+        `CREATE price:   AED ${svc.startingPriceAed} starting → ${price.id}`
+      );
+    }
+
+    console.log();
   }
 
-  console.log("\nDone. Products are now visible in your Stripe dashboard.");
-  console.log("Prices are created dynamically at checkout based on property size.");
+  console.log("Done. All 6 bookable services are now in your Stripe dashboard.");
+  console.log(
+    "Actual checkout sessions charge the Lena-quoted amount (verified by HMAC)."
+  );
 }
 
 seedProducts().catch((err) => {
-  console.error("Error seeding products:", err.message);
+  console.error("Seed failed:", err.message);
   process.exit(1);
 });
