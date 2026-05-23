@@ -9,6 +9,10 @@ import { WebhookHandlers } from "./webhookHandlers";
 
 const app = express();
 
+// Trust the first proxy hop so req.protocol correctly reflects HTTPS behind Replit/nginx.
+// This is required for Stripe checkout return URLs to use https://.
+app.set('trust proxy', 1);
+
 // Health check endpoint — must be before all other middleware
 app.get("/health", (_req, res) => {
   res.status(200).send("OK");

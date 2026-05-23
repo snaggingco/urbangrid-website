@@ -16,7 +16,12 @@ import { homepageSchema, locationSchema, serviceSchema } from "./schema";
 // Prevents client-side price tampering: every quoted price is signed by the
 // server before being embedded in the SHOW_CART_ACTION marker.
 // The checkout endpoint MUST verify this signature before creating the Stripe session.
-const QUOTE_SECRET = process.env.SESSION_SECRET || 'urbangrid-quote-secret-changeme';
+// Fail fast if the signing secret is absent — do NOT fall back to a known default.
+// This prevents quote tokens from being forgeable in misconfigured environments.
+if (!process.env.SESSION_SECRET) {
+  throw new Error('SESSION_SECRET environment variable is required for quote signing. Set it before starting the server.');
+}
+const QUOTE_SECRET: string = process.env.SESSION_SECRET;
 
 function signQuote(serviceKey: string, amountAed: number): string {
   const payload = `${serviceKey}:${amountAed}`;
@@ -1142,8 +1147,15 @@ Rules:
       const { getUncachableStripeClient } = await import('./stripeClient');
       const stripe = await getUncachableStripeClient();
 
-      // URLs are always server-controlled — never accept from client
-      const base = `${req.protocol}://${req.get('host')}`;
+      // Build a reliable HTTPS base URL.
+      // In Replit deployments REPLIT_DOMAINS contains the canonical hostname.
+      // In other proxied environments we honour X-Forwarded-Proto via trust proxy.
+      // Never use req.protocol alone — it may return 'http' behind a proxy.
+      const replitDomain = process.env.REPLIT_DOMAINS?.split(',')[0]?.trim();
+      const base = replitDomain
+        ? `https://${replitDomain}`
+        : `${req.protocol === 'http' && req.get('x-forwarded-proto') === 'https' ? 'https' : req.protocol}://${req.get('host')}`;
+
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: lineItems,
