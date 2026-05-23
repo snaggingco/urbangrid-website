@@ -1,16 +1,25 @@
 import { useState, useRef, useEffect } from "react";
-import { X, Send, Minimize2, CheckCircle, Loader2, CalendarDays, Phone, MessageCircle } from "lucide-react";
+import { X, Send, Minimize2, CheckCircle, Loader2, CalendarDays, Phone, MessageCircle, ShoppingCart } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
+import { useCart } from "@/lib/cartStore";
+
+interface CartAction {
+  serviceKey: string;
+  name: string;
+  unitAmount: number;
+}
 
 interface Message {
   role: "user" | "assistant";
   content: string;
   formType?: "booking" | "fitout";
   formSubmitted?: boolean;
+  cartAction?: CartAction;
+  cartAdded?: boolean;
 }
 
 const WELCOME_MESSAGE: Message = {
@@ -31,13 +40,30 @@ const PROPERTY_TYPES = [
   "Office", "Retail", "Warehouse", "Other",
 ];
 
-function parseMessage(content: string): { text: string; formType?: "booking" | "fitout" } {
-  const match = content.match(/\[SHOW_FORM:(booking|fitout)\]/i);
-  if (match) {
-    const text = content.replace(/\[SHOW_FORM:(booking|fitout)\]/gi, "").trim();
-    return { text, formType: match[1].toLowerCase() as "booking" | "fitout" };
+function parseMessage(content: string): { text: string; formType?: "booking" | "fitout"; cartAction?: CartAction } {
+  let text = content;
+  let formType: "booking" | "fitout" | undefined;
+  let cartAction: CartAction | undefined;
+
+  // Extract [SHOW_FORM:...]
+  const formMatch = text.match(/\[SHOW_FORM:(booking|fitout)\]/i);
+  if (formMatch) {
+    formType = formMatch[1].toLowerCase() as "booking" | "fitout";
+    text = text.replace(/\[SHOW_FORM:(booking|fitout)\]/gi, "").trim();
   }
-  return { text: content };
+
+  // Extract [SHOW_CART_ACTION:serviceKey:Display Name:amount]
+  const cartMatch = text.match(/\[SHOW_CART_ACTION:([^:]+):([^:]+):(\d+)\]/i);
+  if (cartMatch) {
+    cartAction = {
+      serviceKey: cartMatch[1].trim(),
+      name: cartMatch[2].trim(),
+      unitAmount: parseInt(cartMatch[3], 10),
+    };
+    text = text.replace(/\[SHOW_CART_ACTION:[^\]]+\]/gi, "").trim();
+  }
+
+  return { text, formType, cartAction };
 }
 
 /* Lightweight markdown-to-JSX: converts **bold** into <strong> elements.
@@ -354,6 +380,7 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
   const inputRef = useRef<HTMLInputElement>(null);
   const sentInitialRef = useRef(false);
   const inactivityTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { addItem, openCart } = useCart();
 
   // Clear inactivity timer helper
   function clearInactivity() {
@@ -450,10 +477,10 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
         }
       }
 
-      const { formType } = parseMessage(rawContent);
+      const { formType, cartAction } = parseMessage(rawContent);
       setMessages((prev) => {
         const updated = [...prev];
-        updated[updated.length - 1] = { role: "assistant", content: rawContent, formType };
+        updated[updated.length - 1] = { role: "assistant", content: rawContent, formType, cartAction };
         return updated;
       });
 
@@ -613,6 +640,33 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
                         <BookingForm onSubmit={(summary) => handleFormSubmit(i, summary)} />
                       ) : (
                         <FitoutForm onSubmit={(summary) => handleFormSubmit(i, summary)} />
+                      )
+                    )}
+
+                    {isAssistant && msg.cartAction && (
+                      msg.cartAdded ? (
+                        <div className="mt-2 flex items-center gap-1.5 text-xs text-brand-green font-medium px-1">
+                          <CheckCircle size={13} />
+                          Added to cart — AED {msg.cartAction.unitAmount.toLocaleString()}
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => {
+                            addItem({
+                              serviceKey: msg.cartAction!.serviceKey,
+                              name: msg.cartAction!.name,
+                              unitAmount: msg.cartAction!.unitAmount,
+                            });
+                            setMessages((prev) =>
+                              prev.map((m, idx) => idx === i ? { ...m, cartAdded: true } : m)
+                            );
+                            openCart();
+                          }}
+                          className="mt-2 flex items-center gap-1.5 w-full bg-brand-green text-white text-xs font-semibold px-3.5 py-2.5 rounded-xl hover:bg-opacity-90 transition-colors justify-center"
+                        >
+                          <ShoppingCart size={13} />
+                          Add to Cart — AED {msg.cartAction.unitAmount.toLocaleString()} incl. VAT
+                        </button>
                       )
                     )}
                   </div>

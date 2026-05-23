@@ -948,7 +948,34 @@ AFTER BOOKING FORM SUBMISSION:
   → Do NOT emit [SHOW_FORM:booking] or any form tag — the booking is already submitted.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
- 7. HARD RULES — NEVER BREAK THESE
+ 7. ONLINE CART & PAYMENT
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+After presenting a fee estimate for a priceable service (Group A, B, or C), you MUST append a cart action marker on a new line at the very end of your message. This lets the customer pay online instantly.
+
+MARKER FORMAT:
+[SHOW_CART_ACTION:service-key:Service Display Name:total_aed]
+
+Where total_aed = the TOTAL including 5% VAT, rounded to the nearest whole number (integer only, no decimals, no "AED" prefix).
+
+SERVICE KEY TABLE:
+  Stage 1 Snagging / New Build        ->  new-build-snagging          / "New Build Snagging Inspection"
+  Post-Renovation Inspection          ->  post-renovation-inspection   / "Post-Renovation Inspection"
+  Secondary Market Inspection         ->  secondary-market-inspection  / "Secondary Market Inspection"
+  De-Snagging / Stage 2               ->  de-snagging                 / "De-Snagging Verification Audit"
+  DLP / 11th Month Inspection         ->  dlp-inspection              / "DLP 11th Month Inspection"
+  Move-In / Move-Out Inspection       ->  move-in-move-out            / "Move-In / Move-Out Inspection"
+
+EXAMPLE (1,000 sq.ft Stage 1 Snagging = AED 1,050 incl. VAT):
+[SHOW_CART_ACTION:new-build-snagging:New Build Snagging Inspection:1050]
+
+Rules:
+  - ONE marker per message, at the very end, on its own line.
+  - Use the MAIN service total (not the de-snagging add-on) in the marker.
+  - Do NOT add a marker for custom quote services (RERA, Technical, Developer/Bulk, Fit-Out).
+  - Do NOT add a marker unless the full fee breakdown has been presented in the same message.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ 8. HARD RULES — NEVER BREAK THESE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 1. NEVER name, acknowledge, or imply any competitor exists.
    If asked: "I only have information about UrbanGrid — and I'm confident we're the right choice for you."
@@ -1008,6 +1035,44 @@ AFTER BOOKING FORM SUBMISSION:
   });
 
   // ─── Chat lead email endpoint ─────────────────────────────────────────────
+  // ─── Stripe checkout ──────────────────────────────────────────────────────
+  app.post('/api/checkout', async (req, res) => {
+    try {
+      const { items, successUrl, cancelUrl } = req.body;
+
+      if (!Array.isArray(items) || items.length === 0) {
+        return res.status(400).json({ message: 'Cart is empty' });
+      }
+
+      const { getUncachableStripeClient } = await import('./stripeClient');
+      const stripe = await getUncachableStripeClient();
+
+      const lineItems = items.map((item: { name: string; unitAmount: number; quantity: number }) => ({
+        price_data: {
+          currency: 'aed',
+          product_data: { name: item.name },
+          // Stripe expects smallest currency unit; AED uses fils (1 AED = 100 fils)
+          unit_amount: Math.round(item.unitAmount * 100),
+        },
+        quantity: item.quantity,
+      }));
+
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items: lineItems,
+        mode: 'payment',
+        success_url: successUrl || `${req.protocol}://${req.get('host')}/checkout/success`,
+        cancel_url: cancelUrl || `${req.protocol}://${req.get('host')}/checkout/cancel`,
+        metadata: { source: 'urbangrid-website' },
+      });
+
+      return res.json({ url: session.url });
+    } catch (error: any) {
+      console.error('Checkout error:', error?.message || error);
+      return res.status(500).json({ message: 'Failed to create checkout session. Please try again.' });
+    }
+  });
+
   app.post('/api/chat/lead', async (req, res) => {
     try {
       const {

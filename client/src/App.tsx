@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth } from "@/hooks/useAuth";
 import { useEffect, lazy, Suspense } from "react";
+import { CartProvider } from "@/lib/cartStore";
 
 // Eagerly loaded (shell always needed)
 import Header from "@/components/Header";
@@ -12,6 +13,7 @@ import Footer from "@/components/Footer";
 import FloatingButtons from "@/components/FloatingButtons";
 import SEO from "@/components/SEO";
 import Home from "@/pages/Home";
+import CartDrawer from "@/components/CartDrawer";
 
 // Lazy-loaded pages — each becomes its own chunk, reducing initial bundle by ~60%
 const About = lazy(() => import("@/pages/About"));
@@ -25,6 +27,8 @@ const BrokerReferrals = lazy(() => import("@/pages/BrokerReferrals"));
 const Login = lazy(() => import("@/pages/Login"));
 const PrivacyPolicy = lazy(() => import("@/pages/PrivacyPolicy"));
 const TermsOfService = lazy(() => import("@/pages/TermsOfService"));
+const CheckoutSuccess = lazy(() => import("@/pages/CheckoutSuccess"));
+const CheckoutCancel = lazy(() => import("@/pages/CheckoutCancel"));
 const NotFound = lazy(() => import("@/pages/not-found"));
 
 // Lazy-loaded location pages
@@ -71,6 +75,7 @@ function Router() {
     <div className="min-h-screen bg-white">
       <SEO />
       <Header isAdmin={isAdmin} />
+      <CartDrawer />
       <main id="main-content">
         <Suspense fallback={<PageLoader />}>
           <Switch>
@@ -97,6 +102,9 @@ function Router() {
             <Route path="/privacy-policy" component={PrivacyPolicy} />
             <Route path="/terms-of-service" component={TermsOfService} />
 
+            <Route path="/checkout/success" component={CheckoutSuccess} />
+            <Route path="/checkout/cancel" component={CheckoutCancel} />
+
             {isAdmin && (
               <>
                 <Route path="/admin" component={Dashboard} />
@@ -119,8 +127,10 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <Toaster />
-        <Router />
+        <CartProvider>
+          <Toaster />
+          <Router />
+        </CartProvider>
       </TooltipProvider>
     </QueryClientProvider>
   );

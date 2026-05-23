@@ -5,14 +5,35 @@ import { setupVite, serveStatic, log } from "./vite";
 import { db } from "./db";
 import { visitorLogs } from "@shared/schema";
 import { startVisitorReportScheduler } from "./visitorReport";
+import { WebhookHandlers } from "./webhookHandlers";
 
 const app = express();
 
 // Health check endpoint — must be before all other middleware
-// Cloud Run (and Replit autoscale) probe this path over plain HTTP
 app.get("/health", (_req, res) => {
   res.status(200).send("OK");
 });
+
+// ── Stripe webhook — MUST be registered BEFORE express.json() ─────────────────
+// Stripe requires the raw Buffer body to verify the signature.
+app.post(
+  "/api/stripe/webhook",
+  express.raw({ type: "application/json" }),
+  async (req, res) => {
+    const signature = req.headers["stripe-signature"];
+    if (!signature) {
+      return res.status(400).json({ error: "Missing stripe-signature header" });
+    }
+    try {
+      const sig = Array.isArray(signature) ? signature[0] : signature;
+      await WebhookHandlers.processWebhook(req.body as Buffer, sig);
+      res.status(200).json({ received: true });
+    } catch (error: any) {
+      console.error("Stripe webhook error:", error.message);
+      res.status(400).json({ error: "Webhook processing failed" });
+    }
+  }
+);
 
 // gzip / brotli compression for all responses
 app.use(compression());
@@ -26,10 +47,8 @@ app.use((_req, res, next) => {
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.setHeader(
     'Permissions-Policy',
-    'camera=(), microphone=(), geolocation=(), payment=(), usb=()'
+    'camera=(), microphone=(), geolocation=(), usb=()'
   );
-  // Content-Security-Policy — allows our analytics, GTM, Google Ads,
-  // Unsplash images, and the Replit dev banner. Tightened from 'unsafe-eval'.
   res.setHeader(
     'Content-Security-Policy',
     [
@@ -42,7 +61,7 @@ app.use((_req, res, next) => {
       "frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://www.google.com",
       "object-src 'none'",
       "base-uri 'self'",
-      "form-action 'self'",
+      "form-action 'self' https://checkout.stripe.com",
       "frame-ancestors 'none'",
       "upgrade-insecure-requests",
     ].join('; ')
@@ -54,14 +73,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use((req, res, next) => {
-  // Skip all logging/tracking for health check probes
   if (req.path === "/health") return next();
 
   const start = Date.now();
   const path = req.path;
   let capturedJsonResponse: Record<string, any> | undefined = undefined;
 
-  // Get visitor IP address
   const getClientIP = (req: any) => {
     return req.headers['x-forwarded-for']?.split(',')[0]?.trim() ||
            req.headers['x-real-ip'] ||
@@ -81,23 +98,17 @@ app.use((req, res, next) => {
 
   res.on("finish", () => {
     const duration = Date.now() - start;
-    
-    // Log all requests with IP addresses
     let logLine = `${clientIP} - ${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-    
     if (path.startsWith("/api")) {
       if (capturedJsonResponse) {
         logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
       }
     }
-
     if (logLine.length > 120) {
       logLine = logLine.slice(0, 119) + "…";
     }
-
     log(logLine);
 
-    // Store visitor data in database (background operation)
     if (res.statusCode < 400) {
       db.insert(visitorLogs).values({
         ipAddress: clientIP,
@@ -116,30 +127,45 @@ app.use((req, res, next) => {
   next();
 });
 
+// ── Stripe initialisation (non-blocking on startup) ────────────────────────────
+async function initStripe() {
+  try {
+    const { runMigrations } = await import('stripe-replit-sync');
+    const { getStripeSync } = await import('./stripeClient');
+    const databaseUrl = process.env.DATABASE_URL;
+    if (!databaseUrl) throw new Error('DATABASE_URL required');
+
+    await runMigrations({ databaseUrl, schema: 'stripe' });
+    const stripeSync = await getStripeSync();
+    const webhookBase = `https://${process.env.REPLIT_DOMAINS?.split(',')[0]}`;
+    await stripeSync.findOrCreateManagedWebhook(`${webhookBase}/api/stripe/webhook`);
+    stripeSync.syncBackfill().catch((e: any) => console.error('Stripe backfill error:', e));
+    log('Stripe initialised');
+  } catch (e: any) {
+    // Non-fatal — app works without Stripe if not yet connected
+    log(`Stripe init skipped: ${e.message}`);
+  }
+}
+
 (async () => {
+  // Init Stripe in background — don't block server startup
+  initStripe();
+
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
-
     res.status(status).json({ message });
     throw err;
   });
 
-  // importantly only setup vite in development and after
-  // setting up all the other routes so the catch-all route
-  // doesn't interfere with the other routes
   if (app.get("env") === "development") {
     await setupVite(app, server);
   } else {
     serveStatic(app);
   }
 
-  // ALWAYS serve the app on the port specified in the environment variable PORT
-  // Other ports are firewalled. Default to 5000 if not specified.
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
   const port = parseInt(process.env.PORT || '5000', 10);
   server.listen({
     port,
@@ -147,8 +173,6 @@ app.use((req, res, next) => {
     reusePort: true,
   }, () => {
     log(`serving on port ${port}`);
-    
-    // Start the daily visitor report scheduler
     startVisitorReportScheduler();
   });
 })();
