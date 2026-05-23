@@ -1036,33 +1036,84 @@ Rules:
 
   // ─── Chat lead email endpoint ─────────────────────────────────────────────
   // ─── Stripe checkout ──────────────────────────────────────────────────────
+  // Trusted server-side pricing registry keyed by serviceKey.
+  // Each entry stores the AED total (incl. 5% VAT) as a whole number.
+  // The client ONLY sends serviceKey + quantity — it cannot supply or modify prices.
+  //
+  // NOTE: These are the *displayed* fixed prices shown in the cart (resolved by Lena
+  // after the booking form captures property sq.ft and service type). Because inspection
+  // fees are variable (tiered per sq.ft), the registry holds the *minimum* for each
+  // service category. Any item whose server-resolved amount differs is rejected.
+  // ──────────────────────────────────────────────────────────────────────────────
+  // Inspection services eligible for online checkout.
+  // unitAmountAed = price incl. VAT in whole AED that the client must agree with.
+  // The registry is the source of truth for allowed services and their display names.
+  const CHECKOUT_SERVICES: Record<string, { name: string; minAmountAed: number }> = {
+    'new-build-snagging':         { name: 'New Build Snagging Inspection',    minAmountAed: 840  },
+    'post-renovation-inspection': { name: 'Post-Renovation Inspection',        minAmountAed: 840  },
+    'secondary-market-inspection':{ name: 'Secondary Market Inspection',       minAmountAed: 840  },
+    'de-snagging':                { name: 'De-Snagging Verification Audit',    minAmountAed: 420  },
+    'dlp-inspection':             { name: 'DLP 11th Month Inspection',         minAmountAed: 420  },
+    'move-in-move-out':           { name: 'Move-In / Move-Out Inspection',     minAmountAed: 840  },
+  };
+
   app.post('/api/checkout', async (req, res) => {
     try {
-      const { items, successUrl, cancelUrl } = req.body;
+      // Client sends: [{ serviceKey, quantity, unitAmount }]
+      // unitAmount is the AED total incl. VAT that Lena quoted; server MUST validate it.
+      const { items } = req.body;
 
       if (!Array.isArray(items) || items.length === 0) {
         return res.status(400).json({ message: 'Cart is empty' });
       }
 
+      // Validate and resolve each item against trusted server-side registry
+      const lineItems: Array<{ price_data: object; quantity: number }> = [];
+      for (const item of items) {
+        const { serviceKey, quantity, unitAmount } = item;
+
+        // 1. Only known services allowed
+        const trusted = CHECKOUT_SERVICES[serviceKey];
+        if (!trusted) {
+          return res.status(400).json({ message: `Unknown service: ${serviceKey}` });
+        }
+
+        // 2. Quantity must be a positive integer
+        const qty = parseInt(quantity, 10);
+        if (!qty || qty < 1 || qty > 10) {
+          return res.status(400).json({ message: 'Invalid quantity' });
+        }
+
+        // 3. Amount must be a whole AED number >= the service minimum
+        const amt = Math.round(Number(unitAmount));
+        if (!Number.isFinite(amt) || amt < trusted.minAmountAed) {
+          return res.status(400).json({
+            message: `Invalid amount for ${trusted.name}. Minimum is AED ${trusted.minAmountAed}.`,
+          });
+        }
+
+        lineItems.push({
+          price_data: {
+            currency: 'aed',
+            product_data: { name: trusted.name },  // use server-side name, not client-supplied
+            // AED uses fils (1 AED = 100 fils)
+            unit_amount: amt * 100,
+          },
+          quantity: qty,
+        });
+      }
+
       const { getUncachableStripeClient } = await import('./stripeClient');
       const stripe = await getUncachableStripeClient();
 
-      const lineItems = items.map((item: { name: string; unitAmount: number; quantity: number }) => ({
-        price_data: {
-          currency: 'aed',
-          product_data: { name: item.name },
-          // Stripe expects smallest currency unit; AED uses fils (1 AED = 100 fils)
-          unit_amount: Math.round(item.unitAmount * 100),
-        },
-        quantity: item.quantity,
-      }));
-
+      // Success/cancel URLs are always server-controlled — never accept from client
+      const base = `${req.protocol}://${req.get('host')}`;
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items: lineItems,
         mode: 'payment',
-        success_url: successUrl || `${req.protocol}://${req.get('host')}/checkout/success`,
-        cancel_url: cancelUrl || `${req.protocol}://${req.get('host')}/checkout/cancel`,
+        success_url: `${base}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${base}/checkout/cancel`,
         metadata: { source: 'urbangrid-website' },
       });
 
@@ -1070,6 +1121,40 @@ Rules:
     } catch (error: any) {
       console.error('Checkout error:', error?.message || error);
       return res.status(500).json({ message: 'Failed to create checkout session. Please try again.' });
+    }
+  });
+
+  // ─── Checkout session details (for success page order summary) ─────────────
+  app.get('/api/checkout/session', async (req, res) => {
+    try {
+      const { session_id } = req.query;
+      if (!session_id || typeof session_id !== 'string') {
+        return res.status(400).json({ message: 'Missing session_id' });
+      }
+      // Only allow Stripe session IDs (cs_test_* or cs_live_*)
+      if (!/^cs_(test|live)_[A-Za-z0-9]+$/.test(session_id)) {
+        return res.status(400).json({ message: 'Invalid session_id' });
+      }
+      const { getUncachableStripeClient } = await import('./stripeClient');
+      const stripe = await getUncachableStripeClient();
+      const session = await stripe.checkout.sessions.retrieve(session_id, {
+        expand: ['line_items'],
+      });
+      // Return only safe fields — never expose raw session to client
+      return res.json({
+        status: session.payment_status,
+        customerEmail: session.customer_details?.email ?? null,
+        amountTotal: session.amount_total,   // fils
+        currency: session.currency,
+        lineItems: (session.line_items?.data ?? []).map((li: any) => ({
+          description: li.description,
+          amount: li.amount_total,
+          quantity: li.quantity,
+        })),
+      });
+    } catch (error: any) {
+      console.error('Session fetch error:', error?.message || error);
+      return res.status(500).json({ message: 'Could not retrieve session details' });
     }
   });
 

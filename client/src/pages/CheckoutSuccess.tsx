@@ -1,15 +1,48 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useSearch } from "wouter";
 import { Link } from "wouter";
-import { CheckCircle, Phone, MessageCircle, ArrowRight } from "lucide-react";
+import { CheckCircle, Phone, MessageCircle, ArrowRight, Loader2 } from "lucide-react";
 import { useCart } from "@/lib/cartStore";
 import SEO from "@/components/SEO";
 
+interface OrderLine {
+  description: string;
+  amount: number;
+  quantity: number;
+}
+
+interface OrderSummary {
+  status: string;
+  customerEmail: string | null;
+  amountTotal: number;
+  currency: string;
+  lineItems: OrderLine[];
+}
+
 export default function CheckoutSuccess() {
   const { clearCart } = useCart();
+  const search = useSearch();
+  const params = new URLSearchParams(search);
+  const sessionId = params.get("session_id");
+
+  const [order, setOrder] = useState<OrderSummary | null>(null);
+  const [loadingOrder, setLoadingOrder] = useState(false);
 
   useEffect(() => {
     clearCart();
   }, []);
+
+  useEffect(() => {
+    if (!sessionId) return;
+    setLoadingOrder(true);
+    fetch(`/api/checkout/session?session_id=${encodeURIComponent(sessionId)}`)
+      .then((r) => r.json())
+      .then((data) => {
+        if (data.status) setOrder(data);
+      })
+      .catch(() => {})
+      .finally(() => setLoadingOrder(false));
+  }, [sessionId]);
 
   return (
     <>
@@ -28,9 +61,35 @@ export default function CheckoutSuccess() {
           <div className="space-y-2">
             <h1 className="text-2xl font-bold text-zinc-900">Booking Confirmed!</h1>
             <p className="text-zinc-500 text-sm leading-relaxed">
-              Thank you for your payment. Your inspection has been booked and our team will contact you within 24 hours to confirm the appointment date and time.
+              Thank you for your payment. Our team will contact you within 24 hours to confirm your inspection appointment.
             </p>
           </div>
+
+          {/* Order summary from Stripe */}
+          {loadingOrder ? (
+            <div className="flex items-center justify-center gap-2 text-zinc-400 text-sm py-4">
+              <Loader2 size={15} className="animate-spin" /> Loading order details…
+            </div>
+          ) : order ? (
+            <div className="bg-zinc-50 border border-zinc-200 rounded-xl p-4 text-left space-y-3">
+              <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">Order summary</p>
+              {order.lineItems.map((li, i) => (
+                <div key={i} className="flex items-center justify-between text-sm">
+                  <span className="text-zinc-700">{li.description} × {li.quantity}</span>
+                  <span className="font-semibold text-zinc-900">
+                    AED {(li.amount / 100).toLocaleString()}
+                  </span>
+                </div>
+              ))}
+              <div className="border-t border-zinc-200 pt-2 flex items-center justify-between text-sm font-bold">
+                <span>Total paid</span>
+                <span className="text-brand-green">AED {(order.amountTotal / 100).toLocaleString()}</span>
+              </div>
+              {order.customerEmail && (
+                <p className="text-xs text-zinc-400">Receipt sent to {order.customerEmail}</p>
+              )}
+            </div>
+          ) : null}
 
           <div className="bg-zinc-50 border border-zinc-200 rounded-xl p-4 text-left space-y-2">
             <p className="text-xs font-semibold uppercase tracking-wider text-zinc-500">What happens next</p>

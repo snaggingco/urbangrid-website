@@ -15,13 +15,12 @@ export default function CartDrawer() {
     setError(null);
     try {
       const res = await apiRequest("POST", "/api/checkout", {
+        // Server validates serviceKey and unitAmount — no pricing can be tampered
         items: items.map((i) => ({
-          name: i.name,
-          unitAmount: i.unitAmount,
+          serviceKey: i.serviceKey,
           quantity: i.quantity,
+          unitAmount: i.unitAmount,
         })),
-        successUrl: `${window.location.origin}/checkout/success`,
-        cancelUrl: `${window.location.origin}/checkout/cancel`,
       });
       const data = await res.json();
       if (data.url) {
