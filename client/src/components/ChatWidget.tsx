@@ -19,8 +19,8 @@ interface Message {
   content: string;
   formType?: "booking" | "fitout";
   formSubmitted?: boolean;
-  cartAction?: CartAction;
-  cartAdded?: boolean;
+  cartActions?: CartAction[];   // all selectable cart items in this message
+  addedKeys?: string[];         // serviceKeys the user has already added
 }
 
 const WELCOME_MESSAGE: Message = {
@@ -41,10 +41,10 @@ const PROPERTY_TYPES = [
   "Office", "Retail", "Warehouse", "Other",
 ];
 
-function parseMessage(content: string): { text: string; formType?: "booking" | "fitout"; cartAction?: CartAction } {
+function parseMessage(content: string): { text: string; formType?: "booking" | "fitout"; cartActions: CartAction[] } {
   let text = content;
   let formType: "booking" | "fitout" | undefined;
-  let cartAction: CartAction | undefined;
+  const cartActions: CartAction[] = [];
 
   // Extract [SHOW_FORM:...]
   const formMatch = text.match(/\[SHOW_FORM:(booking|fitout)\]/i);
@@ -53,18 +53,19 @@ function parseMessage(content: string): { text: string; formType?: "booking" | "
     text = text.replace(/\[SHOW_FORM:(booking|fitout)\]/gi, "").trim();
   }
 
-  // Extract [SHOW_CART_ACTION:serviceKey:Display Name:amount]
-  const cartMatch = text.match(/\[SHOW_CART_ACTION:([^:]+):([^:]+):(\d+)\]/i);
-  if (cartMatch) {
-    cartAction = {
-      serviceKey: cartMatch[1].trim(),
-      name: cartMatch[2].trim(),
-      unitAmount: parseInt(cartMatch[3], 10),
-    };
-    text = text.replace(/\[SHOW_CART_ACTION:[^\]]+\]/gi, "").trim();
+  // Extract ALL [SHOW_CART_ACTION:serviceKey:Display Name:amount] markers
+  const cartRegex = /\[SHOW_CART_ACTION:([^:]+):([^:]+):(\d+)\]/gi;
+  let m;
+  while ((m = cartRegex.exec(text)) !== null) {
+    cartActions.push({
+      serviceKey: m[1].trim(),
+      name: m[2].trim(),
+      unitAmount: parseInt(m[3], 10),
+    });
   }
+  text = text.replace(/\[SHOW_CART_ACTION:[^\]]+\]/gi, "").trim();
 
-  return { text, formType, cartAction };
+  return { text, formType, cartActions };
 }
 
 /* Lightweight markdown-to-JSX: converts **bold** into <strong> elements.
@@ -456,14 +457,20 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
       const reader = res.body?.getReader();
       const decoder = new TextDecoder();
       let rawContent = "";
-      let pendingQuoteToken: { serviceKey: string; amountAed: number; quoteToken: string } | null = null;
+      let sseBuffer = "";
+      // Map of serviceKey → { amountAed, quoteToken } for all signed quotes in this message
+      const pendingTokens = new Map<string, { amountAed: number; quoteToken: string }>();
       setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
 
       while (reader) {
         const { done, value } = await reader.read();
         if (done) break;
-        const chunk = decoder.decode(value, { stream: true });
-        for (const line of chunk.split("\n")) {
+        // Buffer across chunk boundaries to avoid split-line JSON parse failures
+        sseBuffer += decoder.decode(value, { stream: true });
+        const lines = sseBuffer.split("\n");
+        // Keep last (potentially incomplete) line in the buffer
+        sseBuffer = lines.pop() ?? "";
+        for (const line of lines) {
           if (!line.startsWith("data: ")) continue;
           try {
             const data = JSON.parse(line.slice(6));
@@ -475,29 +482,36 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
                 return updated;
               });
             }
-            // Server sends a signed quote token after the stream when a price is quoted
+            // Server sends one signed token event per SHOW_CART_ACTION marker
             if (data.quoteToken && data.serviceKey && data.amountAed) {
-              pendingQuoteToken = {
-                serviceKey: data.serviceKey,
+              pendingTokens.set(data.serviceKey, {
                 amountAed: data.amountAed,
                 quoteToken: data.quoteToken,
-              };
+              });
             }
           } catch {}
         }
       }
 
-      const { formType, cartAction } = parseMessage(rawContent);
-      // Attach the server-signed token to the cart action so checkout can verify it
-      const signedCartAction = cartAction && pendingQuoteToken &&
-        pendingQuoteToken.serviceKey === cartAction.serviceKey &&
-        pendingQuoteToken.amountAed === cartAction.unitAmount
-          ? { ...cartAction, quoteToken: pendingQuoteToken.quoteToken }
-          : cartAction;
+      const { formType, cartActions } = parseMessage(rawContent);
+      // Attach server-signed tokens to each cart action
+      const signedCartActions = cartActions.map((action) => {
+        const tok = pendingTokens.get(action.serviceKey);
+        if (tok && tok.amountAed === action.unitAmount) {
+          return { ...action, quoteToken: tok.quoteToken };
+        }
+        return action;
+      });
 
       setMessages((prev) => {
         const updated = [...prev];
-        updated[updated.length - 1] = { role: "assistant", content: rawContent, formType, cartAction: signedCartAction };
+        updated[updated.length - 1] = {
+          role: "assistant",
+          content: rawContent,
+          formType,
+          cartActions: signedCartActions.length > 0 ? signedCartActions : undefined,
+          addedKeys: [],
+        };
         return updated;
       });
 
@@ -660,34 +674,49 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
                       )
                     )}
 
-                    {isAssistant && msg.cartAction && (
-                      msg.cartAdded ? (
-                        <div className="mt-2 flex items-center gap-1.5 text-xs text-brand-green font-medium px-1">
-                          <CheckCircle size={13} />
-                          Added to cart — AED {msg.cartAction.unitAmount.toLocaleString()}
-                        </div>
-                      ) : (
-                        <button
-                          onClick={() => {
-                            if (!msg.cartAction!.quoteToken) return;
-                            addItem({
-                              serviceKey: msg.cartAction!.serviceKey,
-                              name: msg.cartAction!.name,
-                              unitAmount: msg.cartAction!.unitAmount,
-                              quoteToken: msg.cartAction!.quoteToken,
-                            });
-                            setMessages((prev) =>
-                              prev.map((m, idx) => idx === i ? { ...m, cartAdded: true } : m)
-                            );
-                            openCart();
-                          }}
-                          disabled={!msg.cartAction.quoteToken}
-                          className="mt-2 flex items-center gap-1.5 w-full bg-brand-green text-white text-xs font-semibold px-3.5 py-2.5 rounded-xl hover:bg-opacity-90 transition-colors justify-center disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          <ShoppingCart size={13} />
-                          Add to Cart — AED {msg.cartAction.unitAmount.toLocaleString()} incl. VAT
-                        </button>
-                      )
+                    {isAssistant && msg.cartActions && msg.cartActions.length > 0 && (
+                      <div className="mt-2 space-y-2">
+                        {msg.cartActions.map((action, ai) => {
+                          const isAdded = msg.addedKeys?.includes(action.serviceKey);
+                          const isAddon = ai > 0; // first = main service, rest = add-ons
+                          return isAdded ? (
+                            <div key={action.serviceKey} className="flex items-center gap-1.5 text-xs text-brand-green font-medium px-1">
+                              <CheckCircle size={13} />
+                              {action.name} added — AED {action.unitAmount.toLocaleString()}
+                            </div>
+                          ) : (
+                            <button
+                              key={action.serviceKey}
+                              onClick={() => {
+                                if (!action.quoteToken) return;
+                                addItem({
+                                  serviceKey: action.serviceKey,
+                                  name: action.name,
+                                  unitAmount: action.unitAmount,
+                                  quoteToken: action.quoteToken,
+                                });
+                                setMessages((prev) =>
+                                  prev.map((m, idx) =>
+                                    idx === i
+                                      ? { ...m, addedKeys: [...(m.addedKeys ?? []), action.serviceKey] }
+                                      : m
+                                  )
+                                );
+                                openCart();
+                              }}
+                              disabled={!action.quoteToken}
+                              className={`flex items-center gap-1.5 w-full text-xs font-semibold px-3.5 py-2.5 rounded-xl transition-colors justify-center disabled:opacity-50 disabled:cursor-not-allowed ${
+                                isAddon
+                                  ? "border border-brand-green text-brand-green bg-white hover:bg-green-50"
+                                  : "bg-brand-green text-white hover:bg-opacity-90"
+                              }`}
+                            >
+                              <ShoppingCart size={13} />
+                              {isAddon ? "Add Add-On" : "Add to Cart"} — AED {action.unitAmount.toLocaleString()} incl. VAT
+                            </button>
+                          );
+                        })}
+                      </div>
                     )}
                   </div>
                 </div>

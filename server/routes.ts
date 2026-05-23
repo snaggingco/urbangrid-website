@@ -1024,18 +1024,24 @@ SERVICE KEY TABLE:
   DLP / 11th Month Inspection         ->  dlp-inspection              / "DLP 11th Month Inspection"
   Move-In / Move-Out Inspection       ->  move-in-move-out            / "Move-In / Move-Out Inspection"
 
-EXAMPLE — single unit (1,000 sq.ft Stage 1 Snagging = AED 1,050 incl. VAT):
-[SHOW_CART_ACTION:new-build-snagging:New Build Snagging Inspection:1050]
+EXAMPLE — single unit, no add-on (1,000 sq.ft Post-Renovation = AED 1,050 incl. VAT):
+[SHOW_CART_ACTION:post-renovation-inspection:Post-Renovation Inspection:1050]
 
-EXAMPLE — three units (3 × AED 1,050 = AED 3,150 combined):
+EXAMPLE — Stage 1 Snagging WITH De-Snagging add-on (1,000 sq.ft):
+[SHOW_CART_ACTION:new-build-snagging:New Build Snagging Inspection:1050]
+[SHOW_CART_ACTION:de-snagging:De-Snagging Add-On:525]
+
+EXAMPLE — three identical units:
 [SHOW_CART_ACTION:new-build-snagging:New Build Snagging Inspection (3 units):3150]
 
 Rules:
-  - ONE marker per message, at the very end, on its own line.
-  - The amount is always the GRAND TOTAL (all units combined) including VAT.
-  - For multi-unit: append " (N units)" to the display name so it's clear in the cart.
-  - Do NOT add a marker for custom quote services (RERA, Technical, Developer/Bulk, Fit-Out).
-  - Do NOT add a marker unless the full fee breakdown has been presented in the same message.
+  - Place all markers at the very end of your message, each on its own line.
+  - The FIRST marker is always the MAIN service (prominent green button in chat).
+  - If the breakdown included a De-Snagging Add-On OR a DLP/11th Month add-on, emit a SECOND marker for that add-on immediately after the first — this lets the customer add it to cart separately.
+  - Each amount is that item's own total (including VAT), NOT a running grand total.
+  - For multi-unit: append " (N units)" to the display name.
+  - Do NOT emit markers for custom quote services (RERA, Technical, Developer/Bulk, Fit-Out).
+  - Do NOT emit markers unless the full fee breakdown was presented in the same message.
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  8. HARD RULES — NEVER BREAK THESE
@@ -1087,16 +1093,15 @@ Rules:
         }
       }
 
-      // If Lena quoted a price, sign it server-side so the checkout endpoint can
-      // verify the amount hasn't been tampered with on the client.
-      // Format: [SHOW_CART_ACTION:serviceKey:Display Name:amountAed]
-      const cartMatch = rawContent.match(/\[SHOW_CART_ACTION:([^:]+):([^:]+):(\d+)\]/i);
-      if (cartMatch) {
+      // Sign ALL SHOW_CART_ACTION markers in the response (main service + any add-ons).
+      // Each token is sent as a separate SSE event keyed by serviceKey.
+      const cartMarkerRegex = /\[SHOW_CART_ACTION:([^:]+):([^:]+):(\d+)\]/gi;
+      let cartMatch;
+      while ((cartMatch = cartMarkerRegex.exec(rawContent)) !== null) {
         const serviceKey = cartMatch[1].trim();
         const amountAed = parseInt(cartMatch[3], 10);
         if (CHECKOUT_SERVICES[serviceKey] && amountAed > 0) {
           const quoteToken = signQuote(serviceKey, amountAed);
-          // Send the signed token as a separate event so the client can store it
           res.write(`data: ${JSON.stringify({ quoteToken, serviceKey, amountAed })}\n\n`);
         }
       }
