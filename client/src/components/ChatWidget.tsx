@@ -1,12 +1,10 @@
 import { useState, useRef, useEffect } from "react";
-import { X, Send, Minimize2, CheckCircle, Loader2, CalendarDays, Phone, MessageCircle, ShoppingCart } from "lucide-react";
+import { X, Send, Minimize2, CheckCircle, Loader2, CalendarDays, Phone, MessageCircle } from "lucide-react";
 import { format } from "date-fns";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
-import { useCart } from "@/lib/cartStore";
-
 interface CartAction {
   serviceKey: string;
   name: string;
@@ -382,8 +380,6 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
   const inputRef = useRef<HTMLInputElement>(null);
   const sentInitialRef = useRef(false);
   const inactivityTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const { addItem, openCart } = useCart();
-
   // Clear inactivity timer helper
   function clearInactivity() {
     if (inactivityTimer.current) {
@@ -510,7 +506,6 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
           content: rawContent,
           formType,
           cartActions: signedCartActions.length > 0 ? signedCartActions : undefined,
-          addedKeys: [],
         };
         return updated;
       });
@@ -674,48 +669,44 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
                       )
                     )}
 
+                    {/* Pricing summary + contact CTAs (cart checkout temporarily hidden) */}
                     {isAssistant && msg.cartActions && msg.cartActions.length > 0 && (
-                      <div className="mt-2 space-y-2">
-                        {msg.cartActions.map((action, ai) => {
-                          const isAdded = msg.addedKeys?.includes(action.serviceKey);
-                          const isAddon = ai > 0; // first = main service, rest = add-ons
-                          return isAdded ? (
-                            <div key={action.serviceKey} className="flex items-center gap-1.5 text-xs text-brand-green font-medium px-1">
-                              <CheckCircle size={13} />
-                              {action.name} added — AED {action.unitAmount.toLocaleString()}
+                      <div className="mt-3 space-y-2">
+                        {/* Price summary */}
+                        <div className="bg-zinc-50 border border-zinc-200 rounded-lg p-3 space-y-1.5">
+                          {msg.cartActions.map((action) => (
+                            <div key={action.serviceKey} className="flex justify-between text-xs">
+                              <span className="text-zinc-600">{action.name}</span>
+                              <span className="font-semibold text-zinc-900">AED {action.unitAmount.toLocaleString()}</span>
                             </div>
-                          ) : (
-                            <button
-                              key={action.serviceKey}
-                              onClick={() => {
-                                if (!action.quoteToken) return;
-                                addItem({
-                                  serviceKey: action.serviceKey,
-                                  name: action.name,
-                                  unitAmount: action.unitAmount,
-                                  quoteToken: action.quoteToken,
-                                });
-                                setMessages((prev) =>
-                                  prev.map((m, idx) =>
-                                    idx === i
-                                      ? { ...m, addedKeys: [...(m.addedKeys ?? []), action.serviceKey] }
-                                      : m
-                                  )
-                                );
-                                openCart();
-                              }}
-                              disabled={!action.quoteToken}
-                              className={`flex items-center gap-1.5 w-full text-xs font-semibold px-3.5 py-2.5 rounded-xl transition-colors justify-center disabled:opacity-50 disabled:cursor-not-allowed ${
-                                isAddon
-                                  ? "border border-brand-green text-brand-green bg-white hover:bg-green-50"
-                                  : "bg-brand-green text-white hover:bg-opacity-90"
-                              }`}
-                            >
-                              <ShoppingCart size={13} />
-                              {isAddon ? "Add Add-On" : "Add to Cart"} — AED {action.unitAmount.toLocaleString()} incl. VAT
-                            </button>
-                          );
-                        })}
+                          ))}
+                          <div className="border-t border-zinc-200 pt-1.5 flex justify-between text-xs font-bold">
+                            <span className="text-zinc-900">Estimated Total</span>
+                            <span className="text-brand-green">
+                              AED {msg.cartActions.reduce((sum, a) => sum + a.unitAmount, 0).toLocaleString()} incl. VAT
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Contact CTAs */}
+                        <div className="flex gap-2">
+                          <a
+                            href="https://wa.me/971585686852"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex-1 flex items-center justify-center gap-1.5 bg-[#25D366] text-white text-xs font-semibold px-3 py-2.5 rounded-xl hover:bg-opacity-90 transition-colors"
+                          >
+                            <MessageCircle size={14} />
+                            Book via WhatsApp
+                          </a>
+                          <a
+                            href="tel:+971585686852"
+                            className="flex-1 flex items-center justify-center gap-1.5 bg-brand-green text-white text-xs font-semibold px-3 py-2.5 rounded-xl hover:bg-opacity-90 transition-colors"
+                          >
+                            <Phone size={14} />
+                            Call us
+                          </a>
+                        </div>
                       </div>
                     )}
                   </div>
