@@ -167,8 +167,11 @@ export default function Home() {
             <span className="block text-brand-white">&amp; Snagging Company.</span>
           </h1>
 
-          <p className="text-sm sm:text-lg text-zinc-300 mb-6 sm:mb-8 max-w-lg leading-relaxed font-normal">
+          <p className="text-sm sm:text-lg text-zinc-300 mb-2 max-w-lg leading-relaxed font-normal">
             40,000+ UAE properties inspected. 600,000+ defects documented.
+          </p>
+          <p className="text-xs sm:text-sm text-zinc-500 mb-6 sm:mb-8 max-w-lg leading-relaxed font-normal tracking-wide">
+            International operations: London · Bangkok · India
           </p>
 
           {/* Lena AI chat bar */}
