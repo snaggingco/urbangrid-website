@@ -3,8 +3,7 @@ import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Menu, ChevronDown, ShoppingCart } from "lucide-react";
-import { useCart } from "@/lib/cartStore";
+import { Menu, ChevronDown } from "lucide-react";
 
 interface HeaderProps {
   isAdmin?: boolean;
@@ -24,7 +23,6 @@ export default function Header({ isAdmin = false }: HeaderProps) {
   const [location] = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mobileLocationsOpen, setMobileLocationsOpen] = useState(false);
-  const { totalItems, openCart } = useCart();
 
   const navigation = [
     { name: 'Home', href: '/' },
@@ -112,21 +110,6 @@ export default function Header({ isAdmin = false }: HeaderProps) {
 
           {/* Right side */}
           <div className="flex items-center space-x-4">
-            {/* Cart icon */}
-            {!isAdmin && (
-              <button
-                onClick={openCart}
-                aria-label="Open cart"
-                className="relative p-1.5 text-zinc-500 hover:text-zinc-900 transition-colors"
-              >
-                <ShoppingCart size={20} />
-                {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-brand-green text-white text-[9px] font-bold rounded-full flex items-center justify-center">
-                    {totalItems > 9 ? "9+" : totalItems}
-                  </span>
-                )}
-              </button>
-            )}
 
             {isAdmin ? (
               <button

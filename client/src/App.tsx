@@ -13,7 +13,6 @@ import Footer from "@/components/Footer";
 import FloatingButtons from "@/components/FloatingButtons";
 import SEO from "@/components/SEO";
 import Home from "@/pages/Home";
-import CartDrawer from "@/components/CartDrawer";
 
 // Lazy-loaded pages — each becomes its own chunk, reducing initial bundle by ~60%
 const About = lazy(() => import("@/pages/About"));
@@ -75,7 +74,6 @@ function Router() {
     <div className="min-h-screen bg-white">
       <SEO />
       <Header isAdmin={isAdmin} />
-      <CartDrawer />
       <main id="main-content">
         <Suspense fallback={<PageLoader />}>
           <Switch>
