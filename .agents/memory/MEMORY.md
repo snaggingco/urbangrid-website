@@ -1,0 +1,1 @@
+- [Bundle perf](bundle-perf.md) — eager App.tsx/shell imports drag heavy deps into the every-page main chunk; lazy-load interaction/below-fold UI to shrink it.

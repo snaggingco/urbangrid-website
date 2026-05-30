@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, lazy, Suspense, startTransition } from "react";
 import { Link } from "wouter";
-import ConsultationForm from "@/components/ConsultationForm";
-import SampleReportModal from "@/components/SampleReportModal";
 import HeroChatBar from "@/components/HeroChatBar";
+
+// Lazy-loaded — both pull in react-phone-number-input (heavy country metadata),
+// so deferring them keeps it out of the initial every-page bundle.
+const ConsultationForm = lazy(() => import("@/components/ConsultationForm"));
+const SampleReportModal = lazy(() => import("@/components/SampleReportModal"));
 import { Button } from "@/components/ui/button";
 import {
   ChevronDown, ArrowRight, Shield, Globe,
@@ -193,7 +196,7 @@ export default function Home() {
             </Link>
 
             <button
-              onClick={() => setReportModalOpen(true)}
+              onClick={() => startTransition(() => setReportModalOpen(true))}
               className="inline-flex items-center gap-2 border border-zinc-600 text-zinc-400 px-8 py-[14px] text-sm font-semibold hover:border-white hover:text-white transition-all w-full sm:w-auto justify-center sm:justify-start"
             >
               Download Sample Report
@@ -344,7 +347,9 @@ export default function Home() {
       </section>
 
       {/* ── CONSULTATION FORM ─────────────────────────────────────────────── */}
-      <ConsultationForm />
+      <Suspense fallback={<div className="min-h-[400px]" />}>
+        <ConsultationForm />
+      </Suspense>
 
       {/* ── SERVICES ─────────────────────────────────────────────────────── */}
       <section className="py-24 lg:py-32 bg-zinc-50">
@@ -726,10 +731,14 @@ export default function Home() {
         </div>
       </section>
 
-      <SampleReportModal
-        isOpen={reportModalOpen}
-        onClose={() => setReportModalOpen(false)}
-      />
+      {reportModalOpen && (
+        <Suspense fallback={null}>
+          <SampleReportModal
+            isOpen={reportModalOpen}
+            onClose={() => setReportModalOpen(false)}
+          />
+        </Suspense>
+      )}
     </>
   );
 }

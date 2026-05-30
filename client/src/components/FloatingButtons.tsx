@@ -1,14 +1,25 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, lazy, Suspense, startTransition } from "react";
 import { MessageCircle } from "lucide-react";
 import { trackConversion } from "@/lib/analytics";
-import ChatWindow from "@/components/ChatWidget";
 import { registerLenaOpenHandler } from "@/lib/lenaStore";
+
+// Lazy-load the chat — keeps date-fns, react-day-picker and
+// react-phone-number-input out of the initial bundle until Lena is opened.
+const ChatWindow = lazy(() => import("@/components/ChatWidget"));
 
 export default function FloatingButtons() {
   const [showPulse, setShowPulse] = useState(true);
   const [isChatOpen, setIsChatOpen] = useState(false);
+  const [chatMounted, setChatMounted] = useState(false);
   const [hasNotification, setHasNotification] = useState(false);
   const [initialMessage, setInitialMessage] = useState<string | undefined>();
+
+  // Once the chat is opened for the first time, keep it mounted so state persists.
+  // Wrapped in startTransition so the lazy chunk loading doesn't trip React's
+  // "suspended on synchronous input" warning when opened from a click.
+  useEffect(() => {
+    if (isChatOpen) startTransition(() => setChatMounted(true));
+  }, [isChatOpen]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -190,13 +201,17 @@ export default function FloatingButtons() {
         </div>
       </div>
 
-      {/* ── Chat window (spring animation, rendered above everything) ── */}
-      <ChatWindow
-        isOpen={isChatOpen}
-        onClose={() => setIsChatOpen(false)}
-        initialMessage={initialMessage}
-        onInitialMessageConsumed={() => setInitialMessage(undefined)}
-      />
+      {/* ── Chat window (lazy-loaded, mounted only after first open) ── */}
+      {chatMounted && (
+        <Suspense fallback={null}>
+          <ChatWindow
+            isOpen={isChatOpen}
+            onClose={() => setIsChatOpen(false)}
+            initialMessage={initialMessage}
+            onInitialMessageConsumed={() => setInitialMessage(undefined)}
+          />
+        </Suspense>
+      )}
     </>
   );
 }
