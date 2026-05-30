@@ -12,6 +12,15 @@ const communities = [
   { name: "Masdar City", types: "Eco-apartments, offices", note: "Sustainable systems (solar, district cooling) require specialist commissioning verification — we check integration and performance against spec." },
 ];
 
+const keyCommunities = [
+  { name: "Yas Island", blurb: "Aldar's flagship leisure-and-residential destination spans apartments, villas, and townhouses beside world-class attractions. Our Yas Island snagging inspections focus on AC commissioning gaps, swimming-pool waterproofing, and smart-home system deficiencies common to fast-paced Aldar handovers." },
+  { name: "Saadiyat Island", blurb: "The cultural district's ultra-premium villas and beachfront apartments demand high-spec snagging. We prioritise stone lippage, custom joinery tolerances, salt-air metalwork protection, and smart-lighting commissioning across Saadiyat developments." },
+  { name: "Al Reem Island", blurb: "One of Abu Dhabi's densest high-rise clusters, Al Reem is dominated by mixed-use towers. Our Al Reem inspections consistently log MEP routing errors, façade sealant gaps, and chilled-water (district cooling) commissioning issues." },
+  { name: "Al Raha Beach", blurb: "This waterfront community of apartments and townhouses faces accelerated sealant degradation from salt-air exposure. We prioritise balcony waterproofing, metalwork corrosion, and window-seal integrity in every Al Raha Beach inspection." },
+  { name: "Al Maryah Island", blurb: "Abu Dhabi's central business and financial district features premium residences and commercial space. Our Al Maryah snagging covers high-rise MEP balancing, acoustic separation, and finishing quality across mixed-use towers." },
+  { name: "Hudayriyat Island & Nurai Island", blurb: "Emerging luxury and branded-residence destinations demand meticulous villa snagging. We deliver bespoke high-spec inspections covering structural detailing, premium finishes, waterfront drainage, and smart-home commissioning." },
+];
+
 const faqs = [
   {
     q: "Which authority governs property handovers in Abu Dhabi?",
@@ -145,6 +154,27 @@ export default function AbuDhabi() {
             ))}
           </div>
           <p className="text-xs text-zinc-400 mt-6">Also covering: Al Karamah, Al Mushrif, Khalifa City B, Al Reef, Al Shamkha, Al Ain all districts, and Western Region communities.</p>
+        </div>
+      </section>
+
+      {/* Key Communities Served */}
+      <section className="py-20 lg:py-28 bg-white border-t border-zinc-100">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+          <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Key Communities Served</p>
+          <h2 className="text-3xl lg:text-4xl font-bold text-zinc-900 leading-tight mb-4 max-w-2xl">
+            Snagging Expertise Across Abu Dhabi's Premier Communities
+          </h2>
+          <p className="text-zinc-500 text-sm leading-relaxed max-w-2xl mb-12">
+            From Aldar's Yas Island handovers to the ultra-premium villas of Saadiyat, UrbanGrid provides neighbourhood-specific property inspection and snagging expertise across Abu Dhabi's highest-value residential and commercial hubs.
+          </p>
+          <div className="space-y-10">
+            {keyCommunities.map(c => (
+              <div key={c.name} className="border-l-2 border-brand-green pl-6">
+                <h3 className="text-lg font-bold text-zinc-900 mb-2">Property Snagging in {c.name}</h3>
+                <p className="text-sm text-zinc-600 leading-relaxed max-w-3xl">{c.blurb}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

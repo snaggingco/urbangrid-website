@@ -14,6 +14,16 @@ const communities = [
   { name: "Mohammed Bin Rashid City", types: "Villas, branded residences", note: "Premium finishes demand high-spec snagging — we check marble lippage, bespoke joinery gaps, and smart-home commissioning." },
 ];
 
+const keyCommunities = [
+  { name: "Business Bay", blurb: "Dubai's central business district packs serviced apartments, branded residences, and commercial towers along the canal. Our Business Bay snagging inspections focus on MEP routing conflicts, DEWA meter cabinet deficiencies, and acoustic insulation between mixed-use floors." },
+  { name: "Jumeirah Lake Towers (JLT)", blurb: "With more than 80 high-rise towers around its lakes, JLT is one of Dubai's densest residential and office clusters. We log façade sealant failures, chilled-water (district cooling) commissioning gaps, and balcony waterproofing across JLT handovers and resales." },
+  { name: "Palm Jumeirah", blurb: "The Palm's signature villas and beachfront apartments face a unique salt-air environment. Our Palm Jumeirah inspections prioritise metalwork corrosion, terrace drainage falls, window seal integrity, and private-pool waterproofing." },
+  { name: "Al Barari", blurb: "Al Barari's ultra-low-density luxury villas sit within landscaped botanical gardens. High-spec finishes demand meticulous snagging — we check bespoke joinery tolerances, marble lippage, smart-home commissioning, and irrigation and drainage integration." },
+  { name: "Downtown Dubai", blurb: "Home to Burj Khalifa-district towers and premium Emaar residences, Downtown demands precise high-rise snagging. We document hollow tiling, AC balancing across multiple floors, and finishing inconsistencies before handover." },
+  { name: "Dubai Marina & JBR", blurb: "This waterfront high-rise corridor is prone to balcony-threshold waterproofing and façade sealant defects. Our Marina and JBR snagging reports capture these issues while your developer DLP is still active." },
+  { name: "Emirates Hills & Jumeirah Golf Estates", blurb: "Dubai's most exclusive gated villa communities feature large bespoke homes. We deliver high-spec villa snagging covering structural crack mapping, landscaping drainage, and premium MEP and smart-home systems." },
+];
+
 const faqs = [
   {
     q: "Does Dubai law require snagging before property handover?",
@@ -151,6 +161,27 @@ export default function Dubai() {
             ))}
           </div>
           <p className="text-xs text-zinc-400 mt-6">Also covering: Silicon Oasis, International City, Sports City, Al Barsha, Deira, Bur Dubai, Mirdif, Discovery Gardens, and all other Dubai areas.</p>
+        </div>
+      </section>
+
+      {/* Key Communities Served */}
+      <section className="py-20 lg:py-28 bg-white border-t border-zinc-100">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+          <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Key Communities Served</p>
+          <h2 className="text-3xl lg:text-4xl font-bold text-zinc-900 leading-tight mb-4 max-w-2xl">
+            Snagging Expertise Across Dubai's Premier Communities
+          </h2>
+          <p className="text-zinc-500 text-sm leading-relaxed max-w-2xl mb-12">
+            From waterfront towers in Dubai Marina to botanical villas in Al Barari, UrbanGrid provides neighbourhood-specific property inspection and snagging expertise across Dubai's highest-value residential and commercial hubs.
+          </p>
+          <div className="space-y-10">
+            {keyCommunities.map(c => (
+              <div key={c.name} className="border-l-2 border-brand-green pl-6">
+                <h3 className="text-lg font-bold text-zinc-900 mb-2">Property Snagging in {c.name}</h3>
+                <p className="text-sm text-zinc-600 leading-relaxed max-w-3xl">{c.blurb}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
