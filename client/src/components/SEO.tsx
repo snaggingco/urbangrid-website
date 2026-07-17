@@ -42,7 +42,7 @@ const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
   '/services': {
     title: 'Snagging & Inspection Services UAE | From AED 800 | UrbanGrid',
     description: 'Property snagging, RERA reports & technical inspections across Dubai, Abu Dhabi & UAE. Engineer-led, photo reports in 24 hours. From AED 800.',
-    keywords: 'property inspection services UAE, snagging services Dubai, pre-purchase inspection, villa snagging, apartment inspection',
+    keywords: 'property inspection services UAE, snagging services Dubai, pre-purchase inspection, villa snagging, apartment inspection, building inspection companies near me',
     ogImage: 'https://urbangrid.ae/og-image.jpg'
   },
   '/contact': {
@@ -148,37 +148,37 @@ const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
   '/locations/dubai': {
     title: 'Snagging Company Dubai | Property Inspection Services | UrbanGrid',
     description: 'Dubai\'s trusted property snagging company. Independent inspection for Emaar, Damac, Sobha, Nakheel handovers across Downtown Dubai, Marina, Palm Jumeirah, JVC & all areas. Reports in 24 hours.',
-    keywords: 'snagging company dubai, property inspection dubai, property snagging dubai, snagging dubai, home inspection dubai, new build snagging dubai, apartment snagging dubai, villa inspection dubai'
+    keywords: 'snagging company dubai, property inspection dubai, property snagging dubai, snagging dubai, home inspection dubai, new build snagging dubai, apartment snagging dubai, villa inspection dubai, building inspection companies near me'
   },
   '/locations/abu-dhabi': {
     title: 'Snagging Company Abu Dhabi | Property Inspection | UrbanGrid',
     description: 'Abu Dhabi\'s trusted property snagging company. Independent inspection across Yas Island, Al Reem, Saadiyat, Al Raha and all communities. Aldar, Imkan & all developers. Reports in 24 hours.',
-    keywords: 'snagging company abu dhabi, property inspection abu dhabi, property snagging abu dhabi, snagging abu dhabi, home inspection abu dhabi, villa inspection abu dhabi'
+    keywords: 'snagging company abu dhabi, property inspection abu dhabi, property snagging abu dhabi, snagging abu dhabi, home inspection abu dhabi, villa inspection abu dhabi, building inspection companies near me'
   },
   '/locations/sharjah': {
     title: 'Snagging Company Sharjah | Property Inspection Services | UrbanGrid',
     description: 'Sharjah\'s trusted property snagging company. Independent inspection across Aljada, Hayyan, Maryam Island, Al Zahia and all Sharjah communities. Reports in 24 hours.',
-    keywords: 'snagging company sharjah, property inspection sharjah, property snagging sharjah, snagging sharjah, home inspection sharjah, Aljada snagging, Arada inspection'
+    keywords: 'snagging company sharjah, property inspection sharjah, property snagging sharjah, snagging sharjah, home inspection sharjah, Aljada snagging, Arada inspection, building inspection companies near me'
   },
   '/locations/ajman': {
     title: 'Snagging Company Ajman | Property Inspection Services | UrbanGrid',
     description: 'Professional property snagging and inspection in Ajman. ARRA-compliant process across Emirates City, Al Rashidiya, Al Nuaimia and all Ajman communities. Reports in 24 hours.',
-    keywords: 'snagging company ajman, property inspection ajman, property snagging ajman, snagging ajman, home inspection ajman'
+    keywords: 'snagging company ajman, property inspection ajman, property snagging ajman, snagging ajman, home inspection ajman, building inspection companies near me'
   },
   '/locations/ras-al-khaimah': {
     title: 'Snagging Company Ras Al Khaimah | Property Inspection | UrbanGrid',
     description: 'Professional property snagging and inspection in Ras Al Khaimah. Al Hamra Village, Mina Al Arab, Al Marjan Island and all RAK communities. Engineer-led, reports in 24 hours.',
-    keywords: 'snagging company ras al khaimah, property inspection ras al khaimah, property snagging RAK, snagging ras al khaimah, Al Hamra snagging'
+    keywords: 'snagging company ras al khaimah, property inspection ras al khaimah, property snagging RAK, snagging ras al khaimah, Al Hamra snagging, building inspection companies near me'
   },
   '/locations/fujairah': {
     title: 'Snagging Company Fujairah | Property Inspection Services | UrbanGrid',
     description: 'Professional property snagging and inspection in Fujairah. Engineer-led inspections across Fujairah City, Dibba, Al Aqah and all communities. Reports in 24 hours.',
-    keywords: 'snagging company fujairah, property inspection fujairah, property snagging fujairah, snagging fujairah, home inspection fujairah'
+    keywords: 'snagging company fujairah, property inspection fujairah, property snagging fujairah, snagging fujairah, home inspection fujairah, building inspection companies near me'
   },
   '/locations/umm-al-quwain': {
     title: 'Snagging Company Umm Al Quwain | Property Inspection | UrbanGrid',
     description: 'Professional property snagging and inspection in Umm Al Quwain. Engineer-led inspections across UAQ City, Al Salam City, UAQ Marina and all communities. Reports in 24 hours.',
-    keywords: 'snagging company umm al quwain, property inspection umm al quwain, property snagging UAQ, snagging umm al quwain, home inspection UAQ'
+    keywords: 'snagging company umm al quwain, property inspection umm al quwain, property snagging UAQ, snagging umm al quwain, home inspection UAQ, building inspection companies near me'
   }
 };
 
@@ -198,7 +198,7 @@ export default function SEO({
     const routeData = routeSEOData[location] || {};
     const title = customTitle || routeData.title || 'UrbanGrid Property Inspection - Professional Snagging Services in UAE';
     const description = customDescription || routeData.description || 'Professional property inspection and snagging services across Dubai, Abu Dhabi, and UAE.';
-    const keywords = customKeywords || routeData.keywords || 'property snagging UAE, property inspection Dubai, Snagging Company Dubai';
+    const keywords = customKeywords || routeData.keywords || 'property snagging UAE, property inspection Dubai, Snagging Company Dubai, building inspection companies near me';
     const ogImage = customOgImage || routeData.ogImage || 'https://urbangrid.ae/og-image.jpg';
     const shouldNoindex = noindex;
 

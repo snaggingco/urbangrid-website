@@ -50,7 +50,7 @@ export default function AbuDhabi() {
       <SEO
         title="Snagging Company Abu Dhabi | Property Inspection | UrbanGrid"
         description="Abu Dhabi's trusted property snagging company. Independent inspection across Yas Island, Al Reem, Saadiyat, Al Raha and all communities. Aldar, Imkan & all developers. Reports in 24 hours."
-        keywords="snagging company abu dhabi, property inspection abu dhabi, property snagging abu dhabi, snagging abu dhabi, home inspection abu dhabi, new build snagging abu dhabi, apartment inspection abu dhabi, villa inspection abu dhabi"
+        keywords="snagging company abu dhabi, property inspection abu dhabi, property snagging abu dhabi, snagging abu dhabi, home inspection abu dhabi, new build snagging abu dhabi, apartment inspection abu dhabi, villa inspection abu dhabi, building inspection companies near me"
         canonical="https://urbangrid.ae/locations/abu-dhabi"
       />
 

@@ -57,7 +57,7 @@ export default function Dubai() {
       <SEO
         title="Snagging Company Dubai | Property Inspection Services | UrbanGrid"
         description="Dubai's trusted property snagging company. Independent inspection for Emaar, Damac, Sobha, Nakheel handovers across Downtown Dubai, Marina, Palm Jumeirah, JVC & all areas. Reports in 24 hours."
-        keywords="snagging company dubai, property inspection dubai, property snagging dubai, snagging dubai, home inspection dubai, new build snagging dubai, apartment snagging dubai, villa inspection dubai, pre-handover inspection dubai"
+        keywords="snagging company dubai, property inspection dubai, property snagging dubai, snagging dubai, home inspection dubai, new build snagging dubai, apartment snagging dubai, villa inspection dubai, pre-handover inspection dubai, building inspection companies near me"
         canonical="https://urbangrid.ae/locations/dubai"
       />
 
