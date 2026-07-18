@@ -632,6 +632,7 @@ ${coverLetter}
       'nfpa-101-life-safety-code-property-snagging-uae': '2026-05-12',
       'ashrae-standard-180-building-commissioning-property-snagging-uae': '2026-05-12',
       'case-study-palm-jumeirah-penthouse-inspection-mep-defects': '2026-05-12',
+      'building-condition-assessment-building-inspection-united-arab-emirates': '2026-07-17',
     };
     const serviceUrls = [
       '/services/property-snagging/new-build-snagging',
@@ -658,6 +659,7 @@ ${coverLetter}
       '/blog/nfpa-101-life-safety-code-property-snagging-uae',
       '/blog/ashrae-standard-180-building-commissioning-property-snagging-uae',
       '/blog/case-study-palm-jumeirah-penthouse-inspection-mep-defects',
+      '/blog/building-condition-assessment-building-inspection-united-arab-emirates',
     ];
     const locationUrls = [
       '/locations/dubai',
