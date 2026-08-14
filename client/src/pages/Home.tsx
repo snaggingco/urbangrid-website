@@ -174,7 +174,7 @@ export default function Home() {
             40,000+ UAE properties inspected. 600,000+ defects documented.
           </p>
           <p className="text-xs sm:text-sm text-zinc-500 mb-6 sm:mb-8 max-w-lg leading-relaxed font-normal tracking-wide">
-            International operations: London · Bangkok · India
+            UAE, KSA, India, and United Kingdom
           </p>
 
           {/* Lena AI chat bar */}
