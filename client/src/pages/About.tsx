@@ -149,6 +149,82 @@ export default function About() {
         </div>
       </section>
 
+      {/* International Network */}
+      <section className="py-24 lg:py-32 bg-zinc-50">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 mb-16">
+            <div className="max-w-2xl">
+              <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">GLOBAL PRESENCE</p>
+              <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight">
+                Our International Network
+              </h2>
+            </div>
+            <p className="text-sm text-zinc-500 max-w-sm">
+              UrbanGrid operates across four markets through a network of sister companies, each delivering the same engineering rigour and inspection standards.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-zinc-100 border border-zinc-100">
+            {/* KSA */}
+            <div className="bg-white p-10 flex flex-col gap-6">
+              <div>
+                <p className="text-[10px] font-semibold tracking-[0.25em] text-zinc-400 uppercase mb-2">Saudi Arabia</p>
+                <h3 className="text-xl font-bold text-zinc-900 mb-3">Strata Surveyor</h3>
+                <p className="text-sm text-zinc-500 leading-relaxed">
+                  Delivering independent property snagging and building inspection services across Riyadh, Jeddah, and the wider Kingdom. Trusted partner for Vision 2030 real estate developments.
+                </p>
+              </div>
+              <a
+                href="https://www.stratasurveyor.com"
+                target="_blank"
+                rel="noopener"
+                className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all w-fit"
+              >
+                SNAGGING COMPANY IN SAUDI ARABIA <ArrowRight className="w-3 h-3" />
+              </a>
+            </div>
+
+            {/* India */}
+            <div className="bg-white p-10 flex flex-col gap-6">
+              <div>
+                <p className="text-[10px] font-semibold tracking-[0.25em] text-zinc-400 uppercase mb-2">India</p>
+                <h3 className="text-xl font-bold text-zinc-900 mb-3">Snagging.in</h3>
+                <p className="text-sm text-zinc-500 leading-relaxed">
+                  India's specialist property snagging and pre-handover inspection service, covering major cities including Mumbai, Bangalore, Hyderabad, and Pune for residential and commercial developments.
+                </p>
+              </div>
+              <a
+                href="https://www.snagging.in"
+                target="_blank"
+                rel="noopener"
+                className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all w-fit"
+              >
+                PROPERTY SNAGGING IN INDIA <ArrowRight className="w-3 h-3" />
+              </a>
+            </div>
+
+            {/* UK */}
+            <div className="bg-white p-10 flex flex-col gap-6">
+              <div>
+                <p className="text-[10px] font-semibold tracking-[0.25em] text-zinc-400 uppercase mb-2">United Kingdom</p>
+                <h3 className="text-xl font-bold text-zinc-900 mb-3">UrbanGrid UK</h3>
+                <p className="text-sm text-zinc-500 leading-relaxed">
+                  Professional property snagging and new-build inspection across England, Scotland, and Wales. Helping UK buyers protect their investment from day one with RICS-aligned reporting.
+                </p>
+              </div>
+              <a
+                href="https://www.urbangrid.co.uk"
+                target="_blank"
+                rel="noopener"
+                className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all w-fit"
+              >
+                PROPERTY SNAGGING IN THE UK <ArrowRight className="w-3 h-3" />
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Certifications */}
       <section className="py-24 lg:py-32 bg-zinc-50">
         <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">

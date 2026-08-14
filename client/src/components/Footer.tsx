@@ -77,6 +77,28 @@ export default function Footer() {
             </ul>
           </div>
 
+          {/* International Network */}
+          <div>
+            <h3 className="text-[10px] font-semibold tracking-[0.25em] text-zinc-600 uppercase mb-8">International</h3>
+            <ul className="space-y-4">
+              <li>
+                <a href="https://www.stratasurveyor.com" target="_blank" rel="noopener" className="text-zinc-400 hover:text-white transition-colors text-xs">
+                  Snagging Company KSA
+                </a>
+              </li>
+              <li>
+                <a href="https://www.snagging.in" target="_blank" rel="noopener" className="text-zinc-400 hover:text-white transition-colors text-xs">
+                  Property Snagging India
+                </a>
+              </li>
+              <li>
+                <a href="https://www.urbangrid.co.uk" target="_blank" rel="noopener" className="text-zinc-400 hover:text-white transition-colors text-xs">
+                  Property Snagging UK
+                </a>
+              </li>
+            </ul>
+          </div>
+
           {/* Contact Info */}
           <div className="space-y-8">
             <h3 className="text-[10px] font-semibold tracking-[0.25em] text-zinc-600 uppercase mb-8">Contact Us</h3>

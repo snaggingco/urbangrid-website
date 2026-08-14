@@ -174,7 +174,12 @@ export default function Home() {
             40,000+ UAE properties inspected. 600,000+ defects documented.
           </p>
           <p className="text-xs sm:text-sm text-zinc-500 mb-6 sm:mb-8 max-w-lg leading-relaxed font-normal tracking-wide">
-            UAE, KSA, India, and United Kingdom
+            UAE &nbsp;·&nbsp;
+            <a href="https://www.stratasurveyor.com" target="_blank" rel="noopener" className="hover:text-zinc-300 transition-colors">KSA</a>
+            &nbsp;·&nbsp;
+            <a href="https://www.snagging.in" target="_blank" rel="noopener" className="hover:text-zinc-300 transition-colors">India</a>
+            &nbsp;·&nbsp;
+            <a href="https://www.urbangrid.co.uk" target="_blank" rel="noopener" className="hover:text-zinc-300 transition-colors">United Kingdom</a>
           </p>
 
           {/* Lena AI chat bar */}
