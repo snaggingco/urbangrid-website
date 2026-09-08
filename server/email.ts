@@ -244,8 +244,8 @@ export async function sendBookingConfirmationEmail(data: BookingConfirmationData
 
               <!-- Contact -->
               <p style="margin: 0 0 8px; font-size: 14px; color: #374151;">Have questions? Contact us:</p>
-              <p style="margin: 0 0 4px; font-size: 14px; color: #374151;">&#128222; <a href="tel:+971585686852" style="color: #064E3B; text-decoration: none; font-weight: 600;">+971 58 568 6852</a></p>
-              <p style="margin: 0; font-size: 14px; color: #374151;">&#128172; <a href="https://wa.me/971585686852" style="color: #064E3B; text-decoration: none; font-weight: 600;">WhatsApp us</a></p>
+              <p style="margin: 0 0 4px; font-size: 14px; color: #374151;">&#128222; <a href="tel:+971567427634" style="color: #064E3B; text-decoration: none; font-weight: 600;">+971 56 742 7634</a></p>
+              <p style="margin: 0; font-size: 14px; color: #374151;">&#128172; <a href="https://wa.me/971567427634" style="color: #064E3B; text-decoration: none; font-weight: 600;">WhatsApp us</a></p>
 
             </td>
           </tr>
