@@ -850,7 +850,7 @@ GROUP C — MOVE-IN / MOVE-OUT INSPECTION:
 
 ── SERVICES REQUIRING A CUSTOM QUOTE ────────────────────────
   The following services cannot be priced online. Always say "Custom Quote" and collect their details:
-  • Developer / Bulk Projects — direct them to WhatsApp (+971 585 686 852) or phone.
+  • Developer / Bulk Projects — direct them to WhatsApp (+971 56 742 7634) or phone (+971 58 568 6852).
   • Interior Fit-Out — free site visit first, then tailored proposal.
   • ALL RERA Services (Reserve Fund Study, Service Charge Allocation, Reinstatement Cost Assessment, Building Completion Audit, Building Condition Survey).
   • ALL Technical Inspections (Technical Due Diligence, Dilapidation Survey, Thermographic Survey, Noise/Acoustic Survey, Structural Survey).
