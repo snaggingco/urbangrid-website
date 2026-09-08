@@ -110,11 +110,11 @@ export default function Footer() {
               </div>
               <div className="flex flex-col space-y-2">
                 <a
-                  href="tel:+971567427634"
+                  href="tel:+971585686852"
                   onClick={() => trackConversion('call_click')}
                   className="text-zinc-400 hover:text-white transition-colors text-xs gtm-call-button"
                 >
-                  +971 567427634
+                  +971 58 568 6852
                 </a>
                 <a href="mailto:info@urbangrid.ae" className="text-zinc-400 hover:text-white transition-colors text-xs">
                   info@urbangrid.ae

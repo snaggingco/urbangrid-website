@@ -142,7 +142,7 @@ export default function CheckoutSuccess() {
 
           <div className="flex gap-3">
             <a
-              href="tel:+971567427634"
+              href="tel:+971585686852"
               className="flex-1 flex items-center justify-center gap-2 bg-brand-green text-white text-sm font-semibold py-3 px-4 rounded-xl hover:bg-opacity-90 transition-colors"
             >
               <Phone size={15} />

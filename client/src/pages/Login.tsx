@@ -29,7 +29,7 @@ export default function Login() {
         <div className="mt-8 pt-8 border-t border-light-grey">
           <div className="flex justify-center space-x-6">
             <a 
-              href="tel:+971567427634" 
+              href="tel:+971585686852" 
               className="text-brand-green hover:text-brand-black transition-colors"
             >
               <i className="fas fa-phone mr-2"></i>

@@ -47,7 +47,7 @@ const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
   },
   '/contact': {
     title: 'Contact UrbanGrid Property Inspection - Dubai Abu Dhabi UAE',
-    description: 'Contact UrbanGrid for expert property snagging services. Call +971 567427634 or email info@urbangrid.ae for professional inspection quotes across UAE.',
+    description: 'Contact UrbanGrid for expert property snagging services. Call +971 58 568 6852 or email info@urbangrid.ae for professional inspection quotes across UAE.',
     keywords: 'contact property inspection UAE, snagging company Dubai, property inspection quote, urbangrid contact',
     ogImage: 'https://urbangrid.ae/og-image.jpg'
   },

@@ -126,7 +126,7 @@ export default function RasAlKhaimah() {
                 Get a Free Quote
               </Button>
             </Link>
-            <a href="tel:+971567427634" className="inline-flex items-center justify-center border border-zinc-600 text-zinc-300 px-8 py-6 text-sm font-medium hover:border-white hover:text-white transition-all">
+            <a href="tel:+971585686852" className="inline-flex items-center justify-center border border-zinc-600 text-zinc-300 px-8 py-6 text-sm font-medium hover:border-white hover:text-white transition-all">
               Call Us Now
             </a>
           </div>
@@ -139,7 +139,7 @@ export default function RasAlKhaimah() {
         "name": "UrbanGrid Property Inspection Ras Al Khaimah",
         "description": "Professional property snagging and inspection services in Ras Al Khaimah, UAE",
         "url": "https://urbangrid.ae/locations/ras-al-khaimah",
-        "telephone": "+971567427634",
+        "telephone": "+971585686852",
         "email": "info@urbangrid.ae",
         "areaServed": { "@type": "City", "name": "Ras Al Khaimah", "addressCountry": "AE" },
         "priceRange": "$$"

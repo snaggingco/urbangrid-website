@@ -22,7 +22,7 @@ export function homepageSchema(): string {
         "logo": "https://urbangrid.ae/logo.svg",
         "contactPoint": {
           "@type": "ContactPoint",
-          "telephone": "+971567427634",
+          "telephone": "+971585686852",
           "contactType": "customer service",
           "email": "info@urbangrid.ae"
         },
@@ -44,7 +44,7 @@ export function homepageSchema(): string {
         "name": "UrbanGrid Property Snagging Inspection",
         "description": "Professional property inspection and snagging services across UAE",
         "url": "https://urbangrid.ae",
-        "telephone": "+971567427634",
+        "telephone": "+971585686852",
         "email": "info@urbangrid.ae",
         "address": {
           "@type": "PostalAddress",
@@ -84,7 +84,7 @@ export function locationSchema(emirate: string, emirateTitle: string, descriptio
     "name": `UrbanGrid Property Inspection ${emirateTitle}`,
     "description": description,
     "url": `https://urbangrid.ae/locations/${emirate}`,
-    "telephone": "+971567427634",
+    "telephone": "+971585686852",
     "email": "info@urbangrid.ae",
     "areaServed": { "@type": "City", "name": emirateTitle, "addressCountry": "AE" },
     "address": {
@@ -115,7 +115,7 @@ export function serviceSchema(servicePath: string, serviceTitle: string, service
     "provider": {
       "@type": "LocalBusiness",
       "name": "UrbanGrid Property Snagging Inspection",
-      "telephone": "+971567427634",
+      "telephone": "+971585686852",
       "email": "info@urbangrid.ae",
       "url": "https://urbangrid.ae",
       "address": {

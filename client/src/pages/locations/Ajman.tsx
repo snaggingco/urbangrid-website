@@ -125,7 +125,7 @@ export default function Ajman() {
                 Get a Free Quote
               </Button>
             </Link>
-            <a href="tel:+971567427634" className="inline-flex items-center justify-center border border-zinc-600 text-zinc-300 px-8 py-6 text-sm font-medium hover:border-white hover:text-white transition-all">
+            <a href="tel:+971585686852" className="inline-flex items-center justify-center border border-zinc-600 text-zinc-300 px-8 py-6 text-sm font-medium hover:border-white hover:text-white transition-all">
               Call Us Now
             </a>
           </div>
@@ -138,7 +138,7 @@ export default function Ajman() {
         "name": "UrbanGrid Property Inspection Ajman",
         "description": "Professional property snagging and inspection services in Ajman, UAE",
         "url": "https://urbangrid.ae/locations/ajman",
-        "telephone": "+971567427634",
+        "telephone": "+971585686852",
         "email": "info@urbangrid.ae",
         "areaServed": { "@type": "City", "name": "Ajman", "addressCountry": "AE" },
         "priceRange": "$$"
