@@ -18,7 +18,7 @@ const faqs = [
   },
   {
     q: "Is property inspection in Ajman cheaper than Dubai?",
-    a: "Our pricing is based on the property's built-up area (BUA) and service type, not the emirate. Ajman properties are often smaller in BUA, which may result in a lower overall fee. Contact us or use the Lena AI chat for an instant estimate based on your property's specific size and type."
+    a: "Our pricing is based on the property's built-up area (BUA) and service type, not the emirate. Ajman properties are often smaller in BUA, which may result in a lower overall fee. Contact us or use the Nova AI chat for an instant estimate based on your property's specific size and type."
   },
 ];
 

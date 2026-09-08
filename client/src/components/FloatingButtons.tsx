@@ -3,8 +3,8 @@ import { MessageCircle } from "lucide-react";
 import { trackConversion } from "@/lib/analytics";
 import { registerLenaOpenHandler } from "@/lib/lenaStore";
 
-// Lazy-load the chat — keeps date-fns, react-day-picker and
-// react-phone-number-input out of the initial bundle until Lena is opened.
+  // Lazy-load the chat — keeps date-fns, react-day-picker and
+  // react-phone-number-input out of the initial bundle until Nova is opened.
 const ChatWindow = lazy(() => import("@/components/ChatWidget"));
 
 export default function FloatingButtons() {
@@ -36,7 +36,7 @@ export default function FloatingButtons() {
     return () => clearTimeout(timer);
   }, [isChatOpen]);
 
-  // Register the hero bar handler so HeroChatBar can open Lena with a pre-sent message
+  // Register the hero bar handler so HeroChatBar can open Nova with a pre-sent message
   useEffect(() => {
     const unregister = registerLenaOpenHandler((msg) => {
       setInitialMessage(msg);
@@ -46,7 +46,7 @@ export default function FloatingButtons() {
     return unregister;
   }, []);
 
-  // Open Lena once at 50 % scroll depth — fires exactly one time per session
+  // Open Nova once at 50 % scroll depth — fires exactly one time per session
   useEffect(() => {
     if (sessionStorage.getItem("lena_auto_opened")) return;
     const handleScroll = () => {
@@ -77,11 +77,11 @@ export default function FloatingButtons() {
       <div className="hidden md:block fixed bottom-6 right-6 z-50">
         <div className="flex flex-col items-center space-y-4">
 
-          {/* Lena AI button + label */}
+          {/* Nova AI button + label */}
           <div className="flex flex-col items-center gap-1.5">
-            {/* "Lena AI" label */}
+            {/* "Nova AI" label */}
             <span className="text-[10px] font-bold tracking-widest uppercase text-brand-green bg-white px-2.5 py-1 rounded-full shadow border border-brand-green/25 select-none">
-              Lena AI
+              Nova AI
             </span>
 
             <div className="relative">
@@ -90,7 +90,7 @@ export default function FloatingButtons() {
                 className={`relative bg-brand-green hover:bg-opacity-90 text-white w-14 h-14 rounded-full shadow-xl transition-all duration-300 hover:scale-110 group flex items-center justify-center ${
                   showPulse ? "animate-pulse-glow-desktop" : ""
                 }`}
-                aria-label="Chat with Lena AI"
+                aria-label="Chat with Nova AI"
               >
                 <MessageCircle size={22} />
 
@@ -102,7 +102,7 @@ export default function FloatingButtons() {
                 {/* tooltip */}
                 <div className="absolute right-full top-1/2 -translate-y-1/2 mr-3 opacity-0 group-hover:opacity-100 transition-all duration-200 translate-x-2 group-hover:translate-x-0 pointer-events-none">
                   <div className="bg-brand-green text-white text-sm px-3 py-2 rounded-lg shadow-lg whitespace-nowrap relative">
-                    <span className="font-medium">Chat with Lena</span>
+                    <span className="font-medium">Chat with Nova</span>
                     <div className="absolute top-1/2 -right-1 -translate-y-1/2 w-2 h-2 bg-brand-green rotate-45" />
                   </div>
                 </div>
@@ -162,14 +162,14 @@ export default function FloatingButtons() {
           <div className="flex items-center justify-between">
             <div className="flex-1 pr-3">
               <p className="text-[13px] font-semibold text-brand-black">Need Help?</p>
-              <p className="text-[11px] text-text-grey leading-tight">Call or chat with Lena</p>
+              <p className="text-[11px] text-text-grey leading-tight">Call or chat with Nova</p>
             </div>
             <div className="flex items-center space-x-2.5">
-              {/* Lena (mobile) */}
+              {/* Nova (mobile) */}
               <button
                 onClick={openChat}
                 className="relative bg-brand-green text-white w-10 h-10 rounded-full shadow-lg transition-all duration-300 hover:scale-105 flex items-center justify-center"
-                aria-label="Chat with Lena AI"
+                aria-label="Chat with Nova AI"
               >
                 <MessageCircle size={18} />
                 {hasNotification && !isChatOpen && (

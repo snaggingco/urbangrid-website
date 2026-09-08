@@ -55,7 +55,7 @@ export default function CartDrawer() {
             <div className="flex flex-col items-center justify-center h-48 text-center space-y-3">
               <ShoppingCart size={40} className="text-zinc-200" />
               <p className="text-zinc-400 text-sm">Your cart is empty.</p>
-              <p className="text-zinc-400 text-xs">Ask Lena AI for a price estimate, then add a service to get started.</p>
+              <p className="text-zinc-400 text-xs">Ask Nova AI for a price estimate, then add a service to get started.</p>
             </div>
           ) : (
             <div className="space-y-3">

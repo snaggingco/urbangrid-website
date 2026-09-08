@@ -182,7 +182,7 @@ export default function Home() {
             <a href="https://www.urbangrid.co.uk" target="_blank" rel="noopener" className="hover:text-zinc-300 transition-colors">United Kingdom</a>
           </p>
 
-          {/* Lena AI chat bar */}
+          {/* Nova AI chat bar */}
           <HeroChatBar />
 
           {/* CTA buttons */}

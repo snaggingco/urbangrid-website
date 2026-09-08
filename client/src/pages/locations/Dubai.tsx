@@ -43,7 +43,7 @@ const faqs = [
   },
   {
     q: "How much does a snagging inspection cost in Dubai?",
-    a: "Pricing is based on built-up area (BUA) and service type. Stage 1 snagging starts from AED 0.75/sq.ft (under 500 sq.ft) up to AED 0.65/sq.ft for large units, plus 5% VAT. Ask Lena, our AI assistant, for an instant estimate — or contact our team for a tailored quote."
+    a: "Pricing is based on built-up area (BUA) and service type. Stage 1 snagging starts from AED 0.75/sq.ft (under 500 sq.ft) up to AED 0.65/sq.ft for large units, plus 5% VAT. Ask Nova, our AI assistant, for an instant estimate — or contact our team for a tailored quote."
   },
   {
     q: "How quickly can I get a snagging report in Dubai?",

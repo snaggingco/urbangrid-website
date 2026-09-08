@@ -42,10 +42,10 @@ export default function HeroChatBar() {
           type="text"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder="Ask Lena AI…"
+          placeholder="Ask Nova AI…"
           className="flex-1 bg-transparent text-white placeholder-zinc-400 text-xs sm:text-sm px-3 sm:px-4 py-2.5 sm:py-3.5 focus:outline-none min-w-0"
           maxLength={300}
-          aria-label="Ask Lena AI a question"
+          aria-label="Ask Nova AI a question"
         />
         <button
           type="submit"

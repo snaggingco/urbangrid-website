@@ -24,7 +24,7 @@ interface Message {
 const WELCOME_MESSAGE: Message = {
   role: "assistant",
   content:
-    "Hi! I'm Lena AI from UrbanGrid 👋 I'm here to help you with property inspections, snagging, and interior fit-out services. What can I help you with today?",
+    "Hi! I'm Nova AI from UrbanGrid 👋 I'm here to help you with property inspections, snagging, and interior fit-out services. What can I help you with today?",
 };
 
 const QUICK_REPLIES = [
@@ -91,7 +91,7 @@ function renderMarkdown(text: string): React.ReactNode[] {
   return parts;
 }
 
-/* Detect Lena's pricing breakdown and render it as a structured table.
+/* Detect Nova's pricing breakdown and render it as a structured table.
    Triggers on any message that contains at least 3 of the known pricing fields,
    regardless of whether a header is present. */
 function parsePricingTable(text: string): { cleanText: string; rows: { label: string; value: string }[] } | null {
@@ -358,7 +358,7 @@ interface ChatWindowProps {
   onInitialMessageConsumed?: () => void;
 }
 
-// Lena phrases that signal the conversation has naturally concluded
+// Nova phrases that signal the conversation has naturally concluded
 const CONVO_END_PATTERNS = [
   /\bbye\b/i, /\bgoodbye\b/i, /\btake care\b/i, /\bhave a (great|wonderful|good|lovely)\b/i,
   /feel free to (reach out|contact|call|message|get in touch)/i,
@@ -510,7 +510,7 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
         return updated;
       });
 
-      // Check if Lena is wrapping up — show human support immediately
+      // Check if Nova is wrapping up — show human support immediately
       const isConvoEnd = CONVO_END_PATTERNS.some((p) => p.test(rawContent));
       if (isConvoEnd) {
         setShowHumanSupport(true);
@@ -573,7 +573,7 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
             <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 rounded-full border-2 border-brand-green" />
           </div>
           <div>
-            <p className="font-semibold text-sm">Lena — UrbanGrid</p>
+            <p className="font-semibold text-sm">Nova — UrbanGrid</p>
             <p className="text-xs text-green-200">Property Inspection Expert</p>
           </div>
         </div>
