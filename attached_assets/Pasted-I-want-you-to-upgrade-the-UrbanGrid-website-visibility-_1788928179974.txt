@@ -1,0 +1,371 @@
+I want you to upgrade the UrbanGrid website visibility system so that it clearly separates:
+
+1. SEO Engine
+2. GEO Engine
+3. LLM Visibility Engine
+
+The goal is to improve the actual visibility of UrbanGrid, a property inspection and snagging company operating in the UAE.
+
+IMPORTANT: Do not represent an inferred AI-readiness score as actual LLM visibility. The system must clearly distinguish between website optimization signals and observed AI-platform results.
+
+## 1. SEO ENGINE
+
+Keep the existing SEO audit functionality, but make sure it evaluates:
+
+* Page speed / Core Web Vitals
+* Mobile usability
+* Crawlability
+* Indexability
+* robots.txt
+* XML sitemap
+* Canonical tags
+* Meta titles
+* Meta descriptions
+* H1/H2 structure
+* Image alt text
+* Internal linking
+* URL structure
+* 404 / broken links
+* Redirects
+* JavaScript-rendered content
+* HTTPS/security
+* Organization schema
+* LocalBusiness schema
+* Service schema
+* FAQ schema where appropriate
+* Breadcrumb schema
+* Local SEO signals
+* Content quality
+* Keyword/topic coverage
+* Backlinks / authority where data is available
+
+Output a transparent SEO score with individual category scores and actionable recommendations.
+
+## 2. GEO ENGINE
+
+Create a separate Generative Engine Optimization / AI Readiness audit.
+
+Evaluate whether UrbanGrid's website is easy for AI systems to discover, understand, retrieve and cite.
+
+Include:
+
+### AI crawler accessibility
+
+Check:
+
+* robots.txt
+* AI crawler permissions
+* relevant crawler access
+* HTTP status responses
+* CDN/firewall blocking where detectable
+* JavaScript-dependent content
+* authentication barriers
+
+### AI-readable content
+
+Evaluate:
+
+* semantic HTML
+* clear headings
+* concise factual statements
+* service definitions
+* location information
+* company/entity information
+* FAQs
+* tables/lists
+* author/expert information
+* structured data
+* internal linking
+
+### Content citability
+
+Evaluate whether individual pages contain information that an AI system can easily quote/cite as an authoritative answer.
+
+Look for:
+
+* direct answers
+* definitions
+* statistics
+* original information
+* expert explanations
+* clear claims
+* supporting sources
+* dates/freshness
+* strong topical coverage
+
+### Entity clarity
+
+Determine whether the website clearly establishes:
+
+UrbanGrid → company → property inspection → snagging → handover inspections → UAE → Dubai/Abu Dhabi/etc.
+
+Identify ambiguity, missing information and inconsistent entity signals.
+
+### llms.txt
+
+Check:
+
+* whether llms.txt exists
+* whether it is technically accessible
+* whether it contains useful information
+* whether important pages are referenced
+* whether the content is actually useful rather than simply duplicating sitemap.xml
+
+IMPORTANT:
+Do not claim that llms.txt alone creates AI visibility.
+
+Output a GEO Readiness Score separately from the LLM Visibility Score.
+
+## 3. LLM VISIBILITY ENGINE
+
+This is the most important addition.
+
+Create a system that can actually benchmark UrbanGrid's visibility in AI-generated answers.
+
+Do NOT calculate this score from SEO, backlinks, schema or website signals.
+
+Instead, create a configurable benchmark containing approximately 20–30 initial prompts focused on UrbanGrid's actual target market and services.
+
+Example queries:
+
+* Best snagging company in Dubai
+* Best property inspection company in Dubai
+* Best handover inspection company in Dubai
+* Best snagging company in Abu Dhabi
+* Property inspection companies in Dubai
+* Professional snagging services in Dubai
+* How much does snagging cost in Dubai?
+* How much does a property inspection cost in Dubai?
+* Who should I hire for a property handover inspection in Dubai?
+* Best property inspector in Dubai Hills Estate
+* Best snagging company in Dubai Marina
+* Best snagging company in Downtown Dubai
+* Best snagging company in Palm Jumeirah
+* Best property inspection company in Abu Dhabi
+* Which company provides reliable snagging services in Dubai?
+* What company should I use to inspect my new apartment before handover in Dubai?
+* What are the best companies for new-build property inspections in Dubai?
+* What are the best snagging companies in the UAE?
+
+Make the prompt set configurable so I can add/remove prompts and create different campaigns by:
+
+* Service
+* Location
+* Search intent
+* Commercial vs informational
+* Competitor comparison
+
+## 4. AI PLATFORM TESTING
+
+Architect the system so it can test the same prompts against supported AI platforms such as:
+
+* ChatGPT
+* Claude
+* Gemini
+* Perplexity
+
+Use official APIs or permitted integrations wherever possible.
+
+Do not simulate results.
+
+Do not use Google search results as a substitute for an LLM answer.
+
+For every test, store:
+
+* platform
+* prompt
+* date/time
+* response
+* whether UrbanGrid was mentioned
+* whether UrbanGrid was recommended
+* UrbanGrid's position/rank in recommendations
+* whether urbangrid.ae was cited
+* cited URLs
+* competitors mentioned
+* competitor positions
+* sentiment toward UrbanGrid
+* context/reason for mention
+* model/version if available
+
+If direct API access to a platform is unavailable, clearly mark that platform as "Not Connected" rather than generating or estimating results.
+
+## 5. CALCULATE REAL AI VISIBILITY METRICS
+
+Create these metrics:
+
+### Brand Mention Rate
+
+Percentage of tested prompts where UrbanGrid is mentioned.
+
+### Recommendation Rate
+
+Percentage of relevant commercial prompts where UrbanGrid is recommended.
+
+### Citation Rate
+
+Percentage of prompts where UrbanGrid's own website is cited.
+
+### Average Position
+
+Average position of UrbanGrid when multiple companies are recommended.
+
+### AI Share of Voice
+
+Compare UrbanGrid's mentions against competitors across the same prompt set.
+
+### Platform Visibility
+
+Show separate scores/results for:
+
+* ChatGPT
+* Claude
+* Gemini
+* Perplexity
+
+### Query Coverage
+
+Show which topics/locations/services UrbanGrid appears for and which it does not.
+
+### Sentiment
+
+Classify mentions as:
+
+* Positive
+* Neutral
+* Negative
+
+### Competitor Visibility
+
+Show which competitors consistently outperform UrbanGrid and for which queries.
+
+## 6. DASHBOARD
+
+Create a clear dashboard with three separate headline scores:
+
+SEO SCORE
+Example: 84/100
+
+GEO READINESS
+Example: 76/100
+
+LLM VISIBILITY
+Example: 43/100
+
+Do not combine these into one score unless there is a clear explanation of the methodology.
+
+For LLM Visibility, show:
+
+UrbanGrid mentioned: 42/100 queries
+UrbanGrid recommended: 31/100
+UrbanGrid website cited: 24/100
+AI Share of Voice: 28%
+Average recommendation position: 2.7
+
+Then show platform-level results.
+
+## 7. COMPETITOR COMPARISON
+
+Allow me to enter UrbanGrid's competitors.
+
+Compare:
+
+* Mention rate
+* Recommendation rate
+* Citation rate
+* Average position
+* Share of voice
+* Platform performance
+* Query/topic coverage
+
+Create a chart showing UrbanGrid vs competitors.
+
+## 8. OPPORTUNITY ENGINE
+
+Based on the actual benchmark results, automatically generate recommendations.
+
+Examples:
+
+"UrbanGrid is not appearing for 'best snagging company in Dubai' on 3 of 4 tested platforms."
+
+"Competitor X is consistently being cited for Dubai property inspection queries."
+
+"UrbanGrid has strong visibility for snagging queries but weak visibility for handover inspection queries."
+
+"Create/strengthen a page answering 'How much does snagging cost in Dubai?'"
+
+Prioritize recommendations as:
+
+CRITICAL
+HIGH
+MEDIUM
+LOW
+
+Each recommendation should explain:
+
+* Problem
+* Evidence
+* Why it matters
+* Recommended action
+* Relevant URL/page if applicable
+
+## 9. HISTORICAL TRACKING
+
+Do not make this a one-time audit.
+
+Store benchmark results over time.
+
+Show:
+
+Current visibility
+Previous visibility
+Change %
+Trend
+
+Example:
+
+LLM Visibility
+43 → 51
++18.6%
+
+Also track visibility by platform and query category.
+
+## 10. IMPORTANT METHODOLOGY/DISCLAIMER
+
+The dashboard must clearly distinguish:
+
+"GEO Readiness" = analysis of UrbanGrid's website and digital presence indicating how accessible and understandable it is to AI systems.
+
+"LLM Visibility" = observed results from actually querying supported AI platforms using the benchmark prompts.
+
+Never state or imply that an SEO/GEO audit proves UrbanGrid is being recommended by ChatGPT, Claude or Gemini.
+
+If direct testing has not been performed, display:
+
+"LLM visibility has not yet been directly benchmarked."
+
+Do not fabricate, estimate or infer actual AI-platform mentions.
+
+## 11. FIRST IMPLEMENTATION PRIORITY
+
+Before changing the visual design, inspect the existing visibility/SEO implementation and identify:
+
+1. What is already implemented
+2. What is currently being measured
+3. Which scores are inferred
+4. Which scores are based on real observations
+5. Which AI platforms can actually be queried through available APIs/integrations
+6. What data model is required to store benchmark runs
+7. What API keys/integrations are required
+8. What can be implemented immediately without external API access
+
+Then give me an implementation plan and proceed with the parts that can be implemented safely.
+
+The final objective is:
+
+SEO tells me whether UrbanGrid can rank.
+
+GEO tells me whether UrbanGrid is prepared for AI discovery and citation.
+
+LLM Visibility tells me whether AI platforms actually mention, recommend and cite UrbanGrid.
+
+Build the system around this distinction.

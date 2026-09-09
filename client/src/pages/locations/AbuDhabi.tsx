@@ -82,7 +82,7 @@ export default function AbuDhabi() {
       {/* Trust strip */}
       <div className="bg-brand-green py-4">
         <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 flex flex-wrap gap-6 items-center justify-between">
-          {["12,000+ Abu Dhabi inspections completed", "24-hour report delivery", "DMT-compliant process", "All Abu Dhabi communities covered"].map(t => (
+          {["Experienced Abu Dhabi inspection team", "24-hour report delivery", "DMT-aware process", "Communities across Abu Dhabi covered"].map(t => (
             <span key={t} className="flex items-center gap-2 text-white text-xs font-medium">
               <CheckCircle className="w-3 h-3 shrink-0" /> {t}
             </span>
@@ -142,7 +142,7 @@ export default function AbuDhabi() {
             Every Abu Dhabi Community Covered
           </h2>
           <p className="text-zinc-500 text-sm leading-relaxed max-w-xl mb-12">
-            12,000+ Abu Dhabi inspections mean our engineers know the defect profiles of each community in depth.
+            Our Abu Dhabi inspection experience gives our engineers practical knowledge of recurring defect profiles across the emirate's major communities.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-zinc-200">
             {communities.map(c => (
@@ -229,18 +229,6 @@ export default function AbuDhabi() {
         </div>
       </section>
 
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "UrbanGrid Property Inspection Abu Dhabi",
-        "description": "Professional property snagging and inspection services in Abu Dhabi, UAE",
-        "url": "https://urbangrid.ae/locations/abu-dhabi",
-        "telephone": "+971585686852",
-        "email": "info@urbangrid.ae",
-        "areaServed": { "@type": "City", "name": "Abu Dhabi", "addressCountry": "AE" },
-        "address": { "@type": "PostalAddress", "addressLocality": "Abu Dhabi", "addressCountry": "AE" },
-        "priceRange": "$$"
-      })}} />
     </>
   );
 }

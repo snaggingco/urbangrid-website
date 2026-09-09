@@ -2,26 +2,39 @@ import bcrypt from "bcryptjs";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import session from "express-session";
+import connectPg from "connect-pg-simple";
 import type { Express } from "express";
 
-// Super admin credentials (hardcoded as requested)
-const SUPER_ADMIN = {
-  username: "arif",
-  passwordHash: bcrypt.hashSync("UrbanGrid@2023#", 10),
-  id: "super-admin",
-  firstName: "Arif",
-  lastName: "Admin",
-  email: "admin@urbangrid.ae",
-  role: "admin" as const,
-};
-
 export function setupLocalAuth(app: Express) {
+  const adminUsername = process.env.ADMIN_USERNAME || "admin";
+  const adminPasswordHash = process.env.ADMIN_PASSWORD
+    ? bcrypt.hashSync(process.env.ADMIN_PASSWORD, 12)
+    : null;
+
+  if (!adminPasswordHash) {
+    console.warn("ADMIN_PASSWORD is not configured; local admin login is disabled.");
+  }
+
+  const PgSessionStore = connectPg(session);
+  const sessionStore = new PgSessionStore({
+    conString: process.env.DATABASE_URL,
+    createTableIfMissing: false,
+    tableName: "sessions",
+  });
+
   // Setup session middleware for passport
   app.use(session({
-    secret: process.env.SESSION_SECRET || 'your-secret-key',
+    secret: process.env.SESSION_SECRET!,
+    store: sessionStore,
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false } // set to true in production with HTTPS
+    name: "urbangrid.sid",
+    cookie: {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 8 * 60 * 60 * 1000,
+    },
   }));
 
   // Initialize passport
@@ -44,14 +57,18 @@ export function setupLocalAuth(app: Express) {
     passwordField: 'password'
   }, async (username, password, done) => {
     try {
-      if (username === SUPER_ADMIN.username && bcrypt.compareSync(password, SUPER_ADMIN.passwordHash)) {
+      if (
+        adminPasswordHash &&
+        username === adminUsername &&
+        bcrypt.compareSync(password, adminPasswordHash)
+      ) {
         return done(null, {
           claims: {
-            sub: SUPER_ADMIN.id,
-            email: SUPER_ADMIN.email,
-            first_name: SUPER_ADMIN.firstName,
-            last_name: SUPER_ADMIN.lastName,
-            role: SUPER_ADMIN.role,
+            sub: "super-admin",
+            email: process.env.ADMIN_EMAIL || "admin@urbangrid.ae",
+            first_name: "UrbanGrid",
+            last_name: "Administrator",
+            role: "admin",
           }
         });
       }

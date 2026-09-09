@@ -124,17 +124,6 @@ export default function Fujairah() {
         </div>
       </section>
 
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "UrbanGrid Property Inspection Fujairah",
-        "description": "Professional property snagging and inspection services in Fujairah, UAE",
-        "url": "https://urbangrid.ae/locations/fujairah",
-        "telephone": "+971585686852",
-        "email": "info@urbangrid.ae",
-        "areaServed": { "@type": "City", "name": "Fujairah", "addressCountry": "AE" },
-        "priceRange": "$$"
-      })}} />
     </>
   );
 }

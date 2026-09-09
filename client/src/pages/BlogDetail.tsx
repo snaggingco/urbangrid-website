@@ -238,7 +238,7 @@ export default function BlogDetail() {
               <p className="text-[10px] font-bold tracking-[0.25em] text-brand-green uppercase mb-2">About the Author</p>
               <h3 className="text-2xl font-bold text-zinc-900 mb-4">UrbanGrid Editorial Team</h3>
               <p className="text-zinc-500 leading-relaxed">
-                The UrbanGrid Editorial Team comprises NFPA, ASHRAE and ASTM certified property inspection experts with extensive experience across the UAE real estate market, specialising in technical snagging, handover inspections, and compliance reporting.
+                The UrbanGrid Editorial Team covers technical snagging, handover inspections and compliance reporting across the UAE, referencing relevant NFPA, ASHRAE and ASTM publications where applicable.
               </p>
             </div>
           </div>

@@ -40,16 +40,16 @@ export default function About() {
 
   const achievements = [
     { number: "40000+", label: "Properties Inspected" },
-    { number: "100%", label: "Client Satisfaction" },
-    { number: "50+", label: "Partner Developers" },
-    { number: "10+", label: "Years Experience" }
+    { number: "7", label: "Emirates Served" },
+    { number: "24h", label: "Report Target" },
+    { number: "2014", label: "Founded" }
   ];
 
   return (
     <>
       <SEO
         title="About UrbanGrid - Property Inspection Experts in UAE"
-        description="UrbanGrid is the UAE's leading NFPA, ASHRAE & ASTM certified property snagging and inspection company. Meet our team of expert inspectors."
+        description="UrbanGrid provides independent property snagging and inspection services across the UAE using documented NFPA, ASHRAE and ASTM references."
       />
     <div className="pt-16">
       {/* Hero Section */}
@@ -79,7 +79,7 @@ export default function About() {
                   Founded in 2014, UrbanGrid emerged from a simple yet powerful vision: to protect property investments across the UAE through meticulous inspection and quality assurance services. Our journey began when our founder, Ahmed Al-Rashid, recognized the need for independent, professional property inspections in Dubai's rapidly expanding real estate market.
                 </p>
                 <p>
-                  Today, we stand as one of the UAE's most trusted property inspection companies, having served over 2,000 clients across all seven emirates. Our commitment to excellence, attention to detail, and unwavering integrity has earned us the trust of homeowners, investors, developers, and contractors alike.
+                  UrbanGrid reports completing more than 40,000 property inspections across all seven emirates. Our work supports homeowners, investors, developers, brokers, and contractors with independent findings and photographic evidence.
                 </p>
                 <p>
                   Our mission is simple: to ensure that every property meets the highest standards of quality and safety, protecting our clients' investments and providing them with the confidence they need to make informed decisions.

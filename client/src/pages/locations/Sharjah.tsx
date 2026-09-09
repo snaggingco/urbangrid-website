@@ -196,18 +196,6 @@ export default function Sharjah() {
         </div>
       </section>
 
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "UrbanGrid Property Inspection Sharjah",
-        "description": "Professional property snagging and inspection services in Sharjah, UAE",
-        "url": "https://urbangrid.ae/locations/sharjah",
-        "telephone": "+971585686852",
-        "email": "info@urbangrid.ae",
-        "areaServed": { "@type": "City", "name": "Sharjah", "addressCountry": "AE" },
-        "address": { "@type": "PostalAddress", "addressLocality": "Sharjah", "addressCountry": "AE" },
-        "priceRange": "$$"
-      })}} />
     </>
   );
 }

@@ -3,33 +3,8 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import bcrypt from "bcryptjs";
 import { storage } from "./storage";
-import { Inspector } from "@shared/schema";
-
-// Initialize inspector with default account
-const initializeDefaultInspector = async () => {
-  try {
-    const existing = await storage.getInspectorByUsername("shahbas");
-    if (!existing) {
-      const hashedPassword = bcrypt.hashSync("Shahbas@123#", 10);
-      await storage.createInspector({
-        username: "shahbas",
-        passwordHash: hashedPassword,
-        fullName: "Shahbas Inspector",
-        email: "shahbas@urbangrid.ae",
-        phone: "+971567427634",
-        isActive: true,
-      });
-      console.log("Default inspector account created: shahbas");
-    }
-  } catch (error) {
-    console.error("Error creating default inspector:", error);
-  }
-};
 
 export function setupInspectorAuth(app: Express) {
-  // Initialize default inspector account
-  initializeDefaultInspector();
-
   // Inspector local strategy
   passport.use('inspector-local', new LocalStrategy({
     usernameField: 'username',

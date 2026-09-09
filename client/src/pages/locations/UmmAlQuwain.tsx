@@ -124,17 +124,6 @@ export default function UmmAlQuwain() {
         </div>
       </section>
 
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "UrbanGrid Property Inspection Umm Al Quwain",
-        "description": "Professional property snagging and inspection services in Umm Al Quwain, UAE",
-        "url": "https://urbangrid.ae/locations/umm-al-quwain",
-        "telephone": "+971585686852",
-        "email": "info@urbangrid.ae",
-        "areaServed": { "@type": "City", "name": "Umm Al Quwain", "addressCountry": "AE" },
-        "priceRange": "$$"
-      })}} />
     </>
   );
 }

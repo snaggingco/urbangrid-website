@@ -22,13 +22,11 @@ import internachi1 from "@assets/internachi.webp";
 import internachi2 from "@assets/internachi2.webp";
 
 export default function Home() {
-  const [isVisible, setIsVisible] = useState(false);
-  const [counts, setCounts] = useState({ inspections: 0, defects: 0, saving: 0, cities: 0, rating: 0 });
+  const [counts, setCounts] = useState({ inspections: 0, defects: 0, cities: 0 });
   const [activeTab, setActiveTab] = useState<keyof typeof serviceCategories>('property-snagging');
   const [reportModalOpen, setReportModalOpen] = useState(false);
 
   useEffect(() => {
-    setIsVisible(true);
     const duration = 2000;
     const steps = 50;
     const interval = duration / steps;
@@ -38,9 +36,7 @@ export default function Home() {
       setCounts({
         inspections: Math.floor((40000 / steps) * step),
         defects: Math.floor((600000 / steps) * step),
-        saving: Math.floor((50000 / steps) * step),
         cities: Math.floor((7 / steps) * step),
-        rating: Math.min(5, parseFloat(((5 / steps) * step).toFixed(1)))
       });
       if (step >= steps) clearInterval(timer);
     }, interval);
@@ -151,19 +147,10 @@ export default function Home() {
     <>
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <section className="relative min-h-[80vh] sm:min-h-[85vh] md:min-h-[85vh] flex flex-col justify-center bg-zinc-900 mt-8 lg:mt-12 overflow-hidden">
-        <img
-          src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=750&q=60"
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover opacity-20"
-          width="1200"
-          height="750"
-          fetchpriority="high"
-          decoding="async"
-        />
+        <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(6,78,59,0.48),transparent_38%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-zinc-900/60 via-zinc-900/45 to-zinc-900" />
 
-        <div className={`relative z-10 max-w-6xl mx-auto w-full px-6 sm:px-10 lg:px-16 pt-10 sm:pt-16 pb-10 sm:pb-24 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        <div className="relative z-10 max-w-6xl mx-auto w-full px-6 sm:px-10 lg:px-16 pt-10 sm:pt-16 pb-10 sm:pb-24">
 
           <h1 className="text-[1.75rem] sm:text-4xl lg:text-7xl font-bold text-white leading-[1.2] sm:leading-[1.05] tracking-tight mb-4 sm:mb-5 max-w-3xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
             UAE's Leading Home Inspection
@@ -255,16 +242,16 @@ export default function Home() {
               <div className="text-[7px] uppercase tracking-[0.1em] text-zinc-500 font-medium mt-0.5">Inspected</div>
             </div>
             <div className="py-3 px-1 text-center">
-              <div className="text-sm font-bold text-brand-green">AED {counts.saving.toLocaleString()}+</div>
-              <div className="text-[7px] uppercase tracking-[0.1em] text-zinc-500 font-medium mt-0.5">Avg. Saving</div>
+              <div className="text-sm font-bold text-white">7</div>
+              <div className="text-[7px] uppercase tracking-[0.1em] text-zinc-500 font-medium mt-0.5">Emirates</div>
             </div>
             <div className="py-3 px-1 text-center">
-              <div className="text-sm font-bold text-white">{counts.rating} <span className="text-yellow-500 text-[10px]">*</span></div>
-              <div className="text-[7px] uppercase tracking-[0.1em] text-zinc-500 font-medium mt-0.5">Satisfaction</div>
+              <div className="text-sm font-bold text-white">24h</div>
+              <div className="text-[7px] uppercase tracking-[0.1em] text-zinc-500 font-medium mt-0.5">Report Target</div>
             </div>
           </div>
           {/* Desktop */}
-          <div className="hidden md:grid grid-cols-5 divide-x divide-white/10">
+          <div className="hidden md:grid grid-cols-4 divide-x divide-white/10">
             <div className="py-5 px-4">
               <div className="text-xl lg:text-2xl font-bold text-white">{counts.inspections.toLocaleString()}+</div>
               <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Properties Inspected</div>
@@ -274,16 +261,12 @@ export default function Home() {
               <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Defects Found</div>
             </div>
             <div className="py-5 px-4">
-              <div className="text-xl lg:text-2xl font-bold text-brand-green">AED {counts.saving.toLocaleString()}+</div>
-              <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Avg. Client Saving</div>
-            </div>
-            <div className="py-5 px-4">
               <div className="text-xl lg:text-2xl font-bold text-white">{counts.cities}</div>
               <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Emirates Covered</div>
             </div>
             <div className="py-5 px-4">
-              <div className="text-xl lg:text-2xl font-bold text-white">{counts.rating} <span className="text-yellow-500 text-sm">*</span></div>
-              <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Client Satisfaction</div>
+              <div className="text-xl lg:text-2xl font-bold text-white">24h</div>
+              <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Report Delivery Target</div>
             </div>
           </div>
         </div>
@@ -458,17 +441,17 @@ export default function Home() {
       {/* ── ACCREDITATIONS ────────────────────────────────────────────────── */}
       <section className="py-20 bg-zinc-50 border-y border-zinc-100">
         <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
-          <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Accreditations</p>
+          <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Inspection Principles</p>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-8">
-            <h2 className="text-3xl font-bold text-zinc-900">Certified &amp; Accredited</h2>
-            <p className="text-zinc-500 text-xs leading-relaxed max-w-xs">Trusted by leading developers, contractors, and homeowners across the UAE.</p>
+            <h2 className="text-3xl font-bold text-zinc-900">Clear evidence, practical decisions</h2>
+            <p className="text-zinc-500 text-xs leading-relaxed max-w-xs">Each inspection is designed to give property buyers and owners a usable record of observed defects.</p>
           </div>
           <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 divide-x divide-zinc-200 border border-zinc-200">
             {[
-              { label: "RERA Approved", icon: "fas fa-certificate" },
-              { label: "ISO 9001", icon: "fas fa-shield-alt" },
-              { label: "NACHI Member", icon: "fas fa-award" },
-              { label: "Dubai Municipality", icon: "fas fa-building" },
+              { label: "Independent Findings", icon: "fas fa-search" },
+              { label: "Photographic Evidence", icon: "fas fa-camera" },
+              { label: "Room-by-Room Checks", icon: "fas fa-clipboard-check" },
+              { label: "Actionable Reports", icon: "fas fa-file-alt" },
             ].map((cert) => (
               <div key={cert.label} className="flex flex-col items-center justify-center py-10 px-4 gap-3">
                 <i className={`${cert.icon} text-brand-green text-xl`}></i>
@@ -489,11 +472,8 @@ export default function Home() {
                 What Our Clients Say
               </h2>
               <div className="flex items-center gap-3">
-                <div className="flex">
-                  {[1,2,3,4,5].map(i => <Star key={i} className="w-4 h-4 fill-yellow-500 text-yellow-500" />)}
-                </div>
                 <p className="text-zinc-500 text-sm">
-                  Based on <span className="font-semibold text-zinc-900">1,200+ verified Google reviews</span> · 5.0 * average
+                  Client experiences from completed UrbanGrid inspection projects
                 </p>
               </div>
             </div>
@@ -730,7 +710,7 @@ export default function Home() {
             </div>
             <div className="flex items-center gap-2 text-zinc-500 text-xs font-medium">
               <Star className="w-3 h-3 text-yellow-500" />
-              <span>5.0 * · 1,200+ Google Reviews</span>
+              <span>Independent, photographic inspection reports</span>
             </div>
           </div>
         </div>

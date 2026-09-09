@@ -30,32 +30,32 @@ interface SEOProps {
 const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
   '/': {
     title: 'Property Snagging Dubai & UAE | From AED 800 | UrbanGrid',
-    description: 'Independent property snagging across Dubai, Abu Dhabi & UAE. RERA, NFPA & ASHRAE certified engineers. Reports in 24 hours. From AED 800.',
-    ogImage: 'https://urbangrid.ae/og-image.jpg'
+    description: 'Independent property snagging across Dubai, Abu Dhabi and the UAE. Engineer-led inspections reference relevant RERA, NFPA and ASHRAE requirements. Reports in 24 hours.',
+    ogImage: 'https://urbangrid.ae/og-image.png'
   },
   '/about': {
     title: 'About UrbanGrid - UAE\'s Leading Property Inspection Company',
     description: 'Learn about UrbanGrid\'s professional property inspection team. Trusted snagging experts serving Dubai, Abu Dhabi, and Sharjah with comprehensive inspection services.',
     keywords: 'about urbangrid, property inspection company UAE, professional snagging team Dubai, property experts',
-    ogImage: 'https://urbangrid.ae/og-image.jpg'
+    ogImage: 'https://urbangrid.ae/og-image.png'
   },
   '/services': {
     title: 'Snagging & Inspection Services UAE | From AED 800 | UrbanGrid',
     description: 'Property snagging, RERA reports & technical inspections across Dubai, Abu Dhabi & UAE. Engineer-led, photo reports in 24 hours. From AED 800.',
     keywords: 'property inspection services UAE, snagging services Dubai, pre-purchase inspection, villa snagging, apartment inspection, building inspection companies near me',
-    ogImage: 'https://urbangrid.ae/og-image.jpg'
+    ogImage: 'https://urbangrid.ae/og-image.png'
   },
   '/contact': {
     title: 'Contact UrbanGrid Property Inspection - Dubai Abu Dhabi UAE',
     description: 'Contact UrbanGrid for expert property snagging services. Call +971 58 568 6852 or email info@urbangrid.ae for professional inspection quotes across UAE.',
     keywords: 'contact property inspection UAE, snagging company Dubai, property inspection quote, urbangrid contact',
-    ogImage: 'https://urbangrid.ae/og-image.jpg'
+    ogImage: 'https://urbangrid.ae/og-image.png'
   },
   '/blog': {
     title: 'Property Inspection Blog - Expert Tips & Insights | UrbanGrid',
     description: 'Expert property inspection tips, UAE property market insights, and professional snagging advice from UrbanGrid\'s experienced team.',
     keywords: 'property inspection blog UAE, snagging tips Dubai, property market insights, inspection advice',
-    ogImage: 'https://urbangrid.ae/og-image.jpg'
+    ogImage: 'https://urbangrid.ae/og-image.png'
   },
 
   // Property Snagging Services
@@ -199,7 +199,7 @@ export default function SEO({
     const title = customTitle || routeData.title || 'UrbanGrid Property Inspection - Professional Snagging Services in UAE';
     const description = customDescription || routeData.description || 'Professional property inspection and snagging services across Dubai, Abu Dhabi, and UAE.';
     const keywords = customKeywords || routeData.keywords || 'property snagging UAE, property inspection Dubai, Snagging Company Dubai, building inspection companies near me';
-    const ogImage = customOgImage || routeData.ogImage || 'https://urbangrid.ae/og-image.jpg';
+    const ogImage = customOgImage || routeData.ogImage || 'https://urbangrid.ae/og-image.png';
     const shouldNoindex = noindex;
 
     const canonical = customCanonical || `https://urbangrid.ae${location}`;

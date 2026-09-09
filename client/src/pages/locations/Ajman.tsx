@@ -132,17 +132,6 @@ export default function Ajman() {
         </div>
       </section>
 
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "UrbanGrid Property Inspection Ajman",
-        "description": "Professional property snagging and inspection services in Ajman, UAE",
-        "url": "https://urbangrid.ae/locations/ajman",
-        "telephone": "+971585686852",
-        "email": "info@urbangrid.ae",
-        "areaServed": { "@type": "City", "name": "Ajman", "addressCountry": "AE" },
-        "priceRange": "$$"
-      })}} />
     </>
   );
 }

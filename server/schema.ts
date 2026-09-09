@@ -4,11 +4,6 @@
 
 import { serviceFAQs } from "../shared/faqs";
 
-export const AGGREGATE_RATING = {
-  ratingValue: '4.9',
-  reviewCount: '200',
-};
-
 // ── Homepage: Organization + LocalBusiness + WebSite ──────────────────────────────────
 export function homepageSchema(): string {
   const org = {
@@ -16,6 +11,7 @@ export function homepageSchema(): string {
     "@graph": [
       {
         "@type": "Organization",
+        "@id": "https://urbangrid.ae/#organization",
         "name": "UrbanGrid Property Inspection",
         "alternateName": "UrbanGrid",
         "url": "https://urbangrid.ae",
@@ -32,15 +28,11 @@ export function homepageSchema(): string {
           "addressRegion": "Dubai",
           "addressLocality": "Dubai"
         },
-        "sameAs": ["https://urbangrid.ae"],
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": AGGREGATE_RATING.ratingValue,
-          "reviewCount": AGGREGATE_RATING.reviewCount
-        }
+        "areaServed": { "@type": "Country", "name": "United Arab Emirates" }
       },
       {
         "@type": "LocalBusiness",
+        "@id": "https://urbangrid.ae/#dubai-office",
         "name": "UrbanGrid Property Snagging Inspection",
         "description": "Professional property inspection and snagging services across UAE",
         "url": "https://urbangrid.ae",
@@ -54,12 +46,7 @@ export function homepageSchema(): string {
           "addressCountry": "AE"
         },
         "priceRange": "$$",
-        "openingHours": "Mo-Sa 08:00-18:00",
-        "aggregateRating": {
-          "@type": "AggregateRating",
-          "ratingValue": AGGREGATE_RATING.ratingValue,
-          "reviewCount": AGGREGATE_RATING.reviewCount
-        }
+        "openingHours": "Mo-Sa 08:00-18:00"
       },
       {
         "@type": "WebSite",
@@ -80,27 +67,21 @@ export function homepageSchema(): string {
 export function locationSchema(emirate: string, emirateTitle: string, description: string): string {
   const localBusiness = {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
+    "@type": "Service",
+    "@id": `https://urbangrid.ae/locations/${emirate}#service`,
     "name": `UrbanGrid Property Inspection ${emirateTitle}`,
     "description": description,
     "url": `https://urbangrid.ae/locations/${emirate}`,
     "telephone": "+971585686852",
     "email": "info@urbangrid.ae",
     "areaServed": { "@type": "City", "name": emirateTitle, "addressCountry": "AE" },
-    "address": {
-      "@type": "PostalAddress",
-      "streetAddress": "Office 1205, Business Bay",
-      "addressLocality": "Dubai",
-      "addressRegion": "Dubai",
-      "addressCountry": "AE"
+    "provider": {
+      "@type": "Organization",
+      "@id": "https://urbangrid.ae/#organization",
+      "name": "UrbanGrid Property Inspection",
+      "url": "https://urbangrid.ae"
     },
-    "priceRange": "$$",
-    "openingHours": "Mo-Sa 08:00-18:00",
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": AGGREGATE_RATING.ratingValue,
-      "reviewCount": AGGREGATE_RATING.reviewCount
-    }
+    "serviceType": "Property inspection and snagging"
   };
   return `<script type="application/ld+json">${JSON.stringify(localBusiness)}</script>`;
 }
@@ -113,7 +94,8 @@ export function serviceSchema(servicePath: string, serviceTitle: string, service
     "name": serviceTitle,
     "description": serviceDesc,
     "provider": {
-      "@type": "LocalBusiness",
+      "@type": "Organization",
+      "@id": "https://urbangrid.ae/#organization",
       "name": "UrbanGrid Property Snagging Inspection",
       "telephone": "+971585686852",
       "email": "info@urbangrid.ae",
@@ -123,12 +105,7 @@ export function serviceSchema(servicePath: string, serviceTitle: string, service
         "addressCountry": "AE",
         "addressRegion": "Dubai"
       },
-      "priceRange": "$$",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": AGGREGATE_RATING.ratingValue,
-        "reviewCount": AGGREGATE_RATING.reviewCount
-      }
+      "priceRange": "$$"
     },
     "areaServed": [
       { "@type": "City", "name": "Dubai", "addressCountry": "AE" },

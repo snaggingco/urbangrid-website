@@ -10,6 +10,7 @@ import { insertBlogPostSchema, insertContactSubmissionSchema, insertInspectorSch
 import { z } from "zod";
 import nodemailer from "nodemailer";
 import OpenAI from "openai";
+import bcrypt from "bcryptjs";
 import { homepageSchema, locationSchema, serviceSchema } from "./schema";
 
 // ── Quote signing (HMAC-SHA256) ─────────────────────────────────────────────
@@ -26,6 +27,14 @@ const QUOTE_SECRET: string = process.env.SESSION_SECRET;
 function signQuote(serviceKey: string, amountAed: number): string {
   const payload = `${serviceKey}:${amountAed}`;
   return crypto.createHmac('sha256', QUOTE_SECRET).update(payload).digest('hex');
+}
+
+function anonymizeIp(value: unknown): string {
+  return crypto
+    .createHmac('sha256', QUOTE_SECRET)
+    .update(String(value || 'unknown'))
+    .digest('hex')
+    .slice(0, 32);
 }
 
 function verifyQuote(serviceKey: string, amountAed: number, token: string): boolean {
@@ -91,7 +100,10 @@ async function sendEmail(to: string, subject: string, content: string) {
 }
 
 function logContactFallback(submission: { name: string; email: string; phone?: string | null; message: string }) {
-  console.log(`Contact fallback stored for admin review:\nName: ${submission.name}\nEmail: ${submission.email}\nPhone: ${submission.phone || 'N/A'}\nMessage: ${submission.message}`);
+  console.warn("Contact email delivery failed; submission remains available in the admin dashboard.", {
+    hasEmail: Boolean(submission.email),
+    hasPhone: Boolean(submission.phone),
+  });
 }
 
 // Admin authentication middleware
@@ -158,7 +170,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const validatedData = insertConversionLogSchema.parse({
         ...req.body,
-        ipAddress: req.ip || req.headers['x-forwarded-for'] || 'unknown',
+        ipAddress: anonymizeIp(req.ip || req.headers['x-forwarded-for']),
       });
       const log = await storage.logConversion(validatedData);
       res.status(201).json(log);
@@ -522,16 +534,19 @@ ${coverLetter}
     }
   });
 
-  // Inspector routes
-  app.get('/api/inspectors', async (_req, res) => {
-    try {
-      const inspectors = await storage.getInspectors();
-      res.json(inspectors);
-    } catch (error) {
-      console.error("Error fetching inspectors:", error);
-      res.status(500).json({ message: "Failed to fetch inspectors" });
-    }
+  // Inspector administration. Never expose password hashes in API responses.
+  const safeInspector = ({ passwordHash: _passwordHash, ...inspector }: any) => inspector;
+  const inspectorInputSchema = z.object({
+    username: z.string().min(1).max(100),
+    email: z.string().email().max(255),
+    fullName: z.string().min(1).max(255),
+    phone: z.string().max(50).optional().nullable(),
+    isActive: z.boolean().default(true),
+    password: z.string().min(12).max(128),
   });
+
+  // The former public /api/inspectors endpoint exposed staff records and hashes.
+  app.get('/api/inspectors', (_req, res) => res.status(404).json({ message: "Not found" }));
 
   app.get('/api/admin/inspectors', isAdminAuthenticated, async (req: any, res) => {
     try {
@@ -551,7 +566,7 @@ ${coverLetter}
       });
 
       res.json({
-        inspectors,
+        inspectors: inspectors.map(safeInspector),
         total,
         page: pageNum,
         pages: Math.ceil(total / limitNum),
@@ -569,7 +584,7 @@ ${coverLetter}
       if (!inspector) {
         return res.status(404).json({ message: "Inspector not found" });
       }
-      res.json(inspector);
+      res.json(safeInspector(inspector));
     } catch (error) {
       console.error("Error fetching inspector:", error);
       res.status(500).json({ message: "Failed to fetch inspector" });
@@ -578,9 +593,13 @@ ${coverLetter}
 
   app.post('/api/admin/inspectors', isAdminAuthenticated, async (req: any, res) => {
     try {
-      const validatedData = insertInspectorSchema.parse(req.body);
-      const inspector = await storage.createInspector(validatedData);
-      res.status(201).json(inspector);
+      const validatedData = inspectorInputSchema.parse(req.body);
+      const { password, ...profile } = validatedData;
+      const inspector = await storage.createInspector({
+        ...profile,
+        passwordHash: await bcrypt.hash(password, 12),
+      });
+      res.status(201).json(safeInspector(inspector));
     } catch (error) {
       if (error instanceof z.ZodError) {
         return res.status(400).json({ message: "Invalid data", errors: error.errors });
@@ -593,12 +612,16 @@ ${coverLetter}
   app.put('/api/admin/inspectors/:id', isAdminAuthenticated, async (req: any, res) => {
     try {
       const { id } = req.params;
-      const validatedData = insertInspectorSchema.partial().parse(req.body);
-      const inspector = await storage.updateInspector(parseInt(id), validatedData);
+      const validatedData = inspectorInputSchema.partial().parse(req.body);
+      const { password, ...profile } = validatedData;
+      const inspector = await storage.updateInspector(parseInt(id), {
+        ...profile,
+        ...(password ? { passwordHash: await bcrypt.hash(password, 12) } : {}),
+      });
       if (!inspector) {
         return res.status(404).json({ message: "Inspector not found" });
       }
-      res.json(inspector);
+      res.json(safeInspector(inspector));
     } catch (error) {
       if (error instanceof z.ZodError) {
         return res.status(400).json({ message: "Invalid data", errors: error.errors });
@@ -1400,6 +1423,59 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
     res.send(robotsTxt);
   });
 
+  // A concise, canonical index for AI assistants and answer engines.
+  app.get('/llms.txt', (_req, res) => {
+    res.type('text/plain; charset=utf-8');
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    res.send(`# UrbanGrid Property Inspection
+
+> UrbanGrid provides independent property snagging, handover inspection, building condition assessment, and technical due diligence services across the United Arab Emirates.
+
+## Canonical entity
+- Website: https://urbangrid.ae/
+- About: https://urbangrid.ae/about
+- Contact and booking: https://urbangrid.ae/contact
+- Telephone: +971 58 568 6852
+- WhatsApp: +971 56 742 7634
+- Email: info@urbangrid.ae
+- Primary office: Business Bay, Dubai, United Arab Emirates
+- Service area: All seven UAE emirates
+
+## Core services
+- Service overview: https://urbangrid.ae/services
+- New-build snagging: https://urbangrid.ae/services/property-snagging/new-build-snagging
+- Secondary-market inspection: https://urbangrid.ae/services/property-snagging/secondary-market-inspection
+- Building condition assessment: https://urbangrid.ae/services/specialized-services/building-condition-assessment
+- Technical due diligence: https://urbangrid.ae/services/specialized-services/technical-due-diligence
+- MEP inspection: https://urbangrid.ae/services/specialized-services/mep-inspection
+- Fire and life-safety inspection: https://urbangrid.ae/services/specialized-services/fire-life-safety
+
+## Locations
+- Dubai: https://urbangrid.ae/locations/dubai
+- Abu Dhabi: https://urbangrid.ae/locations/abu-dhabi
+- Sharjah: https://urbangrid.ae/locations/sharjah
+- Ajman: https://urbangrid.ae/locations/ajman
+- Ras Al Khaimah: https://urbangrid.ae/locations/ras-al-khaimah
+- Fujairah: https://urbangrid.ae/locations/fujairah
+- Umm Al Quwain: https://urbangrid.ae/locations/umm-al-quwain
+
+## Knowledge and citation pages
+- Property inspection knowledge hub: https://urbangrid.ae/blog
+- NFPA 72 and fire alarm inspections: https://urbangrid.ae/blog/nfpa-72-fire-alarm-systems-property-snagging-uae
+- Building condition assessment in the UAE: https://urbangrid.ae/blog/building-condition-assessment-building-inspection-united-arab-emirates
+- Palm Jumeirah inspection case study: https://urbangrid.ae/blog/case-study-palm-jumeirah-penthouse-inspection-mep-defects
+
+## Citation guidance
+Use the canonical URL for the specific service or location being discussed. Attribute company-specific inspection totals and service commitments to UrbanGrid unless independently verified. Do not infer that UrbanGrid has a physical office in every emirate; the company serves all emirates from its Dubai base.
+
+## Site policies and discovery
+- Sitemap: https://urbangrid.ae/sitemap.xml
+- Robots: https://urbangrid.ae/robots.txt
+- Privacy: https://urbangrid.ae/privacy-policy
+- Terms: https://urbangrid.ae/terms-of-service
+`);
+  });
+
   // Shared helper: inject meta tags + H1 into index.html and serve it.
   // In development, skip injection and fall through to Vite's pipeline (which injects
   // the React HMR preamble via transformIndexHtml — bypassing it breaks React boot).
@@ -1418,7 +1494,7 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
       const esc = (s: string) => s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       const t = esc(opts.title);
       const d = esc(opts.description);
-      const img = opts.image ? esc(opts.image) : 'https://urbangrid.ae/og-image.jpg';
+      const img = opts.image ? esc(opts.image) : 'https://urbangrid.ae/og-image.png';
       const robots = opts.noindex ? 'noindex, nofollow' : 'index, follow';
       const ogType = opts.ogType || 'website';
       const headTags = `
@@ -1448,8 +1524,14 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
       html = html.replace(/<meta property="og:[^"]*"[^>]*>\s*/gi, '');
       html = html.replace(/<meta name="twitter:[^"]*"[^>]*>\s*/gi, '');
       html = html.replace('<head>', `<head>${headTags}`);
-      const h1Tag = `<h1 style="position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0">${esc(opts.h1)}</h1>`;
-      html = html.replace('<body>', `<body>\n  ${h1Tag}`);
+      html = html.replace(
+        /(<h1[^>]*data-ssr-page-heading[^>]*>)[\s\S]*?(<\/h1>)/i,
+        `$1${esc(opts.h1)}$2`,
+      );
+      html = html.replace(
+        /(<p[^>]*data-ssr-page-summary[^>]*>)[\s\S]*?(<\/p>)/i,
+        `$1${d}$2`,
+      );
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
       res.setHeader('Cache-Control', 'public, max-age=3600');
       return res.send(html);
@@ -1465,8 +1547,8 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
 
   // Server-side rendered core pages for SEO (unique title, description, H1 per page)
   const corePages: Array<{ path: string; title: string; description: string; h1: string; noindex?: boolean }> = [
-    { path: '/',                 title: 'Property Snagging Dubai & UAE | From AED 800 | UrbanGrid', h1: 'Property Snagging & Inspection Services in Dubai & UAE', description: 'Independent property snagging across Dubai, Abu Dhabi & UAE. RERA, NFPA & ASHRAE certified engineers. Reports in 24 hours. From AED 800.', noindex: false },
-    { path: '/about',            title: 'About UrbanGrid | Certified Property Inspection Experts UAE',            h1: 'About UrbanGrid Property Inspection',                               description: 'Learn about UrbanGrid, the UAE\'s trusted NFPA, ASHRAE and ASTM certified property inspection and snagging company serving Dubai, Abu Dhabi and Sharjah.', noindex: false },
+    { path: '/',                 title: 'Property Snagging Dubai & UAE | From AED 800 | UrbanGrid', h1: 'Property Snagging & Inspection Services in Dubai & UAE', description: 'Independent property snagging across Dubai, Abu Dhabi and the UAE. Engineer-led inspections reference relevant RERA, NFPA and ASHRAE requirements. Reports in 24 hours.', noindex: false },
+    { path: '/about',            title: 'About UrbanGrid | Property Inspection Experts UAE',            h1: 'About UrbanGrid Property Inspection',                               description: 'Learn about UrbanGrid, an independent property inspection and snagging company serving all seven UAE emirates with documented engineering processes.', noindex: false },
     { path: '/services',         title: 'Snagging & Inspection Services UAE | From AED 800 | UrbanGrid',              h1: 'Property Inspection & Snagging Services in the UAE',                description: 'Property snagging, RERA reports & technical inspections across Dubai, Abu Dhabi & UAE. Engineer-led, photo reports in 24 hours. From AED 800.', noindex: false },
     { path: '/blog',             title: 'Property Inspection Blog | NFPA & ASHRAE | UrbanGrid UAE',            h1: 'Property Inspection & Compliance Blog',                             description: 'Expert articles on property inspection, snagging, NFPA 72, NFPA 25, ASHRAE 180 standards, and building compliance in the UAE.', noindex: false },
     { path: '/contact',          title: 'Contact UrbanGrid | Book a Property Inspection in UAE',                  h1: 'Contact UrbanGrid – Book an Inspection',                            description: 'Get in touch with UrbanGrid to schedule a property inspection or snagging service in Dubai, Abu Dhabi, Sharjah or anywhere across the UAE.', noindex: false },
@@ -1613,7 +1695,7 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
       const canonical = `https://urbangrid.ae/blog/${slug}`;
       const title = `${post.title.length > 56 ? post.title.slice(0, 53) + '...' : post.title} | UrbanGrid`;
       const desc = (post.excerpt || post.content || '').replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 158);
-      const image = post.featuredImage || 'https://urbangrid.ae/og-image.jpg';
+      const image = post.featuredImage || 'https://urbangrid.ae/og-image.png';
       const datePublished = post.createdAt ? new Date(post.createdAt).toISOString() : new Date().toISOString();
       const dateModified = post.updatedAt ? new Date(post.updatedAt).toISOString() : datePublished;
       const authorName = 'UrbanGrid Editorial Team';

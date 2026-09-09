@@ -1,5 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
 import compression from "compression";
+import crypto from "crypto";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 import { db } from "./db";
@@ -61,7 +62,7 @@ app.use((_req, res, next) => {
       "style-src 'self' 'unsafe-inline'",
       "font-src 'self' data:",
       "img-src 'self' data: blob: https:",
-      "connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://www.google.com https://googleads.g.doubleclick.net https://stats.g.doubleclick.net https://*.replit.dev wss://*.replit.dev",
+      "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://www.google.com https://googleads.g.doubleclick.net https://ad.doubleclick.net https://stats.g.doubleclick.net https://*.replit.dev wss://*.replit.dev",
       "frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://www.google.com",
       "object-src 'none'",
       "base-uri 'self'",
@@ -81,8 +82,6 @@ app.use((req, res, next) => {
 
   const start = Date.now();
   const path = req.path;
-  let capturedJsonResponse: Record<string, any> | undefined = undefined;
-
   const getClientIP = (req: any) => {
     return req.headers['x-forwarded-for']?.split(',')[0]?.trim() ||
            req.headers['x-real-ip'] ||
@@ -93,21 +92,15 @@ app.use((req, res, next) => {
   };
 
   const clientIP = getClientIP(req);
-
-  const originalResJson = res.json;
-  res.json = function (bodyJson, ...args) {
-    capturedJsonResponse = bodyJson;
-    return originalResJson.apply(res, [bodyJson, ...args]);
-  };
+  const anonymousVisitorId = crypto
+    .createHmac("sha256", process.env.SESSION_SECRET!)
+    .update(String(clientIP))
+    .digest("hex")
+    .slice(0, 32);
 
   res.on("finish", () => {
     const duration = Date.now() - start;
-    let logLine = `${clientIP} - ${req.method} ${path} ${res.statusCode} in ${duration}ms`;
-    if (path.startsWith("/api")) {
-      if (capturedJsonResponse) {
-        logLine += ` :: ${JSON.stringify(capturedJsonResponse)}`;
-      }
-    }
+    let logLine = `${req.method} ${path} ${res.statusCode} in ${duration}ms`;
     if (logLine.length > 120) {
       logLine = logLine.slice(0, 119) + "…";
     }
@@ -115,13 +108,13 @@ app.use((req, res, next) => {
 
     if (res.statusCode < 400) {
       db.insert(visitorLogs).values({
-        ipAddress: clientIP,
-        userAgent: req.headers['user-agent'] || null,
+        ipAddress: anonymousVisitorId,
+        userAgent: null,
         path: path,
         method: req.method,
         statusCode: res.statusCode.toString(),
         responseTime: `${duration}ms`,
-        referer: req.headers['referer'] || null,
+        referer: null,
       }).catch(error => {
         console.error("Failed to store visitor log:", error);
       });

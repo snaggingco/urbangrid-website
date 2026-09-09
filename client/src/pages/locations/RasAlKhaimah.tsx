@@ -133,17 +133,6 @@ export default function RasAlKhaimah() {
         </div>
       </section>
 
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "UrbanGrid Property Inspection Ras Al Khaimah",
-        "description": "Professional property snagging and inspection services in Ras Al Khaimah, UAE",
-        "url": "https://urbangrid.ae/locations/ras-al-khaimah",
-        "telephone": "+971585686852",
-        "email": "info@urbangrid.ae",
-        "areaServed": { "@type": "City", "name": "Ras Al Khaimah", "addressCountry": "AE" },
-        "priceRange": "$$"
-      })}} />
     </>
   );
 }

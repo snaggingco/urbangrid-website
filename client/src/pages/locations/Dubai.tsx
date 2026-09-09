@@ -237,18 +237,6 @@ export default function Dubai() {
       </section>
 
       {/* Schema */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "UrbanGrid Property Inspection Dubai",
-        "description": "Professional property snagging and inspection services in Dubai, UAE",
-        "url": "https://urbangrid.ae/locations/dubai",
-        "telephone": "+971585686852",
-        "email": "info@urbangrid.ae",
-        "areaServed": { "@type": "City", "name": "Dubai", "addressCountry": "AE" },
-        "address": { "@type": "PostalAddress", "addressLocality": "Dubai", "addressCountry": "AE" },
-        "priceRange": "$$"
-      })}} />
     </>
   );
 }

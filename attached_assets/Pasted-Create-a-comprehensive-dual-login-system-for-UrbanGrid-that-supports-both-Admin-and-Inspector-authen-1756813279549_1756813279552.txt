@@ -16,7 +16,7 @@ Replace the current single "Admin Login" button in the Header component with a "
 **Step-by-Step Inspector Login Process:**
 1. User clicks "Inspector Portal" from header dropdown
 2. Redirect to internal inspector login page (`/inspector/login`)
-3. Inspector enters credentials (username: "shahbas", password: "Shahbas@123#")
+3. Inspector enters credentials supplied through the managed credential process.
 4. Backend validates credentials against inspector database
 5. **Only after successful authentication**, redirect to external inspector app: `https://urbangrid-snagging.replit.app`
 6. Pass authentication token or session data to external app if needed
@@ -27,7 +27,7 @@ Replace the current single "Admin Login" button in the Header component with a "
 ### 3. Backend Authentication System Updates
 **Database Schema:**
 - Add new `inspectors` table with fields: id, username, password_hash, full_name, email, phone, is_active, created_at, updated_at
-- Create default inspector account: username "shahbas", password "Shahbas@123#" (properly hashed)
+- Do not create a predictable default inspector account; provision credentials securely.
 **Authentication Routes:**
 - Add `/api/inspector/login` endpoint for inspector authentication
 - Add `/inspector/login` page route for inspector login form
@@ -126,7 +126,7 @@ External app can verify session if integration is needed
 Initial Database Seed:
 
 Username: "shahbas"
-Password: "Shahbas@123#" (hashed with bcrypt)
+Password: [removed; provision through managed secrets]
 Full Name: "Shahbas Inspector"
 Email: "shahbas@urbangrid.ae"
 Active: true
