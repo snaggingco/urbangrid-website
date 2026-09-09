@@ -44,6 +44,7 @@ const Dashboard = lazy(() => import("@/pages/admin/Dashboard"));
 const AddBlog = lazy(() => import("@/pages/admin/AddBlog"));
 const ManageBlogs = lazy(() => import("@/pages/admin/ManageBlogs"));
 const ManageInspectors = lazy(() => import("@/pages/admin/ManageInspectors"));
+const VisibilityDashboard = lazy(() => import("@/pages/admin/VisibilityDashboard"));
 
 function PageLoader() {
   return (
@@ -109,6 +110,7 @@ function Router() {
                 <Route path="/admin/add-blog" component={AddBlog} />
                 <Route path="/admin/manage-blogs" component={ManageBlogs} />
                 <Route path="/admin/manage-inspectors" component={ManageInspectors} />
+                <Route path="/admin/visibility" component={VisibilityDashboard} />
               </>
             )}
             <Route component={NotFound} />

@@ -12,6 +12,7 @@ import nodemailer from "nodemailer";
 import OpenAI from "openai";
 import bcrypt from "bcryptjs";
 import { homepageSchema, locationSchema, serviceSchema } from "./schema";
+import { registerVisibilityRoutes } from "./visibilityRoutes";
 
 // ── Quote signing (HMAC-SHA256) ─────────────────────────────────────────────
 // Prevents client-side price tampering: every quoted price is signed by the
@@ -164,6 +165,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Auth middleware
   setupLocalAuth(app);
   setupInspectorAuth(app);
+  registerVisibilityRoutes(app, isAdminAuthenticated);
 
   // Conversion tracking
   app.post('/api/track-conversion', async (req, res) => {

@@ -8,6 +8,7 @@ import {
   text,
   serial,
   boolean,
+  integer,
 } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
@@ -97,6 +98,62 @@ export const conversionLogs = pgTable("conversion_logs", {
   ipAddress: varchar("ip_address", { length: 45 }),
   path: varchar("path", { length: 500 }),
   createdAt: timestamp("created_at").defaultNow(),
+});
+
+export const visibilityCampaigns = pgTable("visibility_campaigns", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  description: text("description"),
+  active: boolean("active").default(true).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
+});
+
+export const visibilityPrompts = pgTable("visibility_prompts", {
+  id: serial("id").primaryKey(),
+  campaignId: integer("campaign_id").notNull().references(() => visibilityCampaigns.id, { onDelete: "cascade" }),
+  prompt: text("prompt").notNull(),
+  service: varchar("service", { length: 120 }),
+  location: varchar("location", { length: 120 }),
+  intent: varchar("intent", { length: 40 }).notNull(),
+  queryType: varchar("query_type", { length: 40 }).notNull(),
+  active: boolean("active").default(true).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const visibilityCompetitors = pgTable("visibility_competitors", {
+  id: serial("id").primaryKey(),
+  name: varchar("name", { length: 255 }).notNull().unique(),
+  domain: varchar("domain", { length: 255 }),
+  active: boolean("active").default(true).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const visibilityRuns = pgTable("visibility_runs", {
+  id: serial("id").primaryKey(),
+  campaignId: integer("campaign_id").notNull().references(() => visibilityCampaigns.id, { onDelete: "cascade" }),
+  status: varchar("status", { length: 40 }).notNull(),
+  methodology: varchar("methodology", { length: 80 }).notNull(),
+  startedAt: timestamp("started_at").defaultNow().notNull(),
+  completedAt: timestamp("completed_at"),
+});
+
+export const visibilityTests = pgTable("visibility_tests", {
+  id: serial("id").primaryKey(),
+  runId: integer("run_id").notNull().references(() => visibilityRuns.id, { onDelete: "cascade" }),
+  promptId: integer("prompt_id").notNull().references(() => visibilityPrompts.id, { onDelete: "cascade" }),
+  platform: varchar("platform", { length: 40 }).notNull(),
+  model: varchar("model", { length: 120 }),
+  response: text("response"),
+  mentioned: boolean("mentioned"),
+  recommended: boolean("recommended"),
+  position: integer("position"),
+  cited: boolean("cited"),
+  citedUrls: jsonb("cited_urls").$type<string[]>().default([]),
+  competitors: jsonb("competitors").$type<Array<{ name: string; position?: number }>>().default([]),
+  sentiment: varchar("sentiment", { length: 20 }),
+  context: text("context"),
+  testedAt: timestamp("tested_at").defaultNow().notNull(),
 });
 
 // Relations

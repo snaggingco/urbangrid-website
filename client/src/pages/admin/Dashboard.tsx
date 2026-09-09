@@ -135,6 +135,16 @@ export default function Dashboard() {
                 Manage Inspectors
               </a>
             </Link>
+            <Link href="/admin/visibility">
+              <a className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                location === '/admin/visibility'
+                  ? 'bg-brand-green text-white'
+                  : 'text-text-grey hover:text-brand-green hover:bg-gray-100'
+              }`}>
+                <i className="fas fa-chart-line mr-2"></i>
+                Visibility
+              </a>
+            </Link>
           </nav>
         </div>
 
@@ -159,6 +169,12 @@ export default function Dashboard() {
               <Button variant="outline" className="border-brand-green text-brand-green hover:bg-brand-green hover:text-white">
                 <i className="fas fa-users mr-2"></i>
                 Manage Inspectors
+              </Button>
+            </Link>
+            <Link href="/admin/visibility">
+              <Button variant="outline" className="border-brand-green text-brand-green hover:bg-brand-green hover:text-white">
+                <i className="fas fa-chart-line mr-2"></i>
+                Visibility Engine
               </Button>
             </Link>
           </div>

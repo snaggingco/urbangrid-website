@@ -1,1 +1,2 @@
 - [Bundle perf](bundle-perf.md) — eager App.tsx/shell imports drag heavy deps into the every-page main chunk; lazy-load interaction/below-fold UI to shrink it.
+- [Visibility methodology](visibility-methodology.md) — keep GEO readiness separate from LLM visibility; only observed platform responses can populate LLM metrics.
