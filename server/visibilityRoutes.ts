@@ -86,6 +86,11 @@ async function runReadinessAudit() {
     check("Service and FAQ schema", /\"@type\":\"Service\"/i.test(service.text) && /\"@type\":\"FAQPage\"/i.test(service.text), "Service-page JSON-LD", 10),
     check("Fast server response", home.ms < 800, `${home.ms} ms audit response`, 10),
   ];
+  const homepageText = home.text
+    .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, " ")
+    .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, " ")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ");
   const geoChecks = [
     check(
       "AI crawler access",
@@ -95,7 +100,7 @@ async function runReadinessAudit() {
     ),
     check("Useful llms.txt", llms.ok && llms.type.includes("text/plain") && llms.text.includes("## Core services"), `${llms.type || "no content type"}`, 20),
     check("AI-readable initial content", home.text.includes("data-ssr-page-summary") && home.text.length > 5000, "Heading and factual summary in initial HTML", 20),
-    check("Entity clarity", /UrbanGrid[\\s\\S]{0,500}(property|snagging|inspection)/i.test(home.text), "Company, category and service relationship present", 15),
+    check("Entity clarity", /urbangrid/i.test(homepageText) && /(property inspection|property snagging|snagging|inspection)/i.test(homepageText), "Company, category and service relationship present", 15),
     check("Service definitions", /new.build|handover|snagging/i.test(service.text), "Dedicated service content", 10),
     check("Citation structure", /FAQPage/i.test(service.text) && llms.text.includes("## Citation guidance"), "FAQ and citation guidance", 15),
   ];
