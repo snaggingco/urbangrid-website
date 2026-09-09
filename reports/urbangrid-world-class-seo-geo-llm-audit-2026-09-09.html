@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>UrbanGrid Independent SEO, GEO & LLM Visibility Audit</title>
+  <style>
+    @page { size: A4; margin: 17mm 15mm 18mm; }
+    * { box-sizing: border-box; }
+    body { margin: 0; font: 10.5pt/1.52 Arial, sans-serif; color: #18211d; background: #fff; }
+    h1, h2, h3 { color: #064e3b; line-height: 1.18; page-break-after: avoid; }
+    h1 { font-size: 25pt; margin: 0 0 6px; }
+    h2 { font-size: 17pt; border-bottom: 1px solid #bdd4ca; padding-bottom: 5px; margin-top: 24px; }
+    h3 { font-size: 12.5pt; margin: 18px 0 5px; }
+    p { margin: 6px 0 10px; }
+    ul, ol { margin: 5px 0 11px 22px; padding: 0; }
+    li { margin: 3px 0; }
+    table { width: 100%; border-collapse: collapse; margin: 10px 0 16px; page-break-inside: avoid; }
+    th, td { border: 1px solid #b7c9c1; padding: 7px; text-align: left; vertical-align: top; }
+    th { background: #e8f1ed; color: #064e3b; }
+    code { background: #eef3f1; padding: 1px 3px; border-radius: 3px; }
+    .cover { min-height: 245mm; display: flex; flex-direction: column; justify-content: center; page-break-after: always; }
+    .eyebrow { color: #467064; font-size: 9pt; letter-spacing: 2px; text-transform: uppercase; font-weight: bold; }
+    .subtitle { font-size: 15pt; color: #46534e; max-width: 145mm; }
+    .meta { margin-top: 30px; border-left: 4px solid #0f8061; padding-left: 12px; color: #46534e; }
+    .score { font-size: 20pt; font-weight: bold; color: #064e3b; white-space: nowrap; }
+    .critical { border-left: 5px solid #a32626; background: #fff2f2; padding: 9px 12px; margin: 10px 0; }
+    .warning { border-left: 5px solid #c77800; background: #fff8e8; padding: 9px 12px; margin: 10px 0; }
+    .strength { border-left: 5px solid #0f8061; background: #edf8f4; padding: 9px 12px; margin: 10px 0; }
+    .small { font-size: 8.8pt; color: #53615b; }
+    .page-break { page-break-before: always; }
+  </style>
+</head>
+<body>
+  <section class="cover">
+    <div class="eyebrow">Independent Production Audit</div>
+    <h1>UrbanGrid SEO, GEO &<br>LLM Visibility Audit</h1>
+    <p class="subtitle">Page speed, metadata, schema, security, AI crawler access, content citability, and current search-grounding visibility.</p>
+    <div class="meta">
+      <strong>Website:</strong> https://urbangrid.ae<br>
+      <strong>Date:</strong> 9 September 2026<br>
+      <strong>Evidence:</strong> Live production checks, source review, three security scanners, three specialist reviews, and current discovery queries.
+    </div>
+  </section>
+
+  <h2>Executive scorecard</h2>
+  <table>
+    <tr><th>Engine</th><th>Score</th><th>Assessment</th></tr>
+    <tr><td>SEO Engine</td><td class="score">62/100</td><td>Sound crawl basics and metadata, weakened by SPA rendering, duplicate H1s, unsupported schema claims, broken social imagery, weak caching, and security risk.</td></tr>
+    <tr><td>GEO Engine</td><td class="score">55/100</td><td>AI crawlers are allowed and service/FAQ schema exists, but llms.txt is invalid, core copy is JS-dependent, citations are sparse, and entity evidence is inconsistent.</td></tr>
+    <tr><td>LLM Visibility</td><td class="score">45/100</td><td>Discoverable for branded searches, absent from the sampled top ten for two high-intent non-branded query groups.</td></tr>
+    <tr><td>Security</td><td class="score">Critical</td><td>A public API exposes inspector records including password-hash fields, and privileged credentials exist in source.</td></tr>
+  </table>
+
+  <div class="strength"><strong>Strong foundation:</strong> HTTPS, HTTP/2, crawler access, robots.txt, sitemap, canonical tags, server-injected metadata, schema, and healthy measured TTFB.</div>
+  <div class="critical"><strong>Immediate priority:</strong> Security remediation must precede incremental metadata work.</div>
+
+  <h2>Critical findings</h2>
+  <div class="critical">
+    <h3>P0 — Public inspector data and password-hash exposure</h3>
+    <p>An unauthenticated production request to <code>/api/inspectors</code> returned HTTP 200 with inspector records containing username, passwordHash, full name, email, and phone fields.</p>
+    <p><strong>Action:</strong> Require admin authentication, return a restricted DTO, rotate affected credentials, and review access logs.</p>
+  </div>
+  <div class="critical">
+    <h3>P0 — Hardcoded privileged credentials</h3>
+    <p>Privileged admin and inspector credentials are embedded in server source. Values are intentionally omitted.</p>
+    <p><strong>Action:</strong> Remove and rotate them, disable automatic default accounts, enforce managed secrets, and add MFA or managed identity.</p>
+  </div>
+  <div class="warning">
+    <h3>P1 — 115 dependency vulnerabilities</h3>
+    <p><strong>2 critical, 46 high, 53 moderate, 14 low.</strong> Critical findings affect fast-xml-parser and have non-major fixes available. High findings include axios, drizzle-orm, nodemailer, rollup, ws, and postcss.</p>
+  </div>
+  <div class="warning">
+    <h3>P1 — Invalid llms.txt</h3>
+    <p><code>/llms.txt</code> returns HTTP 200 with <code>text/html</code> and the homepage shell, not a plain-text LLM resource.</p>
+  </div>
+
+  <h2 class="page-break">SEO Engine</h2>
+  <h3>What works</h3>
+  <ul>
+    <li>HTTPS, HTTP/2, HSTS, CSP, nosniff, clickjacking protection, referrer policy, and permissions policy.</li>
+    <li>Valid robots.txt with sitemap reference; sitemap covers core, service, location, and blog pages.</li>
+    <li>Route-specific titles, descriptions, canonicals, and JSON-LD are present in tested initial HTML.</li>
+    <li>Measured fresh TTFB was approximately 178 ms.</li>
+  </ul>
+  <h3>P1 — JavaScript-dependent body content</h3>
+  <p>The server injects metadata, schema, and a hidden H1, but most useful copy and links arrive after React hydration. Pre-render the primary answer, evidence, FAQs, and internal links.</p>
+  <h3>P1 — Duplicate H1 signals</h3>
+  <p>Tested HTML contains a route-specific hidden H1 plus the generic hero H1. Use one visible, route-specific H1.</p>
+  <h3>P1 — Inconsistent trust claims</h3>
+  <p>Claims such as 40,000+ inspections, 600,000+ defects, 2,000+ clients, 10+ years, and review scores need consistent definitions and evidence.</p>
+  <h3>P2 — Unsupported ratings and misleading location schema</h3>
+  <p>Aggregate ratings lack visible supporting reviews. Emirate pages reuse a Dubai address. Remove unsupported ratings and distinguish genuine offices from service areas.</p>
+  <h3>P2 — Broken social image and weak asset caching</h3>
+  <p>The declared OG image resolves as HTML. Fingerprinted assets use <code>private, max-age=0</code>. Main JS is 403,503 bytes raw and main CSS is 204,329 bytes raw. Publish the image, add immutable caching, and reduce hydration cost.</p>
+
+  <h2>GEO Engine</h2>
+  <h3>AI crawler access: strong</h3>
+  <p>GPTBot, ChatGPT-User, ClaudeBot, Google-Extended, PerplexityBot, Bingbot, and Googlebot all received HTTP 200.</p>
+  <h3>Citability: weak-to-moderate</h3>
+  <ul>
+    <li>Marketing claims often lack named sources, dates, or methodology.</li>
+    <li>Case studies need property details, tools, defect categories, totals, and outcomes.</li>
+    <li>Expert bylines, reviewer credentials, and authoritative sameAs profiles are limited.</li>
+    <li>Generic hero content reduces page-specific answer density.</li>
+  </ul>
+  <h3>Priority improvements</h3>
+  <ol>
+    <li>Publish a valid llms.txt and a canonical content inventory.</li>
+    <li>Lead priority pages with a 40–60 word direct answer.</li>
+    <li>Use question-led headings, comparison tables, checklists, and concise FAQs.</li>
+    <li>Cite named UAE regulators, standards bodies, dated sources, and expert reviewers.</li>
+    <li>Publish evidence-rich inspection case studies and original datasets.</li>
+  </ol>
+
+  <h2>LLM Visibility Engine</h2>
+  <table>
+    <tr><th>Current query group</th><th>Observed result</th></tr>
+    <tr><td>Best property snagging / building inspection companies in UAE and Dubai</td><td>Absent from sampled top 10</td></tr>
+    <tr><td>Building condition assessment / technical due diligence providers in UAE</td><td>Absent from sampled top 10</td></tr>
+    <tr><td>What is UrbanGrid UAE / branded inspection query</td><td>Present, approximately position 3</td></tr>
+  </table>
+  <p>UrbanGrid has branded entity recognition but weak non-branded category visibility. One indexed careers snippet still used “Lena,” showing stale external indexing.</p>
+  <div class="warning"><strong>Method limitation:</strong> This run used current web-grounding evidence, not authenticated consumer/API queries to ChatGPT, Claude, and Gemini. A direct share-of-voice benchmark should run the same 20–30 prompts across all three platforms from the target geography and repeat monthly.</div>
+
+  <h2 class="page-break">Security detail</h2>
+  <h3>Strengths</h3>
+  <ul><li>Strong baseline HTTP security headers.</li><li>Automated SAST returned no findings.</li><li>HoundDog returned five privacy/dataflow findings: one medium and four low.</li></ul>
+  <h3>Confirmed risks</h3>
+  <ul>
+    <li>Public inspector endpoint exposes PII and password-hash fields.</li>
+    <li>Hardcoded privileged credentials and a fallback session secret.</li>
+    <li>Session cookies explicitly configured with <code>secure: false</code>.</li>
+    <li>API response bodies and contact PII can be written to logs.</li>
+    <li>Unauthenticated conversation/model routes exist in source; live registration was not confirmed.</li>
+  </ul>
+
+  <h2>Prioritized action plan</h2>
+  <h3>First 24 hours</h3>
+  <ol><li>Protect /api/inspectors and remove sensitive fields.</li><li>Rotate and remove hardcoded credentials.</li><li>Enforce the production session secret and secure cookie settings.</li><li>Review endpoint access logs.</li></ol>
+  <h3>First 7 days</h3>
+  <ol><li>Patch critical/high runtime dependencies and rescan.</li><li>Publish llms.txt.</li><li>Fix OG imagery.</li><li>Remove unsupported ratings.</li><li>Reconcile company claims.</li><li>Stop logging PII and API bodies.</li></ol>
+  <h3>First 30 days</h3>
+  <ol><li>Pre-render priority page content.</li><li>Correct H1 and location schema.</li><li>Add citable evidence, expert bylines, and dates.</li><li>Add immutable asset caching.</li><li>Launch a 20–30 prompt LLM benchmark.</li></ol>
+  <h3>60–90 days</h3>
+  <ol><li>Publish original UAE inspection data and case studies.</li><li>Earn relevant third-party citations.</li><li>Strengthen verified entity/NAP profiles.</li><li>Track non-branded ranking, AI mentions, citations, and leads monthly.</li></ol>
+
+  <h2>Confidence and scope</h2>
+  <p><strong>High confidence:</strong> Live headers, crawler responses, robots/sitemap, invalid llms.txt, exposed inspector endpoint, hardcoded credentials, schema, asset caching, and bundle sizes.</p>
+  <p><strong>Medium confidence:</strong> Composite SEO/GEO scores.</p>
+  <p><strong>Limited:</strong> Direct proprietary-model visibility and field Core Web Vitals. PageSpeed API quota was unavailable, so no Lighthouse score was invented.</p>
+  <p class="small">This is a point-in-time technical and visibility audit, not a guarantee of rankings, citations, or security. Findings should be revalidated after remediation.</p>
+</body>
+</html>

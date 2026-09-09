@@ -1,0 +1,16 @@
+uploads = []
+generated = []
+
+[[outputs]]
+id = "vQlmmo75jCIgXKFlgFVwW"
+uri = "file://reports/urbangrid-world-class-seo-geo-llm-audit-2026-09-09.pdf"
+type = "pdf"
+title = "UrbanGrid SEO, GEO & LLM Visibility Audit"
+description = "Independent 7-page production audit covering technical SEO, performance, metadata, schema, security, AI crawler access, llms.txt, citability, visibility evidence, and a prioritized 90-day action plan."
+logical_id = "e361e6f1-ec3c-4854-96e9-a47424eab280"
+content_hash = "sha256:3aa30132972cf5a82b882f994935f6f492ef77c5ad371fafdffba4eaf7877cf3"
+size = 111335
+mtime_ms = 1788927845166
+storage_uri = "gcs://replit-rams-assets-pike/rams/assets/repl:eed0d450-8d38-45f5-b4ad-362debacd883/e361e6f1-ec3c-4854-96e9-a47424eab280/eb3f5bc1-7f41-457c-a891-7d7c7b1bae4f"
+storage_version_token = "1788927854495296"
+content_type = "application/pdf"
