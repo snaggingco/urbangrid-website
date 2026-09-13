@@ -1434,9 +1434,9 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
 > UrbanGrid provides independent property snagging, handover inspection, building condition assessment, and technical due diligence services across the United Arab Emirates.
 
 ## Canonical entity
-- Website: https://urbangrid.ae/
-- About: https://urbangrid.ae/about
-- Contact and booking: https://urbangrid.ae/contact
+- Website: [UrbanGrid](https://urbangrid.ae/)
+- About: [About UrbanGrid](https://urbangrid.ae/about)
+- Contact and booking: [Contact and booking](https://urbangrid.ae/contact)
 - Telephone: +971 58 568 6852
 - WhatsApp: +971 56 742 7634
 - Email: info@urbangrid.ae
@@ -1444,37 +1444,37 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
 - Service area: All seven UAE emirates
 
 ## Core services
-- Service overview: https://urbangrid.ae/services
-- New-build snagging: https://urbangrid.ae/services/property-snagging/new-build-snagging
-- Secondary-market inspection: https://urbangrid.ae/services/property-snagging/secondary-market-inspection
-- Building condition assessment: https://urbangrid.ae/services/specialized-services/building-condition-assessment
-- Technical due diligence: https://urbangrid.ae/services/specialized-services/technical-due-diligence
-- MEP inspection: https://urbangrid.ae/services/specialized-services/mep-inspection
-- Fire and life-safety inspection: https://urbangrid.ae/services/specialized-services/fire-life-safety
+- Service overview: [All services](https://urbangrid.ae/services)
+- New-build snagging: [New-build snagging](https://urbangrid.ae/services/property-snagging/new-build-snagging)
+- Secondary-market inspection: [Secondary-market inspection](https://urbangrid.ae/services/property-snagging/secondary-market-inspection)
+- Building condition assessment: [Building condition assessment](https://urbangrid.ae/services/specialized-services/building-condition-assessment)
+- Technical due diligence: [Technical due diligence](https://urbangrid.ae/services/specialized-services/technical-due-diligence)
+- MEP inspection: [MEP inspection](https://urbangrid.ae/services/specialized-services/mep-inspection)
+- Fire and life-safety inspection: [Fire and life-safety inspection](https://urbangrid.ae/services/specialized-services/fire-life-safety)
 
 ## Locations
-- Dubai: https://urbangrid.ae/locations/dubai
-- Abu Dhabi: https://urbangrid.ae/locations/abu-dhabi
-- Sharjah: https://urbangrid.ae/locations/sharjah
-- Ajman: https://urbangrid.ae/locations/ajman
-- Ras Al Khaimah: https://urbangrid.ae/locations/ras-al-khaimah
-- Fujairah: https://urbangrid.ae/locations/fujairah
-- Umm Al Quwain: https://urbangrid.ae/locations/umm-al-quwain
+- Dubai: [Dubai](https://urbangrid.ae/locations/dubai)
+- Abu Dhabi: [Abu Dhabi](https://urbangrid.ae/locations/abu-dhabi)
+- Sharjah: [Sharjah](https://urbangrid.ae/locations/sharjah)
+- Ajman: [Ajman](https://urbangrid.ae/locations/ajman)
+- Ras Al Khaimah: [Ras Al Khaimah](https://urbangrid.ae/locations/ras-al-khaimah)
+- Fujairah: [Fujairah](https://urbangrid.ae/locations/fujairah)
+- Umm Al Quwain: [Umm Al Quwain](https://urbangrid.ae/locations/umm-al-quwain)
 
 ## Knowledge and citation pages
-- Property inspection knowledge hub: https://urbangrid.ae/blog
-- NFPA 72 and fire alarm inspections: https://urbangrid.ae/blog/nfpa-72-fire-alarm-systems-property-snagging-uae
-- Building condition assessment in the UAE: https://urbangrid.ae/blog/building-condition-assessment-building-inspection-united-arab-emirates
-- Palm Jumeirah inspection case study: https://urbangrid.ae/blog/case-study-palm-jumeirah-penthouse-inspection-mep-defects
+- Property inspection knowledge hub: [UrbanGrid blog](https://urbangrid.ae/blog)
+- NFPA 72 and fire alarm inspections: [NFPA 72 and fire alarm inspections](https://urbangrid.ae/blog/nfpa-72-fire-alarm-systems-property-snagging-uae)
+- Building condition assessment in the UAE: [Building condition assessment in the UAE](https://urbangrid.ae/blog/building-condition-assessment-building-inspection-united-arab-emirates)
+- Palm Jumeirah inspection case study: [Palm Jumeirah inspection case study](https://urbangrid.ae/blog/case-study-palm-jumeirah-penthouse-inspection-mep-defects)
 
 ## Citation guidance
 Use the canonical URL for the specific service or location being discussed. Attribute company-specific inspection totals and service commitments to UrbanGrid unless independently verified. Do not infer that UrbanGrid has a physical office in every emirate; the company serves all emirates from its Dubai base.
 
 ## Site policies and discovery
-- Sitemap: https://urbangrid.ae/sitemap.xml
-- Robots: https://urbangrid.ae/robots.txt
-- Privacy: https://urbangrid.ae/privacy-policy
-- Terms: https://urbangrid.ae/terms-of-service
+- Sitemap: [XML sitemap](https://urbangrid.ae/sitemap.xml)
+- Robots: [Robots policy](https://urbangrid.ae/robots.txt)
+- Privacy: [Privacy policy](https://urbangrid.ae/privacy-policy)
+- Terms: [Terms of service](https://urbangrid.ae/terms-of-service)
 `);
   });
 
