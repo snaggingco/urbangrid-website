@@ -4,6 +4,28 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- ChatGPT Ads Measurement Pixel: one installation for all SPA routes. -->
+    <script>
+      !function(w,d,s,u){if(w.oaiq)return;var q=function(){q.q.push(arguments)};q.q=[];w.oaiq=q;var j=d.createElement(s);j.async=1;j.src=u;var f=d.getElementsByTagName(s)[0];f.parentNode.insertBefore(j,f)}(window,document,"script","https://bzrcdn.openai.com/sdk/oaiq.min.js");
+      oaiq("init",{pixelId:"UMEm2MwbXQrjxfuNQwaDp5",debug:true});
+
+      // Count clicks on UrbanGrid's WhatsApp links, including links rendered later by React.
+      // Sharing a blog post to WhatsApp (wa.me/?text=...) is not a contact conversion.
+      document.addEventListener("click",function(event){
+        var element=event.target;
+        var link=element && element.closest && element.closest("a[href]");
+        if(!link)return;
+        try {
+          var url=new URL(link.href);
+          if(url.hostname==="wa.me" && /^\/971567427634\/?$/.test(url.pathname)){
+            oaiq("measure","custom",{type:"custom"},{custom_event_name:"whatsapp_click"});
+          }
+        } catch(_error) {
+          // Ignore malformed links; never interrupt navigation.
+        }
+      },true);
+    </script>
+
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />

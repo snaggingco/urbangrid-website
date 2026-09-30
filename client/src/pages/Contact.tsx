@@ -178,6 +178,8 @@ export default function Contact() {
                   </a>
                   <a
                     href="https://wa.me/971567427634"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all"
                   >
                     WHATSAPP <ArrowRight className="w-3 h-3" />

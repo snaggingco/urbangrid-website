@@ -74,7 +74,7 @@ export default function PrivacyPolicy() {
             <div>
               <h2 className="text-xl font-bold text-zinc-900 mb-4">5. Cookies and Tracking</h2>
               <p>
-                We use cookies and similar tracking technologies (including Google Analytics and Google Ads) to monitor activity on our website and enhance your experience. You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. Disabling cookies may affect the functionality of some parts of our website.
+                We use cookies and similar tracking technologies (including Google Analytics, Google Ads, and the OpenAI Ads Measurement Pixel) to measure website activity and advertising results. The OpenAI pixel records clicks on our WhatsApp contact links as conversion events; it does not access your WhatsApp messages. You can instruct your browser to refuse cookies or indicate when one is being sent. Disabling cookies may affect measurement or some parts of our website.
               </p>
             </div>
 
