@@ -135,7 +135,7 @@ export default function ManageBlogs() {
     }
   }, [error, toast]);
 
-  const formatDate = (dateString: string) => {
+  const formatDate = (dateString: string | Date) => {
     return new Date(dateString).toLocaleDateString('en-US', {
       year: 'numeric',
       month: 'short',
@@ -293,7 +293,7 @@ export default function ManageBlogs() {
             ) : (
               <>
                 <div className="space-y-4">
-                  {data.posts.map((post) => (
+                  {data?.posts.map((post) => (
                     <div key={post.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg hover:bg-light-grey transition-colors">
                       <div className="flex-1">
                         <div className="flex items-start justify-between">

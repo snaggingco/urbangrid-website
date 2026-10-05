@@ -8,7 +8,11 @@ UrbanGrid is a modern, fully responsive property inspection and snagging company
 
 Preferred communication style: Simple, everyday language.
 
-## Recent Changes (May 2026 — Drastic 32-URL Site Trim)
+## Current paid-search scope
+
+Preserve the existing brand, organic SEO routes/content, and core functionality. The restored emirate pages, including `/locations/dubai`, remain live routes. The Dubai page is also the high-intent paid-search landing page. The May trim notes below are historical and must not be used as instructions to delete the restored location pages.
+
+## Historical Changes (May 2026 — Drastic 32-URL Site Trim)
 
 User decided to drastically trim the site from 186 → **31 URLs** to give Google a clean, focused, high-quality site after the ranking drop.
 

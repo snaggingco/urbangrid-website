@@ -1,32 +1,25 @@
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { ArrowRight, CheckCircle2, Shield, Award, Building2 } from "lucide-react";
+import { ArrowRight, CheckCircle2, Shield } from "lucide-react";
 import SEO from "@/components/SEO";
+import { companyRegistration } from "@shared/companyRegistration";
 
 export default function About() {
-  const team = [
-    {
-      name: "Ahmed Al-Rashid",
-      position: "Lead Inspector & Founder",
-      experience: "12+ years",
-      image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400",
-      description: "Certified property inspector with extensive experience in UAE construction standards."
-    },
-    {
-      name: "Sarah Mitchell",
-      position: "Senior Property Inspector",
-      experience: "8+ years",
-      image: "https://images.unsplash.com/photo-1507101105822-7472b28e22ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400",
-      description: "Specialized in luxury residential properties and commercial developments."
-    },
-    {
-      name: "Mohammed Hassan",
-      position: "Technical Inspector",
-      experience: "6+ years",
-      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400",
-      description: "Expert in MEP systems and structural assessments for high-rise buildings."
-    }
-  ];
+  useEffect(() => {
+    if (window.location.hash !== "#regulatory-registration") return;
+
+    // About is lazy-loaded, so scroll once the section has mounted.
+    const scrollToRegistration = () => {
+      document.getElementById("regulatory-registration")?.scrollIntoView({ block: "start" });
+    };
+    const frame = window.requestAnimationFrame(scrollToRegistration);
+    const retry = window.setTimeout(scrollToRegistration, 100);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.clearTimeout(retry);
+    };
+  }, []);
 
   const serviceAreas = [
     "Dubai",
@@ -39,17 +32,17 @@ export default function About() {
   ];
 
   const achievements = [
-    { number: "40000+", label: "Properties Inspected" },
-    { number: "7", label: "Emirates Served" },
-    { number: "24h", label: "Report Target" },
-    { number: "2014", label: "Founded" }
+    { number: "01", label: "Observe accessible conditions" },
+    { number: "02", label: "Record with context" },
+    { number: "03", label: "Explain scope and limits" },
+    { number: "04", label: "Support informed follow-up" }
   ];
 
   return (
     <>
       <SEO
-        title="About UrbanGrid - Property Inspection Experts in UAE"
-        description="UrbanGrid provides independent property snagging and inspection services across the UAE using documented NFPA, ASHRAE and ASTM references."
+        title="About UrbanGrid | Property Inspection Services UAE"
+        description="UrbanGrid provides independent property inspection and snagging services across the UAE, with findings documented for practical follow-up."
       />
     <div className="pt-16">
       {/* Hero Section */}
@@ -60,7 +53,7 @@ export default function About() {
             About UrbanGrid
           </h1>
           <p className="text-sm text-zinc-500 leading-relaxed max-w-2xl">
-            Your trusted partner for professional property inspection and snagging services across the UAE, ensuring quality, compliance, and peace of mind.
+            Independent property inspection and snagging services across the UAE, with a clear record of accessible conditions and scope limitations.
           </p>
         </div>
       </section>
@@ -76,13 +69,13 @@ export default function About() {
               </h2>
               <div className="space-y-6 text-sm text-zinc-500 leading-relaxed">
                 <p>
-                  Founded in 2014, UrbanGrid emerged from a simple yet powerful vision: to protect property investments across the UAE through meticulous inspection and quality assurance services. Our journey began when our founder, Ahmed Al-Rashid, recognized the need for independent, professional property inspections in Dubai's rapidly expanding real estate market.
+                  UrbanGrid provides independent property inspection and building consultancy services. Our work is centred on documenting accessible conditions, explaining limitations and giving clients a clear record to consider alongside their own due diligence.
                 </p>
                 <p>
-                  UrbanGrid reports completing more than 40,000 property inspections across all seven emirates. Our work supports homeowners, investors, developers, brokers, and contractors with independent findings and photographic evidence.
+                  Inspections are scoped around the property, requested service and available access. Reports record relevant observations and photographs where useful; inaccessible or concealed elements may require separate investigation.
                 </p>
                 <p>
-                  Our mission is simple: to ensure that every property meets the highest standards of quality and safety, protecting our clients' investments and providing them with the confidence they need to make informed decisions.
+                  Our aim is to make inspection findings understandable and useful without overstating what a visual, non-destructive inspection can establish.
                 </p>
               </div>
             </div>
@@ -105,6 +98,61 @@ export default function About() {
 
       
 
+      <section
+        id="regulatory-registration"
+        aria-labelledby="regulatory-registration-heading"
+        className="scroll-mt-20 border-y border-zinc-100 bg-zinc-50 py-16 lg:py-20"
+      >
+        <div className="mx-auto max-w-6xl px-6 sm:px-10 lg:px-16">
+          <div className="max-w-3xl">
+            <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.25em] text-brand-green">Company record</p>
+            <h2 id="regulatory-registration-heading" className="text-3xl font-bold leading-tight text-zinc-900 sm:text-4xl">
+              Regulatory Registration
+            </h2>
+            <p className="mt-4 max-w-2xl text-sm leading-relaxed text-zinc-500">
+              This is a company-level real estate office registration. It records the registered entity and office details; it is not an endorsement, approval of inspection reports, or evidence of any individual professional qualification.
+            </p>
+          </div>
+
+          <dl className="mt-10 grid grid-cols-1 border-l border-t border-zinc-200 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="border-b border-r border-zinc-200 bg-white p-5 sm:col-span-2 lg:col-span-3">
+              <dt className="text-[10px] font-semibold uppercase tracking-[0.16em] text-zinc-500">Registered company</dt>
+              <dd className="mt-2 text-sm font-semibold text-zinc-900">{companyRegistration.companyName}</dd>
+            </div>
+            <div className="border-b border-r border-zinc-200 bg-white p-5">
+              <dt className="text-[10px] font-semibold uppercase tracking-[0.16em] text-zinc-500">RERA office registration number</dt>
+              <dd className="mt-2 font-mono text-sm text-zinc-900">{companyRegistration.registrationNumber}</dd>
+            </div>
+            <div className="border-b border-r border-zinc-200 bg-white p-5">
+              <dt className="text-[10px] font-semibold uppercase tracking-[0.16em] text-zinc-500">License number</dt>
+              <dd className="mt-2 font-mono text-sm text-zinc-900">{companyRegistration.licenseNumber}</dd>
+            </div>
+            <div className="border-b border-r border-zinc-200 bg-white p-5">
+              <dt className="text-[10px] font-semibold uppercase tracking-[0.16em] text-zinc-500">Issuer</dt>
+              <dd className="mt-2 text-sm leading-relaxed text-zinc-900">{companyRegistration.issuer}</dd>
+            </div>
+            <div className="border-b border-r border-zinc-200 bg-white p-5">
+              <dt className="text-[10px] font-semibold uppercase tracking-[0.16em] text-zinc-500">Registered activities</dt>
+              <dd className="mt-2 text-sm leading-relaxed text-zinc-900">{companyRegistration.activities.join(", ")}</dd>
+            </div>
+            {companyRegistration.registrationDateLabel && (
+              <div className="border-b border-r border-zinc-200 bg-white p-5">
+                <dt className="text-[10px] font-semibold uppercase tracking-[0.16em] text-zinc-500">Registration date</dt>
+                <dd className="mt-2 text-sm text-zinc-900">{companyRegistration.registrationDateLabel}</dd>
+              </div>
+            )}
+            <div className="border-b border-r border-zinc-200 bg-white p-5">
+              <dt className="text-[10px] font-semibold uppercase tracking-[0.16em] text-zinc-500">Expiry date</dt>
+              <dd className="mt-2 text-sm text-zinc-900">{companyRegistration.expiryDateLabel}</dd>
+            </div>
+            <div className="border-b border-r border-zinc-200 bg-white p-5 sm:col-span-2 lg:col-span-3">
+              <dt className="text-[10px] font-semibold uppercase tracking-[0.16em] text-zinc-500">Document</dt>
+              <dd className="mt-2 text-sm text-zinc-900">{companyRegistration.documentName}</dd>
+            </div>
+          </dl>
+        </div>
+      </section>
+
       {/* Service Coverage */}
       <section className="py-24 lg:py-32 bg-white">
         <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
@@ -116,7 +164,7 @@ export default function About() {
               </h2>
             </div>
             <p className="text-sm text-zinc-500 max-w-sm">
-              We provide comprehensive property inspection services across all emirates of the UAE.
+                Availability, access requirements, scope and timing are confirmed for each requested area.
             </p>
           </div>
           
@@ -136,10 +184,10 @@ export default function About() {
           <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <h3 className="text-lg font-bold text-zinc-900 mb-4">
-                Nationwide Coverage
+                Service availability
               </h3>
               <p className="text-sm text-zinc-500 leading-relaxed mb-8">
-                Our mobile inspection teams are strategically located across the UAE to provide prompt, professional service wherever you need it. We typically respond within 24 hours for urgent inspections.
+                Availability, access requirements, scope and timing are confirmed for each property. For standard residential inspections, the report preparation target is usually within 24 hours after inspection and full payment.
               </p>
               <Link href="/contact" className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all">
                 SCHEDULE AN INSPECTION <ArrowRight className="w-3 h-3" />
@@ -160,7 +208,7 @@ export default function About() {
               </h2>
             </div>
             <p className="text-sm text-zinc-500 max-w-sm">
-              UrbanGrid operates across four markets through a network of sister companies, each delivering the same engineering rigour and inspection standards.
+              UrbanGrid is part of a wider property-services network with separate regional websites and service operations.
             </p>
           </div>
 
@@ -171,7 +219,7 @@ export default function About() {
                 <p className="text-[10px] font-semibold tracking-[0.25em] text-zinc-400 uppercase mb-2">Saudi Arabia</p>
                 <h3 className="text-xl font-bold text-zinc-900 mb-3">Strata Surveyor</h3>
                 <p className="text-sm text-zinc-500 leading-relaxed">
-                  Delivering independent property snagging and building inspection services across Riyadh, Jeddah, and the wider Kingdom. Trusted partner for Vision 2030 real estate developments.
+                  Regional property inspection information is available through the Strata Surveyor website. Services, scope and operations are handled independently by that regional business.
                 </p>
               </div>
               <a
@@ -190,7 +238,7 @@ export default function About() {
                 <p className="text-[10px] font-semibold tracking-[0.25em] text-zinc-400 uppercase mb-2">India</p>
                 <h3 className="text-xl font-bold text-zinc-900 mb-3">Snagging.in</h3>
                 <p className="text-sm text-zinc-500 leading-relaxed">
-                  India's specialist property snagging and pre-handover inspection service, covering major cities including Mumbai, Bangalore, Hyderabad, and Pune for residential and commercial developments.
+                  Regional property inspection information is available through Snagging.in. Services, scope and operations are handled independently by that regional business.
                 </p>
               </div>
               <a
@@ -209,7 +257,7 @@ export default function About() {
                 <p className="text-[10px] font-semibold tracking-[0.25em] text-zinc-400 uppercase mb-2">United Kingdom</p>
                 <h3 className="text-xl font-bold text-zinc-900 mb-3">UrbanGrid UK</h3>
                 <p className="text-sm text-zinc-500 leading-relaxed">
-                  Professional property snagging and new-build inspection across England, Scotland, and Wales. Helping UK buyers protect their investment from day one with RICS-aligned reporting.
+                  Regional property inspection information is available through UrbanGrid UK. Services, scope and operations are handled independently by that regional business.
                 </p>
               </div>
               <a
@@ -225,47 +273,26 @@ export default function About() {
         </div>
       </section>
 
-      {/* Certifications */}
+      {/* Inspection methodology */}
       <section className="py-24 lg:py-32 bg-zinc-50">
         <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
           <div className="text-center mb-16">
-            <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">ACCREDITATIONS</p>
+            <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">PROCESS & SCOPE</p>
             <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight mb-4">
-              Certifications
+              A clear inspection record
             </h2>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="p-8 border border-zinc-200 bg-transparent">
-              <Shield className="w-8 h-8 text-brand-green mb-6" />
-              <h3 className="text-lg font-bold text-zinc-900 mb-2">RERA Certified</h3>
-              <p className="text-sm text-zinc-500 leading-relaxed">
-                Licensed by Dubai Real Estate Regulatory Agency
-              </p>
+          <div className="grid grid-cols-1 gap-px border border-zinc-200 bg-zinc-200 md:grid-cols-2">
+            <div className="bg-white p-8">
+              <Shield className="mb-6 h-8 w-8 text-brand-green" />
+              <h3 className="mb-2 text-lg font-bold text-zinc-900">Non-destructive visual review</h3>
+              <p className="text-sm leading-relaxed text-zinc-500">The inspection is limited to areas and components that can be accessed and observed within the agreed scope. It is not a guarantee that every defect will be found.</p>
             </div>
-            
-            <div className="p-8 border border-zinc-200 bg-transparent">
-              <CheckCircle2 className="w-8 h-8 text-brand-green mb-6" />
-              <h3 className="text-lg font-bold text-zinc-900 mb-2">ISO 9001</h3>
-              <p className="text-sm text-zinc-500 leading-relaxed">
-                Quality Management System Certified
-              </p>
-            </div>
-            
-            <div className="p-8 border border-zinc-200 bg-transparent">
-              <Award className="w-8 h-8 text-brand-green mb-6" />
-              <h3 className="text-lg font-bold text-zinc-900 mb-2">NACHI Member</h3>
-              <p className="text-sm text-zinc-500 leading-relaxed">
-                International Association of Certified Home Inspectors
-              </p>
-            </div>
-            
-            <div className="p-8 border border-zinc-200 bg-transparent">
-              <Building2 className="w-8 h-8 text-brand-green mb-6" />
-              <h3 className="text-lg font-bold text-zinc-900 mb-2">Dubai Municipality</h3>
-              <p className="text-sm text-zinc-500 leading-relaxed">
-                Approved inspection services provider
-              </p>
+            <div className="bg-white p-8">
+              <CheckCircle2 className="mb-6 h-8 w-8 text-brand-green" />
+              <h3 className="mb-2 text-lg font-bold text-zinc-900">Documented observations</h3>
+              <p className="text-sm leading-relaxed text-zinc-500">Reports record accessible conditions observed during the agreed visit, with photographs and location details where useful. Scope limitations and inaccessible areas are noted; further assessment may require an appropriately qualified specialist.</p>
             </div>
           </div>
         </div>
@@ -277,23 +304,19 @@ export default function About() {
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-12">
             <div className="max-w-2xl">
               <h2 className="text-4xl lg:text-5xl font-bold mb-6">
-                Ready to Work <br />with the Best?
+                Ready to discuss <br />your inspection?
               </h2>
               <p className="text-sm text-zinc-500 leading-relaxed">
-                Join thousands of satisfied clients who trust UrbanGrid for their property inspection needs.
+                Discuss your property, access and intended inspection scope with our team.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-6">
-              <Link href="/contact">
-                <Button className="bg-brand-green text-white hover:bg-opacity-90 rounded-none h-12 px-8">
-                  GET FREE CONSULTATION
-                </Button>
-              </Link>
-              <Link href="/services">
-                <Button variant="outline" className="border-white text-white hover:bg-white hover:text-zinc-950 rounded-none h-12 px-8 bg-transparent">
-                  VIEW OUR SERVICES
-                </Button>
-              </Link>
+              <Button asChild className="bg-brand-green text-white hover:bg-opacity-90 rounded-none h-12 px-8">
+                <Link href="/contact">DISCUSS YOUR SCOPE</Link>
+              </Button>
+              <Button asChild variant="outline" className="border-white text-white hover:bg-white hover:text-zinc-950 rounded-none h-12 px-8 bg-transparent">
+                <Link href="/services">VIEW OUR SERVICES</Link>
+              </Button>
             </div>
           </div>
         </div>

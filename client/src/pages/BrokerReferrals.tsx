@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import { trackEvent } from "@/lib/analytics";
+import { submitLead } from "@/lib/leads";
 import { 
   HandshakeIcon, 
   DollarSign, 
@@ -63,14 +63,11 @@ export default function BrokerReferrals() {
 
     setIsSubmitting(true);
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+      await submitLead("/api/contact", {
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
-          subject: "Broker Referral Partnership Application",
+          enquiryType: "Broker Referral Partnership Application",
           message: `Company: ${formData.company}
 License: ${formData.license}
 Experience: ${formData.experience}
@@ -80,18 +77,7 @@ Referral Interest: ${formData.referralInterest}
 
 Additional Message:
 ${formData.message}`,
-          source: "broker-referrals"
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to submit application');
-      }
-
-      // Track conversion event
-      trackEvent('generate_lead', { 
-        category: 'broker_referral', 
-        label: 'broker_referral_form' 
+          leadSource: "broker_referral",
       });
 
       toast({
@@ -196,7 +182,15 @@ ${formData.message}`,
                   <span className="text-4xl font-bold text-zinc-100">01</span>
                   <div>
                     <h3 className="text-lg font-bold text-zinc-900 mb-2">Refer Your Client</h3>
-                    <p className="text-sm text-zinc-500 leading-relaxed">Simply share our contact details or submit a referral through our partnership portal.</p>
+                    <p className="text-sm text-zinc-500 leading-relaxed">
+                      Simply share our contact details or submit a referral through the{" "}
+                      <a
+                        href="https://app.stratasurveyor.com/"
+                        className="font-medium text-brand-green underline underline-offset-4 hover:text-zinc-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-green"
+                      >
+                        Strata Surveyor app
+                      </a>.
+                    </p>
                   </div>
                 </div>
                 <div className="flex gap-8 pb-12 border-b border-zinc-100">

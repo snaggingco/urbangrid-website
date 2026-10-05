@@ -1,223 +1,194 @@
-import React, { useState } from "react";
+import { useRef, useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Menu, ChevronDown } from "lucide-react";
+import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet";
+import { ChevronDown, Menu, ArrowUpRight } from "lucide-react";
+import { buildingConsultancyServices, residentialServices } from "@/data/serviceHierarchy";
 
 interface HeaderProps {
   isAdmin?: boolean;
 }
 
-const LOCATIONS = [
-  { name: "Dubai", href: "/locations/dubai" },
-  { name: "Abu Dhabi", href: "/locations/abu-dhabi" },
-  { name: "Sharjah", href: "/locations/sharjah" },
-  { name: "Ajman", href: "/locations/ajman" },
-  { name: "Ras Al Khaimah", href: "/locations/ras-al-khaimah" },
-  { name: "Fujairah", href: "/locations/fujairah" },
-  { name: "Umm Al Quwain", href: "/locations/umm-al-quwain" },
+const primaryLinks = [
+  { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
+  { name: "Resources", href: "/blog" },
+  { name: "Contact", href: "/contact" },
+];
+
+function ServicesMenu({ onNavigate }: { onNavigate?: () => void }) {
+  return (
+    <div className="grid grid-cols-2 gap-8 p-7">
+      <div>
+        <a
+          href="/services#residential-inspections"
+          onClick={onNavigate}
+          className="group mb-4 flex items-center justify-between border-b border-zinc-100 pb-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-zinc-900 hover:text-brand-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-green"
+        >
+          Residential Inspections <ArrowUpRight className="h-3 w-3" />
+        </a>
+        <ul className="space-y-3">
+          {residentialServices.map((service) => (
+            <li key={service.href}>
+              <Link
+                href={service.href}
+                onClick={onNavigate}
+                className="block text-xs text-zinc-600 hover:text-brand-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-green"
+              >
+                {service.label}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <a
+          href="/services#building-consultancy"
+          onClick={onNavigate}
+          className="group mb-4 flex items-center justify-between border-b border-zinc-100 pb-3 text-[10px] font-semibold uppercase tracking-[0.18em] text-zinc-900 hover:text-brand-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-green"
+        >
+          Building Consultancy <ArrowUpRight className="h-3 w-3" />
+        </a>
+        <ul className="space-y-3">
+          {buildingConsultancyServices.map((service) => (
+            <li key={service.href}>
+              <Link
+                href={service.href}
+                onClick={onNavigate}
+                className="block text-xs text-zinc-600 hover:text-brand-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-green"
+              >
+                {service.label}
+              </Link>
+            </li>
+          ))}
+          <li className="pt-1">
+            <Link href="/services" onClick={onNavigate} className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green hover:gap-3 transition-all">
+              All Services <ArrowUpRight className="h-3 w-3" />
+            </Link>
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+const resourceLinks = [
+  { label: "Pricing", href: "/pricing" },
+  { label: "Sample Report", href: "/sample-report" },
+  { label: "Blog & Guides", href: "/blog" },
 ];
 
 export default function Header({ isAdmin = false }: HeaderProps) {
   const [location] = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [mobileLocationsOpen, setMobileLocationsOpen] = useState(false);
-
-  const navigation = [
-    { name: 'Home', href: '/' },
-    { name: 'About', href: '/about' },
-    { name: 'Services', href: '/services' },
-    { name: 'Blog', href: '/blog' },
-    { name: 'Broker Referrals', href: '/broker-referrals' },
-    { name: 'Career', href: '/careers' },
-    { name: 'Contact', href: '/contact' },
-  ];
-
-  const isLocationActive = location.startsWith('/locations');
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false);
+  const desktopServices = useRef<HTMLDetailsElement>(null);
+  const closeMobileMenu = () => { setIsMobileMenuOpen(false); setMobileServicesOpen(false); setMobileResourcesOpen(false); };
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-zinc-100 transition-all duration-300">
       <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
         <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div className="flex-shrink-0">
-            <Link href="/">
-              <div
-                className="text-xl font-bold text-brand-green cursor-pointer tracking-tight"
-                onClick={() => window.scrollTo(0, 0)}
-              >
-                UrbanGrid
-              </div>
-            </Link>
-          </div>
+          <Link href="/" className="flex-shrink-0 text-xl font-bold text-brand-green tracking-tight focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-green">
+            UrbanGrid
+          </Link>
 
-          {/* Desktop nav */}
           {!isAdmin && (
-            <nav className="hidden md:flex items-center space-x-6 lg:space-x-8">
-              {navigation.map((item) => (
-                <Link key={item.name} href={item.href}>
-                  <span
-                    className={`text-xs font-medium tracking-wide transition-colors uppercase cursor-pointer ${
-                      location === item.href ? 'text-zinc-900' : 'text-zinc-500 hover:text-zinc-900'
-                    }`}
-                    onClick={() => window.scrollTo(0, 0)}
-                  >
-                    {item.name}
-                  </span>
-                </Link>
+            <nav aria-label="Main navigation" className="hidden md:flex items-center gap-5 lg:gap-7">
+              <Link href="/" className={`text-xs font-medium uppercase tracking-wide transition-colors ${location === "/" ? "text-zinc-900" : "text-zinc-500 hover:text-zinc-900"}`}>Home</Link>
+              <details ref={desktopServices} className="relative group" onKeyDown={event => {
+                if (event.key === "Escape") {
+                  event.currentTarget.open = false;
+                  event.currentTarget.querySelector("summary")?.focus();
+                }
+              }} onBlur={event => {
+                if (event.relatedTarget && !event.currentTarget.contains(event.relatedTarget as Node)) event.currentTarget.open = false;
+              }}>
+                <summary className={`list-none cursor-pointer flex items-center gap-1 text-xs font-medium uppercase tracking-wide transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-green ${location.startsWith("/services") ? "text-zinc-900" : "text-zinc-500 hover:text-zinc-900"}`}>
+                  Services <ChevronDown className="h-3 w-3 opacity-60 transition-transform group-open:rotate-180" />
+                </summary>
+                <div className="fixed left-1/2 top-16 -translate-x-1/2 w-[min(640px,calc(100vw-3rem))] max-h-[calc(100dvh-5rem)] overflow-y-auto border border-zinc-100 bg-white shadow-xl">
+                  <ServicesMenu onNavigate={() => { if (desktopServices.current) desktopServices.current.open = false; }} />
+                </div>
+              </details>
+              {primaryLinks.slice(1, 2).map((item) => (
+                <Link key={item.href} href={item.href} className={`text-xs font-medium uppercase tracking-wide transition-colors ${location === item.href ? "text-zinc-900" : "text-zinc-500 hover:text-zinc-900"}`}>{item.name}</Link>
               ))}
-
-              {/* Locations dropdown */}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <button
-                    className={`text-xs font-medium tracking-wide uppercase flex items-center gap-1 transition-colors ${
-                      isLocationActive ? 'text-zinc-900' : 'text-zinc-500 hover:text-zinc-900'
-                    }`}
-                  >
-                    Locations
-                    <ChevronDown className="h-3 w-3 opacity-60" />
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent
-                  align="end"
-                  className="w-48 rounded-none border-zinc-100 shadow-lg mt-2 p-1"
-                >
-                  {LOCATIONS.map((loc) => (
-                    <DropdownMenuItem
-                      key={loc.href}
-                      className="rounded-none focus:bg-brand-green/8 cursor-pointer p-0"
-                    >
-                      <Link href={loc.href} className="w-full">
-                        <span
-                          className={`block px-4 py-2.5 text-xs font-medium tracking-wide transition-colors ${
-                            location === loc.href
-                              ? 'text-brand-green'
-                              : 'text-zinc-700 hover:text-brand-green'
-                          }`}
-                          onClick={() => window.scrollTo(0, 0)}
-                        >
-                          {loc.name}
-                        </span>
-                      </Link>
-                    </DropdownMenuItem>
+              <details className="relative group">
+                <summary className={`list-none cursor-pointer flex items-center gap-1 text-xs font-medium uppercase tracking-wide transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-green ${["/pricing", "/sample-report", "/blog"].some((path) => location.startsWith(path)) ? "text-zinc-900" : "text-zinc-500 hover:text-zinc-900"}`}>
+                  Resources <ChevronDown className="h-3 w-3 opacity-60 transition-transform group-open:rotate-180" />
+                </summary>
+                <div className="absolute left-0 top-full mt-4 w-48 border border-zinc-100 bg-white py-2 shadow-xl">
+                  {resourceLinks.map((item) => (
+                    <Link key={item.href} href={item.href} className="block min-h-11 px-4 py-3 text-xs text-zinc-700 hover:bg-zinc-50 hover:text-brand-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-green">{item.label}</Link>
                   ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
+                </div>
+              </details>
+              <Link href="/contact" className={`text-xs font-medium uppercase tracking-wide transition-colors ${location === "/contact" ? "text-zinc-900" : "text-zinc-500 hover:text-zinc-900"}`}>Contact</Link>
+              <Link href="/book-inspection" className="inline-flex items-center bg-brand-green px-4 py-2.5 text-[10px] font-semibold uppercase tracking-wider text-white hover:bg-emerald-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-green">
+                Book Inspection
+              </Link>
             </nav>
           )}
 
-          {/* Right side */}
-          <div className="flex items-center space-x-4">
-
+          <div className="flex items-center gap-4">
             {isAdmin ? (
               <button
-                onClick={() => window.location.href = '/api/admin/logout'}
+                onClick={() => window.location.href = "/api/admin/logout"}
                 className="text-xs font-medium text-brand-green border-b border-brand-green pb-0.5 hover:text-zinc-900 hover:border-zinc-900 transition-all"
               >
                 Logout
               </button>
             ) : (
               <>
-                {/* Desktop login dropdown */}
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <button className="text-xs font-medium text-brand-green border-b border-brand-green pb-0.5 hover:text-zinc-900 hover:border-zinc-900 transition-all hidden md:flex items-center gap-1">
-                      Login
-                      <ChevronDown className="h-3 w-3" />
-                    </button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-48 rounded-none border-zinc-100 shadow-none mt-2">
-                    <DropdownMenuItem
-                      onClick={() => window.location.href = '/api/admin/login'}
-                      className="text-xs font-medium uppercase tracking-wide py-3 focus:bg-zinc-50 cursor-pointer"
-                    >
-                      Admin Portal
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      onClick={() => window.location.href = 'https://arban-inspect.replit.app/login'}
-                      className="text-xs font-medium uppercase tracking-wide py-3 focus:bg-zinc-50 cursor-pointer"
-                    >
-                      Inspector Portal
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-
-                {/* Mobile hamburger */}
+                <a
+                  href="https://app.stratasurveyor.com/"
+                  className="hidden md:inline-flex text-xs font-medium text-brand-green border-b border-brand-green pb-0.5 hover:text-zinc-900 hover:border-zinc-900 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-green"
+                >
+                  Login
+                </a>
                 <div className="md:hidden">
                   <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
                     <SheetTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        className="text-zinc-500 hover:text-zinc-900"
-                        aria-label="Open navigation menu"
-                      >
+                      <Button variant="ghost" size="sm" className="text-zinc-600 hover:text-zinc-900" aria-label="Open navigation menu">
                         <Menu className="h-5 w-5" />
                       </Button>
                     </SheetTrigger>
-                    <SheetContent side="right" className="w-full sm:w-[400px] border-l border-zinc-100">
-                      <nav className="flex flex-col space-y-6 mt-12">
-                        {navigation.map((item) => (
-                          <Link key={item.name} href={item.href}>
-                            <span
-                              className={`text-xs font-medium tracking-widest uppercase transition-colors cursor-pointer ${
-                                location === item.href ? 'text-zinc-900' : 'text-zinc-500 hover:text-zinc-900'
-                              }`}
-                              onClick={() => { setIsMobileMenuOpen(false); window.scrollTo(0, 0); }}
-                            >
-                              {item.name}
-                            </span>
-                          </Link>
-                        ))}
-
-                        {/* Mobile Locations group */}
-                        <div>
-                          <button
-                            onClick={() => setMobileLocationsOpen(p => !p)}
-                            className={`text-xs font-medium tracking-widest uppercase flex items-center gap-2 transition-colors ${
-                              isLocationActive ? 'text-zinc-900' : 'text-zinc-500 hover:text-zinc-900'
-                            }`}
-                          >
-                            Locations
-                            <ChevronDown className={`h-3 w-3 transition-transform ${mobileLocationsOpen ? 'rotate-180' : ''}`} />
+                    <SheetContent side="right" className="w-full sm:w-[400px] border-l border-zinc-100 overflow-y-auto">
+                      <SheetTitle className="sr-only">Navigation</SheetTitle>
+                      <SheetDescription className="sr-only">Browse inspections, building consultancy and company information.</SheetDescription>
+                      <nav aria-label="Mobile navigation" className="flex flex-col mt-12">
+                        <Link href="/" onClick={closeMobileMenu} className="py-4 border-b border-zinc-100 text-xs font-medium uppercase tracking-widest text-zinc-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-green">Home</Link>
+                        <div className="border-b border-zinc-100">
+                          <button type="button" aria-expanded={mobileServicesOpen} onClick={() => setMobileServicesOpen((open) => !open)} className="w-full flex items-center justify-between py-4 text-left text-xs font-medium uppercase tracking-widest text-zinc-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-green">
+                            Services <ChevronDown className={`h-4 w-4 transition-transform ${mobileServicesOpen ? "rotate-180" : ""}`} />
                           </button>
-                          {mobileLocationsOpen && (
-                            <div className="mt-4 pl-4 flex flex-col space-y-4 border-l border-zinc-100">
-                              {LOCATIONS.map((loc) => (
-                                <Link key={loc.href} href={loc.href}>
-                                  <span
-                                    className={`text-xs font-medium tracking-wide transition-colors cursor-pointer ${
-                                      location === loc.href ? 'text-brand-green' : 'text-zinc-500 hover:text-zinc-900'
-                                    }`}
-                                    onClick={() => { setIsMobileMenuOpen(false); window.scrollTo(0, 0); }}
-                                  >
-                                    {loc.name}
-                                  </span>
-                                </Link>
-                              ))}
-                            </div>
+                          {mobileServicesOpen && <ServicesMenu onNavigate={closeMobileMenu} />}
+                        </div>
+                        <Link href="/about" onClick={closeMobileMenu} className="py-4 border-b border-zinc-100 text-xs font-medium uppercase tracking-widest text-zinc-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-green">About</Link>
+                        <div className="border-b border-zinc-100">
+                          <button type="button" aria-expanded={mobileResourcesOpen} onClick={() => setMobileResourcesOpen((open) => !open)} className="w-full flex items-center justify-between py-4 text-left text-xs font-medium uppercase tracking-widest text-zinc-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-green">
+                            Resources <ChevronDown className={`h-4 w-4 transition-transform ${mobileResourcesOpen ? "rotate-180" : ""}`} />
+                          </button>
+                          {mobileResourcesOpen && (
+                            <ul className="pb-3 pl-4">
+                              {resourceLinks.map((item) => <li key={item.href}><Link href={item.href} onClick={closeMobileMenu} className="flex min-h-11 items-center text-sm text-zinc-600 hover:text-brand-green focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-green">{item.label}</Link></li>)}
+                            </ul>
                           )}
                         </div>
-
-                        {/* Mobile login */}
-                        <div className="border-t border-zinc-100 pt-6 mt-6">
-                          <p className="text-[10px] font-semibold tracking-[0.25em] text-zinc-500 uppercase mb-4">Login Options</p>
-                          <div className="flex flex-col space-y-4 items-start">
-                            <button
-                              className="text-xs font-medium text-brand-green border-b border-brand-green pb-0.5"
-                              onClick={() => { setIsMobileMenuOpen(false); window.location.href = '/api/admin/login'; }}
-                            >
-                              Admin Portal
-                            </button>
-                            <button
-                              className="text-xs font-medium text-brand-green border-b border-brand-green pb-0.5"
-                              onClick={() => { setIsMobileMenuOpen(false); window.location.href = 'https://arban-inspect.replit.app/login'; }}
-                            >
-                              Inspector Portal
-                            </button>
-                          </div>
+                        <Link href="/contact" onClick={closeMobileMenu} className="py-4 border-b border-zinc-100 text-xs font-medium uppercase tracking-widest text-zinc-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-green">Contact</Link>
+                        <Link href="/book-inspection" onClick={closeMobileMenu} className="mt-6 inline-flex justify-center bg-brand-green px-5 py-4 text-xs font-semibold uppercase tracking-widest text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-green">
+                          Book Inspection
+                        </Link>
+                        <div className="border-t border-zinc-100 pt-6 mt-8">
+                          <a
+                            href="https://app.stratasurveyor.com/"
+                            onClick={closeMobileMenu}
+                            className="inline-flex text-xs font-medium text-brand-green border-b border-brand-green pb-0.5 hover:text-zinc-900 hover:border-zinc-900 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-green"
+                          >
+                            Login
+                          </a>
                         </div>
                       </nav>
                     </SheetContent>

@@ -1,3 +1,5 @@
+import { canonicalOrigin, canonicalUrl, isNonIndexablePath } from "@shared/siteConfig";
+
 export interface SitemapUrl {
   loc: string;
   lastmod?: string;
@@ -7,7 +9,8 @@ export interface SitemapUrl {
 
 export function generateSitemap(urls: SitemapUrl[]): string {
   const urlElements = urls.map(url => {
-    let urlXml = `  <url>\n    <loc>${url.loc}</loc>\n`;
+    const escapedLoc = url.loc.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    let urlXml = `  <url>\n    <loc>${escapedLoc}</loc>\n`;
 
     if (url.lastmod) {
       urlXml += `    <lastmod>${url.lastmod}</lastmod>\n`;
@@ -32,11 +35,14 @@ ${urlElements}
 }
 
 export function getSitemapUrls(baseUrl: string, blogPosts: Array<{slug: string, updatedAt: Date}>): SitemapUrl[] {
+  baseUrl = canonicalOrigin;
   const urls: SitemapUrl[] = [
     // Core pages
     { loc: `${baseUrl}/`, priority: 1.0, changefreq: 'weekly' },
     { loc: `${baseUrl}/about`, priority: 0.9, changefreq: 'monthly' },
     { loc: `${baseUrl}/services`, priority: 0.9, changefreq: 'weekly' },
+    { loc: `${baseUrl}/pricing`, priority: 0.8, changefreq: 'monthly' },
+    { loc: `${baseUrl}/sample-report`, priority: 0.7, changefreq: 'monthly' },
     { loc: `${baseUrl}/contact`, priority: 0.8, changefreq: 'monthly' },
     { loc: `${baseUrl}/blog`, priority: 0.7, changefreq: 'weekly' },
     { loc: `${baseUrl}/broker-referrals`, priority: 0.6, changefreq: 'monthly' },
@@ -65,6 +71,7 @@ export function getSitemapUrls(baseUrl: string, blogPosts: Array<{slug: string, 
     { loc: `${baseUrl}/services/technical-inspections/thermographic-survey`, priority: 0.8, changefreq: 'monthly' },
     { loc: `${baseUrl}/services/technical-inspections/noise-survey`, priority: 0.8, changefreq: 'monthly' },
     { loc: `${baseUrl}/services/technical-inspections/structural-survey`, priority: 0.8, changefreq: 'monthly' },
+    { loc: `${baseUrl}/services/asset-tagging-inventory`, priority: 0.8, changefreq: 'monthly' },
 
     // Location pages — all 7 UAE emirates
     { loc: `${baseUrl}/locations/dubai`, priority: 0.8, changefreq: 'monthly' },
@@ -92,5 +99,6 @@ export function getSitemapUrls(baseUrl: string, blogPosts: Array<{slug: string, 
     });
   });
 
-  return urls;
+  return urls.filter(url => !isNonIndexablePath(new URL(url.loc).pathname))
+    .map(url => ({ ...url, loc: canonicalUrl(url.loc) }));
 }

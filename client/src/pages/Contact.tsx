@@ -10,8 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
-import { trackConversion } from "@/lib/analytics";
+import { submitLead } from "@/lib/leads";
 import { MapPin, Phone, Mail, Clock, MessageSquare, ArrowRight } from "lucide-react";
 import SEO from "@/components/SEO";
 
@@ -41,10 +40,11 @@ export default function Contact() {
   });
 
   const onSubmit = async (data: ContactFormData) => {
+    if (isLoading) return;
     setIsLoading(true);
     
     try {
-      await apiRequest("POST", "/api/contact", data);
+      await submitLead("/api/contact", { ...data, leadSource: "contact" });
       
       toast({
         title: "Message Sent!",
@@ -52,10 +52,8 @@ export default function Contact() {
         variant: "default",
       });
 
-      // Track conversion for Google Ads
-      trackConversion();
-
       reset();
+      setPhoneValue("");
     } catch (error) {
       toast({
         title: "Error",

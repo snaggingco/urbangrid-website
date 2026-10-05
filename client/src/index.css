@@ -25,6 +25,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Keep global contact launchers from colliding with the privacy choice.
+   They return unchanged immediately after the banner closes. */
+html[data-ug-consent-banner-open="true"] [data-analytics-region="floating_mobile"],
+html[data-ug-consent-banner-open="true"] [data-analytics-region="floating_desktop"] {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 @layer utilities {
   .line-clamp-1 {
     overflow: hidden;

@@ -95,6 +95,9 @@ export default function Dashboard() {
           
           {/* Admin Navigation */}
           <nav className="flex flex-wrap gap-4 p-4 bg-white rounded-lg shadow-sm border border-gray-200">
+            <Link href="/admin/leads" className="px-4 py-2 rounded-md text-sm font-medium text-brand-green hover:bg-gray-100">Leads & attribution</Link>
+            <Link href="/admin/bookings" className="px-4 py-2 rounded-md text-sm font-medium text-brand-green hover:bg-gray-100">Inspection bookings</Link>
+            <Link href="/admin/acquisition" className="px-4 py-2 rounded-md text-sm font-medium text-brand-green hover:bg-gray-100">Acquisition report</Link>
             <Link href="/admin">
               <a className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                 location === '/admin' 
@@ -177,6 +180,8 @@ export default function Dashboard() {
                 Visibility Engine
               </Button>
             </Link>
+            <Link href="/admin/bookings" className="inline-flex items-center rounded-md border border-brand-green px-4 py-2 text-sm font-medium text-brand-green hover:bg-brand-green hover:text-white">Inspection bookings</Link>
+            <Link href="/admin/acquisition" className="inline-flex items-center rounded-md border border-brand-green px-4 py-2 text-sm font-medium text-brand-green hover:bg-brand-green hover:text-white">Acquisition report</Link>
           </div>
         </div>
 

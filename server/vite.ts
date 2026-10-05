@@ -5,6 +5,7 @@ import { createServer as createViteServer, createLogger } from "vite";
 import { type Server } from "http";
 import viteConfig from "../vite.config";
 import { nanoid } from "nanoid";
+import { injectFirstPaint } from "./firstPaint";
 
 const viteLogger = createLogger();
 
@@ -54,6 +55,15 @@ export async function setupVite(app: Express, server: Server) {
 
       // always reload the index.html file from disk incase it changes
       let template = await fs.promises.readFile(clientTemplate, "utf-8");
+      const pathname = new URL(url, "http://preview.internal").pathname.replace(/\/$/, "") || "/";
+      if (pathname === "/" || pathname === "/locations/dubai") {
+        const { renderFirstPaint } = await vite.ssrLoadModule("/src/firstPaint.tsx");
+        template = injectFirstPaint(template, pathname, renderFirstPaint(pathname));
+        template = template.replace("</head>", '<link rel="stylesheet" href="/src/index.css?direct">\n</head>');
+        if (pathname === "/locations/dubai") {
+          template = template.replace("</head>", '<link rel="modulepreload" href="/src/pages/locations/Dubai.tsx">\n</head>');
+        }
+      }
       template = template.replace(
         `src="/src/main.tsx"`,
         `src="/src/main.tsx?v=${nanoid()}"`,

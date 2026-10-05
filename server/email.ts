@@ -1,4 +1,32 @@
 import nodemailer from 'nodemailer';
+import { formatAed, residentialServices } from "@shared/inspectionPricing";
+import type { BookingRow } from "./bookingService";
+
+export async function sendResidentialBookingEmail(input: {
+  booking: BookingRow; email: string; paid: number; balanceUrl: string;
+}): Promise<boolean> {
+  const b = input.booking;
+  const esc = (s: string) => s.replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]!));
+  const service = residentialServices.find(s => s.key === b.service)?.label || b.service;
+  const html = `<div style="font-family:Arial,sans-serif;color:#153f32;background:#faf7ef;padding:28px">
+    <h1>UrbanGrid — Inspection booking confirmed</h1><p>Reference: <strong>${esc(b.bookingReference)}</strong></p>
+    <p>${esc(service)} · ${esc(b.propertyType)} · ${b.areaHundredths / 100} sq.ft</p>
+    <p>${esc(b.project)} · ${esc(b.location)} · ${esc(b.emirate)}</p>
+    <p>Preferred inspection: ${esc(b.inspectionDate)} ${esc(b.timeWindow || "")}. Our team will confirm availability.</p>
+    <p>Base excluding VAT: ${formatAed(b.baseMinor)}<br>VAT 5%: ${formatAed(b.vatMinor)}<br>
+    Total including VAT: <strong>${formatAed(b.quoteTotalMinor)}</strong><br>
+    Total cash received: ${formatAed(input.paid)}<br>
+    Amount outstanding: <strong>${formatAed(Math.max(b.quoteTotalMinor - input.paid, 0))}</strong></p>
+    <p>100% payment after inspection and before release of the final report. No upfront payment is required.
+    The payment path is activated by staff only after the physical inspection is completed. Reports are not automatically released.</p>
+    <a href="${esc(input.balanceUrl)}">View your booking</a></div>`;
+  const from = process.env.EMAIL_FROM || process.env.SMTP_USER;
+  if (!from) return false;
+  const subject = `UrbanGrid booking ${b.bookingReference} — inspection confirmed`;
+  const bcc = process.env.BOOKING_CONFIRMATION_BCC || "info@urbangrid.ae";
+  return await sendViaSendGrid(input.email, from, subject, html, bcc) ||
+    await sendViaSmtp(input.email, from, subject, html, bcc);
+}
 
 // ── Email sender ─────────────────────────────────────────────────────────────
 // Prefers SendGrid when SENDGRID_API_KEY is set; falls back to SMTP.

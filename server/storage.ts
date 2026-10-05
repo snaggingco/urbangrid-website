@@ -18,6 +18,8 @@ import {
 } from "@shared/schema";
 import { db } from "./db";
 import { eq, desc, and, ilike, or, sql, count } from "drizzle-orm";
+import type { LeadUpdate } from "@shared/leads";
+import { updateLead } from "./leadPipeline";
 
 export interface IStorage {
   // User operations (required for Replit Auth)
@@ -45,11 +47,15 @@ export interface IStorage {
   
   // Contact operations
   createContactSubmission(submission: InsertContactSubmission): Promise<ContactSubmission>;
+  saveContactSubmission(submission: InsertContactSubmission): Promise<{ submission: ContactSubmission; created: boolean }>;
   getContactSubmissions(options?: {
     isRead?: boolean;
+    stage?: string;
     limit?: number;
     offset?: number;
   }): Promise<ContactSubmission[]>;
+  getContactSubmissionsCount(stage?: string): Promise<number>;
+  updateContactSubmissionStage(id: number, update: LeadUpdate): Promise<ContactSubmission | undefined>;
   markContactSubmissionAsRead(id: number): Promise<boolean>;
   
   // Inspector operations
@@ -58,6 +64,7 @@ export interface IStorage {
   getInspectorByUsername(username: string): Promise<Inspector | undefined>;
   getInspectors(options?: {
     isActive?: boolean;
+    search?: string;
     limit?: number;
     offset?: number;
   }): Promise<Inspector[]>;
@@ -157,7 +164,7 @@ export class DatabaseStorage implements IStorage {
       .select()
       .from(blogPosts)
       .leftJoin(users, eq(blogPosts.authorId, users.id))
-      .orderBy(desc(blogPosts.createdAt));
+      .orderBy(desc(blogPosts.createdAt)).$dynamic();
 
     const conditions = [];
     
@@ -198,7 +205,7 @@ export class DatabaseStorage implements IStorage {
   } = {}): Promise<number> {
     const { status, category, search } = options;
     
-    let query = db.select({ count: count() }).from(blogPosts);
+    let query = db.select({ count: count() }).from(blogPosts).$dynamic();
 
     const conditions = [];
     
@@ -230,27 +237,50 @@ export class DatabaseStorage implements IStorage {
 
   // Contact operations
   async createContactSubmission(submission: InsertContactSubmission): Promise<ContactSubmission> {
-    const [contactSubmission] = await db.insert(contactSubmissions).values(submission).returning();
-    return contactSubmission;
+    return (await this.saveContactSubmission(submission)).submission;
+  }
+
+  async saveContactSubmission(submission: InsertContactSubmission): Promise<{ submission: ContactSubmission; created: boolean }> {
+    const [inserted] = await db.insert(contactSubmissions).values(submission)
+      .onConflictDoNothing({ target: contactSubmissions.submissionKey }).returning();
+    if (inserted) return { submission: inserted, created: true };
+    if (!submission.submissionKey) throw new Error("Lead could not be saved");
+    const [existing] = await db.select().from(contactSubmissions)
+      .where(eq(contactSubmissions.submissionKey, submission.submissionKey));
+    if (!existing) throw new Error("Lead could not be confirmed");
+    return { submission: existing, created: false };
   }
 
   async getContactSubmissions(options: {
     isRead?: boolean;
+    stage?: string;
     limit?: number;
     offset?: number;
   } = {}): Promise<ContactSubmission[]> {
-    const { isRead, limit = 50, offset = 0 } = options;
+    const { isRead, stage, limit = 50, offset = 0 } = options;
     
     let query = db
       .select()
       .from(contactSubmissions)
-      .orderBy(desc(contactSubmissions.createdAt));
+      .orderBy(desc(contactSubmissions.createdAt)).$dynamic();
 
-    if (typeof isRead === 'boolean') {
-      query = query.where(eq(contactSubmissions.isRead, isRead));
-    }
+    const conditions = [sql`coalesce(${contactSubmissions.leadSource}, '') <> 'integration_test'`];
+    if (typeof isRead === 'boolean') conditions.push(eq(contactSubmissions.isRead, isRead));
+    if (stage) conditions.push(eq(contactSubmissions.stage, stage));
+    if (conditions.length) query = query.where(and(...conditions));
     
     return await query.limit(limit).offset(offset);
+  }
+
+  async getContactSubmissionsCount(stage?: string): Promise<number> {
+    const [result] = await db.select({ count: count() }).from(contactSubmissions)
+      .where(and(sql`coalesce(${contactSubmissions.leadSource}, '') <> 'integration_test'`,
+        stage ? eq(contactSubmissions.stage, stage) : undefined));
+    return result.count;
+  }
+
+  async updateContactSubmissionStage(id: number, update: LeadUpdate): Promise<ContactSubmission | undefined> {
+    return updateLead(id, update);
   }
 
   async markContactSubmissionAsRead(id: number): Promise<boolean> {
@@ -282,14 +312,21 @@ export class DatabaseStorage implements IStorage {
 
   async getInspectors(options?: {
     isActive?: boolean;
+    search?: string;
     limit?: number;
     offset?: number;
   }): Promise<Inspector[]> {
-    let query = db.select().from(inspectors);
+    let query = db.select().from(inspectors).$dynamic();
 
     const conditions = [];
     if (options?.isActive !== undefined) {
       conditions.push(eq(inspectors.isActive, options.isActive));
+    }
+    if (options?.search) {
+      conditions.push(or(
+        ilike(inspectors.fullName, `%${options.search}%`),
+        ilike(inspectors.email, `%${options.search}%`)
+      ));
     }
 
     if (conditions.length > 0) {
@@ -312,7 +349,7 @@ export class DatabaseStorage implements IStorage {
     isActive?: boolean;
     search?: string;
   }): Promise<number> {
-    let query = db.select({ count: count() }).from(inspectors);
+    let query = db.select({ count: count() }).from(inspectors).$dynamic();
 
     const conditions = [];
     if (options?.isActive !== undefined) {
@@ -321,7 +358,7 @@ export class DatabaseStorage implements IStorage {
     if (options?.search) {
       conditions.push(
         or(
-          ilike(inspectors.name, `%${options.search}%`),
+          ilike(inspectors.fullName, `%${options.search}%`),
           ilike(inspectors.email, `%${options.search}%`)
         )
       );

@@ -230,7 +230,7 @@ export default function ManageInspectors() {
         email: editingInspector.email,
         fullName: editingInspector.fullName,
         phone: editingInspector.phone ?? "",
-        isActive: editingInspector.isActive,
+        isActive: editingInspector.isActive ?? false,
         password: "",
         confirmPassword: "",
       });

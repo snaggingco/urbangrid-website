@@ -40,7 +40,7 @@ export default function PrivacyPolicy() {
               <p className="mb-3">We may collect the following types of information:</p>
               <ul className="list-disc pl-6 space-y-2">
                 <li><strong>Personal Identification:</strong> Name, email address, phone number, and property address provided through consultation forms or direct contact.</li>
-                <li><strong>Technical Data:</strong> IP address, browser type, pages visited, and time spent on our website via analytics tools.</li>
+                <li><strong>Technical Data:</strong> IP address, browser type, pages visited, and time spent on our website via analytics tools. We also retain first-visit and most recent visit campaign parameters and Google advertising click identifiers (gclid, gbraid and wbraid), when present, with your enquiry to understand which advertising leads to qualified enquiries and bookings. Browser local storage preserves this attribution between visits.</li>
                 <li><strong>Communication Records:</strong> Records of correspondence when you contact us via email, phone, or WhatsApp.</li>
                 <li><strong>Property Information:</strong> Details about the property you wish to have inspected, including location, type, and size.</li>
               </ul>
@@ -75,6 +75,9 @@ export default function PrivacyPolicy() {
               <h2 className="text-xl font-bold text-zinc-900 mb-4">5. Cookies and Tracking</h2>
               <p>
                 We use cookies and similar tracking technologies (including Google Analytics, Google Ads, and the OpenAI Ads Measurement Pixel) to measure website activity and advertising results. The OpenAI pixel records clicks on our WhatsApp contact links as conversion events; it does not access your WhatsApp messages. You can instruct your browser to refuse cookies or indicate when one is being sent. Disabling cookies may affect measurement or some parts of our website.
+              </p>
+              <p className="mt-3">
+                Our first-party privacy banner lets you accept or reject non-essential analytics and advertising cookies. Google consent defaults are denied before Google Tag Manager loads; accepting grants the four Google analytics and advertising consent settings, while rejecting keeps them denied. The OpenAI advertising pixel is only initialized after acceptance. We store your choice in first-party browser storage so you are not repeatedly prompted. You can change your choice using “Cookie preferences” in the footer. Essential site features, inspection enquiries, calls, and WhatsApp contact links remain available with either choice.
               </p>
             </div>
 

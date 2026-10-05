@@ -5,8 +5,7 @@ import { Label } from "@/components/ui/label";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
-import { trackConversion } from "@/lib/analytics";
+import { submitLead } from "@/lib/leads";
 
 export default function ConsultationForm() {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,13 +18,15 @@ export default function ConsultationForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isLoading) return;
     setIsLoading(true);
 
     try {
-      await apiRequest("POST", "/api/consultation", {
+      await submitLead("/api/consultation", {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
+        leadSource: "consultation",
       });
 
       toast({
@@ -33,9 +34,6 @@ export default function ConsultationForm() {
         description: "Thank you! We'll contact you soon for your free consultation.",
         variant: "default",
       });
-
-      // Track conversion for Google Ads
-      trackConversion('lead_form');
 
       // Reset form
       setFormData({
@@ -149,6 +147,8 @@ export default function ConsultationForm() {
                   </Label>
                   <div className="consultation-phone-input-wrapper-light">
                     <PhoneInput
+                      id="phone"
+                      aria-label="Phone Number"
                       international
                       countryCallingCodeEditable={false}
                       defaultCountry="AE"

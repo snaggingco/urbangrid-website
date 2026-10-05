@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
+import { submitLead } from "@/lib/leads";
 import { ArrowRight, X, FileText, CheckCircle } from "lucide-react";
 
 interface Props {
@@ -23,13 +23,14 @@ export default function SampleReportModal({ isOpen, onClose }: Props) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isLoading) return;
     if (!formData.name || !formData.email || !formData.phone) {
       toast({ title: "Please fill in all fields", variant: "destructive" });
       return;
     }
     setIsLoading(true);
     try {
-      await apiRequest("POST", "/api/sample-report-download", formData);
+      await submitLead("/api/sample-report-download", { ...formData, leadSource: "sample_report" });
       setStep("success");
       // Trigger download after a brief delay so user sees success state
       setTimeout(() => {

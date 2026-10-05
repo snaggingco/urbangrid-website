@@ -4,7 +4,7 @@ hidden = [".config", ".git", "generated-icon.png", "node_modules", "dist"]
 
 [nix]
 channel = "stable-24_05"
-packages = ["zip", "imagemagick"]
+packages = ["freetype", "gumbo", "harfbuzz", "imagemagick", "jbig2dec", "libjpeg_turbo", "mupdf", "openjpeg", "swig", "xcbuild", "zip"]
 
 [deployment]
 deploymentTarget = "autoscale"
@@ -16,7 +16,7 @@ localPort = 5000
 externalPort = 80
 
 [[ports]]
-localPort = 5001
+localPort = 24678
 externalPort = 3001
 
 [env]
@@ -49,6 +49,14 @@ integrations = ["javascript_sendgrid:1.0.0", "javascript_google_analytics:1.0.0"
 [userenv]
 
 [userenv.shared]
+
+[userenv.development]
+URBANGRID_OPERATIONS_INTEGRATION_URL = "https://ewyxbbfktyhmmwocvmqs.supabase.co/functions/v1/urbangrid-integration"
+URBANGRID_OPERATIONS_STATUS_URL = "https://ewyxbbfktyhmmwocvmqs.supabase.co/functions/v1/urbangrid-status"
+
+[userenv.production]
+URBANGRID_OPERATIONS_INTEGRATION_URL = "https://nzbewemalujbhnjbrpcs.supabase.co/functions/v1/urbangrid-integration"
+URBANGRID_OPERATIONS_STATUS_URL = "https://nzbewemalujbhnjbrpcs.supabase.co/functions/v1/urbangrid-status"
 
 [postMerge]
 path = "scripts/post-merge.sh"

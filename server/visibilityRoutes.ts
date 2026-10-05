@@ -122,7 +122,7 @@ function calculateMetrics(rows: Array<typeof visibilityTests.$inferSelect>) {
   const competitorMentions = new Map<string, number>();
   for (const row of completed) for (const item of row.competitors || []) competitorMentions.set(item.name, (competitorMentions.get(item.name) || 0) + 1);
   const urbanMentions = completed.filter(r => r.mentioned).length;
-  const totalMentions = urbanMentions + [...competitorMentions.values()].reduce((a, b) => a + b, 0);
+  const totalMentions = urbanMentions + Array.from(competitorMentions.values()).reduce((a, b) => a + b, 0);
   return {
     testedQueries: completed.length,
     mentionRate: Math.round(urbanMentions / completed.length * 100),

@@ -58,11 +58,11 @@ app.use((_req, res, next) => {
     'Content-Security-Policy',
     [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://replit.com https://bzrcdn.openai.com",
+      "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://www.google.com https://replit.com https://bzrcdn.openai.com",
       "style-src 'self' 'unsafe-inline'",
       "font-src 'self' data:",
       "img-src 'self' data: blob: https: https://bzr.openai.com",
-      "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://www.google.com https://googleads.g.doubleclick.net https://ad.doubleclick.net https://stats.g.doubleclick.net https://*.replit.dev wss://*.replit.dev https://bzr.openai.com https://bzrcdn.openai.com",
+      "connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://www.googletagmanager.com https://www.google.com https://googleads.g.doubleclick.net https://ad.doubleclick.net https://stats.g.doubleclick.net https://pagead2.googlesyndication.com https://www.googleadservices.com https://*.replit.dev wss://*.replit.dev https://bzr.openai.com https://bzrcdn.openai.com",
       "frame-src 'self' https://www.googletagmanager.com https://td.doubleclick.net https://www.google.com",
       "object-src 'none'",
       "base-uri 'self'",
@@ -74,11 +74,15 @@ app.use((_req, res, next) => {
   next();
 });
 
-app.use(express.json());
+app.use(express.json({ verify: (req, _res, buffer) => {
+  if (req.url === "/api/ziina/webhook") (req as typeof req & { rawBody?: Buffer }).rawBody = Buffer.from(buffer);
+} }));
 app.use(express.urlencoded({ extended: false }));
 
 app.use((req, res, next) => {
-  if (req.path === "/health") return next();
+  if (req.path === "/health" || req.path.startsWith("/booking-access/") ||
+      req.path.startsWith("/api/admin/login") || req.path === "/api/admin/logout" ||
+      req.path === "/api/auth/user") return next();
 
   const start = Date.now();
   const path = req.path;
@@ -132,7 +136,7 @@ async function initStripe() {
     const databaseUrl = process.env.DATABASE_URL;
     if (!databaseUrl) throw new Error('DATABASE_URL required');
 
-    await runMigrations({ databaseUrl, schema: 'stripe' });
+    await runMigrations({ databaseUrl });
     const stripeSync = await getStripeSync();
     const webhookBase = `https://${process.env.REPLIT_DOMAINS?.split(',')[0]}`;
     await stripeSync.findOrCreateManagedWebhook(`${webhookBase}/api/stripe/webhook`);
@@ -171,5 +175,6 @@ async function initStripe() {
   }, () => {
     log(`serving on port ${port}`);
     startVisitorReportScheduler();
+    void import("./operationsIntegration").then(({ startOperationsDeliveryWorker }) => startOperationsDeliveryWorker());
   });
 })();

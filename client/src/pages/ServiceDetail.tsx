@@ -4,6 +4,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import NotFound from "@/pages/not-found";
 import SEO from "@/components/SEO";
 import { serviceFAQs } from "@shared/faqs";
+import { serviceFromLabel, calculateInspectionPrice, formatAed } from "@shared/inspectionPricing";
+import ResidentialServiceGuidance from "@/components/ResidentialServiceGuidance";
 
 interface ServiceData {
   slug: string;
@@ -720,6 +722,67 @@ export default function ServiceDetail() {
   }
 
   const service = servicesData[slug];
+  const standardService = serviceFromLabel(slug);
+  const residentialGuidance = slug === "new-build-snagging" ? "new-build" : slug === "dlp-snagging" ? "dlp" : slug === "secondary-market" ? "resale" : null;
+  const qualifiedCopy = (text: string) => text
+    .replace(/certified inspectors/gi, "inspection team")
+    .replace(/examine every aspect of your property, from structural elements to finishing details, documenting visible conditions for review against the information provided/gi, "review accessible conditions within the agreed scope, documenting observations for consideration against the information provided")
+    .replace(/ensuring that everything meets the required standards and specifications/gi, "documenting visible conditions for review against the information provided")
+    .replace(/This critical step can save you thousands of dirhams in future repairs and ensures that any defects are identified and rectified by the developer at no cost to you\./gi, "The report records observable findings for discussion with the developer; rectification decisions depend on the applicable contract and the developer.")
+    .replace(/The Defect Liability Period \(DLP\) is your last opportunity to claim free rectification of defects from your developer or contractor\./gi, "The terms and duration of any defects liability period depend on the applicable contract and circumstances.")
+    .replace(/ensuring maximum protection for your investment and securing your rights for free repairs/gi, "to record observable findings before any applicable contractual period ends")
+    .replace(/Our secondary market snagging service provides comprehensive pre-purchase inspections that reveal hidden issues, assess maintenance requirements, and provide valuable insights for price negotiations and future planning\./gi, "Our secondary-market inspection documents accessible, visible conditions and maintenance observations to inform your own due diligence and discussions.")
+    .replace(/Complete structural assessment and stability check/gi, "Visual review of accessible structural elements; not a stability certification")
+    .replace(/Follow-up inspection after rectification/gi, "Reinspection only by agreed separate scope; not guaranteed")
+    .replace(/Rectification follow-up/gi, "Further inspections require an agreed separate scope")
+    .replace(/Multiple follow-ups/gi, "Any reinspection requires an agreed separate scope")
+    .replace(/Comprehensive re-inspection/gi, "Inspection of accessible conditions within the agreed visit")
+    .replace(/Warranty documentation support/gi, "Inspection report with photographic observations")
+    .replace(/Leverage for negotiations with developers/gi, "Findings may inform your own discussions; no outcome is promised")
+    .replace(/Cost savings on repairs/gi, "A record of observed conditions")
+    .replace(/Ensure compliance with UAE building standards/gi, "Record visible observations for your own review")
+    .replace(/Save money on future repairs and maintenance/gi, "Identify visible conditions for your own follow-up")
+    .replace(/Professional documentation for warranty claims/gi, "Inspection documentation for your own follow-up")
+    .replace(/the last opportunity to claim free rectification/gi, "an opportunity to document observations under applicable contract terms")
+    .replace(/identify all potential issues/gi, "record observable conditions within the agreed inspection scope")
+    .replace(/certification documentation/gi, "documentation of inspection observations")
+    .replace(/final quality certification/gi, "final quality observations")
+    .replace(/certified valuation report/gi, "valuation report by separately agreed scope")
+    .replace(/professional certification and reporting/gi, "reporting within the agreed scope")
+    .replace(/professional certification and documentation/gi, "documentation within the agreed scope")
+    .replace(/handover readiness certification and approval/gi, "documented handover observations; authority approval is outside scope")
+    .replace(/certification preparation and submission/gi, "documentation preparation within the agreed scope")
+    .replace(/proper handover certification/gi, "handover observations")
+    .replace(/RERA (?:regulatory )?compliance (?:assessment|verification|documentation|assurance|requirements)?/gi, "review of relevant documents within the agreed scope")
+    .replace(/RERA guideline compliance verification/gi, "review of relevant documents within the agreed scope")
+    .replace(/RERA compliance/gi, "review of relevant documents within the agreed scope")
+    .replace(/Developer liaison and communication support/gi, "Inspection findings documented for your own follow-up")
+    .replace(/Rectification progress tracking and monitoring/gi, "Rectification progress is outside this inspection scope")
+    .replace(/Legal documentation and evidence gathering/gi, "Photographic records of observable findings")
+    .replace(/Multiple follow-up inspections as needed/gi, "Any reinspection requires an agreed separate scope and is not guaranteed")
+    .replace(/Warranty claim submission assistance/gi, "Observations may be shared by you with the relevant party")
+    .replace(/Final completion verification/gi, "Visual reinspection only by agreed separate scope")
+    .replace(/Legal protection and documentation/gi, "Inspection documentation")
+    .replace(/Maximize warranty claim potential/gi, "Document visible conditions during the applicable period")
+    .replace(/Ensure all defects are addressed/gi, "Record accessible observations for follow-up")
+    .replace(/Professional developer liaison/gi, "Clear findings for your own developer follow-up")
+    .replace(/Legal protection and documentation/gi, "Photographic inspection documentation")
+    .replace(/Extended property protection/gi, "A record of observed conditions on the inspection date")
+    .replace(/Market value assessment support/gi, "Visible condition assessment; not a valuation")
+    .replace(/Hidden defect detection and analysis/gi, "Visual review of accessible areas; concealed defects cannot be confirmed")
+    .replace(/Negotiation support and recommendations/gi, "Findings may inform your own discussions; no outcome is promised")
+    .replace(/Investment protection advisory/gi, "Condition observations to inform your own due diligence")
+    .replace(/Market analysis and comparison/gi, "Review of available property information")
+    .replace(/Market assessment report/gi, "Accessible condition report; not a valuation")
+    .replace(/Hidden defect analysis/gi, "Visual review of accessible areas; concealed conditions are not confirmed")
+    .replace(/Maintenance cost projection/gi, "Maintenance observations; no repair estimate")
+    .replace(/Professional market insights/gi, "Condition observations for your own due diligence")
+    .replace(/Investment advisory/gi, "Condition observations for your own due diligence")
+    .replace(/Final inspection and sign-off/gi, "Any reinspection requires agreed separate scope; no completion sign-off is provided")
+    .replace(/Final verification report/gi, "Report of observations within the agreed scope")
+    .replace(/Make informed purchase decisions/gi, "Use condition observations as one part of your due diligence")
+    .replace(/Negotiate fair market prices/gi, "Discuss documented observations with relevant parties")
+    .replace(/Avoid costly surprises/gi, "Identify observable conditions before your decision");
 
   const categoryDisplayNames = {
     'property-snagging': 'Property Snagging',
@@ -733,7 +796,7 @@ export default function ServiceDetail() {
     <>
       <SEO 
         title={`${service.title} - UrbanGrid UAE`}
-        description={service.description}
+        description={qualifiedCopy(service.description)}
       />
       <div className="pt-16">
         {/* Hero Section */}
@@ -753,7 +816,9 @@ export default function ServiceDetail() {
                 </div>
                 <div>
                   <p className="text-[10px] uppercase tracking-[0.25em] text-zinc-500 mb-2">Investment</p>
-                  <p className="text-white font-bold">{service.price}</p>
+                  <p className="text-white font-bold">{standardService
+                    ? `From ${formatAed(calculateInspectionPrice(standardService, 1).baseMinor)} excl. VAT — area-based quote`
+                    : "Custom Quote"}</p>
                 </div>
               </div>
             </div>
@@ -768,13 +833,19 @@ export default function ServiceDetail() {
                 <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Overview</p>
                 <h2 className="text-4xl font-bold text-zinc-900 mb-8 leading-tight">Professional Property Assessment</h2>
                 <p className="text-sm text-zinc-500 leading-relaxed mb-8">
-                  {service.longDescription}
+                  {slug === "new-build-snagging"
+                    ? "Before a new-property handover, an independent inspection can document conditions visible and accessible during the agreed visit. Findings are recorded with context for your own discussion with the developer; contractual responsibilities and any rectification decisions depend on the documents and circumstances that apply."
+                    : slug === "dlp-snagging"
+                      ? "An inspection during an applicable defects liability period can record visible conditions for your own review and follow-up. Check the start date, duration and notification requirements in your contract. Contractual rights and developer responses vary; an inspection does not guarantee acceptance or free rectification."
+                      : slug === "secondary-market"
+                        ? "A pre-purchase inspection documents accessible, visible conditions and maintenance observations to inform your own due diligence and discussions. It is not a valuation or legal opinion, cannot confirm concealed conditions and does not promise a negotiation outcome."
+                        : qualifiedCopy(service.longDescription)}
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {service.includes.map((item, idx) => (
                     <div key={idx} className="flex items-center gap-3 py-3 border-b border-zinc-100">
                       <div className="w-1.5 h-1.5 bg-brand-green"></div>
-                      <span className="text-[10px] uppercase tracking-wider text-zinc-600 font-bold">{item}</span>
+                      <span className="text-[10px] uppercase tracking-wider text-zinc-600 font-bold">{qualifiedCopy(item)}</span>
                     </div>
                   ))}
                 </div>
@@ -784,7 +855,7 @@ export default function ServiceDetail() {
                   src={service.image} 
                   alt={service.title}
                   className="w-full h-full object-cover"
-                  fetchpriority="high"
+                  fetchPriority="high"
                   loading="eager"
                 />
               </div>
@@ -802,7 +873,7 @@ export default function ServiceDetail() {
                   {service.features.map((feature, idx) => (
                     <div key={idx} className="py-6 flex gap-6 items-start group">
                       <span className="text-[10px] font-bold text-zinc-500 mt-1">{String(idx + 1).padStart(2, '0')}</span>
-                      <p className="text-sm text-zinc-600 font-medium group-hover:text-zinc-900 transition-colors">{feature}</p>
+                      <p className="text-sm text-zinc-600 font-medium group-hover:text-zinc-900 transition-colors">{qualifiedCopy(feature)}</p>
                     </div>
                   ))}
                 </div>
@@ -813,7 +884,7 @@ export default function ServiceDetail() {
                   {service.benefits.map((benefit, idx) => (
                     <div key={idx} className="flex items-start gap-4">
                       <span className="text-brand-green mt-1">→</span>
-                      <p className="text-sm text-zinc-500 leading-relaxed">{benefit}</p>
+                      <p className="text-sm text-zinc-500 leading-relaxed">{qualifiedCopy(benefit)}</p>
                     </div>
                   ))}
                 </div>
@@ -833,12 +904,26 @@ export default function ServiceDetail() {
               {service.process.map((step, idx) => (
                 <div key={idx} className="pt-8 border-t border-zinc-200 relative group">
                   <span className="text-[10px] font-bold text-zinc-500 absolute top-4 right-0">{String(idx + 1).padStart(2, '0')}</span>
-                  <p className="text-sm text-zinc-600 leading-relaxed font-medium">{step}</p>
+                  <p className="text-sm text-zinc-600 leading-relaxed font-medium">{qualifiedCopy(step)}</p>
                 </div>
               ))}
             </div>
           </div>
         </section>
+
+        {residentialGuidance && <ResidentialServiceGuidance kind={residentialGuidance} />}
+
+        {standardService && (
+          <section className="border-b border-zinc-200 bg-white py-10">
+            <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 sm:px-10 md:flex-row md:items-center md:justify-between lg:px-16">
+              <p className="text-sm text-zinc-600">See residential area rates, worked calculations and an overview of what an inspection report records.</p>
+              <div className="flex flex-wrap gap-x-6 gap-y-3">
+                <Link href="/pricing" className="text-sm font-semibold text-brand-green underline underline-offset-4">View pricing</Link>
+                <Link href="/sample-report" className="text-sm font-semibold text-brand-green underline underline-offset-4">Report overview</Link>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* FAQ Section - renders exact same Q&A as server-side FAQPage schema */}
         <section className="py-24 lg:py-32 bg-zinc-50">
@@ -871,13 +956,15 @@ export default function ServiceDetail() {
                   Ready to Schedule Your {service.title}?
                 </h2>
                 <p className="text-white/70 text-sm leading-relaxed max-w-md">
-                  Get expert technical assessment across Dubai, Abu Dhabi, Sharjah and all UAE. Same-day reports, competitive pricing, RERA certified professionals.
+                  {standardService
+                    ? "Single-property residential inspections, including large villas. 100% payment after inspection and before release of the final report."
+                    : "Request a Custom Quote. UrbanGrid will contact you to discuss the scope and prepare a tailored proposal."}
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-6 lg:justify-end">
-                <a href="/contact" className="inline-block">
+                <a href={standardService ? `/book-inspection?service=${standardService}` : "/contact?enquiryType=General%20Enquiry"} className="inline-block">
                   <Button className="bg-white text-brand-green hover:bg-zinc-100 rounded-none h-14 px-10 text-[10px] uppercase tracking-[0.2em] font-bold">
-                    Book Inspection
+                    {standardService ? "Book Inspection" : "Request Custom Quote"}
                   </Button>
                 </a>
                 <a href="/services" className="inline-flex items-center justify-center border border-white/30 text-white h-14 px-10 text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-green transition-all">

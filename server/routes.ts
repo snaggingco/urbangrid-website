@@ -1,18 +1,33 @@
 import type { Express } from "express";
+import type Stripe from "stripe";
 import { createServer, type Server } from "http";
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
 import { storage } from "./storage";
-import { setupLocalAuth } from "./adminAuth";
+import { setupLocalAuth, isAdminAuthenticated } from "./adminAuth";
+import { injectFirstPaint, preloadDubaiRoute } from "./firstPaint";
 import { setupInspectorAuth } from "./inspectorAuth";
+import { canonicalOrigin, centralLoginUrl, isNonIndexablePath } from "@shared/siteConfig";
+import { generateSitemap, getSitemapUrls } from "./sitemap";
+import { db } from "./db";
+import { blogPosts } from "@shared/schema";
+import { eq } from "drizzle-orm";
 import { insertBlogPostSchema, insertContactSubmissionSchema, insertInspectorSchema, insertConversionLogSchema } from "@shared/schema";
 import { z } from "zod";
 import nodemailer from "nodemailer";
 import OpenAI from "openai";
 import bcrypt from "bcryptjs";
 import { homepageSchema, locationSchema, serviceSchema } from "./schema";
+import { seoResources } from "../shared/seoResources";
+import { assistantSystemPrompt, verifiedAssistantReply, safeGeneratedAssistantReply } from "./assistantKnowledge";
+import { pageSchemaScript } from "../shared/pageStructuredData";
+import { assetTaggingSchema, assetTaggingService } from "@shared/assetTagging";
 import { registerVisibilityRoutes } from "./visibilityRoutes";
+import { registerLeadRoutes } from "./leadRoutes";
+import { registerBookingRoutes } from "./bookingRoutes";
+import { calculateInspectionPrice, serviceFromLabel, formatAed } from "@shared/inspectionPricing";
+import { residentialTerms } from "./residentialChat";
 
 // ── Quote signing (HMAC-SHA256) ─────────────────────────────────────────────
 // Prevents client-side price tampering: every quoted price is signed by the
@@ -107,37 +122,33 @@ function logContactFallback(submission: { name: string; email: string; phone?: s
   });
 }
 
-// Admin authentication middleware
-function isAdminAuthenticated(req: any, res: any, next: any) {
-  if (req.isAuthenticated() && req.user?.claims?.sub === 'super-admin') {
-    return next();
-  }
-  res.status(401).json({ message: "Unauthorized" });
-}
-
 export async function registerRoutes(app: Express): Promise<Server> {
   // 1) Canonical domain redirect (www → naked, alternate domains → canonical)
   // 2) Trailing-slash redirect (/about/ → /about) for SEO consistency
   app.use((req, res, next) => {
-    const host = req.headers.host || '';
-    const originalPath = req.originalUrl || '/';
-
-    // Domain redirect
-    if (
-      host.includes('urbangrid.replit.app') ||
-      host.includes('snagging.me') ||
-      host === 'www.urbangrid.ae'
-    ) {
-      const cleanPath = originalPath.replace(/\/$/, '') || '/';
-      return res.redirect(301, `https://urbangrid.ae${cleanPath}`);
+    const host = (req.headers.host || "").split(":")[0].toLowerCase();
+    if (isNonIndexablePath(req.path)) res.setHeader("X-Robots-Tag", "noindex, nofollow");
+    // Never redirect POSTs, private token URLs, APIs or development previews.
+    if (!["GET", "HEAD"].includes(req.method) || /^\/(?:api|booking-access)(?:\/|$)/.test(req.path)) return next();
+    const aliases = ["www.urbangrid.ae", "urbangrid.replit.app", "snagging.me", "www.snagging.me"];
+    const publicHost = host === "urbangrid.ae" || aliases.includes(host);
+    const cleanPath = req.path.replace(/\/+$/, "") || "/";
+    const query = req.originalUrl.includes("?") ? req.originalUrl.slice(req.originalUrl.indexOf("?")) : "";
+    if (publicHost && (aliases.includes(host) || req.path !== cleanPath)) {
+      return res.redirect(301, `${canonicalOrigin}${cleanPath}${query}`);
     }
-
-    // Trailing-slash redirect (skip root "/" and URLs that need a trailing slash like files/API)
-    if (originalPath.length > 1 && originalPath.endsWith('/') && !originalPath.includes('?')) {
-      return res.redirect(301, `https://urbangrid.ae${originalPath.slice(0, -1)}`);
-    }
-
     next();
+  });
+  app.get("/login", (_req, res) => {
+    res.setHeader("X-Robots-Tag", "noindex, nofollow");
+    res.redirect(302, centralLoginUrl);
+  });
+
+  // This legacy URL has a relevant live replacement; handle it before the generic 410.
+  app.get('/locations/dubai/new-build-snagging', (req, res) => {
+    const queryIndex = req.originalUrl.indexOf('?');
+    const query = queryIndex === -1 ? '' : req.originalUrl.slice(queryIndex);
+    return res.redirect(301, `https://urbangrid.ae/services/property-snagging/new-build-snagging${query}`);
   });
 
   // 410 Gone for legacy sub-service combo URLs (e.g. /locations/dubai/snagging-company).
@@ -163,7 +174,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get('/locations/:emirate/:service', sendLocationGone);
 
   // Auth middleware
-  setupLocalAuth(app);
+  await setupLocalAuth(app);
   setupInspectorAuth(app);
   registerVisibilityRoutes(app, isAdminAuthenticated);
 
@@ -338,10 +349,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  registerLeadRoutes(app, isAdminAuthenticated);
+  registerBookingRoutes(app, isAdminAuthenticated);
+
   app.post('/api/contact', async (req, res) => {
     try {
-      const validatedData = insertContactSubmissionSchema.parse(req.body);
-      const submission = await storage.createContactSubmission(validatedData);
+      const leadSource = ["contact", "dubai_quote", "broker_referral"].includes(req.body.leadSource)
+        ? req.body.leadSource : "contact";
+      const validatedData = insertContactSubmissionSchema.parse({ ...req.body, leadSource });
+      const { submission, created } = await storage.saveContactSubmission(validatedData);
       
       // Send email notification to info@urbangrid.ae
       const emailContent = `
@@ -352,12 +368,12 @@ Email: ${submission.email}
 Phone: ${submission.phone}
 Message: ${submission.message}
       `;
-      const emailed = await sendEmail('info@urbangrid.ae', 'New Contact Form Submission', emailContent);
+      const emailed = !created || await sendEmail('info@urbangrid.ae', 'New Contact Form Submission', emailContent);
       if (!emailed) {
         logContactFallback(submission);
       }
       
-      res.status(201).json({ message: 'Contact submission received', submission });
+      res.status(created ? 201 : 200).json({ message: 'Contact submission received', leadId: submission.id });
     } catch (error) {
       if (error instanceof z.ZodError) {
         return res.status(400).json({ message: "Invalid data", errors: error.errors });
@@ -376,12 +392,11 @@ Message: ${submission.message}
       }
 
       // Save to storage
-      const consultation = await storage.createContactSubmission({
-        name,
-        email,
-        phone,
+      const { submission: consultation, created } = await storage.saveContactSubmission(insertContactSubmissionSchema.parse({
+        ...req.body,
         message: 'Free consultation request',
-      });
+        leadSource: 'consultation',
+      }));
 
       // Send email notification
       const emailContent = `
@@ -391,7 +406,7 @@ Name: ${name}
 Email: ${email}
 Phone: ${phone}
       `;
-      const emailed = await sendEmail('info@urbangrid.ae', 'New Free Consultation Request', emailContent);
+      const emailed = !created || await sendEmail('info@urbangrid.ae', 'New Free Consultation Request', emailContent);
       if (!emailed) {
         logContactFallback({
           name,
@@ -401,8 +416,9 @@ Phone: ${phone}
         });
       }
 
-      res.status(201).json({ message: 'Consultation request received', consultation });
+      res.status(created ? 201 : 200).json({ message: 'Consultation request received', leadId: consultation.id });
     } catch (error) {
+      if (error instanceof z.ZodError) return res.status(400).json({ message: "Invalid lead details", errors: error.errors });
       console.error("Error creating consultation request:", error);
       res.status(500).json({ message: "Failed to submit consultation form" });
     }
@@ -416,12 +432,11 @@ Phone: ${phone}
         return res.status(400).json({ message: "Name, email, and phone are required" });
       }
 
-      await storage.createContactSubmission({
-        name,
-        email,
-        phone,
+      const { submission, created } = await storage.saveContactSubmission(insertContactSubmissionSchema.parse({
+        ...req.body,
         message: 'Sample report download request',
-      });
+        leadSource: 'sample_report',
+      }));
 
       const emailContent = `
 New Sample Report Download Request
@@ -432,7 +447,7 @@ Phone: ${phone}
 
 This lead requested the sample inspection report.
       `;
-      const emailed = await sendEmail('info@urbangrid.ae', 'New Sample Report Download Request', emailContent);
+      const emailed = !created || await sendEmail('info@urbangrid.ae', 'New Sample Report Download Request', emailContent);
       if (!emailed) {
         logContactFallback({
           name,
@@ -442,8 +457,9 @@ This lead requested the sample inspection report.
         });
       }
 
-      res.status(201).json({ message: 'Details received' });
+      res.status(created ? 201 : 200).json({ message: 'Details received', leadId: submission.id });
     } catch (error) {
+      if (error instanceof z.ZodError) return res.status(400).json({ message: "Invalid lead details", errors: error.errors });
       console.error("Error processing sample report request:", error);
       res.status(500).json({ message: "Failed to process request" });
     }
@@ -457,12 +473,11 @@ This lead requested the sample inspection report.
         return res.status(400).json({ message: "Name, email, and phone are required" });
       }
 
-      const quickContact = await storage.createContactSubmission({
-        name,
-        email,
-        phone,
+      const { submission: quickContact, created } = await storage.saveContactSubmission(insertContactSubmissionSchema.parse({
+        ...req.body,
         message: 'Quick contact request',
-      });
+        leadSource: 'quick_contact',
+      }));
 
       // Send email notification
       const emailContent = `
@@ -472,7 +487,7 @@ Name: ${name}
 Email: ${email}
 Phone: ${phone}
       `;
-      const emailed = await sendEmail('info@urbangrid.ae', 'New Quick Contact Request', emailContent);
+      const emailed = !created || await sendEmail('info@urbangrid.ae', 'New Quick Contact Request', emailContent);
       if (!emailed) {
         logContactFallback({
           name,
@@ -482,8 +497,9 @@ Phone: ${phone}
         });
       }
 
-      res.status(201).json({ message: 'Quick contact request received', quickContact });
+      res.status(created ? 201 : 200).json({ message: 'Quick contact request received', leadId: quickContact.id });
     } catch (error) {
+      if (error instanceof z.ZodError) return res.status(400).json({ message: "Invalid lead details", errors: error.errors });
       console.error("Error creating quick contact request:", error);
       res.status(500).json({ message: "Failed to submit quick contact form" });
     }
@@ -497,12 +513,16 @@ Phone: ${phone}
         return res.status(400).json({ message: "Missing required fields" });
       }
 
-      const application = await storage.createContactSubmission({
+      const application = await storage.createContactSubmission(insertContactSubmissionSchema.parse({
         name: fullName,
         email,
         phone,
         message: `Career application for ${position}`,
-      });
+        enquiryType: "Career application",
+        leadSource: "career_application",
+        attribution: req.body.attribution,
+        submissionKey: req.body.submissionKey,
+      }));
 
       // Send email notification
       const emailContent = `
@@ -648,72 +668,16 @@ ${coverLetter}
   });
 
   // Sitemap
-  app.get('/sitemap.xml', (_req, res) => {
-    const staticLastMod = new Date().toISOString().slice(0, 10);
-    const blogLastModBySlug: Record<string, string> = {
-      'nfpa-72-fire-alarm-systems-property-snagging-uae': '2026-05-12',
-      'nfpa-25-fire-protection-systems-property-snagging-uae': '2026-05-12',
-      'nfpa-70-national-electrical-code-property-snagging-uae': '2026-05-12',
-      'nfpa-101-life-safety-code-property-snagging-uae': '2026-05-12',
-      'ashrae-standard-180-building-commissioning-property-snagging-uae': '2026-05-12',
-      'case-study-palm-jumeirah-penthouse-inspection-mep-defects': '2026-05-12',
-      'building-condition-assessment-building-inspection-united-arab-emirates': '2026-07-17',
-    };
-    const serviceUrls = [
-      '/services/property-snagging/new-build-snagging',
-      '/services/property-snagging/post-renovation-inspection',
-      '/services/property-snagging/dlp-snagging',
-      '/services/property-snagging/move-in-move-out',
-      '/services/property-snagging/secondary-market',
-      '/services/property-snagging/developer-projects',
-      '/services/rera-services/reserve-fund-study',
-      '/services/rera-services/service-charge-allocation',
-      '/services/rera-services/reinstatement-cost-assessment',
-      '/services/rera-services/building-completion-audit',
-      '/services/rera-services/building-condition-survey',
-      '/services/technical-inspections/technical-due-diligence',
-      '/services/technical-inspections/dilapidation-survey',
-      '/services/technical-inspections/thermographic-survey',
-      '/services/technical-inspections/noise-survey',
-      '/services/technical-inspections/structural-survey',
-    ];
-    const blogUrls = [
-      '/blog/nfpa-72-fire-alarm-systems-property-snagging-uae',
-      '/blog/nfpa-25-fire-protection-systems-property-snagging-uae',
-      '/blog/nfpa-70-national-electrical-code-property-snagging-uae',
-      '/blog/nfpa-101-life-safety-code-property-snagging-uae',
-      '/blog/ashrae-standard-180-building-commissioning-property-snagging-uae',
-      '/blog/case-study-palm-jumeirah-penthouse-inspection-mep-defects',
-      '/blog/building-condition-assessment-building-inspection-united-arab-emirates',
-    ];
-    const locationUrls = [
-      '/locations/dubai',
-      '/locations/abu-dhabi',
-      '/locations/sharjah',
-      '/locations/ajman',
-      '/locations/ras-al-khaimah',
-      '/locations/fujairah',
-      '/locations/umm-al-quwain',
-    ];
-    res.status(200).type('application/xml').send(`<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://urbangrid.ae/</loc><lastmod>${staticLastMod}</lastmod></url>
-  <url><loc>https://urbangrid.ae/about</loc><lastmod>${staticLastMod}</lastmod></url>
-  <url><loc>https://urbangrid.ae/services</loc><lastmod>${staticLastMod}</lastmod></url>
-  <url><loc>https://urbangrid.ae/contact</loc><lastmod>${staticLastMod}</lastmod></url>
-  <url><loc>https://urbangrid.ae/blog</loc><lastmod>${staticLastMod}</lastmod></url>
-  <url><loc>https://urbangrid.ae/broker-referrals</loc><lastmod>${staticLastMod}</lastmod></url>
-  <url><loc>https://urbangrid.ae/careers</loc><lastmod>${staticLastMod}</lastmod></url>
-  <url><loc>https://urbangrid.ae/privacy-policy</loc><lastmod>${staticLastMod}</lastmod></url>
-  <url><loc>https://urbangrid.ae/terms-of-service</loc><lastmod>${staticLastMod}</lastmod></url>
-${locationUrls.map((url) => `  <url><loc>https://urbangrid.ae${url}</loc><lastmod>${staticLastMod}</lastmod></url>`).join('\n')}
-${serviceUrls.map((url) => `  <url><loc>https://urbangrid.ae${url}</loc><lastmod>${staticLastMod}</lastmod></url>`).join('\n')}
-${blogUrls.map((url) => {
-      const slug = url.split('/').pop() || '';
-      const lastmod = blogLastModBySlug[slug] || staticLastMod;
-      return `  <url><loc>https://urbangrid.ae${url}</loc><lastmod>${lastmod}</lastmod></url>`;
-    }).join('\n')}
-</urlset>`);
+  app.get('/sitemap.xml', async (_req, res) => {
+    try {
+      const posts = await db.select({ slug: blogPosts.slug, updatedAt: blogPosts.updatedAt })
+        .from(blogPosts).where(eq(blogPosts.status, "published"));
+      const published = posts.filter(post => /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(post.slug))
+        .map(post => ({ slug: post.slug, updatedAt: post.updatedAt || new Date(0) }));
+      res.type("application/xml").send(generateSitemap(getSitemapUrls(canonicalOrigin, published)));
+    } catch {
+      res.status(503).type("text/plain").send("Sitemap temporarily unavailable");
+    }
   });
 
   // Redirects for old sitemap paths
@@ -755,7 +719,8 @@ ${blogUrls.map((url) => {
     baseURL: process.env.AI_INTEGRATIONS_OPENAI_BASE_URL,
   });
 
-  const URBANGRID_SYSTEM_PROMPT = `
+  // Retired historical sales playbook: never supplied to the assistant.
+  const RETIRED_URBANGRID_SYSTEM_PROMPT = `
 ════════════════════════════════════════════════════════════
  NORA — URBANGRID AI SALES ASSISTANT  |  MASTER PLAYBOOK
 ════════════════════════════════════════════════════════════
@@ -881,7 +846,7 @@ GROUP C — MOVE-IN / MOVE-OUT INSPECTION:
   • ALL Technical Inspections (Technical Due Diligence, Dilapidation Survey, Thermographic Survey, Noise/Acoustic Survey, Structural Survey).
   For custom quote services: collect details via [SHOW_FORM:fitout] and assure them the team will prepare a personalised quote.
 
-PAYMENT TERMS: 50% on order confirmation; 50% before report delivery.
+PAYMENT TERMS: No upfront payment. 100% payment after inspection and before release of the final report.
 
 ── CALCULATION ALGORITHM (Group A — Tiered Services) ────────
   Step 1: Identify the tier from sq.ft.
@@ -1095,17 +1060,26 @@ Rules:
       }
 
       // Strip any injected system messages from client for safety
-      const safeMessages = userMessages.filter((m: any) => m.role !== 'system').slice(-20);
+      const safeMessages = userMessages.filter((m: any) => m && ["user", "assistant"].includes(m.role) && typeof m.content === "string").slice(-20);
 
       res.setHeader('Content-Type', 'text/event-stream');
       res.setHeader('Cache-Control', 'no-cache');
       res.setHeader('Connection', 'keep-alive');
 
+      const latest = [...safeMessages].reverse().find((m: any) => m.role === "user")?.content;
+      const deterministic = typeof latest === "string" ? verifiedAssistantReply(latest, safeMessages.slice(0, -1)) : undefined;
+      if (deterministic) {
+        res.write(`data: ${JSON.stringify({ content: deterministic })}\n\n`);
+        res.write(`data: ${JSON.stringify({ done: true })}\n\n`);
+        return res.end();
+      }
+
       const stream = await openaiClient.chat.completions.create({
         model: 'gpt-4o-mini',
         messages: [
-          { role: 'system', content: URBANGRID_SYSTEM_PROMPT },
+          { role: 'system', content: assistantSystemPrompt },
           ...safeMessages,
+          { role: "system", content: assistantSystemPrompt },
         ],
         stream: true,
         max_completion_tokens: 400,
@@ -1116,9 +1090,16 @@ Rules:
         const content = chunk.choices[0]?.delta?.content || '';
         if (content) {
           rawContent += content;
-          res.write(`data: ${JSON.stringify({ content })}\n\n`);
         }
       }
+
+      rawContent = safeGeneratedAssistantReply(rawContent).replace(/\[SHOW_CART_ACTION:[^\]]+\]/gi, "")
+        .replace(/\[SHOW_FORM:booking\]/gi, "[SHOW_BOOKING_LINK]")
+        .replace(/\[SHOW_FORM:fitout\]/gi, "[SHOW_CUSTOM_QUOTE_LINK]");
+      if (/(?:(?:AED|dirhams?|درهم|دراهم|د\.?\s*إ)[^\n]{0,30}[\d٠-٩۰-۹]|[\d٠-٩۰-۹][^\n]{0,30}(?:AED|dirhams?|درهم|دراهم)|50\s*%.*(?:upfront|confirmation|deposit)|50\s*\/\s*50)/i.test(rawContent)) {
+        rawContent = `Exact residential prices are calculated on the booking page. No upfront payment is required. ${residentialTerms} [SHOW_BOOKING_LINK]`;
+      }
+      res.write(`data: ${JSON.stringify({ content: rawContent })}\n\n`);
 
       // Sign ALL SHOW_CART_ACTION markers in the response (main service + any add-ons).
       // Each token is sent as a separate SSE event keyed by serviceKey.
@@ -1155,6 +1136,11 @@ Rules:
   //   4. Any tampering with serviceKey or amount invalidates the signature → rejected.
   //   5. Success/cancel URLs are server-controlled — never accepted from client.
 
+  // Legacy Stripe code remains for existing orders/webhooks, but cannot accept
+  // new residential upfront checkout. New payment requests require inspection completion.
+  app.post('/api/checkout', (_req, res) => {
+    res.status(410).json({ message: "Upfront checkout is unavailable. Book without payment at /book-inspection." });
+  });
   app.post('/api/checkout', async (req, res) => {
     try {
       const { items } = req.body;
@@ -1163,7 +1149,7 @@ Rules:
         return res.status(400).json({ message: 'Cart is empty' });
       }
 
-      const lineItems: Array<{ price_data: object; quantity: number }> = [];
+      const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
 
       for (const item of items) {
         const { serviceKey, quantity, unitAmount, quoteToken } = item;
@@ -1296,70 +1282,14 @@ Rules:
         const area = parseFloat(sqft) || 0;
         const serviceType: string = req.body.serviceType || '';
 
-        const isGroupA = /stage 1|post.?renovation|secondary market/i.test(serviceType);
-        const isGroupB = /de.?snag|dlp|11th month/i.test(serviceType);
-        const isGroupC = /move.?in|move.?out/i.test(serviceType);
-        const isCustom = !isGroupA && !isGroupB && !isGroupC;
-
-        if (area > 0 && !isCustom) {
-          if (isGroupA) {
-            let rate: number;
-            let tier: number;
-            if (area <= 1000)      { rate = 1.00; tier = 1; }
-            else if (area <= 2000) { rate = 0.90; tier = 2; }
-            else if (area <= 3000) { rate = 0.80; tier = 3; }
-            else if (area <= 4000) { rate = 0.75; tier = 4; }
-            else                   { rate = 0.70; tier = 5; }
-            const base       = Math.max(area * rate, 800);
-            const vat        = base * 0.05;
-            const total      = base * 1.05;
-            const desnagBase = base * 0.50;
-            const desnagTotal = desnagBase * 1.05;
-            const isStage1   = /stage 1/i.test(serviceType);
-            estimate =
-              `\n\nFEE ESTIMATE — ${serviceType} (Tier ${tier} — AED ${rate.toFixed(2)}/sq.ft):` +
-              `\n  Service: ${serviceType}` +
-              `\n  Built-Up Area: ${area.toFixed(0)} sq.ft (Tier ${tier})` +
-              `\n  Fee (excl. VAT): AED ${base.toFixed(2)}` +
-              `\n  VAT (5%): AED ${vat.toFixed(2)}` +
-              `\n  Total (incl. VAT): AED ${total.toFixed(2)}` +
-              (isStage1 ? `\n  De-snagging Add-On (incl. 5% VAT): AED ${desnagTotal.toFixed(2)}` : '') +
-              (area * rate < 800 ? `\n  (Minimum fee of AED 800 applied)` : '');
-
-          } else if (isGroupB) {
-            let rate: number;
-            let tier: number;
-            if (area <= 1000)      { rate = 1.00; tier = 1; }
-            else if (area <= 2000) { rate = 0.90; tier = 2; }
-            else if (area <= 3000) { rate = 0.80; tier = 3; }
-            else if (area <= 4000) { rate = 0.75; tier = 4; }
-            else                   { rate = 0.70; tier = 5; }
-            const snagBase = Math.max(area * rate, 800);
-            const base     = snagBase * 0.50;
-            const vat      = base * 0.05;
-            const total    = base * 1.05;
-            estimate =
-              `\n\nFEE ESTIMATE — ${serviceType}:` +
-              `\n  Service: ${serviceType}` +
-              `\n  Built-Up Area: ${area.toFixed(0)} sq.ft (Tier ${tier})` +
-              `\n  Fee (excl. VAT): AED ${base.toFixed(2)}` +
-              `\n  VAT (5%): AED ${vat.toFixed(2)}` +
-              `\n  Total (incl. VAT): AED ${total.toFixed(2)}`;
-
-          } else if (isGroupC) {
-            const base  = Math.max(area * 0.50, 800);
-            const vat   = base * 0.05;
-            const total = base * 1.05;
-            estimate =
-              `\n\nFEE ESTIMATE — Move-In / Move-Out Inspection:` +
-              `\n  Service: Move-In / Move-Out Inspection` +
-              `\n  Built-Up Area: ${area.toFixed(0)} sq.ft` +
-              `\n  Fee (excl. VAT): AED ${base.toFixed(2)}` +
-              `\n  VAT (5%): AED ${vat.toFixed(2)}` +
-              `\n  Total (incl. VAT): AED ${total.toFixed(2)}` +
-              (area * 0.50 < 800 ? `\n  (Minimum fee of AED 800 applied)` : '');
-          }
-        } else if (isCustom) {
+        const standard = serviceFromLabel(serviceType);
+        const residential = ["Apartment", "Villa", "Townhouse", "Penthouse"].includes(propertyType);
+        if (area > 0 && standard && residential) {
+          const price = calculateInspectionPrice(standard, area);
+          estimate = `\n\nFEE ESTIMATE — ${serviceType}:\n  Built-Up Area: ${area} sq.ft` +
+            `\n  Fee (excl. VAT): ${formatAed(price.baseMinor)}\n  VAT (5%): ${formatAed(price.vatMinor)}` +
+            `\n  Total (incl. VAT): ${formatAed(price.totalMinor)}\n  ${residentialTerms}`;
+        } else {
           estimate = `\n\nPRICING: Custom Quote — team will prepare a personalised quote for this service.`;
         }
 
@@ -1410,9 +1340,21 @@ Please arrange a free site visit at your earliest convenience.
 UrbanGrid Chatbot — Auto-Generated Lead`;
       }
 
-      const sent = await sendEmail('info@urbangrid.ae', subject, body);
-      res.json({ ok: true, emailed: sent });
+      const { submission, created } = await storage.saveContactSubmission(insertContactSubmissionSchema.parse({
+        name, email, phone, message: body,
+        enquiryType: type === 'booking' ? (req.body.serviceType || 'Inspection enquiry') : 'Fit-out enquiry',
+        leadSource: type === 'booking' ? 'chat_booking' : 'chat_fitout',
+        attribution: req.body.attribution,
+        submissionKey: req.body.submissionKey,
+      }));
+      if (type === "booking" && serviceFromLabel(req.body.serviceType || "") && submission.submissionKey) {
+        req.session.pendingResidentialLead = { submissionKey: submission.submissionKey, email: submission.email };
+      }
+      const sent = !created || await sendEmail('info@urbangrid.ae', subject, body);
+      if (!sent) logContactFallback(submission);
+      res.status(created ? 201 : 200).json({ ok: true, emailed: sent, leadId: submission.id });
     } catch (err: any) {
+      if (err instanceof z.ZodError) return res.status(400).json({ message: "Invalid lead details", errors: err.errors });
       console.error('Chat lead email error:', err?.message || err);
       res.status(500).json({ ok: false, error: 'Failed to send lead email' });
     }
@@ -1446,11 +1388,26 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
 ## Core services
 - Service overview: [All services](https://urbangrid.ae/services)
 - New-build snagging: [New-build snagging](https://urbangrid.ae/services/property-snagging/new-build-snagging)
-- Secondary-market inspection: [Secondary-market inspection](https://urbangrid.ae/services/property-snagging/secondary-market-inspection)
-- Building condition assessment: [Building condition assessment](https://urbangrid.ae/services/specialized-services/building-condition-assessment)
-- Technical due diligence: [Technical due diligence](https://urbangrid.ae/services/specialized-services/technical-due-diligence)
-- MEP inspection: [MEP inspection](https://urbangrid.ae/services/specialized-services/mep-inspection)
-- Fire and life-safety inspection: [Fire and life-safety inspection](https://urbangrid.ae/services/specialized-services/fire-life-safety)
+- Post-renovation inspection: [Post-renovation inspection](https://urbangrid.ae/services/property-snagging/post-renovation-inspection)
+- Secondary-market inspection: [Secondary-market inspection](https://urbangrid.ae/services/property-snagging/secondary-market)
+- DLP inspection: [DLP inspection](https://urbangrid.ae/services/property-snagging/dlp-snagging)
+- Move-in / move-out inspection: [Move-in / move-out inspection](https://urbangrid.ae/services/property-snagging/move-in-move-out)
+- Developer and contractor snagging: [Developer projects](https://urbangrid.ae/services/property-snagging/developer-projects)
+- Reserve fund study: [Reserve fund study](https://urbangrid.ae/services/rera-services/reserve-fund-study)
+- Service charge allocation: [Service charge allocation](https://urbangrid.ae/services/rera-services/service-charge-allocation)
+- Reinstatement cost assessment: [Reinstatement cost assessment](https://urbangrid.ae/services/rera-services/reinstatement-cost-assessment)
+- Building completion audit: [Building completion audit](https://urbangrid.ae/services/rera-services/building-completion-audit)
+- Building condition survey: [Building condition survey](https://urbangrid.ae/services/rera-services/building-condition-survey)
+- Technical due diligence: [Technical due diligence](https://urbangrid.ae/services/technical-inspections/technical-due-diligence)
+- Dilapidation survey: [Dilapidation survey](https://urbangrid.ae/services/technical-inspections/dilapidation-survey)
+- Thermographic survey: [Thermographic survey](https://urbangrid.ae/services/technical-inspections/thermographic-survey)
+- Noise survey: [Noise survey](https://urbangrid.ae/services/technical-inspections/noise-survey)
+- Structural survey: [Structural survey](https://urbangrid.ae/services/technical-inspections/structural-survey)
+- Asset tagging and inventory: [Asset tagging and inventory](https://urbangrid.ae/services/asset-tagging-inventory)
+
+## Residential resources
+- Pricing: [Inspection pricing and VAT](https://urbangrid.ae/pricing)
+- Sample report: [Anonymized report overview](https://urbangrid.ae/sample-report)
 
 ## Locations
 - Dubai: [Dubai](https://urbangrid.ae/locations/dubai)
@@ -1464,7 +1421,6 @@ UrbanGrid Chatbot — Auto-Generated Lead`;
 ## Knowledge and citation pages
 - Property inspection knowledge hub: [UrbanGrid blog](https://urbangrid.ae/blog)
 - NFPA 72 and fire alarm inspections: [NFPA 72 and fire alarm inspections](https://urbangrid.ae/blog/nfpa-72-fire-alarm-systems-property-snagging-uae)
-- Building condition assessment in the UAE: [Building condition assessment in the UAE](https://urbangrid.ae/blog/building-condition-assessment-building-inspection-united-arab-emirates)
 - Palm Jumeirah inspection case study: [Palm Jumeirah inspection case study](https://urbangrid.ae/blog/case-study-palm-jumeirah-penthouse-inspection-mep-defects)
 
 ## Citation guidance
@@ -1483,7 +1439,7 @@ Use the canonical URL for the specific service or location being discussed. Attr
   // the React HMR preamble via transformIndexHtml — bypassing it breaks React boot).
   const serveSPAWithMeta = (res: any, next: any, opts: {
     title: string; description: string; canonical: string; h1: string;
-    image?: string; noindex?: boolean;
+    image?: string; noindex?: boolean; noindexFollow?: boolean;
     ogType?: string;
     extraHeadTags?: string;
   }) => {
@@ -1497,7 +1453,7 @@ Use the canonical URL for the specific service or location being discussed. Attr
       const t = esc(opts.title);
       const d = esc(opts.description);
       const img = opts.image ? esc(opts.image) : 'https://urbangrid.ae/og-image.png';
-      const robots = opts.noindex ? 'noindex, nofollow' : 'index, follow';
+      const robots = opts.noindex ? opts.noindexFollow ? 'noindex, follow' : 'noindex, nofollow' : 'index, follow';
       const ogType = opts.ogType || 'website';
       const headTags = `
   <meta charset="UTF-8" />
@@ -1534,6 +1490,8 @@ Use the canonical URL for the specific service or location being discussed. Attr
         /(<p[^>]*data-ssr-page-summary[^>]*>)[\s\S]*?(<\/p>)/i,
         `$1${d}$2`,
       );
+      const publicPath = new URL(opts.canonical).pathname;
+      html = preloadDubaiRoute(injectFirstPaint(html, publicPath), publicPath);
       res.setHeader('Content-Type', 'text/html; charset=utf-8');
       res.setHeader('Cache-Control', 'public, max-age=3600');
       return res.send(html);
@@ -1548,10 +1506,22 @@ Use the canonical URL for the specific service or location being discussed. Attr
   };
 
   // Server-side rendered core pages for SEO (unique title, description, H1 per page)
+  app.get("/book-inspection", (_req, res, next) => {
+    res.set("X-Robots-Tag", "noindex, follow");
+    serveSPAWithMeta(res, next, { title: "Book Your Inspection | UrbanGrid",
+      description: "Book a standard residential inspection with exact area-based pricing including VAT. No upfront payment.",
+      canonical: "https://urbangrid.ae/book-inspection", h1: "Book Your Inspection", noindex: true, noindexFollow: true });
+  });
+  app.get("/book-inspection/return", (_req, res, next) => {
+    res.set("X-Robots-Tag", "noindex, nofollow").set("Cache-Control", "no-store");
+    serveSPAWithMeta(res, next, { title: "Your Inspection Booking | UrbanGrid",
+      description: "Private residential booking and post-inspection payment status.",
+      canonical: "https://urbangrid.ae/book-inspection/return", h1: "Your Inspection Booking", noindex: true });
+  });
   const corePages: Array<{ path: string; title: string; description: string; h1: string; noindex?: boolean }> = [
-    { path: '/',                 title: 'Property Snagging Dubai & UAE | From AED 800 | UrbanGrid', h1: 'Property Snagging & Inspection Services in Dubai & UAE', description: 'Independent property snagging across Dubai, Abu Dhabi and the UAE. Engineer-led inspections reference relevant RERA, NFPA and ASHRAE requirements. Reports in 24 hours.', noindex: false },
+    { path: '/',                 title: 'Property Snagging Dubai & UAE | From AED 800 | UrbanGrid', h1: 'Property Snagging & Inspection Services in Dubai & UAE', description: 'Independent property snagging across Dubai, Abu Dhabi and the UAE. Engineer-led, photographic findings. Final report after inspection and full payment.', noindex: false },
     { path: '/about',            title: 'About UrbanGrid | Property Inspection Experts UAE',            h1: 'About UrbanGrid Property Inspection',                               description: 'Learn about UrbanGrid, an independent property inspection and snagging company serving all seven UAE emirates with documented engineering processes.', noindex: false },
-    { path: '/services',         title: 'Snagging & Inspection Services UAE | From AED 800 | UrbanGrid',              h1: 'Property Inspection & Snagging Services in the UAE',                description: 'Property snagging, RERA reports & technical inspections across Dubai, Abu Dhabi & UAE. Engineer-led, photo reports in 24 hours. From AED 800.', noindex: false },
+    { path: '/services',         title: 'Property Inspection & Snagging Services in UAE | UrbanGrid', h1: 'Our Professional Services', description: 'Explore UrbanGrid\'s full range of property snagging, RERA compliance, and technical inspection services across Dubai, Abu Dhabi and the UAE.', noindex: false },
     { path: '/blog',             title: 'Property Inspection Blog | NFPA & ASHRAE | UrbanGrid UAE',            h1: 'Property Inspection & Compliance Blog',                             description: 'Expert articles on property inspection, snagging, NFPA 72, NFPA 25, ASHRAE 180 standards, and building compliance in the UAE.', noindex: false },
     { path: '/contact',          title: 'Contact UrbanGrid | Book a Property Inspection in UAE',                  h1: 'Contact UrbanGrid – Book an Inspection',                            description: 'Get in touch with UrbanGrid to schedule a property inspection or snagging service in Dubai, Abu Dhabi, Sharjah or anywhere across the UAE.', noindex: false },
     { path: '/careers',          title: 'Careers at UrbanGrid | Property Inspection Jobs in UAE',                 h1: 'Careers at UrbanGrid Property Inspection',                          description: 'Join the UrbanGrid team. We\'re hiring certified property inspectors and support staff across Dubai and the UAE. View open positions.', noindex: false },
@@ -1575,11 +1545,19 @@ Use the canonical URL for the specific service or location being discussed. Attr
     });
   }
 
+  for (const resource of Object.values(seoResources)) {
+    app.get(resource.path, (_req, res, next) => serveSPAWithMeta(res, next, {
+      title: resource.seoTitle, description: resource.description,
+      canonical: `https://urbangrid.ae${resource.path}`, h1: resource.title, noindex: false,
+      extraHeadTags: pageSchemaScript(resource.path, resource.title, resource.description),
+    }));
+  }
+
   // Server-side rendered location pages for SEO
   // These pages were previously returning 410 Gone in production.
   // They MUST be registered BEFORE the Vite catch-all so they get proper meta tags.
   const locationPages: Array<{ path: string; title: string; description: string; h1: string }> = [
-    { path: '/locations/dubai',           title: 'Snagging Company Dubai | Property Inspection Services | UrbanGrid',          h1: 'Property Snagging & Inspection in Dubai',           description: 'Dubai\'s trusted property snagging company. Independent inspection for Emaar, Damac, Sobha, Nakheel handovers across Downtown Dubai, Marina, Palm Jumeirah, JVC & all areas. Reports in 24 hours.' },
+    { path: '/locations/dubai',           title: 'Dubai Inspection Services & Community Coverage | UrbanGrid',          h1: 'Property Inspection Coverage Across Dubai',           description: 'Explore UrbanGrid\'s Dubai inspection coverage, communities and service options. Find handover, DLP and resale inspections and request a property quote.' },
     { path: '/locations/abu-dhabi',       title: 'Snagging Company Abu Dhabi | Property Inspection | UrbanGrid',              h1: 'Property Snagging & Inspection in Abu Dhabi',       description: 'Abu Dhabi\'s trusted property snagging company. Independent inspection across Yas Island, Al Reem, Saadiyat, Al Raha and all communities. Aldar, Imkan & all developers. Reports in 24 hours.' },
     { path: '/locations/sharjah',         title: 'Snagging Company Sharjah | Property Inspection Services | UrbanGrid',        h1: 'Property Snagging & Inspection in Sharjah',         description: 'Sharjah\'s trusted property snagging company. Independent inspection across Aljada, Hayyan, Maryam Island, Al Zahia and all Sharjah communities. Reports in 24 hours.' },
     { path: '/locations/ajman',           title: 'Snagging Company Ajman | Property Inspection Services | UrbanGrid',          h1: 'Property Snagging & Inspection in Ajman',           description: 'Professional property snagging and inspection in Ajman. ARRA-compliant process across Emirates City, Al Rashidiya, Al Nuaimia and all Ajman communities. Reports in 24 hours.' },
@@ -1628,6 +1606,16 @@ Use the canonical URL for the specific service or location being discussed. Attr
     'noise-survey':                  { title: 'Noise Survey', description: 'Professional acoustic and noise level surveys for residential and commercial properties ensuring compliance with UAE environmental standards.', image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
     'structural-survey':             { title: 'Structural Survey', description: 'Detailed structural engineering assessment examining building integrity, load-bearing elements, and compliance with international standards.', image: 'https://images.unsplash.com/photo-1581094613018-d1db5d0b5b30?auto=format&fit=crop&w=1200&h=600', category: 'technical-inspections' },
   };
+
+  app.get(assetTaggingService.path, (_req, res, next) => {
+    return serveSPAWithMeta(res, next, {
+      title: assetTaggingService.seoTitle,
+      description: assetTaggingService.description,
+      canonical: `https://urbangrid.ae${assetTaggingService.path}`,
+      h1: assetTaggingService.title,
+      extraHeadTags: `<script id="asset-tagging-schema" type="application/ld+json">${JSON.stringify(assetTaggingSchema()).replace(/</g, '\\u003c')}</script>`,
+    });
+  });
 
   app.get('/services/:category/:slug', (req, res, next) => {
     const { category, slug } = req.params;
@@ -1711,7 +1699,7 @@ Use the canonical URL for the specific service or location being discussed. Attr
         "datePublished": datePublished,
         "dateModified": dateModified,
         "author": {
-          "@type": "Person",
+          "@type": "Organization",
           "name": authorName,
           "url": "https://urbangrid.ae/about"
         },
@@ -1752,6 +1740,22 @@ Use the canonical URL for the specific service or location being discussed. Attr
 <body><h1>Server Error</h1><p>Please try again later.</p></body></html>`);
     }
   });
+
+  // Known admin SPA pages may boot publicly; all data APIs still require admin auth.
+  // Keep the exact allowlist so unrelated unknown URLs remain genuine 404s.
+  for (const path of ["/admin", "/admin/login", "/admin/leads", "/admin/bookings", "/admin/acquisition", "/admin/add-blog",
+    "/admin/manage-blogs", "/admin/manage-inspectors", "/admin/visibility"]) {
+    app.get(path, (_req, res, next) => {
+      res.setHeader("X-Robots-Tag", "noindex, nofollow");
+      if (process.env.NODE_ENV !== "production") return next();
+      return serveSPAWithMeta(res, next, {
+        title: "UrbanGrid Administration",
+        description: "Private UrbanGrid administration.",
+        canonical: `https://urbangrid.ae${path}`,
+        h1: "UrbanGrid Administration", noindex: true,
+      });
+    });
+  }
 
   // Final 404 catch-all for unknown GET pages (production only).
   // In dev, Vite's catch-all must handle the SPA — bypassing it breaks React boot.

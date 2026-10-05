@@ -4,26 +4,120 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+    <!-- Consent Mode v2: queue the default before any tag or application script. -->
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      (function() {
+        window.dataLayer.push(arguments);
+      })("consent", "default", {
+        ad_storage: "denied",
+        analytics_storage: "denied",
+        ad_user_data: "denied",
+        ad_personalization: "denied",
+        wait_for_update: 500
+      });
+      // GTM owns the connected Google tag and all Google Ads conversion firing.
+      // This command sets consent only; it does not initialize a Google tag.
+
+      // Restore a first-party preference synchronously, before GTM or app code.
+      (function() {
+        if (window.urbanGridConsent) return;
+        var storageKey = "ug_privacy_consent_v1";
+        var choice = null;
+        var persisted = false;
+        function valid(value) {
+          return value === "accepted" || value === "rejected";
+        }
+        function state() {
+          return { choice: choice, persisted: persisted };
+        }
+        function update(value) {
+          var permission = value === "accepted" ? "granted" : "denied";
+          (function() { window.dataLayer.push(arguments); })("consent", "update", {
+            ad_storage: permission,
+            analytics_storage: permission,
+            ad_user_data: permission,
+            ad_personalization: permission
+          });
+        }
+        function notify() {
+          window.dispatchEvent(new CustomEvent("ug:consent-change", { detail: state() }));
+        }
+        try {
+          var stored = window.localStorage.getItem(storageKey);
+          if (valid(stored)) {
+            choice = stored;
+            persisted = true;
+            update(choice);
+          }
+        } catch (_error) {
+          // Storage can be blocked. Defaults remain denied; the UI explains
+          // unsuccessful persistence after an explicit choice.
+        }
+        window.urbanGridConsent = {
+          getState: state,
+          setChoice: function(next) {
+            if (!valid(next)) throw new TypeError("Invalid consent choice");
+            if (choice !== next) update(next);
+            choice = next;
+            persisted = false;
+            try {
+              window.localStorage.setItem(storageKey, next);
+              persisted = true;
+            } catch (_error) {
+              // The explicit choice still applies for this page visit.
+            }
+            notify();
+            return state();
+          }
+        };
+        window.addEventListener("storage", function(event) {
+          if (event.key !== storageKey && event.key !== null) return;
+          if (event.storageArea && event.storageArea !== window.localStorage) return;
+          var next = valid(event.newValue) ? event.newValue : null;
+          if (choice !== next) update(next);
+          choice = next;
+          persisted = next !== null;
+          notify();
+        });
+      })();
+    </script>
+
     <!-- ChatGPT Ads Measurement Pixel: one installation for all SPA routes. -->
     <script>
-      !function(w,d,s,u){if(w.oaiq)return;var q=function(){q.q.push(arguments)};q.q=[];w.oaiq=q;var j=d.createElement(s);j.async=1;j.src=u;var f=d.getElementsByTagName(s)[0];f.parentNode.insertBefore(j,f)}(window,document,"script","https://bzrcdn.openai.com/sdk/oaiq.min.js");
-      oaiq("init",{pixelId:"UMEm2MwbXQrjxfuNQwaDp5",debug:true});
+      (function() {
+      if (window.__ugOpenAiConsentInstalled) return;
+      window.__ugOpenAiConsentInstalled = true;
+      function accepted() {
+        return ['urbangrid.ae', 'www.urbangrid.ae'].includes(location.hostname) &&
+          window.urbanGridConsent && window.urbanGridConsent.getState().choice === "accepted";
+      }
+      function startPixel() {
+        if (!accepted() || window.__ugOpenAiPixelInitialized) return;
+        !function(w,d,s,u){if(w.oaiq)return;var q=function(){q.q.push(arguments)};q.q=[];w.oaiq=q;var j=d.createElement(s);j.async=1;j.src=u;var f=d.getElementsByTagName(s)[0];f.parentNode.insertBefore(j,f)}(window,document,"script","https://bzrcdn.openai.com/sdk/oaiq.min.js");
+        window.oaiq("init",{pixelId:"UMEm2MwbXQrjxfuNQwaDp5",debug:true});
+        window.__ugOpenAiPixelInitialized = true;
+      }
+      startPixel();
+      window.addEventListener("ug:consent-change", startPixel);
 
       // Count clicks on UrbanGrid's WhatsApp links, including links rendered later by React.
       // Sharing a blog post to WhatsApp (wa.me/?text=...) is not a contact conversion.
       document.addEventListener("click",function(event){
+        if (!accepted() || typeof window.oaiq !== "function") return;
         var element=event.target;
         var link=element && element.closest && element.closest("a[href]");
         if(!link)return;
         try {
           var url=new URL(link.href);
           if(url.hostname==="wa.me" && /^\/971567427634\/?$/.test(url.pathname)){
-            oaiq("measure","custom",{type:"custom"},{custom_event_name:"whatsapp_click"});
+            window.oaiq("measure","custom",{type:"custom"},{custom_event_name:"whatsapp_click"});
           }
         } catch(_error) {
           // Ignore malformed links; never interrupt navigation.
         }
       },true);
+      })();
     </script>
 
     <!-- Favicon -->
@@ -65,13 +159,6 @@
     <!-- Additional SEO -->
     <meta name="format-detection" content="telephone=no" />
 
-    <!-- Google Analytics (will be loaded after page is ready) -->
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-6LDP4K8LQZ');
-    </script>
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->
@@ -79,6 +166,7 @@
 
     <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[9999] focus:bg-white focus:text-black focus:px-4 focus:py-2 focus:rounded focus:shadow-lg">Skip to main content</a>
 
+    <!-- public-root:start -->
     <div id="root">
       <!-- Critical skeleton: renders instantly while JS bundle loads -->
       <div id="hero-skeleton" style="background:#18181b;margin-top:2rem;font-family:Inter,system-ui,-apple-system,sans-serif;">
@@ -117,31 +205,35 @@
         </div>
       </div>
     </div>
+    <!-- public-root:end -->
     <script type="module" src="/src/main.tsx"></script>
 
     <!-- Analytics loaded after page is interactive -->
     <script>
-      window.addEventListener('load', function() {
+      (function() {
+        // Never send development/test traffic to production advertising accounts.
+        if (!['urbangrid.ae', 'www.urbangrid.ae'].includes(location.hostname)) return;
+        var initialized = false;
+        function syncMeasurement() {
+          var accepted = window.urbanGridConsent &&
+            window.urbanGridConsent.getState().choice === 'accepted';
+          // Stop GA4 automatic measurement as well when consent is withdrawn.
+          window['ga-disable-G-ZX4B5QJGB4'] = !accepted;
+          if (!accepted || initialized) return;
+          initialized = true;
         // Google Tag Manager
         (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
         new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
         j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
         'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
         })(window,document,'script','dataLayer','GTM-NGVDWWRF');
-
-        // Google Ads
-        var gadsScript = document.createElement('script');
-        gadsScript.async = true;
-        gadsScript.src = 'https://www.googletagmanager.com/gtag/js?id=AW-11443889137';
-        document.head.appendChild(gadsScript);
-        gadsScript.onload = function() {
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          window.gtag = gtag;
-          gtag('js', new Date());
-          gtag('config', 'AW-11443889137');
-        };
-      });
+        }
+        // Consent default/restore stays in the first script; no commands change.
+        window['ga-disable-G-ZX4B5QJGB4'] = !(
+          window.urbanGridConsent && window.urbanGridConsent.getState().choice === 'accepted');
+        window.addEventListener('load', syncMeasurement);
+        window.addEventListener('ug:consent-change', syncMeasurement);
+      })();
     </script>
 
   </body>

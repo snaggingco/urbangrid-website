@@ -5,6 +5,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
+import { submitLead } from "@/lib/leads";
 interface CartAction {
   serviceKey: string;
   name: string;
@@ -24,14 +25,15 @@ interface Message {
 const WELCOME_MESSAGE: Message = {
   role: "assistant",
   content:
-    "Hi! I'm Nova AI from UrbanGrid 👋 I'm here to help you with property inspections, snagging, and interior fit-out services. What can I help you with today?",
+    "Hi, I'm Nova, UrbanGrid's AI assistant. I can help with inspection scope, pricing and sample reports. For uncertain or custom requirements, I'll direct you to our team.",
 };
 
 const QUICK_REPLIES = [
-  "How much does a snagging inspection cost?",
-  "What areas do you cover?",
-  "I want to book an inspection",
-  "Tell me about fit-out services",
+  "Get a price estimate",
+  "What does snagging include?",
+  "DLP inspection",
+  "View sample report",
+  "Talk to a person",
 ];
 
 const PROPERTY_TYPES = [
@@ -39,8 +41,12 @@ const PROPERTY_TYPES = [
   "Office", "Retail", "Warehouse", "Other",
 ];
 
-function parseMessage(content: string): { text: string; formType?: "booking" | "fitout"; cartActions: CartAction[] } {
+function parseMessage(content: string): { text: string; formType?: "booking" | "fitout"; cartActions: CartAction[]; bookingLink: boolean; customQuoteLink: boolean } {
   let text = content;
+  const bookingLink = /\[SHOW_BOOKING_LINK\]/i.test(text);
+  text = text.replace(/\[SHOW_BOOKING_LINK\]/gi, "").trim();
+  const customQuoteLink = /\[SHOW_CUSTOM_QUOTE_LINK\]/i.test(text);
+  text = text.replace(/\[SHOW_CUSTOM_QUOTE_LINK\]/gi, "").trim();
   let formType: "booking" | "fitout" | undefined;
   const cartActions: CartAction[] = [];
 
@@ -63,11 +69,21 @@ function parseMessage(content: string): { text: string; formType?: "booking" | "
   }
   text = text.replace(/\[SHOW_CART_ACTION:[^\]]+\]/gi, "").trim();
 
-  return { text, formType, cartActions };
+  return { text, formType, cartActions, bookingLink, customQuoteLink };
 }
 
-/* Lightweight markdown-to-JSX: converts **bold** into <strong> elements.
-   Keeps everything else as plain text (no headings, links, etc.). */
+// Only link approved destinations. Generated text never becomes HTML.
+function linkVerifiedResources(text: string): React.ReactNode[] {
+  const tokens = text.split(/(https:\/\/wa\.me\/971567427634|\+971585686852|\/about#regulatory-registration|\/sample-report(?:\.pdf)?|\/pricing|\/book-inspection|\/contact|\/services(?:\/[a-z0-9-]+){0,2})/g);
+  return tokens.map((token, i) => {
+    if (i % 2 === 0) return token;
+    const href = token === "+971585686852" ? `tel:${token}` : token;
+    const external = token.startsWith("https:") || token.endsWith(".pdf");
+    return <a key={i} href={href} target={external ? "_blank" : undefined} rel={external ? "noopener noreferrer" : undefined} className="font-medium text-brand-green underline underline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-green">{token}</a>;
+  });
+}
+
+/* Lightweight bold formatting, with approved resource/handoff links only. */
 function renderMarkdown(text: string): React.ReactNode[] {
   const parts: React.ReactNode[] = [];
   const segments = text.split(/(\*\*)/g);
@@ -77,7 +93,7 @@ function renderMarkdown(text: string): React.ReactNode[] {
   for (const seg of segments) {
     if (seg === "**") {
       if (buffer) {
-        parts.push(inBold ? <strong key={parts.length}>{buffer}</strong> : buffer);
+        parts.push(inBold ? <strong key={parts.length}>{linkVerifiedResources(buffer)}</strong> : <span key={parts.length}>{linkVerifiedResources(buffer)}</span>);
         buffer = "";
       }
       inBold = !inBold;
@@ -86,7 +102,7 @@ function renderMarkdown(text: string): React.ReactNode[] {
     }
   }
   if (buffer) {
-    parts.push(inBold ? <strong key={parts.length}>{buffer}</strong> : buffer);
+    parts.push(inBold ? <strong key={parts.length}>{linkVerifiedResources(buffer)}</strong> : <span key={parts.length}>{linkVerifiedResources(buffer)}</span>);
   }
   return parts;
 }
@@ -144,6 +160,7 @@ function BookingForm({ onSubmit }: { onSubmit: (summary: string) => void }) {
   });
   const [sending, setSending] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
 
   function set(k: keyof typeof fields, v: string) {
     setFields((p) => ({ ...p, [k]: v }));
@@ -151,14 +168,16 @@ function BookingForm({ onSubmit }: { onSubmit: (summary: string) => void }) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (sending) return;
     setSending(true);
+    setError("");
     try {
-      await fetch("/api/chat/lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "booking", ...fields }),
-      });
-    } catch {}
+      await submitLead("/api/chat/lead", { type: "booking", ...fields, leadSource: "chat_booking" });
+    } catch {
+      setError("Your enquiry was not sent. Please try again; your details have been kept.");
+      setSending(false);
+      return;
+    }
     const summary =
       `Booking details: Full Name: ${fields.name}, Phone: ${fields.phone}, Email: ${fields.email}, ` +
       `Service Type: ${fields.serviceType || "N/A"}, ` +
@@ -175,6 +194,7 @@ function BookingForm({ onSubmit }: { onSubmit: (summary: string) => void }) {
 
   return (
     <form onSubmit={handleSubmit} className="mt-2 bg-green-50 border border-green-200 rounded-xl p-3 space-y-2">
+      {error && <p role="alert" className="text-xs text-red-700">{error}</p>}
       <p className="text-xs font-semibold text-brand-green uppercase tracking-wide">Inspection Booking</p>
       <select required value={fields.serviceType} onChange={(e) => set("serviceType", e.target.value)}
         className="w-full text-sm px-2 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-brand-green bg-white text-gray-700">
@@ -215,6 +235,7 @@ function BookingForm({ onSubmit }: { onSubmit: (summary: string) => void }) {
         onChange={(value) => set("phone", value || "")}
         placeholder="Phone number *"
         className="chat-phone-input"
+        aria-label="Phone number"
       />
       <input required type="email" placeholder="Email *" value={fields.email}
         onChange={(e) => set("email", e.target.value)}
@@ -282,6 +303,7 @@ function FitoutForm({ onSubmit }: { onSubmit: (summary: string) => void }) {
   const [fields, setFields] = useState({ name: "", phone: "", email: "", address: "" });
   const [sending, setSending] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState("");
 
   function set(k: keyof typeof fields, v: string) {
     setFields((p) => ({ ...p, [k]: v }));
@@ -289,14 +311,16 @@ function FitoutForm({ onSubmit }: { onSubmit: (summary: string) => void }) {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (sending) return;
     setSending(true);
+    setError("");
     try {
-      await fetch("/api/chat/lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ type: "fitout", ...fields }),
-      });
-    } catch {}
+      await submitLead("/api/chat/lead", { type: "fitout", ...fields, leadSource: "chat_fitout" });
+    } catch {
+      setError("Your enquiry was not sent. Please try again; your details have been kept.");
+      setSending(false);
+      return;
+    }
     const summary = `Fit-out enquiry — Full Name: ${fields.name}, Phone: ${fields.phone}, Email: ${fields.email}, Property address: ${fields.address}.`;
     setSending(false);
     setSubmitted(true);
@@ -308,6 +332,7 @@ function FitoutForm({ onSubmit }: { onSubmit: (summary: string) => void }) {
 
   return (
     <form onSubmit={handleSubmit} className="mt-2 bg-green-50 border border-green-200 rounded-xl p-3 space-y-2">
+      {error && <p role="alert" className="text-xs text-red-700">{error}</p>}
       <p className="text-xs font-semibold text-brand-green uppercase tracking-wide">Fit-Out Enquiry</p>
       <input required placeholder="Full name *" value={fields.name}
         onChange={(e) => set("name", e.target.value)}
@@ -320,6 +345,7 @@ function FitoutForm({ onSubmit }: { onSubmit: (summary: string) => void }) {
         onChange={(value) => set("phone", value || "")}
         placeholder="Phone number *"
         className="chat-phone-input"
+        aria-label="Phone number"
       />
       <input required type="email" placeholder="Email *" value={fields.email}
         onChange={(e) => set("email", e.target.value)}
@@ -355,6 +381,7 @@ interface ChatWindowProps {
   isOpen: boolean;
   onClose: () => void;
   initialMessage?: string;
+  initialMessageKey?: number;
   onInitialMessageConsumed?: () => void;
 }
 
@@ -369,16 +396,18 @@ const CONVO_END_PATTERNS = [
 
 const INACTIVITY_MS = 60_000; // 1 minute
 
-export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialMessageConsumed }: ChatWindowProps) {
+export default function ChatWindow({ isOpen, onClose, initialMessage, initialMessageKey, onInitialMessageConsumed }: ChatWindowProps) {
   const [isMinimized, setIsMinimized] = useState(false);
   const [messages, setMessages] = useState<Message[]>([WELCOME_MESSAGE]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [requestError, setRequestError] = useState(false);
   const [showQuickReplies, setShowQuickReplies] = useState(true);
   const [showHumanSupport, setShowHumanSupport] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const sentInitialRef = useRef(false);
+  const sendingRef = useRef(false);
+  const queuedPromptsRef = useRef<string[]>([]);
   const inactivityTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Clear inactivity timer helper
   function clearInactivity() {
@@ -398,52 +427,79 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
     }, INACTIVITY_MS);
   }
 
-  // Expand whenever chat is opened; reset when closed
+  // Expand whenever chat is opened. The component remains mounted so history survives close.
   useEffect(() => {
     if (isOpen) {
       setIsMinimized(false);
-      setTimeout(() => inputRef.current?.focus(), 380);
+      const focusTimer = setTimeout(() => inputRef.current?.focus(), 100);
+      return () => clearTimeout(focusTimer);
     } else {
-      sentInitialRef.current = false;
       clearInactivity();
-      setShowHumanSupport(false);
+      queuedPromptsRef.current = [];
     }
     return () => clearInactivity();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
-  // Auto-send initialMessage whenever it arrives — works whether chat was
-  // already open (isOpen stays true, effect still runs) or just opened
+  // Hero prompts may arrive while the conversation is already open.
   useEffect(() => {
-    if (!isOpen || !initialMessage || sentInitialRef.current) return;
-    sentInitialRef.current = true;
+    if (!isOpen || !initialMessage) return;
+    setIsMinimized(false);
     onInitialMessageConsumed?.();
-    // Delay slightly so spring-open animation starts first when chat was closed
-    setTimeout(() => sendMessage(initialMessage), 420);
+    if (sendingRef.current) queuedPromptsRef.current.push(initialMessage);
+    else void sendMessage(initialMessage);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen, initialMessage]);
+  }, [isOpen, initialMessage, initialMessageKey]);
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (isLoading || sendingRef.current || queuedPromptsRef.current.length === 0) return;
+    const nextPrompt = queuedPromptsRef.current.shift();
+    if (nextPrompt) void sendMessage(nextPrompt);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading, messages]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+    });
   }, [messages, isLoading]);
 
-  async function sendMessage(text: string) {
-    if (!text.trim() || isLoading) return;
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        onClose();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
+
+  async function sendMessage(text: string, retry = false) {
+    if ((!text.trim() && !retry) || sendingRef.current) return;
+    sendingRef.current = true;
     // User is active — hide the support card and reset inactivity timer
     setShowHumanSupport(false);
     clearInactivity();
 
     const userMsg: Message = { role: "user", content: text.trim() };
-    const updatedMessages = [...messages, userMsg];
-    setMessages(updatedMessages);
-    setInput("");
+    const updatedMessages = retry ? messages : [...messages, userMsg];
+    if (!retry) {
+      setMessages(updatedMessages);
+      setInput("");
+    }
+    setRequestError(false);
     setIsLoading(true);
     setShowQuickReplies(false);
 
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30_000);
     try {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: controller.signal,
         body: JSON.stringify({
           messages: updatedMessages.map((m) => ({ role: m.role, content: m.content })),
         }),
@@ -451,18 +507,21 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
       if (!res.ok) throw new Error("Chat request failed");
 
       const reader = res.body?.getReader();
+      if (!reader) throw new Error("Chat stream unavailable");
       const decoder = new TextDecoder();
       let rawContent = "";
       let sseBuffer = "";
       // Map of serviceKey → { amountAed, quoteToken } for all signed quotes in this message
       const pendingTokens = new Map<string, { amountAed: number; quoteToken: string }>();
-      setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
-
-      while (reader) {
+      let streamDone = false;
+      while (!streamDone) {
         const { done, value } = await reader.read();
-        if (done) break;
+        if (done) {
+          sseBuffer += decoder.decode();
+          streamDone = true;
+        }
         // Buffer across chunk boundaries to avoid split-line JSON parse failures
-        sseBuffer += decoder.decode(value, { stream: true });
+        if (value) sseBuffer += decoder.decode(value, { stream: true });
         const lines = sseBuffer.split("\n");
         // Keep last (potentially incomplete) line in the buffer
         sseBuffer = lines.pop() ?? "";
@@ -470,11 +529,15 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
           if (!line.startsWith("data: ")) continue;
           try {
             const data = JSON.parse(line.slice(6));
+            if (data.error) throw new Error("Chat stream returned an error");
+            if (data.done) streamDone = true;
             if (data.content) {
               rawContent += data.content;
               setMessages((prev) => {
                 const updated = [...prev];
-                updated[updated.length - 1] = { role: "assistant", content: rawContent };
+                if (updated[updated.length - 1]?.role === "assistant" && updated[updated.length - 1]?.content === "") {
+                  updated.pop();
+                }
                 return updated;
               });
             }
@@ -485,10 +548,25 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
                 quoteToken: data.quoteToken,
               });
             }
-          } catch {}
+          } catch (error) {
+            if (error instanceof Error && error.message === "Chat stream returned an error") throw error;
+          }
         }
       }
 
+      if (sseBuffer.trim().startsWith("data: ")) {
+        try {
+          const data = JSON.parse(sseBuffer.trim().slice(6));
+          if (data.error) throw new Error("Chat stream returned an error");
+          if (data.content) rawContent += data.content;
+          if (data.quoteToken && data.serviceKey && data.amountAed) {
+            pendingTokens.set(data.serviceKey, { amountAed: data.amountAed, quoteToken: data.quoteToken });
+          }
+        } catch (error) {
+          if (error instanceof Error && error.message === "Chat stream returned an error") throw error;
+        }
+      }
+      if (!rawContent.trim()) throw new Error("Chat response was empty");
       const { formType, cartActions } = parseMessage(rawContent);
       // Attach server-signed tokens to each cart action
       const signedCartActions = cartActions.map((action) => {
@@ -500,15 +578,15 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
       });
 
       setMessages((prev) => {
-        const updated = [...prev];
-        updated[updated.length - 1] = {
+        const updated = prev.filter((message) => !(message.role === "assistant" && !message.content));
+        return [...updated, {
           role: "assistant",
           content: rawContent,
           formType,
           cartActions: signedCartActions.length > 0 ? signedCartActions : undefined,
-        };
-        return updated;
+        }];
       });
+      setRequestError(false);
 
       // Check if Nova is wrapping up — show human support immediately
       const isConvoEnd = CONVO_END_PATTERNS.some((p) => p.test(rawContent));
@@ -519,16 +597,11 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
         resetInactivityTimer(updatedMessages.length + 1);
       }
     } catch {
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "assistant",
-          content:
-            "Sorry, I'm having trouble connecting. Please call us on +971 585 686 852 or email info@urbangrid.ae.",
-        },
-      ]);
-      resetInactivityTimer(updatedMessages.length + 1);
+      setRequestError(true);
+      setShowHumanSupport(true);
     } finally {
+      clearTimeout(timeoutId);
+      sendingRef.current = false;
       setIsLoading(false);
     }
   }
@@ -547,21 +620,23 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
      * We always render the element so CSS transitions run smoothly;
      * pointer-events:none when closed prevents stray clicks.
      */
-    <div
+    <section
+      role="dialog"
+      aria-modal="false"
+      aria-labelledby="nova-chat-title"
+      aria-describedby="nova-chat-description"
+      aria-hidden={!isOpen}
       className={`
         fixed z-[60] flex flex-col overflow-hidden
         bg-white rounded-2xl shadow-2xl border border-gray-200
-        origin-bottom-right
+        origin-bottom-right transition-[transform,opacity,height] duration-300 ease-out motion-reduce:transition-none
         w-[calc(100vw-2rem)] max-w-sm
-        right-4 bottom-28
-        md:right-24 md:bottom-6
-        ${isOpen ? "pointer-events-auto opacity-100 scale-100" : "pointer-events-none opacity-0 scale-0"}
-        ${isOpen && isMinimized ? "h-14" : "h-[580px]"}
+        right-4 bottom-[calc(1rem+env(safe-area-inset-bottom))]
+        max-h-[calc(100dvh-5.5rem)]
+        md:right-24 md:bottom-6 md:max-h-[calc(100dvh-3rem)]
+        ${isOpen ? "pointer-events-auto opacity-100 scale-100" : "hidden"}
+        ${isMinimized ? "h-14 min-h-14" : "h-[min(580px,calc(100dvh-5.5rem))]"}
       `}
-      style={{
-        transition:
-          "transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.22s ease, height 0.22s ease",
-      }}
     >
       {/* Header */}
       <div className="bg-brand-green text-white px-4 py-3 flex items-center justify-between flex-shrink-0">
@@ -570,25 +645,25 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
             <div className="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center text-sm font-bold">
               N
             </div>
-            <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-green-400 rounded-full border-2 border-brand-green" />
           </div>
           <div>
-            <p className="font-semibold text-sm">Nova — UrbanGrid</p>
-            <p className="text-xs text-green-200">Property Inspection Expert</p>
+            <p id="nova-chat-title" className="font-semibold text-sm">Nova — UrbanGrid AI Assistant</p>
+            <p id="nova-chat-description" className="text-xs text-green-100">Inspection help and quick answers</p>
           </div>
         </div>
         <div className="flex items-center gap-1">
           <button
             onClick={() => setIsMinimized((m) => !m)}
-            className="p-1.5 hover:bg-white/20 rounded-lg transition-colors"
-            aria-label="Minimize"
+            className="min-h-11 min-w-11 flex items-center justify-center hover:bg-white/20 rounded-lg transition-colors"
+            aria-label={isMinimized ? "Expand chat" : "Minimize chat"}
+            aria-expanded={!isMinimized}
           >
             <Minimize2 size={16} />
           </button>
           <button
             onClick={onClose}
-            className="p-1.5 hover:bg-white/20 rounded-lg transition-colors"
-            aria-label="Close"
+            className="min-h-11 min-w-11 flex items-center justify-center hover:bg-white/20 rounded-lg transition-colors"
+            aria-label="Close chat"
           >
             <X size={16} />
           </button>
@@ -598,7 +673,7 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
       {!isMinimized && (
         <>
           {/* Messages */}
-          <div className="flex-1 overflow-y-auto px-4 py-3 space-y-3 bg-gray-50">
+          <div role="log" aria-label="Conversation with UrbanGrid AI Assistant" aria-live="polite" aria-relevant="additions" aria-busy={isLoading} className="flex-1 min-h-0 overflow-y-auto px-4 py-3 space-y-3 bg-gray-50">
             {messages.map((msg, i) => {
               const { text: displayText, formType } = parseMessage(msg.content);
               const isAssistant = msg.role === "assistant";
@@ -650,9 +725,9 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
                         <div className="px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap bg-white text-gray-800 border border-gray-200 rounded-tl-sm shadow-sm">
                           {displayText ? renderMarkdown(displayText) : (
                             <span className="flex gap-1 items-center py-0.5">
-                              <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                              <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                              <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                              <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce motion-reduce:animate-none" style={{ animationDelay: "0ms" }} />
+                              <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce motion-reduce:animate-none" style={{ animationDelay: "150ms" }} />
+                              <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce motion-reduce:animate-none" style={{ animationDelay: "300ms" }} />
                             </span>
                           )}
                         </div>
@@ -670,8 +745,20 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
                     )}
 
                     {/* Pricing summary + contact CTAs (cart checkout temporarily hidden) */}
+                    {isAssistant && parseMessage(msg.content).bookingLink && (
+                      <a href="/book-inspection" onClick={onClose}
+                        className="block rounded-xl bg-brand-green px-4 py-3 text-center text-sm font-semibold text-white">
+                        Book residential inspection — no upfront payment
+                      </a>
+                    )}
+                    {isAssistant && parseMessage(msg.content).customQuoteLink && (
+                      <a href="/contact?enquiryType=General%20Enquiry" onClick={onClose}
+                        className="block rounded-xl border border-brand-green px-4 py-3 text-center text-sm font-semibold text-brand-green">
+                        Request Custom Quote
+                      </a>
+                    )}
                     {isAssistant && msg.cartActions && msg.cartActions.length > 0 && (
-                      <div className="mt-3 space-y-2">
+                      <div className="hidden">
                         {/* Price summary */}
                         <div className="bg-zinc-50 border border-zinc-200 rounded-lg p-3 space-y-1.5">
                           {msg.cartActions.map((action) => (
@@ -714,19 +801,33 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
               );
             })}
 
-            {/* Typing indicator */}
-            {isLoading && messages[messages.length - 1]?.role !== "assistant" && (
-              <div className="flex justify-start">
+            {/* Typing indicator: no empty assistant message is added while waiting. */}
+            {isLoading && (
+              <div role="status" aria-label="Assistant is replying" className="flex justify-start">
                 <div className="w-7 h-7 rounded-full bg-brand-green text-white flex items-center justify-center text-xs font-bold mr-2 flex-shrink-0">
                   N
                 </div>
                 <div className="bg-white border border-gray-200 px-4 py-3 rounded-2xl rounded-tl-sm shadow-sm">
                   <span className="flex gap-1 items-center">
-                    <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
-                    <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
-                    <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
+                    <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce motion-reduce:animate-none" style={{ animationDelay: "0ms" }} />
+                    <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce motion-reduce:animate-none" style={{ animationDelay: "150ms" }} />
+                    <span className="w-1.5 h-1.5 bg-gray-400 rounded-full animate-bounce motion-reduce:animate-none" style={{ animationDelay: "300ms" }} />
                   </span>
                 </div>
+              </div>
+            )}
+
+            {requestError && (
+              <div role="alert" className="rounded-xl border border-amber-300 bg-amber-50 p-3 text-sm text-gray-800">
+                <p className="font-medium">Nova couldn’t complete that reply.</p>
+                <p className="mt-1 text-xs text-gray-700">Try again, or reach our team using the contact options below.</p>
+                <button
+                  type="button"
+                  onClick={() => void sendMessage("", true)}
+                  className="mt-2 min-h-11 rounded-lg bg-brand-green px-4 text-sm font-semibold text-white hover:bg-opacity-90"
+                >
+                  Retry
+                </button>
               </div>
             )}
 
@@ -737,7 +838,7 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
                   <button
                     key={reply}
                     onClick={() => sendMessage(reply)}
-                    className="block w-full text-left text-sm px-3 py-2 rounded-xl border border-brand-green text-brand-green hover:bg-brand-green hover:text-white transition-colors duration-200"
+                    className="block w-full min-h-11 text-left text-sm px-3 py-2 rounded-xl border border-brand-green text-brand-green hover:bg-brand-green hover:text-white transition-colors duration-200"
                   >
                     {reply}
                   </button>
@@ -786,10 +887,11 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
             <input
               ref={inputRef}
               type="text"
+              aria-label="Message UrbanGrid AI Assistant"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Ask about our inspection services..."
-              className="flex-1 text-sm px-3 py-2 rounded-xl border border-gray-300 focus:outline-none focus:border-brand-green bg-gray-50 placeholder-gray-400"
+              className="flex-1 min-h-11 text-sm px-3 py-2 rounded-xl border border-gray-300 focus:outline-none focus:border-brand-green bg-gray-50 placeholder-gray-500"
               disabled={isLoading}
               maxLength={500}
             />
@@ -797,22 +899,23 @@ export default function ChatWindow({ isOpen, onClose, initialMessage, onInitialM
               type="submit"
               disabled={!input.trim() || isLoading}
               aria-label="Send message"
-              className="bg-brand-green text-white w-9 h-9 rounded-xl flex items-center justify-center hover:bg-opacity-90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex-shrink-0"
+              className="bg-brand-green text-white min-h-11 min-w-11 rounded-xl flex items-center justify-center hover:bg-opacity-90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex-shrink-0"
             >
               <Send size={16} aria-hidden="true" />
             </button>
           </form>
 
-          <div className="px-3 py-1.5 bg-white border-t border-gray-100 text-center flex-shrink-0">
-            <p className="text-[10px] text-gray-400">
-              Powered by UrbanGrid AI ·{" "}
-              <a href="/contact" className="underline hover:text-brand-green">
-                Book online
-              </a>
-            </p>
+          <div className="px-3 py-2 bg-white border-t border-gray-100 flex-shrink-0">
+            <p className="text-[10px] text-gray-600 text-center mb-1">Powered by UrbanGrid AI</p>
+            <div className="grid grid-cols-2 gap-x-3 gap-y-0.5 text-xs font-medium text-brand-green">
+              <a href="/book-inspection" onClick={onClose} className="min-h-11 inline-flex items-center underline underline-offset-2">Book Inspection</a>
+              <a href="https://wa.me/971567427634?text=Hello%20UrbanGrid%2C%20I%27m%20interested%20in%20your%20property%20inspection%20services.%20Please%20provide%20me%20with%20more%20information." target="_blank" rel="noopener noreferrer" className="min-h-11 inline-flex items-center underline underline-offset-2">WhatsApp</a>
+              <a href="tel:+971585686852" className="min-h-11 inline-flex items-center underline underline-offset-2 gtm-call-button">Call us</a>
+              <a href="/contact" onClick={onClose} className="min-h-11 inline-flex items-center underline underline-offset-2">Request Custom Quote</a>
+            </div>
           </div>
         </>
       )}
-    </div>
+    </section>
   );
 }

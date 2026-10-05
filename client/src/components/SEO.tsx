@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { useLocation } from 'wouter';
+import { pageStructuredData } from '@shared/pageStructuredData';
+import { canonicalUrl, isNonIndexablePath } from "@shared/siteConfig";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // SEO COMPONENT — IMPORTANT NOTES FOR MAINTAINERS
@@ -30,7 +32,7 @@ interface SEOProps {
 const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
   '/': {
     title: 'Property Snagging Dubai & UAE | From AED 800 | UrbanGrid',
-    description: 'Independent property snagging across Dubai, Abu Dhabi and the UAE. Engineer-led inspections reference relevant RERA, NFPA and ASHRAE requirements. Reports in 24 hours.',
+    description: 'Independent property snagging across Dubai, Abu Dhabi and the UAE. Engineer-led, photographic findings. Final report after inspection and full payment.',
     ogImage: 'https://urbangrid.ae/og-image.png'
   },
   '/about': {
@@ -41,7 +43,7 @@ const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
   },
   '/services': {
     title: 'Snagging & Inspection Services UAE | From AED 800 | UrbanGrid',
-    description: 'Property snagging, RERA reports & technical inspections across Dubai, Abu Dhabi & UAE. Engineer-led, photo reports in 24 hours. From AED 800.',
+    description: 'Residential inspections and building consultancy across the UAE. Stage 1 from AED 800 excluding VAT; final report after inspection and full payment.',
     keywords: 'property inspection services UAE, snagging services Dubai, pre-purchase inspection, villa snagging, apartment inspection, building inspection companies near me',
     ogImage: 'https://urbangrid.ae/og-image.png'
   },
@@ -144,11 +146,17 @@ const routeSEOData: Record<string, Omit<SEOProps, 'canonical'>> = {
     keywords: 'structural survey UAE, building integrity assessment Dubai, structural inspection, load bearing analysis UAE, structural safety Abu Dhabi, certified structural assessment UAE'
   },
 
+  '/services/asset-tagging-inventory': {
+    title: 'Asset Tagging & Inventory Dubai & UAE | UrbanGrid',
+    description: 'Building asset tagging and inventory services in Dubai and the UAE. Create an asset register to support building management, maintenance and lifecycle planning.',
+    keywords: 'building asset register, asset tagging UAE, building inventory Dubai, lifecycle planning'
+  },
+
   // Location pages
   '/locations/dubai': {
-    title: 'Snagging Company Dubai | Property Inspection Services | UrbanGrid',
-    description: 'Dubai\'s trusted property snagging company. Independent inspection for Emaar, Damac, Sobha, Nakheel handovers across Downtown Dubai, Marina, Palm Jumeirah, JVC & all areas. Reports in 24 hours.',
-    keywords: 'snagging company dubai, property inspection dubai, property snagging dubai, snagging dubai, home inspection dubai, new build snagging dubai, apartment snagging dubai, villa inspection dubai, building inspection companies near me'
+    title: 'Dubai Inspection Services & Community Coverage | UrbanGrid',
+    description: 'Explore UrbanGrid\'s Dubai inspection coverage, communities and service options. Find handover, DLP and resale inspections and request a property quote.',
+    keywords: 'Dubai inspection coverage, Dubai communities, handover inspection Dubai, DLP inspection Dubai, resale property inspection Dubai'
   },
   '/locations/abu-dhabi': {
     title: 'Snagging Company Abu Dhabi | Property Inspection | UrbanGrid',
@@ -200,9 +208,9 @@ export default function SEO({
     const description = customDescription || routeData.description || 'Professional property inspection and snagging services across Dubai, Abu Dhabi, and UAE.';
     const keywords = customKeywords || routeData.keywords || 'property snagging UAE, property inspection Dubai, Snagging Company Dubai, building inspection companies near me';
     const ogImage = customOgImage || routeData.ogImage || 'https://urbangrid.ae/og-image.png';
-    const shouldNoindex = noindex;
+    const shouldNoindex = noindex || isNonIndexablePath(location);
 
-    const canonical = customCanonical || `https://urbangrid.ae${location}`;
+    const canonical = canonicalUrl(customCanonical || location);
 
     document.title = title;
 
@@ -240,6 +248,25 @@ export default function SEO({
     updateMetaTag('twitter:image', ogImage);
     updateLinkTag('canonical', canonical);
 
+    // Retain a server article only on its own URL; never carry another page's
+    // structured data across SPA navigation. Asset Tagging owns its own script.
+    const existingScripts = Array.from(document.querySelectorAll<HTMLScriptElement>('script[type="application/ld+json"]'));
+    const retainedArticle = existingScripts.find(script => {
+      try {
+        const data = JSON.parse(script.textContent || "{}");
+        return data["@type"] === "BlogPosting" && data.url === canonical;
+      } catch { return false; }
+    });
+    existingScripts.forEach(script => {
+      if (script !== retainedArticle && !(location === "/services/asset-tagging-inventory" && script.id === "asset-tagging-schema")) script.remove();
+    });
+    if (!shouldNoindex && location !== "/services/asset-tagging-inventory") {
+      const script = document.createElement("script");
+      script.type = "application/ld+json";
+      script.id = "public-page-schema";
+      script.textContent = JSON.stringify(pageStructuredData(location, title, description));
+      document.head.appendChild(script);
+    }
 
   }, [location, customTitle, customDescription, customKeywords, customOgImage, customCanonical, noindex]);
 

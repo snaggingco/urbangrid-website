@@ -112,18 +112,18 @@ export default function CartDrawer() {
             )}
 
             <button
-              onClick={handleCheckout}
+              onClick={() => { closeCart(); window.location.assign("/book-inspection"); }}
               disabled={loading}
               className="w-full bg-brand-green text-white text-sm font-semibold py-3 rounded-xl hover:bg-opacity-90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {loading ? (
                 <><Loader2 size={16} className="animate-spin" /> Processing…</>
               ) : (
-                "Proceed to Checkout"
+                "Book inspection — no upfront payment"
               )}
             </button>
             <p className="text-[10px] text-zinc-400 text-center">
-              Secure payment powered by Stripe. You will be redirected to complete payment.
+              100% payment after inspection and before release of the final report.
             </p>
           </div>
         )}

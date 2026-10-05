@@ -4,14 +4,14 @@ import { openLenaWithMessage } from "@/lib/lenaStore";
 
 const CHIPS_DESKTOP = [
   "Get a price estimate",
-  "What's included in an inspection?",
-  "Do you cover my area?",
+  "What does snagging include?",
+  "DLP inspection",
 ];
 
 const CHIPS_MOBILE = [
   "Price estimate",
-  "What's included?",
-  "My area?",
+  "Snagging scope",
+  "DLP inspection",
 ];
 
 export default function HeroChatBar() {
@@ -42,7 +42,7 @@ export default function HeroChatBar() {
           type="text"
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder="Ask Nova AI…"
+          placeholder="Ask UrbanGrid AI…"
           className="flex-1 bg-transparent text-white placeholder-zinc-400 text-xs sm:text-sm px-3 sm:px-4 py-2.5 sm:py-3.5 focus:outline-none min-w-0"
           maxLength={300}
           aria-label="Ask Nova AI a question"
@@ -50,7 +50,7 @@ export default function HeroChatBar() {
         <button
           type="submit"
           disabled={!value.trim()}
-          className="bg-brand-green text-white px-3 sm:px-4 py-2.5 sm:py-3.5 flex items-center justify-center hover:bg-emerald-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex-shrink-0"
+          className="bg-brand-green text-white min-h-11 min-w-11 px-3 sm:px-4 py-2.5 sm:py-3.5 flex items-center justify-center hover:bg-emerald-700 transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex-shrink-0"
           aria-label="Send"
         >
           <ArrowRight className="w-4 h-4" />
@@ -63,8 +63,9 @@ export default function HeroChatBar() {
         {CHIPS_MOBILE.map((chip, i) => (
           <button
             key={chip}
+            type="button"
             onClick={() => submit(CHIPS_DESKTOP[i])}
-            className="sm:hidden flex-shrink-0 text-[11px] text-zinc-300 border border-zinc-600 hover:border-brand-green hover:text-white px-2.5 py-1 rounded-full transition-all duration-150 whitespace-nowrap"
+            className="sm:hidden min-h-11 flex-shrink-0 text-[11px] text-zinc-300 border border-zinc-600 hover:border-brand-green hover:text-white px-2.5 py-1 rounded-full transition-all duration-150 whitespace-nowrap"
           >
             {chip}
           </button>
@@ -73,8 +74,9 @@ export default function HeroChatBar() {
         {CHIPS_DESKTOP.map((chip) => (
           <button
             key={chip}
+            type="button"
             onClick={() => submit(chip)}
-            className="hidden sm:block flex-shrink-0 text-xs text-zinc-300 border border-zinc-600 hover:border-brand-green hover:text-white px-3 py-1.5 rounded-full transition-all duration-150 whitespace-nowrap"
+            className="hidden sm:block min-h-11 flex-shrink-0 text-xs text-zinc-300 border border-zinc-600 hover:border-brand-green hover:text-white px-3 py-1.5 rounded-full transition-all duration-150 whitespace-nowrap"
           >
             {chip}
           </button>

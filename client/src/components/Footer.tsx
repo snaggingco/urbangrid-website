@@ -1,135 +1,122 @@
 import { Link } from "wouter";
-import { trackConversion } from "@/lib/analytics";
+import { openConsentPreferences } from "@/lib/consent";
+import { buildingConsultancyServices, residentialServices, serviceLocations } from "@/data/serviceHierarchy";
+
+const companyLinks = [
+  { name: "Home", href: "/" },
+  { name: "About", href: "/about" },
+  { name: "All Services", href: "/services" },
+  { name: "Residential Pricing", href: "/pricing" },
+  { name: "Sample Report", href: "/sample-report" },
+  { name: "Resources", href: "/blog" },
+  { name: "Contact", href: "/contact" },
+  { name: "Broker Referrals", href: "/broker-referrals" },
+  { name: "Careers", href: "/careers" },
+];
+
+const internationalLinks = [
+  { name: "Snagging Company KSA", href: "https://www.stratasurveyor.com" },
+  { name: "Property Snagging India", href: "https://www.snagging.in" },
+  { name: "Property Snagging UK", href: "https://www.urbangrid.co.uk" },
+];
+
+function ServiceLinks({ services }: { services: typeof residentialServices }) {
+  return (
+    <ul className="space-y-2.5">
+      {services.map((service) => (
+        <li key={service.href}>
+          <Link href={service.href} className="text-zinc-400 hover:text-white transition-colors text-xs focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300">
+            {service.label}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+}
 
 export default function Footer() {
-  const quickLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'About Us', href: '/about' },
-    { name: 'Our Services', href: '/services' },
-    { name: 'Blog', href: '/blog' },
-    { name: 'Contact', href: '/contact' },
-  ];
-
-  const locationLinks = [
-    { name: 'Dubai', href: '/locations/dubai' },
-    { name: 'Abu Dhabi', href: '/locations/abu-dhabi' },
-    { name: 'Sharjah', href: '/locations/sharjah' },
-    { name: 'Ajman', href: '/locations/ajman' },
-    { name: 'Ras Al Khaimah', href: '/locations/ras-al-khaimah' },
-    { name: 'Fujairah', href: '/locations/fujairah' },
-    { name: 'Umm Al Quwain', href: '/locations/umm-al-quwain' },
-  ];
-
   return (
-    <footer className="bg-zinc-950 text-white pt-24 pb-12 border-t border-zinc-900">
+    <footer className="bg-zinc-950 text-white pt-16 lg:pt-20 pb-32 md:pb-10 border-t border-zinc-900">
       <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-20">
-          {/* Company Info */}
-          <div className="lg:col-span-2 space-y-8">
-            <div className="text-lg font-bold tracking-tight text-white">
-              UrbanGrid
-            </div>
-            <p className="text-zinc-400 text-xs leading-relaxed max-w-xs">
-              UAE's premier property inspection and snagging company. Delivering international engineering standards across all seven Emirates with 40,000+ properties inspected.
+        <div className="mb-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 border-b border-zinc-800 pb-8">
+          <div>
+            <div className="text-lg font-bold tracking-tight text-white">UrbanGrid</div>
+            <p className="mt-3 max-w-md text-zinc-400 text-xs leading-relaxed">
+              Engineer-led property inspections for homebuyers, and practical building consultancy for owners and managers.
             </p>
-            <div className="flex space-x-4">
-              <a href="#" className="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center hover:bg-brand-green transition-all group" aria-label="Facebook">
-                <i className="fab fa-facebook-f text-[10px] text-zinc-400 group-hover:text-white"></i>
-              </a>
-              <a href="#" className="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center hover:bg-brand-green transition-all group" aria-label="Instagram">
-                <i className="fab fa-instagram text-[10px] text-zinc-400 group-hover:text-white"></i>
-              </a>
-              <a href="#" className="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center hover:bg-brand-green transition-all group" aria-label="LinkedIn">
-                <i className="fab fa-linkedin-in text-[10px] text-zinc-400 group-hover:text-white"></i>
-              </a>
-            </div>
           </div>
-
-          {/* Quick Links */}
-          <div>
-            <h3 className="text-[10px] font-semibold tracking-[0.25em] text-zinc-600 uppercase mb-8">Quick Links</h3>
-            <ul className="space-y-4">
-              {quickLinks.map((link) => (
-                <li key={link.name}>
-                  <Link href={link.href}>
-                    <span className="text-zinc-400 hover:text-white transition-colors cursor-pointer text-xs">
-                      {link.name}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Service Locations */}
-          <div>
-            <h3 className="text-[10px] font-semibold tracking-[0.25em] text-zinc-600 uppercase mb-8">Locations</h3>
-            <ul className="space-y-4">
-              {locationLinks.map((link) => (
-                <li key={link.name}>
-                  <Link href={link.href}>
-                    <span className="text-zinc-400 hover:text-white transition-colors cursor-pointer text-xs">
-                      {link.name}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* International Network */}
-          <div>
-            <h3 className="text-[10px] font-semibold tracking-[0.25em] text-zinc-600 uppercase mb-8">International</h3>
-            <ul className="space-y-4">
-              <li>
-                <a href="https://www.stratasurveyor.com" target="_blank" rel="noopener" className="text-zinc-400 hover:text-white transition-colors text-xs">
-                  Snagging Company KSA
-                </a>
-              </li>
-              <li>
-                <a href="https://www.snagging.in" target="_blank" rel="noopener" className="text-zinc-400 hover:text-white transition-colors text-xs">
-                  Property Snagging India
-                </a>
-              </li>
-              <li>
-                <a href="https://www.urbangrid.co.uk" target="_blank" rel="noopener" className="text-zinc-400 hover:text-white transition-colors text-xs">
-                  Property Snagging UK
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          {/* Contact Info */}
-          <div className="space-y-8">
-            <h3 className="text-[10px] font-semibold tracking-[0.25em] text-zinc-600 uppercase mb-8">Contact Us</h3>
-            <div className="space-y-6">
-              <div className="flex items-start">
-                <span className="text-zinc-400 text-xs leading-relaxed">
-                  Office 1205, Business Bay<br />Dubai, United Arab Emirates
-                </span>
-              </div>
-              <div className="flex flex-col space-y-2">
-                <a
-                  href="tel:+971585686852"
-                  onClick={() => trackConversion('call_click')}
-                  className="text-zinc-400 hover:text-white transition-colors text-xs gtm-call-button"
-                >
-                  +971 58 568 6852
-                </a>
-                <a href="mailto:info@urbangrid.ae" className="text-zinc-400 hover:text-white transition-colors text-xs">
-                  info@urbangrid.ae
-                </a>
-              </div>
-            </div>
-          </div>
+          <button type="button" onClick={openConsentPreferences} className="self-start sm:self-auto min-h-11 text-xs text-zinc-300 underline underline-offset-4 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-emerald-300">
+            Cookie preferences
+          </button>
         </div>
 
-        {/* Copyright */}
-        <div className="border-t border-zinc-800 pt-10 flex flex-col md:flex-row justify-between items-center text-zinc-500 text-[10px] uppercase tracking-wider">
-          <p className="text-center md:text-left">© {new Date().getFullYear()} UrbanGrid Real Estate Consultancies L.L.C. Licensed by RERA & Dubai Economy Department.</p>
-          <div className="flex space-x-8 mt-6 md:mt-0">
-            <Link href="/privacy-policy"><span className="hover:text-white transition-colors cursor-pointer">Privacy Policy</span></Link>
-            <Link href="/terms-of-service"><span className="hover:text-white transition-colors cursor-pointer">Terms of Service</span></Link>
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-[1.25fr_1.35fr_1.35fr_1fr_1.15fr] gap-x-8 gap-y-10 pb-12">
+          <section>
+            <h2 className="text-[10px] font-semibold tracking-[0.2em] text-zinc-500 uppercase mb-5">Company</h2>
+              <ul className="space-y-3">
+              {companyLinks.map((item) => <li key={item.href}><Link href={item.href} className="text-zinc-300 hover:text-white text-xs focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-300">{item.name}</Link></li>)}
+            </ul>
+          </section>
+          <section>
+            <h2 className="text-[10px] font-semibold tracking-[0.2em] text-zinc-500 uppercase mb-5">Residential Inspections</h2>
+            <ServiceLinks services={residentialServices} />
+          </section>
+          <section>
+            <h2 className="text-[10px] font-semibold tracking-[0.2em] text-zinc-500 uppercase mb-5">Building Consultancy</h2>
+            <ServiceLinks services={buildingConsultancyServices} />
+          </section>
+          <section>
+            <h2 className="text-[10px] font-semibold tracking-[0.2em] text-zinc-500 uppercase mb-5">Locations</h2>
+            <ul className="space-y-3">{serviceLocations.map((item) => <li key={item.href}><Link href={item.href} className="text-zinc-400 hover:text-white text-xs">{item.name}</Link></li>)}</ul>
+            <h2 className="text-[10px] font-semibold tracking-[0.2em] text-zinc-500 uppercase mt-7 mb-4">International</h2>
+            <ul className="space-y-3">{internationalLinks.map((item) => <li key={item.href}><a href={item.href} target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white text-xs">{item.name}</a></li>)}</ul>
+          </section>
+          <section>
+            <h2 className="text-[10px] font-semibold tracking-[0.2em] text-zinc-500 uppercase mb-5">Contact</h2>
+            <p className="text-zinc-400 text-xs leading-relaxed">Office 1205, Business Bay<br />Dubai, United Arab Emirates</p>
+            <div className="mt-4 flex flex-col gap-3">
+              <a href="tel:+971585686852" className="text-zinc-400 hover:text-white text-xs gtm-call-button">+971 58 568 6852</a>
+              <a href="mailto:info@urbangrid.ae" className="text-zinc-400 hover:text-white text-xs">info@urbangrid.ae</a>
+              <a href="https://wa.me/971567427634?text=Hello%20UrbanGrid%2C%20I%27m%20interested%20in%20your%20property%20inspection%20services.%20Please%20provide%20me%20with%20more%20information." target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white text-xs">WhatsApp</a>
+            </div>
+          </section>
+        </div>
+
+        <div className="md:hidden divide-y divide-zinc-800 border-y border-zinc-800">
+          <details className="py-1">
+            <summary className="cursor-pointer py-4 text-[10px] font-semibold tracking-[0.2em] text-zinc-300 uppercase focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-300">Company & Contact</summary>
+            <div className="pb-5 grid grid-cols-2 gap-8">
+              <ul className="space-y-3">{companyLinks.map((item) => <li key={item.href}><Link href={item.href} className="text-zinc-400 hover:text-white text-xs">{item.name}</Link></li>)}</ul>
+              <div className="space-y-3 text-xs text-zinc-400">
+                <p>Office 1205, Business Bay<br />Dubai, United Arab Emirates</p>
+                <a href="tel:+971585686852" className="block gtm-call-button">+971 58 568 6852</a>
+                <a href="mailto:info@urbangrid.ae" className="block">info@urbangrid.ae</a>
+                <a href="https://wa.me/971567427634?text=Hello%20UrbanGrid%2C%20I%27m%20interested%20in%20your%20property%20inspection%20services.%20Please%20provide%20me%20with%20more%20information." target="_blank" rel="noopener noreferrer" className="block">WhatsApp</a>
+              </div>
+            </div>
+          </details>
+          <details className="py-1">
+            <summary className="cursor-pointer py-4 text-[10px] font-semibold tracking-[0.2em] text-zinc-300 uppercase focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-300">Residential Inspections</summary>
+            <div className="pb-5"><ServiceLinks services={residentialServices} /></div>
+          </details>
+          <details className="py-1">
+            <summary className="cursor-pointer py-4 text-[10px] font-semibold tracking-[0.2em] text-zinc-300 uppercase focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-300">Building Consultancy</summary>
+            <div className="pb-5"><ServiceLinks services={buildingConsultancyServices} /></div>
+          </details>
+          <details className="py-1">
+            <summary className="cursor-pointer py-4 text-[10px] font-semibold tracking-[0.2em] text-zinc-300 uppercase focus-visible:outline focus-visible:outline-2 focus-visible:outline-emerald-300">Locations & International</summary>
+            <div className="pb-5 grid grid-cols-2 gap-8">
+              <ul className="space-y-3">{serviceLocations.map((item) => <li key={item.href}><Link href={item.href} className="text-zinc-400 hover:text-white text-xs">{item.name}</Link></li>)}</ul>
+              <ul className="space-y-3">{internationalLinks.map((item) => <li key={item.href}><a href={item.href} target="_blank" rel="noopener noreferrer" className="text-zinc-400 hover:text-white text-xs">{item.name}</a></li>)}</ul>
+            </div>
+          </details>
+        </div>
+
+        <div className="border-t border-zinc-800 mt-8 pt-7 flex flex-col md:flex-row justify-between gap-5 items-start md:items-center text-zinc-500 text-[10px] uppercase tracking-wider">
+          <p>© {new Date().getFullYear()} UrbanGrid Real Estate Consultancies L.L.C.</p>
+          <div className="flex gap-6">
+            <Link href="/privacy-policy" className="hover:text-white">Privacy Policy</Link>
+            <Link href="/terms-of-service" className="hover:text-white">Terms of Service</Link>
           </div>
         </div>
       </div>

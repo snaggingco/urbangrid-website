@@ -222,7 +222,7 @@ export default function Blog() {
                           
                           {post.author && (
                             <span className="text-[10px] uppercase tracking-[0.18em] text-zinc-500 font-medium">
-                              By {post.author.firstName}
+                              By UrbanGrid Editorial Team
                             </span>
                           )}
                         </div>

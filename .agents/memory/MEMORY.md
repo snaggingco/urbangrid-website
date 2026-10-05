@@ -1,3 +1,21 @@
 - [Bundle perf](bundle-perf.md) — eager App.tsx/shell imports drag heavy deps into the every-page main chunk; lazy-load interaction/below-fold UI to shrink it.
 - [Visibility methodology](visibility-methodology.md) — keep GEO readiness separate from LLM visibility; only observed platform responses can populate LLM metrics.
 - [WhatsApp conversion semantics](whatsapp-conversion-semantics.md) — measure outbound contact clicks separately from confirmed leads or completed conversations.
+- [Paid-search measurement owner](paid-search-measurement-owner.md) — user chose the GTM-managed GA4 property as the sole receiver; do not restore parallel direct configurations.
+- [Development notification transport](development-notifications.md) — development submissions can notify real staff; isolate email delivery in repeatable tests.
+- [Browser listener ownership](browser-listener-ownership.md) — guard delegated listeners across module instances, not just repeated calls within one module.
+- [Measurement CSP verification](measurement-csp-verification.md) — correct consent state does not prove outbound delivery; intercepted tests can mask CSP failures.
+- [SEO page ownership](seo-page-ownership.md) — preserve the homepage for broad Dubai search intent; the Dubai location page is a distinct coverage hub.
+- [Development SEO checks](development-seo-checks.md) — development-domain noindex headers do not establish production indexability.
+- [Residential payment terms](residential-payment-terms.md) — no upfront payment; full payment after physical inspection, before report release; nonstandard/multi-unit work is custom quote.
+- [Development cookies](development-cookie-verification.md) — preview proxy may rewrite Lax to None+Secure; verify flags without weakening production settings or printing cookies.
+- [First-paint verification](first-paint-verification.md) — check built HTML, not just Vite dev output; build-only rendering must not open HMR listeners.
+- [Configured admin verification](configured-admin-verification.md) — auth test startup can reconcile credentials; check the existing secret matches first and verify the account stays unchanged.
+- [Service business structure](service-business-structure.md) — residential is snagging-first B2C; consultancy is B2B/custom quote; presentation grouping must not rename established URLs.
+- [Public report privacy](public-report-privacy.md) — public accessibility does not establish anonymization; check underlying PDF text and visible images before promoting samples.
+- [Assistant fact grounding](assistant-fact-grounding.md) — verified RERA office registration is not approval, report certification or individual credentials; keep all assistant claims grounded.
+- [Browser viewport measurement](browser-viewport-measurement.md) — compare equivalent cold-load baselines before treating repeated viewport-wide shifts as a regression.
+- [Acquisition reporting](acquisition-reporting.md) — use consistent lead-created acquisition cohorts; Ads spend joining stays external and staff revenue stays separate from cash.
+- [Operations integration](operations-integration.md) — confirmed-booking delivery plus authenticated lifecycle; preserve snapshots, receiver deduplication and payment/report safeguards.
+- [Browser testing runtime](browser-testing-runtime.md) — the documented tester subtype may be unavailable; use isolated browser fixtures without weakening auth.
+- [UAE release boundaries](uae-release-boundaries.md) — preserve design when fixing runtime risks; restart durability does not establish execution during Autoscale scale-to-zero.

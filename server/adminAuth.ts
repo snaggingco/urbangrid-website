@@ -1,22 +1,34 @@
-import bcrypt from "bcryptjs";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import session from "express-session";
 import connectPg from "connect-pg-simple";
-import type { Express } from "express";
+import type { Express, Request, RequestHandler } from "express";
+import crypto from "node:crypto";
+import { ADMIN_EMAIL, bootstrapAdminAccount, authenticateAdmin, restoreAdminSession, type AdminIdentity } from "./adminBootstrap";
 
-export function setupLocalAuth(app: Express) {
-  const adminUsername = process.env.ADMIN_USERNAME || "admin";
-  const adminPasswordHash = process.env.ADMIN_PASSWORD
-    ? bcrypt.hashSync(process.env.ADMIN_PASSWORD, 12)
-    : null;
-
-  if (!adminPasswordHash) {
-    console.warn("ADMIN_PASSWORD is not configured; local admin login is disabled.");
+declare module "express-session" { interface SessionData { adminLoginCsrf?: string } }
+const failures = new Map<string, { count: number; until: number }>();
+function attemptKey(req: Request) { return crypto.createHash("sha256").update(req.ip || "unknown").digest("hex"); }
+function loginCsrf(req: Request) { return req.session.adminLoginCsrf ||= crypto.randomBytes(32).toString("hex"); }
+function loginUser(user: AdminIdentity) {
+  return { type: "admin", credentialVersion: user.credentialVersion,
+    claims: { sub: user.id, email: user.email, first_name: user.firstName, last_name: user.lastName, role: "admin" } };
+}
+export const isAdminAuthenticated: RequestHandler = (req, res, next) => {
+  const user = req.user as ReturnType<typeof loginUser> | undefined;
+  if (req.isAuthenticated() && user?.type === "admin" && user.claims.role === "admin" && user.claims.email === ADMIN_EMAIL) return next();
+  res.status(401).json({ message: "Unauthorized" });
+};
+export async function setupLocalAuth(app: Express, testSessionStore?: session.Store) {
+  let ready = false;
+  try { ready = (await bootstrapAdminAccount()).configured; }
+  catch {
+    // Never log the original exception: DB bind parameters can contain a hash.
+    console.warn("Admin authentication is unavailable; check server configuration.");
   }
 
   const PgSessionStore = connectPg(session);
-  const sessionStore = new PgSessionStore({
+  const sessionStore = testSessionStore || new PgSessionStore({
     conString: process.env.DATABASE_URL,
     createTableIfMissing: false,
     tableName: "sessions",
@@ -43,12 +55,19 @@ export function setupLocalAuth(app: Express) {
 
   // Serialize user for session storage
   passport.serializeUser((user: any, done) => {
-    done(null, user);
+    done(null, user.type === "admin" ? {
+      type: "admin", id: user.claims.sub, credentialVersion: user.credentialVersion,
+    } : user);
   });
 
   // Deserialize user from session
-  passport.deserializeUser((user: any, done) => {
-    done(null, user);
+  passport.deserializeUser(async (user: any, done) => {
+    if (user.type === "inspector") return done(null, user);
+    if (!ready || user.type !== "admin" || typeof user.id !== "string" || typeof user.credentialVersion !== "string") return done(null, false);
+    try {
+      const current = await restoreAdminSession(user.id, user.credentialVersion);
+      done(null, current ? loginUser(current) : false);
+    } catch { done(null, false); }
   });
 
   // Local strategy for super admin
@@ -57,41 +76,61 @@ export function setupLocalAuth(app: Express) {
     passwordField: 'password'
   }, async (username, password, done) => {
     try {
-      if (
-        adminPasswordHash &&
-        username === adminUsername &&
-        bcrypt.compareSync(password, adminPasswordHash)
-      ) {
-        return done(null, {
-          claims: {
-            sub: "super-admin",
-            email: process.env.ADMIN_EMAIL || "admin@urbangrid.ae",
-            first_name: "UrbanGrid",
-            last_name: "Administrator",
-            role: "admin",
-          }
-        });
-      }
-      return done(null, false, { message: 'Invalid credentials' });
-    } catch (error) {
-      return done(error);
-    }
+      const user = ready ? await authenticateAdmin(username, password) : null;
+      done(null, user ? loginUser(user) : false);
+    } catch { done(null, false); }
   }));
 
   // Admin login routes
-  app.post('/api/admin/login', passport.authenticate('local', {
-    successRedirect: '/admin',
-    failureRedirect: '/admin/login?error=1',
-    failureFlash: false
-  }));
+  app.get("/api/admin/login-config", (req, res) => {
+    res.set("Cache-Control", "no-store").json({ username: ADMIN_EMAIL, csrfToken: loginCsrf(req) });
+  });
+  app.post('/api/admin/login', (req, res, next) => {
+    res.set("Cache-Control", "no-store");
+    let sameOrigin = false;
+    try {
+      const from = new URL(req.get("origin") || "");
+      sameOrigin = from.host === req.get("host") && ["https:", ...(process.env.NODE_ENV !== "production" ? ["http:"] : [])].includes(from.protocol);
+    } catch { /* Reject missing/invalid Origin without exposing request details. */ }
+    const token = req.body?.csrfToken;
+    const expected = req.session.adminLoginCsrf;
+    if (!sameOrigin || typeof token !== "string" || !/^[a-f0-9]{64}$/.test(token) || !expected || token.length !== expected.length ||
+        !crypto.timingSafeEqual(Buffer.from(token), Buffer.from(expected))) {
+      return res.status(403).json({ message: "Refresh the sign-in page and try again." });
+    }
+    const now = Date.now(), key = attemptKey(req);
+    failures.forEach((value, address) => { if (value.until <= now) failures.delete(address); });
+    if ((failures.get(key)?.count || 0) >= 5 || (failures.size >= 10000 && !failures.has(key))) {
+      return res.status(429).json({ message: "Too many sign-in attempts. Try again later." });
+    }
+    // Reserve before async password verification, so parallel requests cannot
+    // all pass the limit while previous attempts are still being checked.
+    const bucket = failures.get(key) || { count: 0, until: now + 15 * 60 * 1000 };
+    bucket.count++; failures.set(key, bucket);
+    passport.authenticate("local", (error: unknown, user: any) => {
+      if (error || !user) {
+        return res.redirect(303, "/admin/login?error=1");
+      }
+      req.logIn(user, err => {
+        if (err) return res.status(503).json({ message: "Sign-in is unavailable. Try again later." });
+        failures.delete(key);
+        // Passport regenerates the session on sign-in; do not retain the anonymous session ID.
+        req.session.save(err => err ? res.status(503).json({ message: "Sign-in is unavailable. Try again later." }) : res.redirect(303, "/admin"));
+      });
+    })(req, res, next);
+  });
 
   app.get('/api/admin/logout', (req, res) => {
     req.logout(() => {
-      res.redirect('/');
+      req.session.destroy(() => {
+        res.clearCookie("urbangrid.sid", { httpOnly: true, sameSite: "lax", secure: process.env.NODE_ENV === "production" });
+        res.redirect('/');
+      });
     });
   });
 
   app.get('/api/admin/login', (req, res) => {
+    res.set("Cache-Control", "no-store").set("X-Robots-Tag", "noindex, nofollow");
     const error = req.query.error;
     res.send(`
       <!DOCTYPE html>
@@ -119,13 +158,14 @@ export function setupLocalAuth(app: Express) {
           <h2 style="text-align: center; margin-bottom: 2rem; color: #374151;">Admin Login</h2>
           ${error ? '<div class="error">Invalid username or password</div>' : ''}
           <form method="POST" action="/api/admin/login">
+            <input type="hidden" name="csrfToken" value="${loginCsrf(req)}" />
             <div class="form-group">
-              <label for="username">Username</label>
-              <input type="text" id="username" name="username" required />
+              <label for="username">Admin email</label>
+              <input type="email" id="username" name="username" autocomplete="username" value="${ADMIN_EMAIL}" readonly required />
             </div>
             <div class="form-group">
               <label for="password">Password</label>
-              <input type="password" id="password" name="password" required />
+              <input type="password" id="password" name="password" autocomplete="current-password" required />
             </div>
             <button type="submit">Login</button>
           </form>

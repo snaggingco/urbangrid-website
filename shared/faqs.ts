@@ -13,7 +13,7 @@ export interface FAQEntry {
 
 export const serviceFAQs: Record<string, FAQEntry[]> = {
   'new-build-snagging': [
-    { q: 'What is new build handover snagging?', a: 'New build snagging is a detailed inspection of your property before you accept the keys from the developer. We identify defects in finishes, MEP systems, and safety items so the developer fixes them under warranty before you move in.' },
+    { q: 'What is new build handover snagging?', a: 'New build snagging records accessible, visible defects in finishes, MEP systems and safety items before handover. The photographic report helps you raise items with the developer; repair responsibility and timescales depend on your agreement.' },
     { q: 'When should I book a snagging inspection?', a: 'Book the inspection before your handover walkthrough. This gives you an independent defect list to present to the developer, rather than relying on their own quality control team.' },
     { q: 'What defects are most common in new builds in the UAE?', a: 'The most frequent findings are hollow tiles, uneven paint, AC balancing issues, plumbing leaks, window seal failures, and incomplete fire safety installations. Our engineers document every item with photographs.' }
   ],
@@ -23,9 +23,9 @@ export const serviceFAQs: Record<string, FAQEntry[]> = {
     { q: 'What do you check after a renovation or fit-out?', a: 'We verify finishing quality, MEP modifications, structural changes, compliance with approved plans, and safety system integrity. Every item is photographed and referenced against your contractor\'s specification.' }
   ],
   'dlp-snagging': [
-    { q: 'What is the Defects Liability Period (DLP)?', a: 'The DLP is a one-year warranty period from handover during which the developer is legally obligated to repair defects at no cost to you. In the UAE, this is enforced under Federal Law and RERA regulations.' },
-    { q: 'When should I book a DLP snagging inspection?', a: 'Book in months 10\u201311 of your DLP. This gives you time to formally log all defects with the developer before the warranty expires. Once the DLP ends, uncorrected defects become your financial responsibility.' },
-    { q: 'What happens if defects are found after my DLP expires?', a: 'After DLP expiry, the developer is no longer legally required to fix defects for free. Our pre-expiry inspection maximizes your warranty claims and ensures nothing is missed before your rights lapse.' }
+    { q: 'What is the Defects Liability Period (DLP)?', a: 'The DLP is a contract-defined period for notifying the developer or contractor about defects. Check your handover documents for its start date, duration, covered items and notification requirements. An inspection report is evidence of observed condition, not a legal opinion or guarantee of repair.' },
+    { q: 'When should I book a DLP snagging inspection?', a: 'Allow time for inspection, report preparation, payment and written notification before your contractual deadline. For a stated 12-month DLP, months 10–11 can be a practical planning window; confirm the actual dates and submission process with your developer.' },
+    { q: 'What happens if defects are found after my DLP expires?', a: 'Responsibility may depend on the defect, contract and applicable law. Do not assume that every right ends on one date. Seek qualified legal advice where needed; UrbanGrid records accessible findings but does not determine legal liability.' }
   ],
   'move-in-move-out': [
     { q: 'What is a move-in/move-out inspection?', a: 'It is an independent condition assessment of a rental property documenting its state before you move in and after you move out. This creates a clear, photographic record that protects both tenant and landlord.' },
@@ -33,9 +33,9 @@ export const serviceFAQs: Record<string, FAQEntry[]> = {
     { q: 'Can the inspection report protect my security deposit?', a: 'Yes. A professional condition report with dated photographs provides objective evidence if there is a dispute over deposit deductions. Without it, disagreements often become costly and time-consuming.' }
   ],
   'secondary-market': [
-    { q: 'What is a secondary market property inspection?', a: 'A secondary market inspection is a comprehensive assessment of an existing (resale) property before you complete the purchase. It identifies hidden defects that the seller may not have disclosed.' },
+    { q: 'What is a secondary market property inspection?', a: 'A secondary market inspection assesses the accessible condition of an existing property before purchase. It records visible defects and indications that may warrant further investigation; it cannot guarantee detection of concealed problems.' },
     { q: 'Should I inspect before buying a resale property in the UAE?', a: 'Absolutely. Resale properties may have concealed water damage, structural cracks, electrical faults, or unapproved modifications. An inspection gives you a clear picture of the true condition before you commit.' },
-    { q: 'Can your report help me negotiate the purchase price?', a: 'Yes. Our reports include estimated rectification costs for every defect documented. Buyers regularly use this evidence to negotiate price reductions or request repairs before completion.' }
+    { q: 'Can your report help me negotiate the purchase price?', a: 'The documented findings can inform discussions about repairs or price with the seller. Any negotiation outcome depends on the parties and contract. Obtain specialist repair quotations where needed; the inspection is not a valuation or a promise of savings.' }
   ],
   'developer-projects': [
     { q: 'What is developer and contractor snagging?', a: 'It is an independent quality control inspection conducted before handover to your clients. We identify defects in finishes, MEP, and safety systems so you can correct them before they damage your reputation.' },
@@ -47,39 +47,39 @@ export const serviceFAQs: Record<string, FAQEntry[]> = {
   'reserve-fund-study': [
     { q: 'What is a reserve fund study?', a: 'A reserve fund study (also called a sinking fund analysis) is a long-term financial projection that calculates how much money a strata building needs to maintain and replace major building components over time.' },
     { q: 'Is a reserve fund study required by RERA?', a: 'Yes. RERA mandates reserve fund studies for strata properties in Dubai. The study must be conducted by a qualified professional and updated periodically to ensure the building remains financially viable.' },
-    { q: 'How often should a reserve fund study be conducted?', a: 'RERA typically requires an update every 3\u20135 years, or whenever there is a significant change in the building\'s condition or planned capital expenditure. We provide studies that meet RERA\'s exact documentation requirements.' }
+    { q: 'How often should a reserve fund study be conducted?', a: 'Review the study periodically and when building condition, costs or planned expenditure change. Confirm the applicable regulatory and management requirements for your building before agreeing the update interval and scope.' }
   ],
   'service-charge-allocation': [
     { q: 'What is service charge allocation?', a: 'Service charge allocation is the process of distributing common area maintenance costs (cleaning, security, utilities, landscaping) fairly across all unit owners in a strata building according to RERA guidelines.' },
-    { q: 'How are service charges calculated in the UAE?', a: 'RERA specifies that service charges must be allocated based on unit share (often tied to square footage) and common area usage. We assess the building, verify the calculation method, and ensure full regulatory compliance.' },
-    { q: 'Can your report resolve service charge disputes?', a: 'Yes. Our independent allocation report provides transparent, RERA-compliant cost distribution backed by documented methodology. This evidence is regularly used to resolve disputes between owners\' associations and individual unit owners.' }
+    { q: 'How are service charges calculated in the UAE?', a: 'The applicable allocation method depends on the building documents, ownership shares, costs and regulatory requirements. We review the information supplied and document the proposed method; regulatory approval is a separate process.' },
+    { q: 'Can your report resolve service charge disputes?', a: 'A documented allocation methodology can inform discussions about shared costs. It does not determine legal rights or guarantee acceptance by owners, regulators or dispute-resolution bodies.' }
   ],
   'reinstatement-cost-assessment': [
     { q: 'What is a reinstatement cost assessment?', a: 'It is a professional valuation of the cost to rebuild or reinstate a property to its original condition in the event of total loss. This figure is used by insurers to set adequate coverage limits.' },
-    { q: 'Why do I need a reinstatement cost assessment for insurance?', a: 'If your insured value is too low, you will be underinsured in a claim and the insurer will apply average clause deductions. If it is too high, you are paying unnecessary premiums. Our assessment gets the figure exactly right.' },
+    { q: 'Why do I need a reinstatement cost assessment for insurance?', a: 'An assessment supports discussion of the rebuilding sum insured with your insurer. Costs and policy conditions can change; the assessment is an estimate based on the agreed date, scope and assumptions, not a guarantee of settlement.' },
     { q: 'How is the reinstatement value calculated?', a: 'We assess built-up area, construction type, finishes quality, MEP systems, and current construction costs per square metre in the UAE. The assessment is documented to RERA and insurance industry standards.' }
   ],
   'building-completion-audit': [
     { q: 'What is a building completion audit?', a: 'A building completion audit is a comprehensive verification that a constructed building matches the approved plans, regulatory requirements, and developer\'s specifications before handover and title registration.' },
-    { q: 'Is a completion audit mandatory for handover in the UAE?', a: 'RERA requires developers to complete specific handover procedures and documentation before transferring title. Our audit verifies that all regulatory checkpoints have been met, protecting buyers from accepting non-compliant properties.' },
+    { q: 'Is a completion audit mandatory for handover in the UAE?', a: 'Handover procedures depend on the project, jurisdiction and applicable requirements. Confirm these with the developer and relevant authority. An agreed-scope audit documents findings; it does not issue an occupation permit or regulatory approval.' },
     { q: 'What does the audit verify?', a: 'We check plan compliance, MEP system commissioning, fire safety installations, structural integrity, finishing quality, common area completion, and all regulatory certificates required for the occupation permit.' }
   ],
   'building-condition-survey': [
     { q: 'What is a building condition survey?', a: 'A building condition survey is a detailed assessment of a property\'s physical state, covering structural elements, MEP systems, finishes, and common areas. It is used for maintenance planning and regulatory reporting.' },
     { q: 'How often should a condition survey be conducted?', a: 'For commercial and strata properties, RERA recommends periodic condition surveys as part of ongoing building management. We recommend every 3\u20135 years, or before major maintenance decisions or property transactions.' },
-    { q: 'What systems do you assess in a condition survey?', a: 'We examine structural elements, roofing and waterproofing, electrical and plumbing systems, HVAC, lifts, fire safety, external cladding, and common areas. Every finding is rated by urgency and estimated rectification cost.' }
+    { q: 'What systems do you assess in a condition survey?', a: 'The agreed scope may cover accessible structural elements, roofing, waterproofing, MEP systems, external finishes and common areas. Access limitations, specialist testing and any cost-estimation work are defined before the survey.' }
   ],
 
   // ── Technical Inspections ──
   'technical-due-diligence': [
     { q: 'What is technical due diligence?', a: 'Technical due diligence is a comprehensive engineering assessment of a property before acquisition. It covers structural integrity, MEP systems, compliance status, and hidden risks that could affect investment value.' },
     { q: 'When should I commission technical due diligence?', a: 'Before any significant property acquisition \u2014 whether off-plan, resale, or commercial. The report gives investors, lenders, and fund managers the engineering confidence to proceed or renegotiate.' },
-    { q: 'What risks does technical due diligence identify?', a: 'We identify structural defects, MEP deficiencies, compliance gaps, environmental risks, maintenance backlogs, and unapproved modifications. Every risk is quantified with estimated remediation costs.' }
+    { q: 'What risks does technical due diligence identify?', a: 'An agreed-scope review can flag visible condition issues, MEP concerns, documentation gaps and maintenance needs. Concealed defects and environmental matters may require specialist investigation. Cost allowances are provided only where agreed and remain estimates.' }
   ],
   'dilapidation-survey': [
     { q: 'What is a dilapidation survey?', a: 'A dilapidation survey documents the condition of a property before and after nearby construction work. It creates a legal record that protects adjacent property owners from liability for pre-existing damage.' },
-    { q: 'When is a dilapidation survey required in the UAE?', a: 'Developers and contractors are increasingly required by municipalities and insurers to conduct pre-construction dilapidation surveys of adjacent properties. We provide reports accepted by Dubai Municipality and major insurers.' },
-    { q: 'Does a dilapidation survey provide legal protection?', a: 'Yes. The report establishes a baseline condition with dated photographs and detailed descriptions. If post-construction damage occurs, this evidence determines whether the contractor is liable.' }
+    { q: 'When is a dilapidation survey required in the UAE?', a: 'Check project conditions and the requirements of the relevant authority or insurer before nearby construction begins. Agree the access, area and reporting scope; acceptance by third parties is not guaranteed.' },
+    { q: 'Does a dilapidation survey provide legal protection?', a: 'The report records baseline condition with dated photographs and observations. It can inform a later comparison, but it does not determine causation or legal liability.' }
   ],
   'thermographic-survey': [
     { q: 'What is a thermographic survey?', a: 'A thermographic survey uses infrared thermal imaging cameras to detect temperature variations across a building\'s surfaces. These variations reveal hidden defects invisible to the naked eye.' },

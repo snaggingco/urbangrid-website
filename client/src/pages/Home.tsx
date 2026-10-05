@@ -1,6 +1,9 @@
-import { useEffect, useState, lazy, Suspense, startTransition } from "react";
+import { useState, lazy, Suspense } from "react";
 import { Link } from "wouter";
-import HeroChatBar from "@/components/HeroChatBar";
+import HomeHero, { HomeStats } from "@/components/first-paint/HomeHero";
+import ServiceCatalogSections, { HomeBuildingConsultancy } from "@/components/ServiceCatalogSections";
+import { homepageFAQs } from "@shared/publicFAQs";
+import { companyRegistration } from "@shared/companyRegistration";
 
 // Lazy-loaded — both pull in react-phone-number-input (heavy country metadata),
 // so deferring them keeps it out of the initial every-page bundle.
@@ -8,291 +11,76 @@ const ConsultationForm = lazy(() => import("@/components/ConsultationForm"));
 const SampleReportModal = lazy(() => import("@/components/SampleReportModal"));
 import { Button } from "@/components/ui/button";
 import {
-  ChevronDown, ArrowRight, Shield, Globe,
+  ArrowRight, Shield, Globe,
   Zap, Droplets, Wind, Building2,
-  Layers, DoorOpen, Flame, Sun, Users, Star, Quote
+  Layers, DoorOpen, Flame, Sun, Users
 } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import internachi1 from "@assets/internachi.webp";
-import internachi2 from "@assets/internachi2.webp";
 
 export default function Home() {
-  const [counts, setCounts] = useState({ inspections: 0, defects: 0, cities: 0 });
-  const [activeTab, setActiveTab] = useState<keyof typeof serviceCategories>('property-snagging');
   const [reportModalOpen, setReportModalOpen] = useState(false);
 
-  useEffect(() => {
-    const duration = 2000;
-    const steps = 50;
-    const interval = duration / steps;
-    let step = 0;
-    const timer = setInterval(() => {
-      step++;
-      setCounts({
-        inspections: Math.floor((40000 / steps) * step),
-        defects: Math.floor((600000 / steps) * step),
-        cities: Math.floor((7 / steps) * step),
-      });
-      if (step >= steps) clearInterval(timer);
-    }, interval);
-    return () => clearInterval(timer);
-  }, []);
-
-  const serviceCategories = {
-    'property-snagging': {
-      title: 'Property Snagging',
-      subtitle: 'Comprehensive property inspection and snagging services',
-      categorySlug: 'property-snagging',
-      services: [
-        { id: 1, title: "New Build Handover Snagging", description: "We inspect your new property before you accept the keys — identifying every defect so the developer fixes them, not you.", slug: "new-build-snagging" },
-        { id: 2, title: "Post Renovation Inspection", description: "After fit-out or renovation work, we verify every detail meets your specification and quality standards before final payment.", slug: "post-renovation-inspection" },
-        { id: 3, title: "DLP Snagging", description: "We identify hidden issues before your Defects Liability Period expires — giving you one last chance to have the developer cover repairs.", slug: "dlp-snagging" },
-        { id: 4, title: "Move-in / Move-out Snagging", description: "A detailed condition report protects your deposit and documents the property's state before and after your tenancy.", slug: "move-in-move-out" },
-        { id: 5, title: "Secondary Market Snagging", description: "Before you commit to a resale property, we uncover hidden defects that give you negotiating power or the confidence to walk away.", slug: "secondary-market" },
-        { id: 6, title: "Developer & Contractor Snagging", description: "We provide independent quality control for your project — catching defects before your clients do.", slug: "developer-projects" }
-      ]
-    },
-    'rera-services': {
-      title: 'RERA Services',
-      subtitle: 'Professional regulatory compliance and assessment services',
-      categorySlug: 'rera-services',
-      services: [
-        { id: 7, title: "Reserve Fund Study / Sinking Fund", description: "Comprehensive analysis of building reserve fund requirements and long-term capital expenditure planning for strata properties.", slug: "reserve-fund-study" },
-        { id: 8, title: "Service Charge Cost Allocation", description: "Detailed assessment and allocation of service charges across common property areas ensuring fair distribution and RERA compliance.", slug: "service-charge-allocation" },
-        { id: 9, title: "Reinstatement Cost Assessment", description: "Professional valuation of property reinstatement costs for insurance purposes and regulatory compliance requirements.", slug: "reinstatement-cost-assessment" },
-        { id: 10, title: "Building Completion Audit", description: "Comprehensive audit to verify building completion status against approved plans and regulatory requirements for RERA compliance.", slug: "building-completion-audit" },
-        { id: 11, title: "Building Condition Survey", description: "Detailed condition assessment of building components and systems for regulatory reporting and maintenance planning.", slug: "building-condition-survey" }
-      ]
-    },
-    'technical-inspections': {
-      title: 'Technical Inspections',
-      subtitle: 'Specialized technical assessments and surveys',
-      categorySlug: 'technical-inspections',
-      services: [
-        { id: 12, title: "Technical Due Diligence", description: "Comprehensive technical analysis for property acquisition, covering structural, mechanical, and compliance aspects for informed investment decisions.", slug: "technical-due-diligence" },
-        { id: 13, title: "Dilapidation Survey", description: "Pre and post-construction condition assessments of adjacent properties to document potential impact from nearby construction activities.", slug: "dilapidation-survey" },
-        { id: 14, title: "Thermographic Survey", description: "Advanced thermal imaging inspections to detect energy losses, moisture intrusion, and electrical issues invisible to conventional inspection methods.", slug: "thermographic-survey" },
-        { id: 15, title: "Noise Survey", description: "Professional acoustic assessments to measure and analyze noise levels for compliance with local regulations and habitability standards.", slug: "noise-survey" },
-        { id: 16, title: "Structural Survey", description: "Detailed structural engineering assessment examining building integrity, load-bearing elements, and structural compliance with safety standards.", slug: "structural-survey" }
-      ]
-    }
-  };
-
-  const tabs = [
-    { key: 'property-snagging', label: 'Property Snagging' },
-    { key: 'rera-services', label: 'RERA Services' },
-    { key: 'technical-inspections', label: 'Technical Inspections' }
-  ];
-
   const inspectionCategories = [
-    { icon: <Wind className="w-5 h-5" />, title: "Air Conditioning & Ventilation", caption: "We check airflow, refrigerant levels, and duct sealing so your cooling bills don't spike after handover." },
-    { icon: <Zap className="w-5 h-5" />, title: "Electrical Systems", caption: "Every circuit, socket, and DB board is tested against UAE DEWA regulations — before you move in." },
-    { icon: <Droplets className="w-5 h-5" />, title: "Plumbing & Drainage", caption: "Pressure tests and flow checks catch leaks and blockages that are invisible until they cause real damage." },
-    { icon: <Shield className="w-5 h-5" />, title: "Waterproofing", caption: "Bathrooms, terraces, and roof membranes are the most common failure points — we check every one." },
-    { icon: <Building2 className="w-5 h-5" />, title: "Structural Elements", caption: "Cracks, settlement, and load-bearing issues are identified by qualified engineers, not general inspectors." },
-    { icon: <Layers className="w-5 h-5" />, title: "Finishes & Tiling", caption: "Hollow tiles, uneven grout, paint defects, and silicone failures — all logged with photos in your report." },
-    { icon: <DoorOpen className="w-5 h-5" />, title: "Doors & Windows", caption: "Alignment, sealing, and hardware are checked so you don't pay for replacements within the first year." },
-    { icon: <Flame className="w-5 h-5" />, title: "Fire Safety Systems", caption: "Smoke detectors, sprinklers, and emergency lighting are tested to NFPA 72 and UAE Civil Defence standards." },
-    { icon: <Sun className="w-5 h-5" />, title: "Balconies & External", caption: "Railings, drainage falls, and external cladding are inspected so you enjoy your outdoor space safely." },
-    { icon: <Users className="w-5 h-5" />, title: "Common Areas", caption: "Lifts, lobbies, parking, and plant rooms are documented — critical for RERA compliance and resale value." }
+    { icon: <Wind className="w-5 h-5" />, title: "Air Conditioning & Ventilation", caption: "Accessible vents and selected operating conditions can be observed during the agreed inspection." },
+    { icon: <Zap className="w-5 h-5" />, title: "Electrical Systems", caption: "Visible fixtures and agreed functional checks are recorded; this is not an electrical compliance certificate." },
+    { icon: <Droplets className="w-5 h-5" />, title: "Plumbing & Drainage", caption: "Accessible fittings and visible signs of leakage are noted during the site visit." },
+    { icon: <Shield className="w-5 h-5" />, title: "Waterproofing", caption: "Visible finishes and accessible areas are reviewed; concealed membranes cannot be confirmed visually." },
+    { icon: <Building2 className="w-5 h-5" />, title: "Structural Elements", caption: "Visible cracks and accessible elements may be noted; a visual inspection is not structural certification." },
+    { icon: <Layers className="w-5 h-5" />, title: "Finishes & Tiling", caption: "Accessible finishes are reviewed and observable items can be photographed and location-referenced." },
+    { icon: <DoorOpen className="w-5 h-5" />, title: "Doors & Windows", caption: "Accessible operation, visible alignment and apparent sealing conditions are observed." },
+    { icon: <Flame className="w-5 h-5" />, title: "Fire Safety Systems", caption: "Visible devices may be recorded; system testing and authority approvals are outside a standard visual inspection." },
+    { icon: <Sun className="w-5 h-5" />, title: "Balconies & External", caption: "Accessible balconies and visible exterior elements are reviewed within the confirmed inspection scope." },
+    { icon: <Users className="w-5 h-5" />, title: "Common Areas", caption: "Common-area access and scope must be agreed with the relevant building management." }
   ];
-
-  const testimonials = [
-    {
-      name: "Khalid A.",
-      property: "3BR Apartment · Dubai Marina",
-      rating: 5,
-      defect: "They found 31 defects the developer's own team missed — including two live wiring faults behind the kitchen. Saved us easily AED 55,000.",
-    },
-    {
-      name: "Sarah M.",
-      property: "2BR Apartment · Downtown Dubai",
-      rating: 5,
-      defect: "Water was seeping into the bathroom wall — invisible to the eye. UrbanGrid caught it with thermal imaging before we signed. The developer fixed it under warranty.",
-    },
-    {
-      name: "Priya R.",
-      property: "4BR Villa · Arabian Ranches",
-      rating: 5,
-      defect: "23 snagging items documented with photos. The developer resolved every single one within our DLP window. The report paid for itself 20 times over.",
-    },
-    {
-      name: "Omar H.",
-      property: "1BR Studio · Business Bay",
-      rating: 5,
-      defect: "Got the report within 24 hours, clear enough that even my developer's site manager couldn't dispute any item. Professional service from start to finish.",
-    },
-    {
-      name: "Fatima N.",
-      property: "2BR Apartment · Yas Island, Abu Dhabi",
-      rating: 5,
-      defect: "The AC system was undersized for the apartment — an AED 18,000 problem UrbanGrid flagged before I accepted the keys. Essential service.",
-    },
-    {
-      name: "James T.",
-      property: "3BR Apartment · Al Reem Island, Abu Dhabi",
-      rating: 5,
-      defect: "Used UrbanGrid for a secondary market purchase. Their report helped me negotiate AED 40,000 off the asking price based on documented defects.",
-    }
-  ];
-
-  const currentServices = serviceCategories[activeTab].services;
 
   return (
     <>
-      {/* ── HERO ─────────────────────────────────────────────────────────── */}
-      <section className="relative min-h-[80vh] sm:min-h-[85vh] md:min-h-[85vh] flex flex-col justify-center bg-zinc-900 mt-8 lg:mt-12 overflow-hidden">
-        <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(6,78,59,0.48),transparent_38%)]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-zinc-900/60 via-zinc-900/45 to-zinc-900" />
-
-        <div className="relative z-10 max-w-6xl mx-auto w-full px-6 sm:px-10 lg:px-16 pt-10 sm:pt-16 pb-10 sm:pb-24">
-
-          <h1 className="text-[1.75rem] sm:text-4xl lg:text-7xl font-bold text-white leading-[1.2] sm:leading-[1.05] tracking-tight mb-4 sm:mb-5 max-w-3xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
-            UAE's Leading Home Inspection
-            <span className="block text-brand-white">&amp; Snagging Company.</span>
-          </h1>
-
-          <p className="text-sm sm:text-lg text-zinc-300 mb-2 max-w-lg leading-relaxed font-normal">
-            40,000+ UAE properties inspected. 600,000+ defects documented.
-          </p>
-          <p className="text-xs sm:text-sm text-zinc-500 mb-6 sm:mb-8 max-w-lg leading-relaxed font-normal tracking-wide">
-            UAE &nbsp;·&nbsp;
-            <a href="https://www.stratasurveyor.com" target="_blank" rel="noopener" className="hover:text-zinc-300 transition-colors">KSA</a>
-            &nbsp;·&nbsp;
-            <a href="https://www.snagging.in" target="_blank" rel="noopener" className="hover:text-zinc-300 transition-colors">India</a>
-            &nbsp;·&nbsp;
-            <a href="https://www.urbangrid.co.uk" target="_blank" rel="noopener" className="hover:text-zinc-300 transition-colors">United Kingdom</a>
-          </p>
-
-          {/* Nova AI chat bar */}
-          <HeroChatBar />
-
-          {/* CTA buttons */}
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6 sm:mb-6">
-            <Link href="/contact">
-              <Button
-                size="lg"
-                className="bg-brand-green text-white hover:bg-emerald-700 transition-all px-8 py-6 text-sm font-semibold tracking-wide rounded-none group relative overflow-hidden active:scale-95 w-full sm:w-auto"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-shimmer" />
-                <span className="flex items-center gap-3">
-                  Book Inspection
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </span>
-              </Button>
-            </Link>
-
-            <button
-              onClick={() => startTransition(() => setReportModalOpen(true))}
-              className="inline-flex items-center gap-2 border border-zinc-600 text-zinc-400 px-8 py-[14px] text-sm font-semibold hover:border-white hover:text-white transition-all w-full sm:w-auto justify-center sm:justify-start"
-            >
-              Download Sample Report
-              <ArrowRight className="w-4 h-4" />
-            </button>
+      <HomeHero
+        onSampleReport={() => setReportModalOpen(true)}
+      />
+      <HomeStats counts={{ inspections: 0, defects: 0, cities: 0 }} />
+      <div className="border-b border-zinc-100 bg-zinc-50/70">
+        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-6 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-10 lg:px-16">
+          <div className="flex items-center gap-3">
+            <Shield aria-hidden="true" className="h-4 w-4 shrink-0 text-brand-green" />
+            <p className="text-xs leading-relaxed text-zinc-600">
+              <span className="font-semibold text-zinc-900">RERA Registered</span>
+              <span className="mx-2 text-zinc-300" aria-hidden="true">|</span>
+              Registration number <span className="font-mono text-zinc-800">{companyRegistration.registrationNumber}</span>
+            </p>
           </div>
-
-          {/* Trust badges */}
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-[11px] text-zinc-500 font-medium">
-            <span className="flex items-center gap-1.5"><Shield className="w-3 h-3 text-brand-green" />Reports within 24h</span>
-            <span className="text-zinc-700">·</span>
-            <span>Contractor-ready format</span>
-            <span className="text-zinc-700">·</span>
-            <span>7 Emirates covered</span>
-          </div>
-
-          {/* Service dropdowns — desktop only */}
-          <div className="hidden md:flex flex-wrap gap-3 mt-8">
-            {Object.entries(serviceCategories).map(([key, category]) => (
-              <DropdownMenu key={key}>
-                <DropdownMenuTrigger asChild>
-                  <button className="text-zinc-500 hover:text-white transition-colors text-[11px] font-medium flex items-center gap-1 tracking-wide border-b border-zinc-700 hover:border-zinc-400 pb-0.5">
-                    {category.title}
-                    <ChevronDown className="w-3 h-3 opacity-50" />
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-64 bg-zinc-900 border-zinc-700 rounded-none p-2 shadow-2xl">
-                  {category.services.map((service) => (
-                    <DropdownMenuItem key={service.id} className="focus:bg-brand-green/10 focus:text-brand-green cursor-pointer rounded-none py-3 px-4">
-                      <Link href={`/services/${category.categorySlug}/${service.slug}`} className="w-full flex items-center justify-between group text-zinc-400 hover:text-white">
-                        <span className="text-xs font-medium">{service.title}</span>
-                        <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all" />
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ))}
-          </div>
-        </div>
-
-      </section>
-
-      {/* Stats strip — mobile: 3 key stats in one row. Desktop: all 5 */}
-      <div className="bg-zinc-900 border-t border-white/10">
-        <div className="max-w-6xl mx-auto px-4 sm:px-10 lg:px-16">
-          {/* Mobile */}
-          <div className="md:hidden grid grid-cols-3 divide-x divide-white/10">
-            <div className="py-3 px-1 text-center">
-              <div className="text-sm font-bold text-white">{counts.inspections.toLocaleString()}+</div>
-              <div className="text-[7px] uppercase tracking-[0.1em] text-zinc-500 font-medium mt-0.5">Inspected</div>
-            </div>
-            <div className="py-3 px-1 text-center">
-              <div className="text-sm font-bold text-white">7</div>
-              <div className="text-[7px] uppercase tracking-[0.1em] text-zinc-500 font-medium mt-0.5">Emirates</div>
-            </div>
-            <div className="py-3 px-1 text-center">
-              <div className="text-sm font-bold text-white">24h</div>
-              <div className="text-[7px] uppercase tracking-[0.1em] text-zinc-500 font-medium mt-0.5">Report Target</div>
-            </div>
-          </div>
-          {/* Desktop */}
-          <div className="hidden md:grid grid-cols-4 divide-x divide-white/10">
-            <div className="py-5 px-4">
-              <div className="text-xl lg:text-2xl font-bold text-white">{counts.inspections.toLocaleString()}+</div>
-              <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Properties Inspected</div>
-            </div>
-            <div className="py-5 px-4">
-              <div className="text-xl lg:text-2xl font-bold text-white">{counts.defects.toLocaleString()}+</div>
-              <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Defects Found</div>
-            </div>
-            <div className="py-5 px-4">
-              <div className="text-xl lg:text-2xl font-bold text-white">{counts.cities}</div>
-              <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Emirates Covered</div>
-            </div>
-            <div className="py-5 px-4">
-              <div className="text-xl lg:text-2xl font-bold text-white">24h</div>
-              <div className="text-[9px] uppercase tracking-[0.15em] text-zinc-500 font-medium mt-1">Report Delivery Target</div>
-            </div>
-          </div>
+          <Link
+            href={companyRegistration.credentialsHref}
+            aria-label="View UrbanGrid's company-level regulatory registration details"
+            className="ml-7 inline-flex w-fit items-center gap-1 text-xs font-semibold text-brand-green underline underline-offset-4 hover:text-emerald-700 sm:ml-0"
+          >
+            View registration details <ArrowRight aria-hidden="true" className="h-3 w-3" />
+          </Link>
         </div>
       </div>
+      <section className="border-b border-zinc-100 bg-white py-10">
+        <div className="mx-auto flex max-w-6xl flex-col gap-5 px-6 sm:px-10 md:flex-row md:items-center md:justify-between lg:px-16">
+          <div>
+            <p className="text-sm font-semibold text-zinc-900">Stage 1 residential inspections from AED 800 base</p>
+            <p className="mt-1 max-w-2xl text-xs leading-relaxed text-zinc-500">AED 800 is the minimum before 5% VAT (AED 840 minimum total for Stage 1). The report target is within 24 hours after a complete inspection and full payment.</p>
+          </div>
+          <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs font-semibold">
+            <Link href="/pricing" className="text-brand-green underline underline-offset-4">Residential pricing</Link>
+            <Link href="/sample-report" className="text-brand-green underline underline-offset-4">Report overview</Link>
+          </div>
+        </div>
+      </section>
+      <ServiceCatalogSections />
 
-      {/* ── CERTIFICATION STRIP ───────────────────────────────────────────── */}
+      {/* ── INSPECTION APPROACH ───────────────────────────────────────────── */}
       <section className="py-16 bg-white border-b border-zinc-100">
         <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
-          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-            <div className="lg:w-1/2">
-              <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Certification</p>
-              <h2 className="text-3xl lg:text-4xl font-bold text-zinc-900 leading-tight mb-4">
-                Certified by InterNACHI
-              </h2>
-              <p className="text-zinc-500 text-sm leading-relaxed">
-                Internationally certified home inspectors committed to professional excellence and industry standards. Our credentials represent the highest level of inspection expertise available.
-              </p>
-            </div>
-            <div className="flex items-center gap-8 lg:gap-12">
-              <div className="p-6 border border-zinc-100 hover:border-brand-green/30 transition-colors">
-                <img src={internachi1} alt="InterNACHI Certification" className="h-16 lg:h-20 w-auto object-contain" loading="lazy" width="80" height="69" />
-              </div>
-              <div className="p-6 border border-zinc-100 hover:border-brand-green/30 transition-colors">
-                <img src={internachi2} alt="InterNACHI Badge" className="h-16 lg:h-20 w-auto object-contain" loading="lazy" width="80" height="80" />
-              </div>
-            </div>
+          <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Inspection approach</p>
+          <div className="grid gap-8 sm:grid-cols-3">
+            {[
+              ["Observe", "Review accessible areas and visible components during the physical inspection."],
+              ["Document", "Record findings with location details and photographs where useful."],
+              ["Explain", "Present observations in a report that supports the client’s own follow-up."],
+            ].map(([title, body]) => <div key={title} className="border-t border-zinc-200 pt-5"><h2 className="text-lg font-bold text-zinc-900">{title}</h2><p className="mt-2 text-sm leading-relaxed text-zinc-500">{body}</p></div>)}
           </div>
         </div>
       </section>
@@ -307,7 +95,7 @@ export default function Home() {
                 What We Inspect in Your Property
               </h2>
               <p className="text-zinc-500 text-sm leading-relaxed max-w-sm">
-                Engineer-led inspections that have uncovered 600,000+ defects across 40,000 UAE properties — every category covered, nothing glossed over.
+                A structured visual review of accessible areas, with findings recorded clearly for follow-up.
               </p>
             </div>
           </div>
@@ -338,62 +126,7 @@ export default function Home() {
       <Suspense fallback={<div className="min-h-[400px]" />}>
         <ConsultationForm />
       </Suspense>
-
-      {/* ── SERVICES ─────────────────────────────────────────────────────── */}
-      <section className="py-24 lg:py-32 bg-zinc-50">
-        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
-          <div className="mb-16">
-            <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Services</p>
-            <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
-              <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight max-w-lg">
-                Our Professional Services
-              </h2>
-              <p className="text-zinc-500 text-sm leading-relaxed max-w-sm">
-                Engineer-led inspections that have uncovered 600,000+ defects across 40,000 UAE properties — protecting your investment at every stage.
-              </p>
-            </div>
-          </div>
-
-          {/* Tabs */}
-          <div className="flex gap-0 mb-12 border-b border-zinc-200">
-            {tabs.map((tab) => (
-              <button
-                key={tab.key}
-                onClick={() => setActiveTab(tab.key as keyof typeof serviceCategories)}
-                className={`px-4 sm:px-6 py-3 text-xs font-semibold tracking-wide transition-all border-b-2 -mb-px ${
-                  activeTab === tab.key
-                    ? 'border-brand-green text-brand-green'
-                    : 'border-transparent text-zinc-500 hover:text-zinc-700'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Services list */}
-          <div className="divide-y divide-zinc-200">
-            {currentServices.map((service, idx) => (
-              <Link key={service.id} href={`/services/${serviceCategories[activeTab].categorySlug}/${service.slug}`}>
-                <div className="group flex items-start justify-between gap-6 py-7 cursor-pointer hover:bg-zinc-100 -mx-4 px-4 transition-colors">
-                  <div className="flex items-start gap-6">
-                    <span className="text-[10px] font-semibold tracking-widest text-zinc-500 pt-1 w-6 shrink-0">
-                      {String(idx + 1).padStart(2, '0')}
-                    </span>
-                    <div>
-                      <h3 className="text-base font-semibold text-zinc-900 group-hover:text-brand-green transition-colors mb-1">
-                        {service.title}
-                      </h3>
-                      <p className="text-zinc-500 text-xs leading-relaxed max-w-lg">{service.description}</p>
-                    </div>
-                  </div>
-                  <ArrowRight className="w-4 h-4 text-zinc-500 group-hover:text-brand-green group-hover:translate-x-1 transition-all mt-1 shrink-0" />
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
+      <HomeBuildingConsultancy />
 
       {/* ── PHILOSOPHY / WHY CHOOSE ───────────────────────────────────────── */}
       <section className="py-24 lg:py-32 bg-white">
@@ -406,10 +139,10 @@ export default function Home() {
               </h2>
               <p className="text-brand-green text-sm font-semibold mb-6">Here's how we protect it.</p>
               <p className="text-zinc-500 text-sm leading-relaxed mb-6">
-                In 10+ years and 40,000+ UAE inspections, we've seen the same defects over and over — faulty wiring hidden behind walls, waterproofing failures that show up two years too late, AC systems that fail before summer. Your report gives you the evidence to have every one of them fixed at the developer's expense, not yours.
+                A property inspection gives you a dated record of conditions that could be observed and accessed on the day. Findings can help you ask informed questions, raise items with the relevant party and decide what specialist advice may be needed.
               </p>
               <p className="text-zinc-500 text-sm leading-relaxed mb-10">
-                Every inspection is led by a qualified engineer. Your report arrives within 24 hours in a contractor-ready format — specific enough that no developer can dispute it, clear enough that you can act on it immediately.
+                Reports are targeted within 24 hours after the physical inspection and full payment. Scope, access and report timing are confirmed for each booking.
               </p>
               <Link href="/about">
                 <button className="flex items-center gap-2 text-sm font-semibold text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all">
@@ -430,8 +163,8 @@ export default function Home() {
                 decoding="async"
               />
               <div className="absolute -bottom-6 -right-6 bg-zinc-950 text-white p-6">
-                <div className="text-3xl font-bold text-brand-green">600,000+</div>
-                <div className="text-xs text-zinc-500 mt-1 uppercase tracking-widest">Defects Documented</div>
+                <div className="text-base font-bold text-brand-green">Observed conditions</div>
+                <div className="text-xs text-zinc-500 mt-1 uppercase tracking-widest">Recorded with context</div>
               </div>
             </div>
           </div>
@@ -462,41 +195,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── TESTIMONIALS ──────────────────────────────────────────────────── */}
+      {/* ── EVIDENCE-LED METHOD ───────────────────────────────────────────── */}
       <section className="py-24 lg:py-32 bg-white">
         <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
           <div className="mb-16">
-            <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Client Stories</p>
+              <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">A useful record</p>
             <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
-              <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight max-w-lg">
-                What Our Clients Say
-              </h2>
-              <div className="flex items-center gap-3">
-                <p className="text-zinc-500 text-sm">
-                  Client experiences from completed UrbanGrid inspection projects
-                </p>
-              </div>
+              <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight max-w-lg">Evidence made practical.</h2>
+              <p className="text-zinc-500 text-sm max-w-sm">A clear structure helps you understand what was observed, where it was seen and what may need further attention.</p>
             </div>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-zinc-100">
-            {testimonials.map((t) => (
-              <div key={t.name} className="bg-white p-8 flex flex-col gap-5">
-                <Quote className="w-6 h-6 text-brand-green/30" />
-                <p className="text-zinc-700 text-sm leading-relaxed flex-1">"{t.defect}"</p>
-                <div className="flex items-center justify-between pt-4 border-t border-zinc-100">
-                  <div>
-                    <p className="text-xs font-bold text-zinc-900">{t.name}</p>
-                    <p className="text-[11px] text-zinc-500 mt-0.5">{t.property}</p>
-                  </div>
-                  <div className="flex">
-                    {Array.from({ length: t.rating }).map((_, i) => (
-                      <Star key={i} className="w-3 h-3 fill-yellow-500 text-yellow-500" />
-                    ))}
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="grid grid-cols-1 gap-px border border-zinc-200 bg-zinc-200 md:grid-cols-3">
+            {[
+              ["Location", "Room and area references help connect an observation to the place it was seen."],
+              ["Photographs", "Images add context to visible findings and help with later review."],
+              ["Limitations", "The report distinguishes observations from concealed or inaccessible conditions that require other investigation."],
+            ].map(([title, body]) => <article key={title} className="bg-white p-8"><h3 className="text-sm font-bold text-zinc-900">{title}</h3><p className="mt-3 text-sm leading-relaxed text-zinc-500">{body}</p></article>)}
           </div>
 
           <div className="mt-10 text-center">
@@ -514,10 +228,10 @@ export default function Home() {
             <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Standards</p>
             <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
               <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight max-w-lg">
-                International Standards We Follow
+                Technical references, carefully scoped
               </h2>
               <p className="text-zinc-500 text-sm leading-relaxed max-w-sm">
-                Our inspections strictly adhere to internationally recognised standards for fire safety, HVAC systems, and structural integrity.
+                Specialist standards may inform separately agreed scopes. A standard visual property inspection is not a certification or full standards-compliance audit.
               </p>
             </div>
           </div>
@@ -527,7 +241,7 @@ export default function Home() {
               {
                 label: "NFPA",
                 title: "Fire Safety Standards",
-                body: "Following NFPA 70 (NEC), NFPA 72 (Fire Alarm), NFPA 101 (Life Safety Code), and NFPA 25 (Fire Protection Systems) for comprehensive safety inspections.",
+                body: "NFPA publishes references for electrical, alarm, life-safety and fire-protection systems. Any specialist testing or compliance assessment needs a separately agreed scope.",
                 href: "https://www.nfpa.org",
                 color: "text-red-500",
                 icon: "fas fa-fire-extinguisher"
@@ -535,7 +249,7 @@ export default function Home() {
               {
                 label: "ASHRAE",
                 title: "HVAC & Air Quality",
-                body: "Implementing ASHRAE Standard 180 for building commissioning and ASHRAE 62.1 for ventilation to ensure optimal indoor air quality.",
+                body: "ASHRAE publishes guidance for building systems and ventilation. A visual inspection does not commission HVAC systems or certify indoor air quality.",
                 href: "https://www.ashrae.org",
                 color: "text-blue-500",
                 icon: "fas fa-wind"
@@ -543,7 +257,7 @@ export default function Home() {
               {
                 label: "ASTM",
                 title: "Material & Structural",
-                body: "Utilising ASTM E2018 for Property Condition Assessments and ASTM standards for material testing and structural integrity evaluations.",
+                body: "ASTM publishes standards used across property and materials work. Formal condition assessments, testing and structural evaluations require an agreed specialist scope.",
                 href: "https://www.astm.org",
                 color: "text-brand-green",
                 icon: "fas fa-cogs"
@@ -596,9 +310,9 @@ export default function Home() {
           {/* Primary 3-city cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-zinc-200 border border-zinc-200">
             {[
-              { city: "Dubai", href: "/locations/dubai", stat: "15,000+", note: "Inspections completed", desc: "Dubai Marina, Downtown, Business Bay, Palm Jumeirah and all Dubai areas.", icon: "fas fa-building" },
-              { city: "Abu Dhabi", href: "/locations/abu-dhabi", stat: "12,000+", note: "Inspections completed", desc: "Saadiyat Island, Yas Island, Al Reem and the entire capital.", icon: "fas fa-mosque" },
-              { city: "Sharjah", href: "/locations/sharjah", stat: "8,000+", note: "Inspections completed", desc: "Residential communities, new developments and heritage properties.", icon: "fas fa-university" }
+              { city: "Dubai", href: "/locations/dubai", stat: "Coverage", note: "Apartments, villas & townhouses", desc: "Dubai Marina, Downtown, Business Bay, Palm Jumeirah and other Dubai areas.", icon: "fas fa-building" },
+              { city: "Abu Dhabi", href: "/locations/abu-dhabi", stat: "Coverage", note: "Residential properties", desc: "Saadiyat Island, Yas Island, Al Reem and other Abu Dhabi areas.", icon: "fas fa-mosque" },
+              { city: "Sharjah", href: "/locations/sharjah", stat: "Coverage", note: "Residential properties", desc: "Residential communities and new developments across Sharjah.", icon: "fas fa-university" }
             ].map((loc) => (
               <Link key={loc.city} href={loc.href}>
                 <div className="p-8 lg:p-10 h-full group cursor-pointer hover:bg-zinc-50 transition-colors">
@@ -652,10 +366,7 @@ export default function Home() {
           </div>
           <div className="divide-y divide-zinc-200 border-t border-b border-zinc-200">
             {[
-              { q: "What is included in a property snagging inspection?", a: "We check finishes, fixtures, MEP systems, safety items, and visible defects, then provide a clear report with photos and recommendations." },
-              { q: "How fast do you deliver the report?", a: "Most reports are delivered within 24 hours after the inspection is completed." },
-              { q: "Do you inspect villas and apartments?", a: "Yes, we inspect villas, apartments, townhouses, and commercial units across the UAE." },
-              { q: "Can I book a consultation before the inspection?", a: "Yes, you can contact us first for guidance, pricing, and the best inspection type for your property." }
+              ...homepageFAQs
             ].map((faq) => (
               <div key={faq.q} className="py-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <h3 className="text-sm font-semibold text-zinc-800">{faq.q}</h3>
@@ -678,7 +389,7 @@ export default function Home() {
             </div>
             <div className="flex flex-col gap-4 lg:items-end">
               <p className="text-zinc-500 text-sm leading-relaxed max-w-xs lg:text-right">
-                Reports delivered within 24 hours. Engineers across all 7 Emirates. The UAE's most thorough inspection, or your money back.
+                Report target within 24 hours after a complete inspection and full payment. Ask about access, scope and pricing before booking.
               </p>
               <div className="flex flex-col sm:flex-row gap-3 mt-4">
                 <Button asChild size="lg" className="bg-brand-green text-white hover:bg-emerald-700 px-8 py-6 text-sm font-semibold rounded-none">
@@ -696,20 +407,16 @@ export default function Home() {
           </div>
 
           <div className="mt-16 pt-8 border-t border-zinc-800 flex flex-wrap gap-8 items-center">
-            <div className="flex items-center gap-2 text-zinc-500 text-xs font-medium">
+              <div className="flex items-center gap-2 text-zinc-500 text-xs font-medium">
               <Shield className="w-3 h-3 text-brand-green" />
-              <span>RERA Approved</span>
+              <span>Independent observations</span>
             </div>
             <div className="flex items-center gap-2 text-zinc-500 text-xs font-medium">
               <Globe className="w-3 h-3 text-brand-green" />
               <span>International Standards</span>
             </div>
             <div className="flex items-center gap-2 text-zinc-500 text-xs font-medium">
-              <i className="fas fa-award text-brand-green text-xs"></i>
-              <span>InterNACHI Certified</span>
-            </div>
-            <div className="flex items-center gap-2 text-zinc-500 text-xs font-medium">
-              <Star className="w-3 h-3 text-yellow-500" />
+              <Shield className="w-3 h-3 text-brand-green" />
               <span>Independent, photographic inspection reports</span>
             </div>
           </div>

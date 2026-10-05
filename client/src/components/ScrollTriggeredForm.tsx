@@ -4,13 +4,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import { apiRequest } from "@/lib/queryClient";
-import { trackConversion } from "@/lib/analytics";
+import { submitLead } from "@/lib/leads";
 import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 
 export default function ScrollTriggeredForm() {
   const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [hasShown, setHasShown] = useState(false);
   const [formData, setFormData] = useState({
@@ -49,38 +49,20 @@ export default function ScrollTriggeredForm() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasShown]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Show immediate success feedback
-    toast({
-      title: "Success! 🎉",
-      description: "Thank you! We'll contact you soon to help make your move-in defect-free!",
-      variant: "default",
-    });
-
-    // Track conversion for Google Ads
-    trackConversion();
-
-    // Reset form and close modal immediately
-    const submissionData = {
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone,
-    };
-
-    setFormData({
-      name: "",
-      email: "",
-      phone: "",
-    });
-    setIsVisible(false);
-
-    // Handle submission in background without blocking UI
-    apiRequest("POST", "/api/quick-contact", submissionData).catch(error => {
-      console.error("Background form submission failed:", error);
-      // Optionally log to monitoring service in production
-    });
+    if (isLoading) return;
+    setIsLoading(true);
+    try {
+      await submitLead("/api/quick-contact", { ...formData, leadSource: "quick_contact" });
+      toast({ title: "Request received", description: "Thank you! Our team will contact you soon." });
+      setFormData({ name: "", email: "", phone: "" });
+      setIsVisible(false);
+    } catch {
+      toast({ title: "Request not sent", description: "Please try again. Your details have been kept.", variant: "destructive" });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -94,7 +76,7 @@ export default function ScrollTriggeredForm() {
         <div className="bg-gradient-to-r from-brand-green to-emerald-600 text-white p-6 pb-4">
           <DialogHeader className="text-center space-y-3">
             <DialogTitle className="text-2xl font-bold">
-              🔍 Hidden flaws destroy value 💰 
+              Protect your property investment
             </DialogTitle>
             <p className="text-green-100 text-lg">
               Let us contact you today:
@@ -146,6 +128,8 @@ export default function ScrollTriggeredForm() {
               </Label>
               <div className="custom-phone-input-wrapper">
                 <PhoneInput
+                  id="popup-phone"
+                  aria-label="Phone Number"
                   international
                   countryCallingCodeEditable={false}
                   defaultCountry="AE"
@@ -160,9 +144,10 @@ export default function ScrollTriggeredForm() {
             {/* Submit Button */}
             <Button
               type="submit"
+              disabled={isLoading}
               className="w-full h-12 bg-gradient-to-r from-brand-green to-emerald-600 text-white font-semibold rounded-lg hover:from-emerald-700 hover:to-brand-green transition-all duration-300 shadow-lg hover:shadow-xl"
             >
-              Submit
+              {isLoading ? "Sending..." : "Submit"}
             </Button>
             
             <p className="text-xs text-gray-500 text-center mt-3">
