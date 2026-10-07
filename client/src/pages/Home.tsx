@@ -419,19 +419,26 @@ export default function Home() {
               </Link>
             </div>
 
-            <div className="relative">
-              <img
-                src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=700&h=520&q=70"
-                alt="Professional property inspection team"
-                className="w-full object-cover"
-                width="700"
-                height="520"
-                loading="lazy"
-                decoding="async"
-              />
-              <div className="absolute -bottom-6 -right-6 bg-zinc-950 text-white p-6">
-                <div className="text-3xl font-bold text-brand-green">600,000+</div>
-                <div className="text-xs text-zinc-500 mt-1 uppercase tracking-widest">Defects Documented</div>
+            <div className="relative bg-zinc-950 text-white min-h-[420px] p-10 lg:p-12 flex flex-col justify-between border border-zinc-900" role="img" aria-label="UrbanGrid inspection evidence and reporting workflow">
+              <div>
+                <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-5">Field Evidence</p>
+                <h3 className="text-3xl lg:text-4xl font-bold leading-tight max-w-md">
+                  Inspect. Document. Report. Follow through.
+                </h3>
+                <p className="text-sm text-zinc-400 leading-relaxed mt-6 max-w-md">
+                  UrbanGrid inspections focus on observable defects, system performance and photographic evidence rather than decorative real-estate imagery.
+                </p>
+              </div>
+              <div className="grid grid-cols-2 gap-px bg-zinc-800 mt-10">
+                {["Finishes", "MEP Systems", "Moisture & Thermal", "Defect Evidence"].map((item) => (
+                  <div key={item} className="bg-zinc-950 p-5 text-[10px] uppercase tracking-[0.16em] text-zinc-300 font-semibold">
+                    {item}
+                  </div>
+                ))}
+              </div>
+              <div className="absolute -bottom-6 -right-6 bg-brand-green text-white p-6">
+                <div className="text-3xl font-bold">600,000+</div>
+                <div className="text-xs text-white/70 mt-1 uppercase tracking-widest">Defects Documented</div>
               </div>
             </div>
           </div>
