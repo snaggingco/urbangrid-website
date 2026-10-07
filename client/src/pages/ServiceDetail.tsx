@@ -1,6 +1,5 @@
 import { useParams, Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import NotFound from "@/pages/not-found";
 import SEO from "@/components/SEO";
 import { serviceFAQs } from "@shared/faqs";
@@ -9,7 +8,6 @@ interface ServiceData {
   slug: string;
   title: string;
   description: string;
-  image: string;
   longDescription: string;
   features: string[];
   process: string[];
@@ -24,7 +22,6 @@ const servicesData: Record<string, ServiceData> = {
     slug: "new-build-snagging",
     title: "New Build Handover Snagging & Inspection",
     description: "Comprehensive pre-handover inspection of newly constructed properties to identify defects, incomplete work, and quality issues before you take possession.",
-    image: "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
     longDescription: "Our new build handover snagging service is designed to protect your investment by conducting a thorough inspection before you accept your new property. Our certified inspectors examine every aspect of your property, from structural elements to finishing details, ensuring that everything meets the required standards and specifications. This critical step can save you thousands of dirhams in future repairs and ensures that any defects are identified and rectified by the developer at no cost to you.",
     features: [
       "Complete structural assessment and stability check",
@@ -67,7 +64,6 @@ const servicesData: Record<string, ServiceData> = {
     slug: "post-renovation-inspection", 
     title: "Post Renovation / Fit-out Snagging Inspection",
     description: "Quality assessment after renovation or fit-out work to ensure all improvements meet specifications and industry standards.",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
     longDescription: "After completing renovation or fit-out work, it's essential to verify that all improvements have been executed according to specifications and meet industry standards. Our post-renovation inspection service provides comprehensive quality assessment, ensuring that your investment in property improvements delivers the expected results and complies with all relevant building codes and safety requirements.",
     features: [
       "Renovation work quality assessment",
@@ -110,7 +106,6 @@ const servicesData: Record<string, ServiceData> = {
     slug: "dlp-snagging",
     title: "Property Defect Liability Period (DLP) Snagging",
     description: "Strategic inspection during the defect liability period to identify and document all issues before warranty expires.",
-    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
     longDescription: "The Defect Liability Period (DLP) is your last opportunity to claim free rectification of defects from your developer or contractor. Our DLP snagging service conducts a strategic and comprehensive inspection to identify all potential issues before your warranty expires, ensuring maximum protection for your investment and securing your rights for free repairs.",
     features: [
       "Pre-warranty expiry comprehensive inspection",
@@ -153,7 +148,6 @@ const servicesData: Record<string, ServiceData> = {
     slug: "move-in-move-out",
     title: "Property Move-in / Move-out Snagging",
     description: "Detailed condition reports for rental properties to protect both tenants and landlords during property transitions.",
-    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
     longDescription: "Our move-in/move-out snagging service provides impartial, detailed condition reports that protect both tenants and landlords during property transitions. These comprehensive assessments document the exact condition of the property, preventing disputes over security deposits and ensuring fair treatment for all parties involved in rental agreements.",
     features: [
       "Comprehensive property condition assessment",
@@ -196,7 +190,6 @@ const servicesData: Record<string, ServiceData> = {
     slug: "secondary-market",
     title: "Secondary Market Property Snagging",
     description: "Pre-purchase inspections for existing properties to help buyers make informed decisions and negotiate fair prices.",
-    image: "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
     longDescription: "Purchasing a property in the secondary market requires careful evaluation to ensure you're making a sound investment. Our secondary market snagging service provides comprehensive pre-purchase inspections that reveal hidden issues, assess maintenance requirements, and provide valuable insights for price negotiations and future planning.",
     features: [
       "Comprehensive pre-purchase inspection",
@@ -239,7 +232,6 @@ const servicesData: Record<string, ServiceData> = {
     slug: "developer-projects",
     title: "Developer and Contractor Project Snagging",
     description: "Quality control inspections for developers and contractors to ensure projects meet industry standards and client expectations.",
-    image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
     longDescription: "For developers and contractors, maintaining quality standards and client satisfaction is paramount to business success. Our project snagging service provides independent quality control inspections that ensure your projects meet industry standards, comply with regulations, and exceed client expectations, protecting your reputation and minimizing future liabilities.",
     features: [
       "Independent quality control auditing",
@@ -282,7 +274,6 @@ const servicesData: Record<string, ServiceData> = {
     slug: "reserve-fund-study",
     title: "Reserve Fund Study / Sinking Fund",
     description: "Comprehensive analysis of building reserve fund requirements and long-term capital expenditure planning for strata properties in compliance with RERA regulations.",
-    image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
     longDescription: "Our Reserve Fund Study service provides comprehensive analysis of building reserve fund requirements and long-term capital expenditure planning for strata properties. This essential service ensures compliance with RERA regulations while providing property owners and management companies with accurate financial projections for future maintenance and replacement costs.",
     features: [
       "Long-term capital planning analysis",
@@ -325,7 +316,6 @@ const servicesData: Record<string, ServiceData> = {
     slug: "service-charge-allocation",
     title: "Service Charge Cost Allocation",
     description: "Detailed assessment and allocation of service charges across common property areas ensuring fair distribution and full compliance with RERA guidelines.",
-    image: "https://images.unsplash.com/photo-1607863680198-23d4b2565df0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
     longDescription: "Our Service Charge Cost Allocation service provides detailed assessment and fair allocation of service charges across common property areas. This service ensures transparent cost distribution and full compliance with RERA guidelines, protecting both property owners and management companies from disputes and regulatory issues.",
     features: [
       "Fair cost distribution analysis and calculation",
@@ -368,7 +358,6 @@ const servicesData: Record<string, ServiceData> = {
     slug: "reinstatement-cost-assessment",
     title: "Reinstatement Cost Assessment",
     description: "Professional valuation of property reinstatement costs for insurance purposes and regulatory compliance requirements under UAE property law.",
-    image: "https://images.unsplash.com/photo-1584464491033-06628f3a6b7b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
     longDescription: "Our Reinstatement Cost Assessment service provides professional valuation of property reinstatement costs for insurance purposes and regulatory compliance. This critical service ensures accurate insurance coverage and compliance with UAE property law requirements, protecting property owners from underinsurance risks.",
     features: [
       "Insurance valuation compliance assessment",
@@ -411,7 +400,6 @@ const servicesData: Record<string, ServiceData> = {
     slug: "building-completion-audit",
     title: "Building Completion Audit",
     description: "Comprehensive audit to verify building completion status against approved plans and regulatory requirements for RERA compliance and handover certification.",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
     longDescription: "Our Building Completion Audit service provides comprehensive verification of building completion status against approved plans and regulatory requirements. This essential service ensures RERA compliance and proper handover certification, protecting developers and property owners from regulatory issues and compliance failures.",
     features: [
       "Plan compliance verification and assessment",
@@ -454,7 +442,6 @@ const servicesData: Record<string, ServiceData> = {
     slug: "building-condition-survey",
     title: "Building Condition Survey",
     description: "Detailed condition assessment of building components and systems for regulatory reporting, maintenance planning, and RERA compliance documentation.",
-    image: "https://images.unsplash.com/photo-1523287562758-66c7fc58967f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
     longDescription: "Our Building Condition Survey service provides detailed assessment of building components and systems for regulatory reporting, maintenance planning, and RERA compliance documentation. This comprehensive service ensures proper building management and regulatory compliance while supporting long-term maintenance planning.",
     features: [
       "Comprehensive condition analysis and assessment",
@@ -497,7 +484,6 @@ const servicesData: Record<string, ServiceData> = {
     slug: "technical-due-diligence",
     title: "Technical Due Diligence",
     description: "Comprehensive technical analysis for property acquisition, covering structural, mechanical, and compliance aspects for informed investment decisions in UAE market.",
-    image: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
     longDescription: "Our Technical Due Diligence service provides comprehensive technical analysis for property acquisition, covering all structural, mechanical, and compliance aspects. This critical service enables informed investment decisions in the UAE market by identifying potential risks, compliance issues, and technical challenges before property acquisition.",
     features: [
       "Investment risk assessment and analysis",
@@ -540,7 +526,6 @@ const servicesData: Record<string, ServiceData> = {
     slug: "dilapidation-survey",
     title: "Dilapidation Survey",
     description: "Pre and post-construction condition assessments of adjacent properties to document potential impact from nearby construction activities and protect property interests.",
-    image: "https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
     longDescription: "Our Dilapidation Survey service provides professional pre and post-construction condition assessments of adjacent properties to document potential impact from nearby construction activities. This essential service protects property interests and provides legal documentation for potential damage claims.",
     features: [
       "Pre-construction condition documentation",
@@ -583,7 +568,6 @@ const servicesData: Record<string, ServiceData> = {
     slug: "thermographic-survey",
     title: "Thermographic Survey",
     description: "Advanced thermal imaging inspections following ASHRAE standards to detect energy losses, moisture intrusion, and NFPA 70 electrical compliance issues invisible to conventional inspection methods.",
-    image: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
     longDescription: "Our Thermographic Survey service utilizes advanced thermal imaging technology following ASHRAE Standard 180 guidelines to detect energy losses, moisture intrusion, and NFPA 70 electrical compliance issues that are invisible to conventional inspection methods. This cutting-edge service provides detailed ASTM-compliant analysis of building performance and identifies hidden problems before they become costly repairs.",
     features: [
       "Thermal imaging analysis and evaluation",
@@ -626,7 +610,6 @@ const servicesData: Record<string, ServiceData> = {
     slug: "noise-survey",
     title: "Noise Survey",
     description: "Professional acoustic assessments to measure and analyze noise levels for compliance with local regulations and habitability standards in UAE residential and commercial properties.",
-    image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
     longDescription: "Our Noise Survey service provides professional acoustic assessments to measure and analyze noise levels for compliance with local regulations and habitability standards. This specialized service ensures properties meet UAE noise regulations and provides documentation for regulatory compliance and dispute resolution.",
     features: [
       "Acoustic level measurement and analysis",
@@ -669,7 +652,6 @@ const servicesData: Record<string, ServiceData> = {
     slug: "structural-survey",
     title: "Structural Survey",
     description: "Detailed structural engineering assessment following ASTM E2018 standards, examining building integrity, load-bearing elements, and structural compliance with NFPA safety codes and UAE building regulations.",
-    image: "https://images.unsplash.com/photo-1581094613018-d1db5d0b5b30?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&h=600",
     longDescription: "Our Structural Survey service provides detailed structural engineering assessment following ASTM E2018 Property Condition Assessment standards, examining building integrity, load-bearing elements, and structural compliance with NFPA fire safety codes and UAE building regulations. This critical service ensures structural safety and regulatory compliance while identifying potential structural issues and risks.",
     features: [
       "Structural integrity assessment and analysis",
@@ -728,6 +710,13 @@ export default function ServiceDetail() {
   };
 
   const categoryName = categoryDisplayNames[category as keyof typeof categoryDisplayNames] || 'Services';
+  const isResidentialInspection = category === 'property-snagging' && service.price !== 'Custom Quote';
+  const engagementTitle = isResidentialInspection
+    ? `Ready to Schedule Your ${service.title}?`
+    : `Planning a ${service.title}?`;
+  const engagementCopy = isResidentialInspection
+    ? "Schedule an independent inspection across the UAE. We document observed defects with clear photographic evidence and practical reporting for follow-up."
+    : "Share the property, project scope and available documents with our building consultancy team. We will review the requirements and prepare an appropriate scope, programme and commercial proposal.";
 
   return (
     <>
@@ -779,14 +768,23 @@ export default function ServiceDetail() {
                   ))}
                 </div>
               </div>
-              <div className="aspect-[4/3] overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
-                <img 
-                  src={service.image} 
-                  alt={service.title}
-                  className="w-full h-full object-cover"
-                  fetchpriority="high"
-                  loading="eager"
-                />
+              <div className="aspect-[4/3] bg-zinc-950 text-white p-10 lg:p-12 flex flex-col justify-between border border-zinc-900" role="img" aria-label={`${service.title} scope summary`}>
+                <div>
+                  <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-6">
+                    Service Scope
+                  </p>
+                  <h3 className="text-2xl lg:text-3xl font-bold leading-tight max-w-md">
+                    {service.title}
+                  </h3>
+                </div>
+                <div className="space-y-4">
+                  {service.features.slice(0, 4).map((feature, idx) => (
+                    <div key={idx} className="flex items-start gap-4 border-t border-zinc-800 pt-4">
+                      <span className="text-[10px] font-bold text-brand-green mt-0.5">{String(idx + 1).padStart(2, '0')}</span>
+                      <span className="text-xs text-zinc-300 leading-relaxed">{feature}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -868,16 +866,16 @@ export default function ServiceDetail() {
                   Engagement
                 </p>
                 <h2 className="text-4xl lg:text-5xl font-bold mb-6 leading-tight">
-                  Ready to Schedule Your {service.title}?
+                  {engagementTitle}
                 </h2>
                 <p className="text-white/70 text-sm leading-relaxed max-w-md">
-                  Get expert technical assessment across Dubai, Abu Dhabi, Sharjah and all UAE. Same-day reports, competitive pricing, RERA certified professionals.
+                  {engagementCopy}
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-6 lg:justify-end">
                 <a href="/contact" className="inline-block">
                   <Button className="bg-white text-brand-green hover:bg-zinc-100 rounded-none h-14 px-10 text-[10px] uppercase tracking-[0.2em] font-bold">
-                    Book Inspection
+                    {isResidentialInspection ? "Book Inspection" : "Request Proposal"}
                   </Button>
                 </a>
                 <a href="/services" className="inline-flex items-center justify-center border border-white/30 text-white h-14 px-10 text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-green transition-all">
