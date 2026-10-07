@@ -22,7 +22,7 @@ function safeGtag(...args: any[]) {
 export const trackConversion = (type: string = 'conversion') => {
   if (type === 'lead_form') {
     safeGtag('event', 'conversion', {
-      send_to: 'AW-11443889137/L_xgCJG38ogbEPHH79Aq',
+      send_to: 'AW-11443889137/FQVyCI3QhY8dEPHH79Aq',
       value: 1.0,
       currency: 'AED'
     });
@@ -30,7 +30,7 @@ export const trackConversion = (type: string = 'conversion') => {
 
   if (type === 'call_click') {
     safeGtag('event', 'conversion', {
-      send_to: 'AW-11443889137/AAjKCJLTn4McEPHH79Aq',
+      send_to: 'AW-11443889137/QkcVCLjAho8dEPHH79Aq',
       value: 1.0,
       currency: 'AED'
     });
@@ -38,7 +38,7 @@ export const trackConversion = (type: string = 'conversion') => {
 
   if (type === 'whatsapp_click') {
     safeGtag('event', 'conversion', {
-      send_to: 'AW-11443889137/L_xgCJG38ogbEPHH79Aq',
+      send_to: 'AW-11443889137/SwulCOLwwo4dEPHH79Aq',
       value: 1.0,
       currency: 'AED'
     });

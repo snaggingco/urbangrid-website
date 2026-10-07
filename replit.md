@@ -100,9 +100,12 @@ Comprehensive review of all 247 sitemap URLs identified Google's "scaled content
 - Updated LocalBusiness schema to include NFPA, ASHRAE, and ASTM certified services
 
 ### Google Analytics Conversion Tracking
-- Implemented Google Analytics conversion tracking with event snippet (AW-11443889137/L_xgCJG38ogbEPHH79Aq)
-- Added conversion tracking to all form submissions (consultation, contact, scroll-triggered forms)
-- Created analytics utility for seamless conversion event tracking
+- Google Ads conversion tracking uses only the current UrbanGrid website conversion actions:
+  - Website Lead: AW-11443889137/FQVyCI3QhY8dEPHH79Aq
+  - Website Call Click: AW-11443889137/QkcVCLjAho8dEPHH79Aq
+  - WhatsApp Lead Goal: AW-11443889137/SwulCOLwwo4dEPHH79Aq
+- Legacy conversion labels must not be reused for website lead, call, or WhatsApp events.
+- Analytics utility keeps supporting engagement events separate from Google Ads lead conversions
 
 ### Internal Linking SEO Optimization
 - Enhanced blog pages with keyword-rich internal links targeting main SEO terms
