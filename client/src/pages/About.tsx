@@ -201,13 +201,13 @@ export default function About() {
         </div>
       </section>
 
-      {/* Certifications */}
+      {/* Credentials & Approach */}
       <section className="py-24 lg:py-32 bg-zinc-50">
         <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
           <div className="text-center mb-16">
-            <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">ACCREDITATIONS</p>
+            <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">CREDENTIALS & APPROACH</p>
             <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight mb-4">
-              Certifications
+              Professional Standards
             </h2>
           </div>
           
