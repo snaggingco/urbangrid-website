@@ -4,30 +4,6 @@ import { ArrowRight, CheckCircle2, Shield, Award, Building2 } from "lucide-react
 import SEO from "@/components/SEO";
 
 export default function About() {
-  const team = [
-    {
-      name: "Ahmed Al-Rashid",
-      position: "Lead Inspector & Founder",
-      experience: "12+ years",
-      image: "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400",
-      description: "Certified property inspector with extensive experience in UAE construction standards."
-    },
-    {
-      name: "Sarah Mitchell",
-      position: "Senior Property Inspector",
-      experience: "8+ years",
-      image: "https://images.unsplash.com/photo-1507101105822-7472b28e22ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400",
-      description: "Specialized in luxury residential properties and commercial developments."
-    },
-    {
-      name: "Mohammed Hassan",
-      position: "Technical Inspector",
-      experience: "6+ years",
-      image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&h=400",
-      description: "Expert in MEP systems and structural assessments for high-rise buildings."
-    }
-  ];
-
   const serviceAreas = [
     "Dubai",
     "Abu Dhabi", 
@@ -42,7 +18,7 @@ export default function About() {
     { number: "40000+", label: "Properties Inspected" },
     { number: "7", label: "Emirates Served" },
     { number: "24h", label: "Report Target" },
-    { number: "2014", label: "Founded" }
+    { number: "UAE", label: "Independent Consultancy" }
   ];
 
   return (
@@ -76,7 +52,7 @@ export default function About() {
               </h2>
               <div className="space-y-6 text-sm text-zinc-500 leading-relaxed">
                 <p>
-                  Founded in 2014, UrbanGrid emerged from a simple yet powerful vision: to protect property investments across the UAE through meticulous inspection and quality assurance services. Our journey began when our founder, Ahmed Al-Rashid, recognized the need for independent, professional property inspections in Dubai's rapidly expanding real estate market.
+                  UrbanGrid provides independent property inspection and building consultancy services across the UAE. Our work is structured around clear site evidence, practical technical reporting and service scopes that help owners, investors, developers and property managers make informed decisions.
                 </p>
                 <p>
                   UrbanGrid reports completing more than 40,000 property inspections across all seven emirates. Our work supports homeowners, investors, developers, brokers, and contractors with independent findings and photographic evidence.
@@ -238,33 +214,33 @@ export default function About() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="p-8 border border-zinc-200 bg-transparent">
               <Shield className="w-8 h-8 text-brand-green mb-6" />
-              <h3 className="text-lg font-bold text-zinc-900 mb-2">RERA Certified</h3>
+              <h3 className="text-lg font-bold text-zinc-900 mb-2">RERA-Regulated Consultancy</h3>
               <p className="text-sm text-zinc-500 leading-relaxed">
-                Licensed by Dubai Real Estate Regulatory Agency
-              </p>
-            </div>
-            
-            <div className="p-8 border border-zinc-200 bg-transparent">
-              <CheckCircle2 className="w-8 h-8 text-brand-green mb-6" />
-              <h3 className="text-lg font-bold text-zinc-900 mb-2">ISO 9001</h3>
-              <p className="text-sm text-zinc-500 leading-relaxed">
-                Quality Management System Certified
+                UrbanGrid operates as a real estate consultancy in Dubai's regulated property-services environment.
               </p>
             </div>
             
             <div className="p-8 border border-zinc-200 bg-transparent">
               <Award className="w-8 h-8 text-brand-green mb-6" />
-              <h3 className="text-lg font-bold text-zinc-900 mb-2">NACHI Member</h3>
+              <h3 className="text-lg font-bold text-zinc-900 mb-2">Certified Inspectors</h3>
               <p className="text-sm text-zinc-500 leading-relaxed">
-                International Association of Certified Home Inspectors
+                Property inspections are supported by inspectors holding recognised home-inspection credentials, including InterNACHI certification.
+              </p>
+            </div>
+            
+            <div className="p-8 border border-zinc-200 bg-transparent">
+              <CheckCircle2 className="w-8 h-8 text-brand-green mb-6" />
+              <h3 className="text-lg font-bold text-zinc-900 mb-2">Independent Reporting</h3>
+              <p className="text-sm text-zinc-500 leading-relaxed">
+                Findings are documented with photographs, observations and practical recommendations for client decision-making.
               </p>
             </div>
             
             <div className="p-8 border border-zinc-200 bg-transparent">
               <Building2 className="w-8 h-8 text-brand-green mb-6" />
-              <h3 className="text-lg font-bold text-zinc-900 mb-2">Dubai Municipality</h3>
+              <h3 className="text-lg font-bold text-zinc-900 mb-2">UAE Coverage</h3>
               <p className="text-sm text-zinc-500 leading-relaxed">
-                Approved inspection services provider
+                Residential inspections and building consultancy support are available across the Emirates subject to project scope.
               </p>
             </div>
           </div>
