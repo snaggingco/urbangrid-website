@@ -26,6 +26,13 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState<keyof typeof serviceCategories>('property-snagging');
   const [reportModalOpen, setReportModalOpen] = useState(false);
 
+  const goToServices = (tab: keyof typeof serviceCategories) => {
+    setActiveTab(tab);
+    requestAnimationFrame(() => {
+      document.getElementById("services")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  };
+
   useEffect(() => {
     const duration = 2000;
     const steps = 50;
@@ -272,6 +279,43 @@ export default function Home() {
         </div>
       </div>
 
+      {/* ── SERVICE PATHS ─────────────────────────────────────────────────── */}
+      <section className="bg-white border-b border-zinc-100">
+        <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 py-10 lg:py-14">
+          <div className="grid md:grid-cols-2 gap-px bg-zinc-200 border border-zinc-200">
+            <button
+              type="button"
+              onClick={() => goToServices("property-snagging")}
+              className="bg-white p-7 lg:p-9 text-left group hover:bg-zinc-50 transition-colors"
+            >
+              <p className="text-[10px] font-semibold tracking-[0.22em] text-brand-green uppercase mb-3">Residential</p>
+              <h2 className="text-2xl lg:text-3xl font-bold text-zinc-900 mb-3">Residential Inspections</h2>
+              <p className="text-sm text-zinc-500 leading-relaxed max-w-md mb-6">
+                Handover snagging, DLP, resale, post-renovation and move-in / move-out inspections for homes and investment properties.
+              </p>
+              <span className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green border-b border-brand-green pb-0.5 group-hover:gap-3 transition-all">
+                Explore Residential Inspections <ArrowRight className="w-3 h-3" />
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => goToServices("rera-services")}
+              className="bg-white p-7 lg:p-9 text-left group hover:bg-zinc-50 transition-colors"
+            >
+              <p className="text-[10px] font-semibold tracking-[0.22em] text-brand-green uppercase mb-3">Commercial &amp; Technical</p>
+              <h2 className="text-2xl lg:text-3xl font-bold text-zinc-900 mb-3">Building Consultancy</h2>
+              <p className="text-sm text-zinc-500 leading-relaxed max-w-md mb-6">
+                Building condition surveys, technical due diligence, reserve fund studies, reinstatement cost assessments, service charge allocation and specialist surveys.
+              </p>
+              <span className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green border-b border-brand-green pb-0.5 group-hover:gap-3 transition-all">
+                Explore Building Consultancy <ArrowRight className="w-3 h-3" />
+              </span>
+            </button>
+          </div>
+        </div>
+      </section>
+
       {/* ── CERTIFICATION STRIP ───────────────────────────────────────────── */}
       <section className="py-16 bg-white border-b border-zinc-100">
         <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
@@ -340,7 +384,7 @@ export default function Home() {
       </Suspense>
 
       {/* ── SERVICES ─────────────────────────────────────────────────────── */}
-      <section className="py-24 lg:py-32 bg-zinc-50">
+      <section id="services" className="py-24 lg:py-32 bg-zinc-50 scroll-mt-24">
         <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
           <div className="mb-16">
             <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Services</p>
