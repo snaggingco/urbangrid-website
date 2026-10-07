@@ -1,5 +1,6 @@
 import { useParams, Link } from "wouter";
 import { Button } from "@/components/ui/button";
+import { Home, Building2, ClipboardCheck, FileSearch, Calculator, Camera, ThermometerSun, Volume2, ShieldCheck, Wrench } from "lucide-react";
 import NotFound from "@/pages/not-found";
 import SEO from "@/components/SEO";
 import { serviceFAQs } from "@shared/faqs";
@@ -692,6 +693,25 @@ const servicesData: Record<string, ServiceData> = {
   }
 };
 
+const servicePresentation: Record<string, { overviewTitle: string; focus: string; icon: any }> = {
+  "new-build-snagging": { overviewTitle: "Inspect Before You Accept the Keys", focus: "Handover quality and defect identification", icon: Home },
+  "post-renovation-inspection": { overviewTitle: "Verify the Work Before Final Sign-Off", focus: "Fit-out workmanship and completion quality", icon: ClipboardCheck },
+  "dlp-snagging": { overviewTitle: "Use the Warranty Window Before It Closes", focus: "Defects emerging during the liability period", icon: ShieldCheck },
+  "move-in-move-out": { overviewTitle: "Document the Property Condition Clearly", focus: "Independent tenancy condition evidence", icon: Camera },
+  "secondary-market": { overviewTitle: "Understand the Property Before You Buy", focus: "Existing condition, defects and maintenance risk", icon: FileSearch },
+  "developer-projects": { overviewTitle: "Independent Quality Control Before Handover", focus: "Project-wide snagging and quality assurance", icon: ClipboardCheck },
+  "reserve-fund-study": { overviewTitle: "Plan Long-Term Capital Expenditure With Evidence", focus: "Asset lifecycle and reserve funding requirements", icon: Calculator },
+  "service-charge-allocation": { overviewTitle: "Allocate Shared Costs on a Defensible Basis", focus: "Common-area use, cost drivers and allocation methodology", icon: Calculator },
+  "reinstatement-cost-assessment": { overviewTitle: "Establish an Appropriate Rebuilding Cost Basis", focus: "Insurance reinstatement value and construction cost assessment", icon: Building2 },
+  "building-completion-audit": { overviewTitle: "Verify Completion Against the Required Scope", focus: "Completion status, documentation and outstanding works", icon: ClipboardCheck },
+  "building-condition-survey": { overviewTitle: "Understand the Condition of the Building as a Whole", focus: "Fabric, MEP systems, risks and maintenance priorities", icon: Building2 },
+  "technical-due-diligence": { overviewTitle: "Identify Technical Risk Before the Transaction", focus: "Asset condition, compliance and capital exposure", icon: FileSearch },
+  "dilapidation-survey": { overviewTitle: "Create a Clear Record Before and After Works", focus: "Condition evidence and change documentation", icon: Camera },
+  "thermographic-survey": { overviewTitle: "See Building Defects That Are Not Visible to the Eye", focus: "Thermal anomalies, moisture and heat loss", icon: ThermometerSun },
+  "noise-survey": { overviewTitle: "Measure and Understand the Acoustic Environment", focus: "Noise levels, sources and compliance assessment", icon: Volume2 },
+  "structural-survey": { overviewTitle: "Assess Structural Condition and Visible Risk", focus: "Structural elements, cracking, movement and integrity", icon: Wrench }
+};
+
 export default function ServiceDetail() {
   const params = useParams();
   const slug = params.slug;
@@ -704,12 +724,16 @@ export default function ServiceDetail() {
   const service = servicesData[slug];
 
   const categoryDisplayNames = {
-    'property-snagging': 'Property Snagging',
-    'rera-services': 'RERA Services', 
-    'technical-inspections': 'Technical Inspections'
+    'property-snagging': 'Residential Inspections',
+    'rera-services': 'Building Consultancy',
+    'technical-inspections': 'Specialist Technical Surveys'
   };
 
   const categoryName = categoryDisplayNames[category as keyof typeof categoryDisplayNames] || 'Services';
+  const presentation = servicePresentation[slug] || { overviewTitle: service.title, focus: service.description, icon: Building2 };
+  const ServiceIcon = presentation.icon;
+  const isConsultancy = category === 'rera-services';
+  const isTechnicalSurvey = category === 'technical-inspections';
   const isResidentialInspection = category === 'property-snagging' && service.price !== 'Custom Quote';
   const engagementTitle = isResidentialInspection
     ? `Ready to Schedule Your ${service.title}?`
@@ -730,7 +754,7 @@ export default function ServiceDetail() {
           <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
             <div className="flex flex-col gap-6">
               <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase">
-                Service Details
+                {categoryName}
               </p>
               <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight">
                 {service.title}
@@ -749,53 +773,105 @@ export default function ServiceDetail() {
           </div>
         </section>
 
-        {/* Overview & Image Section */}
-        <section className="py-24 lg:py-32 bg-white">
-          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
-            <div className="grid lg:grid-cols-2 gap-16 items-start">
-              <div>
-                <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Overview</p>
-                <h2 className="text-4xl font-bold text-zinc-900 mb-8 leading-tight">Professional Property Assessment</h2>
-                <p className="text-sm text-zinc-500 leading-relaxed mb-8">
-                  {service.longDescription}
-                </p>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {service.includes.map((item, idx) => (
-                    <div key={idx} className="flex items-center gap-3 py-3 border-b border-zinc-100">
-                      <div className="w-1.5 h-1.5 bg-brand-green"></div>
-                      <span className="text-[10px] uppercase tracking-wider text-zinc-600 font-bold">{item}</span>
-                    </div>
-                  ))}
+        {/* Category-specific overview */}
+        {isConsultancy ? (
+          <section className="py-24 lg:py-32 bg-[#f5f1e8]">
+            <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+              <div className="max-w-4xl mb-16">
+                <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Study Overview</p>
+                <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight mb-8">{presentation.overviewTitle}</h2>
+                <p className="text-base text-zinc-600 leading-relaxed max-w-3xl">{service.longDescription}</p>
+              </div>
+              <div className="grid lg:grid-cols-3 gap-px bg-zinc-300 border border-zinc-300">
+                <div className="bg-white p-8">
+                  <ServiceIcon className="w-8 h-8 text-brand-green mb-6" />
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 mb-3">Primary Focus</p>
+                  <h3 className="text-xl font-bold text-zinc-900 leading-snug">{presentation.focus}</h3>
+                </div>
+                <div className="bg-white p-8">
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 mb-5">Core Analysis</p>
+                  <div className="space-y-4">
+                    {service.features.slice(0, 3).map((item, idx) => (
+                      <div key={idx} className="flex gap-3 text-sm text-zinc-600">
+                        <span className="text-brand-green font-bold">{String(idx + 1).padStart(2, "0")}</span>
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="bg-white p-8">
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 mb-5">Typical Deliverables</p>
+                  <div className="space-y-4">
+                    {service.includes.slice(0, 4).map((item, idx) => (
+                      <div key={idx} className="border-b border-zinc-100 pb-3 text-sm font-medium text-zinc-700">{item}</div>
+                    ))}
+                  </div>
                 </div>
               </div>
-              <div className="aspect-[4/3] bg-zinc-950 text-white p-10 lg:p-12 flex flex-col justify-between border border-zinc-900" role="img" aria-label={`${service.title} scope summary`}>
+            </div>
+          </section>
+        ) : isTechnicalSurvey ? (
+          <section className="py-24 lg:py-32 bg-zinc-950 text-white">
+            <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+              <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-16 items-start">
                 <div>
-                  <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-6">
-                    Service Scope
-                  </p>
-                  <h3 className="text-2xl lg:text-3xl font-bold leading-tight max-w-md">
-                    {service.title}
-                  </h3>
+                  <ServiceIcon className="w-10 h-10 text-brand-green mb-8" />
+                  <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Technical Survey</p>
+                  <h2 className="text-4xl lg:text-5xl font-bold leading-tight mb-6">{presentation.overviewTitle}</h2>
+                  <p className="text-sm text-zinc-400 leading-relaxed">{service.longDescription}</p>
                 </div>
-                <div className="space-y-4">
-                  {service.features.slice(0, 4).map((feature, idx) => (
-                    <div key={idx} className="flex items-start gap-4 border-t border-zinc-800 pt-4">
-                      <span className="text-[10px] font-bold text-brand-green mt-0.5">{String(idx + 1).padStart(2, '0')}</span>
-                      <span className="text-xs text-zinc-300 leading-relaxed">{feature}</span>
+                <div className="grid sm:grid-cols-2 gap-px bg-zinc-800 border border-zinc-800">
+                  {service.features.slice(0, 6).map((item, idx) => (
+                    <div key={idx} className="bg-zinc-900 p-7">
+                      <div className="text-[10px] font-bold text-brand-green mb-4">{String(idx + 1).padStart(2, "0")}</div>
+                      <p className="text-sm text-zinc-200 leading-relaxed">{item}</p>
                     </div>
                   ))}
                 </div>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        ) : (
+          <section className="py-24 lg:py-32 bg-white">
+            <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+              <div className="grid lg:grid-cols-[1.15fr_0.85fr] gap-16 items-start">
+                <div>
+                  <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Inspection Overview</p>
+                  <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 mb-8 leading-tight">{presentation.overviewTitle}</h2>
+                  <p className="text-base text-zinc-500 leading-relaxed mb-10">{service.longDescription}</p>
+                  <div className="grid sm:grid-cols-2 gap-x-8">
+                    {service.includes.map((item, idx) => (
+                      <div key={idx} className="flex items-center gap-3 py-4 border-b border-zinc-100">
+                        <div className="w-1.5 h-1.5 bg-brand-green"></div>
+                        <span className="text-xs text-zinc-700 font-semibold">{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="border border-zinc-200 p-8 lg:p-10">
+                  <ServiceIcon className="w-9 h-9 text-brand-green mb-7" />
+                  <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-400 mb-3">Inspection Focus</p>
+                  <h3 className="text-2xl font-bold text-zinc-900 mb-8">{presentation.focus}</h3>
+                  <div className="space-y-5">
+                    {service.features.slice(0, 5).map((feature, idx) => (
+                      <div key={idx} className="flex gap-4 border-t border-zinc-100 pt-4">
+                        <span className="text-[10px] font-bold text-brand-green mt-0.5">{String(idx + 1).padStart(2, "0")}</span>
+                        <span className="text-sm text-zinc-600">{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Features & Benefits - Editorial 2-col */}
         <section className="py-24 lg:py-32 bg-zinc-50">
           <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
             <div className="grid lg:grid-cols-2 gap-24">
               <div>
-                <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-8">Key Features</p>
+                <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-8">{isConsultancy ? "Scope of Work" : isTechnicalSurvey ? "Survey Scope" : "What We Check"}</p>
                 <div className="divide-y divide-zinc-200">
                   {service.features.map((feature, idx) => (
                     <div key={idx} className="py-6 flex gap-6 items-start group">
@@ -806,7 +882,7 @@ export default function ServiceDetail() {
                 </div>
               </div>
               <div>
-                <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-8">Strategic Benefits</p>
+                <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-8">{isConsultancy ? "Client Outcomes" : isTechnicalSurvey ? "Why It Matters" : "Why It Helps"}</p>
                 <div className="space-y-6">
                   {service.benefits.map((benefit, idx) => (
                     <div key={idx} className="flex items-start gap-4">
@@ -825,7 +901,7 @@ export default function ServiceDetail() {
           <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
             <div className="mb-20">
               <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Methodology</p>
-              <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight">Our Technical Process</h2>
+              <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight">{isConsultancy ? "How the Study Is Carried Out" : isTechnicalSurvey ? "Survey Methodology" : "How the Inspection Works"}</h2>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
               {service.process.map((step, idx) => (
