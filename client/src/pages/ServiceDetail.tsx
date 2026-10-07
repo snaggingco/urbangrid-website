@@ -1,6 +1,5 @@
 import { useParams, Link } from "wouter";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import NotFound from "@/pages/not-found";
 import SEO from "@/components/SEO";
 import { serviceFAQs } from "@shared/faqs";
