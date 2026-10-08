@@ -17,6 +17,7 @@ import {
   type ConversionLog,
 } from "@shared/schema";
 import { db } from "./db";
+import { queueNetworkLead } from "./networkLeadSync";
 import { eq, desc, and, ilike, or, sql, count } from "drizzle-orm";
 import type { LeadUpdate } from "@shared/leads";
 import { updateLead } from "./leadPipeline";
@@ -241,14 +242,21 @@ export class DatabaseStorage implements IStorage {
   }
 
   async saveContactSubmission(submission: InsertContactSubmission): Promise<{ submission: ContactSubmission; created: boolean }> {
-    const [inserted] = await db.insert(contactSubmissions).values(submission)
-      .onConflictDoNothing({ target: contactSubmissions.submissionKey }).returning();
-    if (inserted) return { submission: inserted, created: true };
-    if (!submission.submissionKey) throw new Error("Lead could not be saved");
-    const [existing] = await db.select().from(contactSubmissions)
-      .where(eq(contactSubmissions.submissionKey, submission.submissionKey));
-    if (!existing) throw new Error("Lead could not be confirmed");
-    return { submission: existing, created: false };
+    // The enquiry and outbound integration event either both commit or both fail.
+    // Existing same-key retries return the same lead and do not create another event.
+    return db.transaction(async tx => {
+      const [inserted] = await tx.insert(contactSubmissions).values(submission)
+        .onConflictDoNothing({ target: contactSubmissions.submissionKey }).returning();
+      if (inserted) {
+        await queueNetworkLead(inserted, tx);
+        return { submission: inserted, created: true };
+      }
+      if (!submission.submissionKey) throw new Error("Lead could not be saved");
+      const [existing] = await tx.select().from(contactSubmissions)
+        .where(eq(contactSubmissions.submissionKey, submission.submissionKey));
+      if (!existing) throw new Error("Lead could not be confirmed");
+      return { submission: existing, created: false };
+    });
   }
 
   async getContactSubmissions(options: {
