@@ -949,7 +949,10 @@ export default function ServiceDetail() {
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-6 lg:justify-end">
-                <a href="/contact" className="inline-block">
+                <a
+                  href={`/contact?category=${isResidentialInspection ? "residential" : isTechnicalSurvey ? "technical" : "consultancy"}&service=${encodeURIComponent(slug)}`}
+                  className="inline-block"
+                >
                   <Button className="bg-white text-brand-green hover:bg-zinc-100 rounded-none h-14 px-10 text-[10px] uppercase tracking-[0.2em] font-bold">
                     {isResidentialInspection ? "Book Inspection" : "Request Proposal"}
                   </Button>
