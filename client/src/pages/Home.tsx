@@ -8,16 +8,10 @@ const ConsultationForm = lazy(() => import("@/components/ConsultationForm"));
 const SampleReportModal = lazy(() => import("@/components/SampleReportModal"));
 import { Button } from "@/components/ui/button";
 import {
-  ChevronDown, ArrowRight, Shield, Globe,
+  ArrowRight, Shield, Globe,
   Zap, Droplets, Wind, Building2,
   Layers, DoorOpen, Flame, Sun, Users, Star, Quote
 } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import internachi1 from "@assets/internachi.webp";
 import internachi2 from "@assets/internachi2.webp";
 
@@ -159,13 +153,13 @@ export default function Home() {
 
         <div className="relative z-10 max-w-6xl mx-auto w-full px-6 sm:px-10 lg:px-16 pt-10 sm:pt-16 pb-10 sm:pb-24">
 
-          <h1 className="text-[1.75rem] sm:text-4xl lg:text-7xl font-bold text-white leading-[1.2] sm:leading-[1.05] tracking-tight mb-4 sm:mb-5 max-w-3xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
-            UAE's Leading Home Inspection
-            <span className="block text-brand-white">&amp; Snagging Company.</span>
+          <h1 className="text-[1.75rem] sm:text-4xl lg:text-7xl font-bold text-white leading-[1.2] sm:leading-[1.05] tracking-tight mb-4 sm:mb-5 max-w-4xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
+            Property Snagging &amp; Inspection
+            <span className="block text-brand-white">&amp; Building Consultancy in Dubai &amp; UAE.</span>
           </h1>
 
-          <p className="text-sm sm:text-lg text-zinc-300 mb-2 max-w-xl leading-relaxed font-normal">
-            Independent property inspection and building consultancy across the UAE.
+          <p className="text-sm sm:text-lg text-zinc-300 mb-2 max-w-2xl leading-relaxed font-normal">
+            Residential inspections for homeowners and investors. Technical consultancy for buildings, communities and property portfolios.
           </p>
           <p className="text-xs sm:text-sm text-zinc-500 mb-6 sm:mb-8 max-w-lg leading-relaxed font-normal tracking-wide">
             UAE &nbsp;·&nbsp;
@@ -188,7 +182,7 @@ export default function Home() {
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-shimmer" />
                 <span className="flex items-center gap-3">
-                  Book Inspection
+                  Book a Residential Inspection
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </span>
               </Button>
@@ -201,13 +195,24 @@ export default function Home() {
                 className="border-zinc-600 bg-transparent text-white hover:bg-white hover:text-zinc-900 hover:border-white transition-all px-8 py-6 text-sm font-semibold tracking-wide rounded-none w-full sm:w-auto"
               >
                 <span className="flex items-center gap-3">
-                  Request Consultancy Proposal
+                  Request a Consultancy Proposal
                   <ArrowRight className="w-4 h-4" />
                 </span>
               </Button>
             </Link>
 
 
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-3 sm:gap-6 max-w-3xl mb-6 text-[11px] leading-relaxed">
+            <div className="border-l border-brand-green/60 pl-3">
+              <span className="text-zinc-300 font-semibold">Residential:</span>
+              <span className="text-zinc-500"> Handover · DLP · Resale · Move-in / Move-out</span>
+            </div>
+            <div className="border-l border-zinc-600 pl-3">
+              <span className="text-zinc-300 font-semibold">Consultancy:</span>
+              <span className="text-zinc-500"> BCS · TDD · Reserve Fund · RCA · Service Charge · Technical Surveys</span>
+            </div>
           </div>
 
           {/* Trust badges */}
@@ -219,29 +224,6 @@ export default function Home() {
             <span>7 Emirates covered</span>
           </div>
 
-          {/* Service dropdowns — desktop only */}
-          <div className="hidden md:flex flex-wrap gap-3 mt-8">
-            {Object.entries(serviceCategories).map(([key, category]) => (
-              <DropdownMenu key={key}>
-                <DropdownMenuTrigger asChild>
-                  <button className="text-zinc-500 hover:text-white transition-colors text-[11px] font-medium flex items-center gap-1 tracking-wide border-b border-zinc-700 hover:border-zinc-400 pb-0.5">
-                    {category.title}
-                    <ChevronDown className="w-3 h-3 opacity-50" />
-                  </button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-64 bg-zinc-900 border-zinc-700 rounded-none p-2 shadow-2xl">
-                  {category.services.map((service) => (
-                    <DropdownMenuItem key={service.id} className="focus:bg-brand-green/10 focus:text-brand-green cursor-pointer rounded-none py-3 px-4">
-                      <Link href={`/services/${category.categorySlug}/${service.slug}`} className="w-full flex items-center justify-between group text-zinc-400 hover:text-white">
-                        <span className="text-xs font-medium">{service.title}</span>
-                        <ArrowRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-all" />
-                      </Link>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            ))}
-          </div>
         </div>
 
       </section>
