@@ -154,7 +154,7 @@ export default function Home() {
         <div className="relative z-10 max-w-6xl mx-auto w-full px-6 sm:px-10 lg:px-16 pt-10 sm:pt-16 pb-10 sm:pb-24">
 
           <h1 className="text-[1.75rem] sm:text-4xl lg:text-7xl font-bold text-white leading-[1.2] sm:leading-[1.05] tracking-tight mb-4 sm:mb-5 max-w-4xl drop-shadow-[0_2px_12px_rgba(0,0,0,0.45)]">
-            Property Snagging &amp; Inspection
+            Property Snagging
             <span className="block text-brand-white">&amp; Building Consultancy in Dubai &amp; UAE.</span>
           </h1>
 
