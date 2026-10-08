@@ -46,7 +46,7 @@ Country website -> Network Leads -> Contacted -> Qualified/Quoted -> explicit Co
 The UAE site is the reference implementation, not a public multi-country landing-page template. Countries should use their own indexed local website and share only the Network operations layer.
 
 ## Canonical development and deployment policy
-- **GitHub `main` is the authoritative application source.**
+- **GitHub is the authoritative application source.** Until the tracked reconciliation PR #15 is resolved, the validated UAE production source is `release/uae-dos-v1-blockers-20261004`, not the older `main` tree. Once unified, `main` will become canonical.
 - GPT uses GitHub pull requests and GitHub Actions to change, review and validate code.
 - Replit is a deployment/hosting runtime only, not an independent agent/editor for application logic.
 - Website database is PostgreSQL/Neon. Schema changes must be additive, tested and version-controlled.
