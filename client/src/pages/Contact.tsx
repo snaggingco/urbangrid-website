@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
+import { websiteLeadContext } from "@/lib/leadAttribution";
 import { trackConversion } from "@/lib/analytics";
 import { MapPin, Phone, Mail, Clock, MessageSquare, ArrowRight } from "lucide-react";
 import SEO from "@/components/SEO";
@@ -101,6 +102,11 @@ export default function Contact() {
         phone: data.phone,
         enquiryType: selectedService || data.enquiryType || categoryLabel,
         message: contextualMessage,
+        category: enquiryCategory,
+        service: selectedService || data.enquiryType || categoryLabel,
+        company: data.company,
+        projectName: data.projectName,
+        ...websiteLeadContext(),
       });
       
       toast({
