@@ -20,6 +20,8 @@ const contactSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
   phone: z.string().optional(),
   enquiryType: z.string().optional(),
+  company: z.string().optional(),
+  projectName: z.string().optional(),
   message: z.string().min(10, "Message must be at least 10 characters"),
 });
 
@@ -28,6 +30,39 @@ type ContactFormData = z.infer<typeof contactSchema>;
 export default function Contact() {
   const [isLoading, setIsLoading] = useState(false);
   const [phoneValue, setPhoneValue] = useState("");
+  const params = new URLSearchParams(window.location.search);
+  const requestedCategory = params.get("category");
+  const requestedService = params.get("service");
+
+  const serviceLabels: Record<string, string> = {
+    "new-build-snagging": "New Build / Handover Inspection",
+    "secondary-market": "Resale / Pre-Purchase Inspection",
+    "post-renovation-inspection": "Post-Renovation Inspection",
+    "move-in-move-out": "Move-in / Move-out Inspection",
+    "dlp-snagging": "DLP / Warranty Inspection",
+    "developer-projects": "Developer / Multi-Unit Inspection",
+    "technical-due-diligence": "Technical Due Diligence",
+    "building-condition-survey": "Building Condition Survey",
+    "reserve-fund-study": "Reserve Fund Study",
+    "reserve-fund-utilization": "Utilization of Reserve Fund Study Report",
+    "reinstatement-cost-assessment": "Reinstatement Cost Assessment",
+    "service-charge-allocation": "Service Charge Apportionment",
+    "asset-tagging": "Asset Tagging & Inventory",
+    "building-completion-audit": "Building Completion Audit",
+    "mep-condition-review": "MEP Condition Review",
+    "dilapidation-survey": "Dilapidation Survey",
+    "thermographic-survey": "Thermographic Survey",
+    "noise-survey": "Noise / Acoustic Assessment",
+    "structural-survey": "Structural Visual Assessment",
+  };
+
+  const normalizeCategory = (value: string | null) =>
+    value === "consultancy" || value === "technical" || value === "residential" ? value : "residential";
+
+  const [enquiryCategory, setEnquiryCategory] = useState(normalizeCategory(requestedCategory));
+  const [selectedService, setSelectedService] = useState(
+    requestedService && serviceLabels[requestedService] ? serviceLabels[requestedService] : ""
+  );
   const { toast } = useToast();
 
   const {
@@ -44,7 +79,29 @@ export default function Contact() {
     setIsLoading(true);
     
     try {
-      await apiRequest("POST", "/api/contact", data);
+      const categoryLabel =
+        enquiryCategory === "consultancy"
+          ? "Building Consultancy"
+          : enquiryCategory === "technical"
+            ? "Specialist Technical Survey"
+            : "Residential Inspection";
+
+      const contextualMessage = [
+        `Enquiry category: ${categoryLabel}`,
+        data.company ? `Company / Organisation: ${data.company}` : null,
+        data.projectName ? `Project / Property / Location: ${data.projectName}` : null,
+        `Service: ${selectedService || data.enquiryType || "General Enquiry"}`,
+        "",
+        data.message,
+      ].filter(Boolean).join("\n");
+
+      await apiRequest("POST", "/api/contact", {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        enquiryType: selectedService || data.enquiryType || categoryLabel,
+        message: contextualMessage,
+      });
       
       toast({
         title: "Message Sent!",
@@ -53,9 +110,10 @@ export default function Contact() {
       });
 
       // Track conversion for Google Ads
-      trackConversion();
+      trackConversion('lead_form');
 
       reset();
+      setSelectedService("");
     } catch (error) {
       toast({
         title: "Error",
@@ -67,14 +125,37 @@ export default function Contact() {
     }
   };
 
-  const enquiryTypes = [
-    "New Build Inspection",
-    "Pre-Purchase Inspection", 
-    "Post-Renovation Inspection",
-    "Move-in/Move-out Inspection",
-    "DLP Snagging",
-    "General Enquiry"
-  ];
+  const enquiryTypes = {
+    residential: [
+      "New Build / Handover Inspection",
+      "Resale / Pre-Purchase Inspection",
+      "Post-Renovation Inspection",
+      "Move-in / Move-out Inspection",
+      "DLP / Warranty Inspection",
+      "Developer / Multi-Unit Inspection",
+      "General Residential Enquiry",
+    ],
+    consultancy: [
+      "Technical Due Diligence",
+      "Building Condition Survey",
+      "MEP Condition Review",
+      "Building Completion Audit",
+      "Reserve Fund Study",
+      "Utilization of Reserve Fund Study Report",
+      "Reinstatement Cost Assessment",
+      "Service Charge Apportionment",
+      "Asset Tagging & Inventory",
+      "Common-Area Assessment",
+      "Other Building Consultancy",
+    ],
+    technical: [
+      "Structural Visual Assessment",
+      "Thermographic Survey",
+      "Dilapidation Survey",
+      "Noise / Acoustic Assessment",
+      "Other Specialist Survey",
+    ],
+  };
 
   const serviceAreas = [
     "Dubai",
@@ -103,7 +184,7 @@ export default function Contact() {
               Get In Touch
             </h1>
             <p className="text-sm text-zinc-400 leading-relaxed max-w-2xl">
-              Ready to schedule your property inspection? Contact our team of experts today for professional service across the UAE.
+              Whether you need a residential inspection, building consultancy study or specialist technical survey, share the requirement and our team will contact you to discuss the next step.
             </p>
           </div>
         </section>
@@ -190,7 +271,12 @@ export default function Contact() {
               {/* Contact Form */}
               <div className="bg-zinc-50 p-10 lg:p-16 border border-zinc-100">
                 <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">ENQUIRY</p>
-                <h2 className="text-3xl font-bold text-zinc-900 mb-10">Send a message.</h2>
+                <h2 className="text-3xl font-bold text-zinc-900 mb-4">Tell us about your requirement.</h2>
+                <p className="text-sm text-zinc-500 leading-relaxed mb-10">
+                  {enquiryCategory === "residential"
+                    ? "Share a few details and we will help arrange the appropriate inspection."
+                    : "Keep it simple — tell us what you need and our consultancy team will contact you to understand the project and scope."}
+                </p>
                 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
                   <div className="space-y-2">
@@ -246,21 +332,76 @@ export default function Contact() {
                   </div>
                   
                   <div className="space-y-2">
-                    <Label htmlFor="enquiryType" className="text-[10px] uppercase tracking-wide text-zinc-400 font-semibold">
-                      Enquiry Type
+                    <Label className="text-[10px] uppercase tracking-wide text-zinc-400 font-semibold">
+                      What do you need help with? *
                     </Label>
-                    <Select onValueChange={(value) => setValue("enquiryType", value)}>
+                    <Select
+                      value={enquiryCategory}
+                      onValueChange={(value) => {
+                        setEnquiryCategory(value);
+                        setSelectedService("");
+                        setValue("enquiryType", "");
+                      }}
+                    >
                       <SelectTrigger className="rounded-none border-zinc-200 focus:border-brand-green bg-white h-12">
-                        <SelectValue placeholder="Select enquiry type" />
+                        <SelectValue />
                       </SelectTrigger>
                       <SelectContent className="rounded-none">
-                        {enquiryTypes.map((type) => (
+                        <SelectItem value="residential">Residential Inspection</SelectItem>
+                        <SelectItem value="consultancy">Building Consultancy</SelectItem>
+                        <SelectItem value="technical">Specialist Technical Survey</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {enquiryCategory !== "residential" && (
+                    <div className="space-y-2">
+                      <Label htmlFor="company" className="text-[10px] uppercase tracking-wide text-zinc-400 font-semibold">
+                        Company / Organisation <span className="normal-case tracking-normal font-normal">(optional)</span>
+                      </Label>
+                      <Input
+                        id="company"
+                        {...register("company")}
+                        placeholder="Company or organisation name"
+                        className="rounded-none border-zinc-200 focus:border-brand-green bg-white h-12"
+                      />
+                    </div>
+                  )}
+
+                  <div className="space-y-2">
+                    <Label htmlFor="enquiryType" className="text-[10px] uppercase tracking-wide text-zinc-400 font-semibold">
+                      Service Required
+                    </Label>
+                    <Select
+                      value={selectedService}
+                      onValueChange={(value) => {
+                        setSelectedService(value);
+                        setValue("enquiryType", value);
+                      }}
+                    >
+                      <SelectTrigger className="rounded-none border-zinc-200 focus:border-brand-green bg-white h-12">
+                        <SelectValue placeholder="Select service" />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-none">
+                        {enquiryTypes[enquiryCategory as keyof typeof enquiryTypes].map((type) => (
                           <SelectItem key={type} value={type} className="rounded-none">
                             {type}
                           </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="projectName" className="text-[10px] uppercase tracking-wide text-zinc-400 font-semibold">
+                      {enquiryCategory === "residential" ? "Property / Community / Location" : "Project / Building / Location"} <span className="normal-case tracking-normal font-normal">(optional)</span>
+                    </Label>
+                    <Input
+                      id="projectName"
+                      {...register("projectName")}
+                      placeholder={enquiryCategory === "residential" ? "e.g. apartment, villa or community" : "e.g. building or project name"}
+                      className="rounded-none border-zinc-200 focus:border-brand-green bg-white h-12"
+                    />
                   </div>
                   
                   <div className="space-y-2">
@@ -271,7 +412,7 @@ export default function Contact() {
                       id="message"
                       {...register("message")}
                       rows={5}
-                      placeholder="Tell us about your property inspection needs..."
+                      placeholder={enquiryCategory === "residential" ? "Tell us briefly about the property and inspection requirement..." : "Briefly describe what you need. We will contact you for the project details and scope."}
                       className={`rounded-none border-zinc-200 focus:border-brand-green bg-white resize-none ${errors.message ? "border-red-500" : ""}`}
                     />
                     {errors.message && (
@@ -327,10 +468,10 @@ export default function Contact() {
         <section className="py-24 lg:py-32 bg-zinc-950 text-white">
           <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 text-center">
             <h2 className="text-4xl lg:text-5xl font-bold mb-8">
-              Ready to Schedule <br />Your Inspection?
+              Ready to Discuss <br />Your Requirement?
             </h2>
             <p className="text-sm text-zinc-400 mb-12 max-w-2xl mx-auto leading-relaxed">
-              Don't wait – protect your property investment with professional inspection services from UAE's most trusted experts.
+              Speak with UrbanGrid about your property inspection, building consultancy or specialist technical survey requirement.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
