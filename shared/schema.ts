@@ -65,6 +65,24 @@ export const contactSubmissions = pgTable("contact_submissions", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+// Durable local outbox: records are committed atomically with the contact submission.
+export const websiteLeadOutbox = pgTable("website_lead_outbox", {
+  id: serial("id").primaryKey(),
+  contactId: integer("contact_id").notNull().references(() => contactSubmissions.id),
+  eventId: varchar("event_id", { length: 200 }).notNull().unique(),
+  clientCode: varchar("client_code", { length: 80 }).notNull(),
+  envelope: jsonb("envelope").notNull(),
+  status: varchar("status", { length: 30 }).notNull().default("pending"),
+  attempts: integer("attempts").notNull().default(0),
+  nextAttemptAt: timestamp("next_attempt_at", { withTimezone: true }).notNull().defaultNow(),
+  lastError: text("last_error"),
+  deliveredAt: timestamp("delivered_at", { withTimezone: true }),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
+// This table must be created through the additive DB migration before the new server build is published.
+
 // Inspectors table for inspector authentication
 export const inspectors = pgTable("inspectors", {
   id: serial("id").primaryKey(),
