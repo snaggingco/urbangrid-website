@@ -1,0 +1,32 @@
+name: UrbanGrid website gateway CI
+
+on:
+  pull_request:
+    branches: [main, release/uae-dos-v1-blockers-20261004]
+  push:
+    branches: [integration/github-canonical-country-gateway, main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.4
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Resolve dependency lockfile without rewriting repository
+        run: pnpm import
+      - name: Install dependencies with pnpm
+        run: pnpm install --frozen-lockfile
+      - name: Validate installed compiler
+        run: pnpm exec tsc --version
+      - run: pnpm run check
+      - run: pnpm run build

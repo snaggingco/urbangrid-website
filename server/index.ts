@@ -7,6 +7,8 @@ import { db } from "./db";
 import { visitorLogs } from "@shared/schema";
 import { startVisitorReportScheduler } from "./visitorReport";
 import { WebhookHandlers } from "./webhookHandlers";
+import { startNetworkLeadWorker } from "./networkLeadSync";
+import { ensureNetworkOutboxSchema } from "./networkOutboxMigration";
 
 const app = express();
 
@@ -149,6 +151,10 @@ async function initStripe() {
 }
 
 (async () => {
+  // Ensure every accepted enquiry is backed by a durable queue.
+  // SQL is additive and idempotent; never run a destructive schema push.
+  await ensureNetworkOutboxSchema();
+
   // Init Stripe in background — don't block server startup
   initStripe();
 
@@ -175,6 +181,7 @@ async function initStripe() {
   }, () => {
     log(`serving on port ${port}`);
     startVisitorReportScheduler();
+    startNetworkLeadWorker();
     void import("./operationsIntegration").then(({ startOperationsDeliveryWorker }) => startOperationsDeliveryWorker());
   });
 })();
