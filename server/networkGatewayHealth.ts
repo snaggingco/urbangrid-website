@@ -14,7 +14,7 @@ export async function getNetworkDeliveryHealth() {
   const urlIsLive = Boolean(endpoint && new URL(endpoint).hostname === "nzbewemalujbhnjbrpcs.supabase.co");
   const registeredDomain = (process.env.URBANGRID_SITE_DOMAIN || "").trim().toLowerCase();
   const domains = (process.env.REPLIT_DOMAINS || "").toLowerCase()
-    .split(",").map(item => item.trim().replace(/^www\\./, ""));
+    .split(",").map(item => item.trim().replace(/^www\./, ""));
   const domainIsBound = Boolean(registeredDomain)
     || domains.includes("urbangrid.ae");
   const countryConfigured = /^[A-Z]{2}$/.test((process.env.URBANGRID_COUNTRY_CODE || "").toUpperCase())
