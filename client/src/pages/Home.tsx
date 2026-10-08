@@ -207,13 +207,7 @@ export default function Home() {
               </Button>
             </Link>
 
-            <button
-              onClick={() => startTransition(() => setReportModalOpen(true))}
-              className="inline-flex items-center gap-2 border border-zinc-600 text-zinc-400 px-8 py-[14px] text-sm font-semibold hover:border-white hover:text-white transition-all w-full sm:w-auto justify-center sm:justify-start"
-            >
-              Download Sample Report
-              <ArrowRight className="w-4 h-4" />
-            </button>
+
           </div>
 
           {/* Trust badges */}
@@ -306,9 +300,28 @@ export default function Home() {
               <p className="text-sm text-zinc-500 leading-relaxed max-w-md mb-6">
                 Handover snagging, DLP, resale, post-renovation and move-in / move-out inspections for homes and investment properties.
               </p>
-              <span className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green border-b border-brand-green pb-0.5 group-hover:gap-3 transition-all">
-                Explore Residential Inspections <ArrowRight className="w-3 h-3" />
-              </span>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6">
+                <span className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green border-b border-brand-green pb-0.5 group-hover:gap-3 transition-all w-fit">
+                  Explore Residential Inspections <ArrowRight className="w-3 h-3" />
+                </span>
+                <span
+                  role="button"
+                  tabIndex={0}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    startTransition(() => setReportModalOpen(true));
+                  }}
+                  onKeyDown={(event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.stopPropagation();
+                      startTransition(() => setReportModalOpen(true));
+                    }
+                  }}
+                  className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-500 border-b border-zinc-300 pb-0.5 hover:text-brand-green hover:border-brand-green transition-colors w-fit"
+                >
+                  Download Sample Snagging Report <ArrowRight className="w-3 h-3" />
+                </span>
+              </div>
             </button>
 
             <button
