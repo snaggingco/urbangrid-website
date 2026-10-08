@@ -27,7 +27,7 @@ function ServiceLinks({ services }: { services: typeof residentialServices }) {
   );
 }
 
-export default function ServiceCatalogSections() {
+export default function ServiceCatalogSections({ onSampleReport }: { onSampleReport?: () => void }) {
   return (
     <section id="residential-inspections" className="scroll-mt-24 py-20 lg:py-28 bg-white">
         <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
@@ -67,6 +67,9 @@ export default function ServiceCatalogSections() {
             <Link href="/services" className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green hover:gap-3 transition-all">
               Explore all inspection services <ArrowRight className="w-3 h-3" />
             </Link>
+            {onSampleReport && <button type="button" onClick={onSampleReport} className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green underline underline-offset-4">
+              Download Sample Snagging Report <ArrowRight className="w-3 h-3" />
+            </button>}
           </div>
           <div className="mt-6 flex flex-wrap gap-x-6 gap-y-3 border-t border-zinc-100 pt-5 text-xs">
             <Link href="/pricing" className="font-semibold text-brand-green underline underline-offset-4">Residential pricing & VAT</Link>
@@ -94,13 +97,13 @@ export function HomeBuildingConsultancy() {
           </div>
           <ServiceLinks services={buildingConsultancyServices} />
           <div className="mt-8">
-            <Link href="/contact" className="inline-flex items-center gap-2 bg-zinc-900 px-6 py-3 text-xs font-semibold text-white hover:bg-zinc-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-green">
+            <Link href="/contact?category=consultancy" className="inline-flex items-center gap-2 bg-zinc-900 px-6 py-3 text-xs font-semibold text-white hover:bg-zinc-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-green">
               Request Custom Quote <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
           <div className="mt-5 flex flex-wrap gap-x-6 gap-y-3 text-xs">
             <Link href="/pricing" className="font-semibold text-brand-green underline underline-offset-4">Residential pricing guide</Link>
-            <Link href="/sample-report" className="font-semibold text-brand-green underline underline-offset-4">Inspection report overview</Link>
+            <Link href="/contact?category=consultancy" className="font-semibold text-brand-green underline underline-offset-4">Discuss consultancy requirements</Link>
           </div>
         </div>
     </section>
