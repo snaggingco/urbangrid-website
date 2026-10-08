@@ -208,6 +208,22 @@ export const operationsDeliveryOutbox = pgTable("operations_delivery_outbox", {
   check("operations_outbox_environment_valid", sql`${t.environment} in ('development','production')`),
 ]);
 
+// Website -> Network lead delivery queue. Local lead and event are committed atomically.
+export const websiteLeadOutbox = pgTable("website_lead_outbox", {
+  id: serial("id").primaryKey(),
+  contactId: integer("contact_id").notNull().references(() => contactSubmissions.id),
+  eventId: varchar("event_id", { length: 200 }).notNull().unique(),
+  clientCode: varchar("client_code", { length: 80 }).notNull(),
+  envelope: jsonb("envelope").notNull(),
+  status: varchar("status", { length: 30 }).notNull().default("pending"),
+  attempts: integer("attempts").notNull().default(0),
+  nextAttemptAt: timestamp("next_attempt_at", { withTimezone: true }).notNull().defaultNow(),
+  lastError: text("last_error"),
+  deliveredAt: timestamp("delivered_at", { withTimezone: true }),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+});
+
 // Inspectors table for inspector authentication
 export const inspectors = pgTable("inspectors", {
   id: serial("id").primaryKey(),
