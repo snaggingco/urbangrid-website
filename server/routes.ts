@@ -4,6 +4,7 @@ import fs from "fs";
 import path from "path";
 import crypto from "crypto";
 import { storage } from "./storage";
+import { saveAndQueueWebsiteLead, deliverPendingNetworkLeads } from "./networkLeadGateway";
 import { setupLocalAuth } from "./adminAuth";
 import { setupInspectorAuth } from "./inspectorAuth";
 import { insertBlogPostSchema, insertContactSubmissionSchema, insertInspectorSchema, insertConversionLogSchema } from "@shared/schema";
@@ -341,7 +342,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/contact', async (req, res) => {
     try {
       const validatedData = insertContactSubmissionSchema.parse(req.body);
-      const submission = await storage.createContactSubmission(validatedData);
+      const submission = await saveAndQueueWebsiteLead(validatedData, req, "contact", req.body);
       
       // Send email notification to info@urbangrid.ae
       const emailContent = `
@@ -352,12 +353,14 @@ Email: ${submission.email}
 Phone: ${submission.phone}
 Message: ${submission.message}
       `;
-      const emailed = await sendEmail('info@urbangrid.ae', 'New Contact Form Submission', emailContent);
+      const subjectType = String(submission.enquiryType || "General Enquiry").replace(/[\r\n]/g, " ").slice(0, 90);
+      const emailed = await sendEmail('info@urbangrid.ae', "New Website Enquiry – " + subjectType, emailContent);
       if (!emailed) {
         logContactFallback(submission);
       }
       
       res.status(201).json({ message: 'Contact submission received', submission });
+      void deliverPendingNetworkLeads();
     } catch (error) {
       if (error instanceof z.ZodError) {
         return res.status(400).json({ message: "Invalid data", errors: error.errors });
@@ -376,12 +379,9 @@ Message: ${submission.message}
       }
 
       // Save to storage
-      const consultation = await storage.createContactSubmission({
-        name,
-        email,
-        phone,
-        message: 'Free consultation request',
-      });
+      const consultation = await saveAndQueueWebsiteLead({
+        name, email, phone, enquiryType: 'Free consultation', message: 'Free consultation request'
+      }, req, 'consultation', req.body);
 
       // Send email notification
       const emailContent = `
@@ -402,6 +402,7 @@ Phone: ${phone}
       }
 
       res.status(201).json({ message: 'Consultation request received', consultation });
+      void deliverPendingNetworkLeads();
     } catch (error) {
       console.error("Error creating consultation request:", error);
       res.status(500).json({ message: "Failed to submit consultation form" });
@@ -416,12 +417,9 @@ Phone: ${phone}
         return res.status(400).json({ message: "Name, email, and phone are required" });
       }
 
-      await storage.createContactSubmission({
-        name,
-        email,
-        phone,
-        message: 'Sample report download request',
-      });
+      await saveAndQueueWebsiteLead({
+        name, email, phone, enquiryType: 'Sample Snagging Report', message: 'Sample report download request'
+      }, req, 'sample-report-download', req.body);
 
       const emailContent = `
 New Sample Report Download Request
@@ -443,6 +441,7 @@ This lead requested the sample inspection report.
       }
 
       res.status(201).json({ message: 'Details received' });
+      void deliverPendingNetworkLeads();
     } catch (error) {
       console.error("Error processing sample report request:", error);
       res.status(500).json({ message: "Failed to process request" });
@@ -457,12 +456,9 @@ This lead requested the sample inspection report.
         return res.status(400).json({ message: "Name, email, and phone are required" });
       }
 
-      const quickContact = await storage.createContactSubmission({
-        name,
-        email,
-        phone,
-        message: 'Quick contact request',
-      });
+      const quickContact = await saveAndQueueWebsiteLead({
+        name, email, phone, enquiryType: 'Quick contact', message: 'Quick contact request'
+      }, req, 'quick-contact', req.body);
 
       // Send email notification
       const emailContent = `
@@ -483,6 +479,7 @@ Phone: ${phone}
       }
 
       res.status(201).json({ message: 'Quick contact request received', quickContact });
+      void deliverPendingNetworkLeads();
     } catch (error) {
       console.error("Error creating quick contact request:", error);
       res.status(500).json({ message: "Failed to submit quick contact form" });
