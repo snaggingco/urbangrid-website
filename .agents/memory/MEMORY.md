@@ -19,3 +19,4 @@
 - [Operations integration](operations-integration.md) — confirmed-booking delivery plus authenticated lifecycle; preserve snapshots, receiver deduplication and payment/report safeguards.
 - [Browser testing runtime](browser-testing-runtime.md) — the documented tester subtype may be unavailable; use isolated browser fixtures without weakening auth.
 - [UAE release boundaries](uae-release-boundaries.md) — preserve design when fixing runtime risks; restart durability does not establish execution during Autoscale scale-to-zero.
+- [Programmatic runtime](programmatic-runtime.md) — some sessions lack top-level crypto and zero-argument Date; use a small impure helper and check whether mutations ran before retrying.
