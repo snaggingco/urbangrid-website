@@ -30,8 +30,11 @@ export async function saveAndQueueWebsiteLead(
   submission: InsertContactSubmission, req: Request, channel: string, extras: Extras = {}
 ) {
   const clientCode = process.env.URBANGRID_NETWORK_CLIENT_CODE || "urbangrid-website";
-  const countryCode = (process.env.URBANGRID_COUNTRY_CODE || "AE").toUpperCase();
-  const sourceDomain = (process.env.URBANGRID_SITE_DOMAIN || "urbangrid.ae").toLowerCase();
+  // A cloned site must NEVER be silently treated as a UAE site.
+  // Source domain comes from the actual request host; the registered Network
+  // client will reject it if the deployment's configured domain is different.
+  const sourceDomain = (req.hostname || req.get("host") || "").toLowerCase().replace(/^www\./, "").split(":")[0];
+  const countryCode = (process.env.URBANGRID_COUNTRY_CODE || (sourceDomain === "urbangrid.ae" ? "AE" : "UNCONFIGURED")).toUpperCase();
   const sourcePage = clipped(extras.sourcePage,600) || clipped(req.get("referer"),600) || "/";
   const service = clipped(extras.service,160) || clipped(submission.enquiryType,160) || channel;
   const category = inferCategory(service,clipped(extras.category),channel);
@@ -69,6 +72,9 @@ export async function deliverPendingNetworkLeads() {
   const url=process.env.URBANGRID_NETWORK_INTEGRATION_URL;
   const key=process.env.URBANGRID_NETWORK_INTEGRATION_KEY;
   if (!url || !key) return;
+  // Explicit settings are required before any site delivers leads to the Network.
+  // The UAE reference site's default client code can remain for compatibility.
+  if (!process.env.URBANGRID_COUNTRY_CODE || !process.env.URBANGRID_SITE_DOMAIN) return;
   let endpoint: URL;
   try {
     endpoint = new URL(url);
