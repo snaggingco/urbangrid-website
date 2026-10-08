@@ -69,7 +69,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <ServiceCatalogSections />
+      <ServiceCatalogSections onSampleReport={() => setReportModalOpen(true)} />
 
       {/* ── INSPECTION APPROACH ───────────────────────────────────────────── */}
       <section className="py-16 bg-white border-b border-zinc-100">
