@@ -19,6 +19,8 @@ const contactSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
   phone: z.string().optional(),
   enquiryType: z.string().optional(),
+  company: z.string().max(255).optional(),
+  projectName: z.string().max(255).optional(),
   message: z.string().min(10, "Message must be at least 10 characters"),
 });
 
@@ -27,6 +29,24 @@ type ContactFormData = z.infer<typeof contactSchema>;
 export default function Contact() {
   const [isLoading, setIsLoading] = useState(false);
   const [phoneValue, setPhoneValue] = useState("");
+  const qs = new URLSearchParams(window.location.search);
+  const categoryFromUrl = qs.get("category");
+  const initialCategory = categoryFromUrl === "consultancy" || categoryFromUrl === "technical" ? categoryFromUrl : "residential";
+  const [category, setCategory] = useState<"residential" | "consultancy" | "technical">(initialCategory);
+  const slugLabels: Record<string,string> = {
+    "new-build-snagging":"New Build / Handover Inspection", "secondary-market":"Resale / Pre-Purchase Inspection",
+    "post-renovation-inspection":"Post-Renovation Inspection","move-in-move-out":"Move-in / Move-out Inspection",
+    "dlp-snagging":"DLP / Warranty Inspection","technical-due-diligence":"Technical Due Diligence",
+    "building-condition-survey":"Building Condition Survey","reserve-fund-study":"Reserve Fund Study",
+    "reserve-fund-utilization":"Utilization of Reserve Fund Study Report",
+    "reinstatement-cost-assessment":"Reinstatement Cost Assessment",
+    "service-charge-allocation":"Service Charge Apportionment","asset-tagging":"Asset Tagging & Inventory",
+    "building-completion-audit":"Building Completion Audit","mep-condition-review":"MEP Condition Review",
+    "dilapidation-survey":"Dilapidation Survey","thermographic-survey":"Thermographic Survey",
+    "noise-survey":"Noise / Acoustic Assessment","structural-survey":"Structural Visual Assessment"
+  };
+  const initialService = slugLabels[qs.get("service") || ""] || "";
+  const [selectedService, setSelectedService] = useState(initialService);
   const { toast } = useToast();
 
   const {
@@ -37,6 +57,7 @@ export default function Contact() {
     setValue,
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
+    defaultValues: { enquiryType: initialService },
   });
 
   const onSubmit = async (data: ContactFormData) => {
@@ -44,7 +65,22 @@ export default function Contact() {
     setIsLoading(true);
     
     try {
-      await submitLead("/api/contact", { ...data, leadSource: "contact" });
+      const selected = selectedService || data.enquiryType || (
+        category === "consultancy" ? "Other Building Consultancy" :
+        category === "technical" ? "Other Specialist Survey" : "General Residential Enquiry"
+      );
+      const contextualMessage = [
+        "Enquiry category: " + (category === "consultancy" ? "Building Consultancy" :
+          category === "technical" ? "Specialist Technical Survey" : "Residential Inspection"),
+        "Service: " + selected,
+        data.company ? "Company / Organisation: " + data.company : "",
+        data.projectName ? "Project / Property / Location: " + data.projectName : "",
+        "", data.message
+      ].filter(Boolean).join("\n");
+      await submitLead("/api/contact", {
+        name:data.name,email:data.email,phone:data.phone,
+        enquiryType:selected,message:contextualMessage,leadSource:"contact"
+      });
       
       toast({
         title: "Message Sent!",
@@ -53,6 +89,7 @@ export default function Contact() {
       });
 
       reset();
+      setSelectedService("");
       setPhoneValue("");
     } catch (error) {
       toast({
@@ -65,14 +102,25 @@ export default function Contact() {
     }
   };
 
-  const enquiryTypes = [
-    "New Build Inspection",
-    "Pre-Purchase Inspection", 
-    "Post-Renovation Inspection",
-    "Move-in/Move-out Inspection",
-    "DLP Snagging",
-    "General Enquiry"
-  ];
+  const enquiryTypes = {
+    residential: [
+      "New Build / Handover Inspection", "Resale / Pre-Purchase Inspection",
+      "Post-Renovation Inspection", "Move-in / Move-out Inspection",
+      "DLP / Warranty Inspection", "Developer / Multi-Unit Inspection",
+      "General Residential Enquiry"
+    ],
+    consultancy: [
+      "Technical Due Diligence", "Building Condition Survey",
+      "MEP Condition Review", "Building Completion Audit",
+      "Reserve Fund Study", "Utilization of Reserve Fund Study Report",
+      "Reinstatement Cost Assessment", "Service Charge Apportionment",
+      "Asset Tagging & Inventory", "Common-Area Assessment", "Other Building Consultancy"
+    ],
+    technical: [
+      "Structural Visual Assessment", "Thermographic Survey",
+      "Dilapidation Survey", "Noise / Acoustic Assessment", "Other Specialist Survey"
+    ]
+  };
 
   const serviceAreas = [
     "Dubai",
@@ -101,7 +149,7 @@ export default function Contact() {
               Get In Touch
             </h1>
             <p className="text-sm text-zinc-400 leading-relaxed max-w-2xl">
-              Ready to schedule your property inspection? Contact our team of experts today for professional service across the UAE.
+              Residential inspections, building consultancy and specialist surveys across the UAE. Tell us what you need and our team will contact you to discuss the scope.
             </p>
           </div>
         </section>
@@ -192,6 +240,24 @@ export default function Contact() {
                 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
                   <div className="space-y-2">
+                    <Label htmlFor="enquiryCategory" className="text-[10px] uppercase tracking-wide text-zinc-400 font-semibold">What can we help you with?</Label>
+                    <Select value={category} onValueChange={(value) => {
+                      setCategory(value as "residential" | "consultancy" | "technical");
+                      setSelectedService("");
+                      setValue("enquiryType","");
+                    }}>
+                      <SelectTrigger id="enquiryCategory" className="rounded-none border-zinc-200 bg-white h-12">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent className="rounded-none">
+                        <SelectItem value="residential">Residential Inspection</SelectItem>
+                        <SelectItem value="consultancy">Building Consultancy</SelectItem>
+                        <SelectItem value="technical">Specialist Technical Survey</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <p className="text-xs text-zinc-500">{category === "residential" ? "Handover, DLP, resale and tenancy inspections." : "A short enquiry is enough. Our team will discuss the scope with you."}</p>
+                  </div>
+                  <div className="space-y-2">
                     <Label htmlFor="name" className="text-[10px] uppercase tracking-wide text-zinc-400 font-semibold">
                       Full Name *
                     </Label>
@@ -247,12 +313,15 @@ export default function Contact() {
                     <Label htmlFor="enquiryType" className="text-[10px] uppercase tracking-wide text-zinc-400 font-semibold">
                       Enquiry Type
                     </Label>
-                    <Select onValueChange={(value) => setValue("enquiryType", value)}>
+                    <Select value={selectedService} onValueChange={(value) => {
+                      setSelectedService(value);
+                      setValue("enquiryType",value);
+                    }}>
                       <SelectTrigger className="rounded-none border-zinc-200 focus:border-brand-green bg-white h-12">
                         <SelectValue placeholder="Select enquiry type" />
                       </SelectTrigger>
                       <SelectContent className="rounded-none">
-                        {enquiryTypes.map((type) => (
+                        {enquiryTypes[category].map((type) => (
                           <SelectItem key={type} value={type} className="rounded-none">
                             {type}
                           </SelectItem>
@@ -261,6 +330,16 @@ export default function Contact() {
                     </Select>
                   </div>
                   
+                  {category !== "residential" && (
+                    <div className="space-y-2">
+                      <Label htmlFor="company" className="text-[10px] uppercase tracking-wide text-zinc-400 font-semibold">Company / Organisation (optional)</Label>
+                      <Input id="company" {...register("company")} className="rounded-none border-zinc-200 bg-white h-12" placeholder="Organisation name" />
+                    </div>
+                  )}
+                  <div className="space-y-2">
+                    <Label htmlFor="projectName" className="text-[10px] uppercase tracking-wide text-zinc-400 font-semibold">Project / Property / Location (optional)</Label>
+                    <Input id="projectName" {...register("projectName")} className="rounded-none border-zinc-200 bg-white h-12" placeholder="Building or community" />
+                  </div>
                   <div className="space-y-2">
                     <Label htmlFor="message" className="text-[10px] uppercase tracking-wide text-zinc-400 font-semibold">
                       Message *
@@ -269,7 +348,7 @@ export default function Contact() {
                       id="message"
                       {...register("message")}
                       rows={5}
-                      placeholder="Tell us about your property inspection needs..."
+                      placeholder={category === "residential" ? "Tell us about your inspection requirements..." : "Briefly describe the study or technical services you require..."}
                       className={`rounded-none border-zinc-200 focus:border-brand-green bg-white resize-none ${errors.message ? "border-red-500" : ""}`}
                     />
                     {errors.message && (
@@ -325,10 +404,10 @@ export default function Contact() {
         <section className="py-24 lg:py-32 bg-zinc-950 text-white">
           <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16 text-center">
             <h2 className="text-4xl lg:text-5xl font-bold mb-8">
-              Ready to Schedule <br />Your Inspection?
+              Ready to Discuss <br />Your Requirement?
             </h2>
             <p className="text-sm text-zinc-400 mb-12 max-w-2xl mx-auto leading-relaxed">
-              Don't wait – protect your property investment with professional inspection services from UAE's most trusted experts.
+              Share your requirements and the UrbanGrid team will advise on the next steps.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-8 justify-center items-center">
