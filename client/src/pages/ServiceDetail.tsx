@@ -962,7 +962,7 @@ export default function ServiceDetail() {
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-6 lg:justify-end">
-                <a href={standardService ? `/book-inspection?service=${standardService}` : "/contact?enquiryType=General%20Enquiry"} className="inline-block">
+                <a href={standardService ? `/book-inspection?service=${standardService}` : `/contact?category=${category === "rera-services" ? "consultancy" : category === "technical-inspections" ? "technical" : "residential"}&service=${encodeURIComponent(slug)}`} className="inline-block">
                   <Button className="bg-white text-brand-green hover:bg-zinc-100 rounded-none h-14 px-10 text-[10px] uppercase tracking-[0.2em] font-bold">
                     {standardService ? "Book Inspection" : "Request Custom Quote"}
                   </Button>
