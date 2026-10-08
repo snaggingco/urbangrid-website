@@ -19,6 +19,15 @@ jobs:
         with:
           node-version: '20'
           cache: npm
-      - run: npm ci
+      - name: Install dependencies (verify local toolchain)
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm ci --no-audit --no-fund --prefer-online || {
+            npm cache clean --force
+            npm ci --no-audit --no-fund --prefer-online
+          }
+          node -e "require.resolve('typescript'); require.resolve('vite'); require.resolve('esbuild')"
+          test -x node_modules/.bin/tsc
       - run: npm run check
       - run: npm run build
