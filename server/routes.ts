@@ -26,6 +26,7 @@ import { assetTaggingSchema, assetTaggingService } from "@shared/assetTagging";
 import { registerVisibilityRoutes } from "./visibilityRoutes";
 import { registerLeadRoutes } from "./leadRoutes";
 import { registerBookingRoutes } from "./bookingRoutes";
+import { getNetworkDeliveryHealth } from "./networkGatewayHealth";
 import { calculateInspectionPrice, serviceFromLabel, formatAed } from "@shared/inspectionPricing";
 import { residentialTerms } from "./residentialChat";
 
@@ -349,6 +350,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Operator-only gateway diagnostics. Do not expose event data or credentials.
+  app.get("/api/admin/network-gateway-health", isAdminAuthenticated, async (_req, res) => {
+    try {
+      res.set("Cache-Control", "no-store").status(200).json(await getNetworkDeliveryHealth());
+    } catch {
+      res.set("Cache-Control", "no-store").status(503).json({ message: "Gateway diagnostic temporarily unavailable" });
+    }
+  });
   registerLeadRoutes(app, isAdminAuthenticated);
   registerBookingRoutes(app, isAdminAuthenticated);
 

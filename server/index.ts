@@ -9,6 +9,7 @@ import { startVisitorReportScheduler } from "./visitorReport";
 import { WebhookHandlers } from "./webhookHandlers";
 import { startNetworkLeadWorker } from "./networkLeadSync";
 import { ensureNetworkOutboxSchema } from "./networkOutboxMigration";
+import { BUILD_STAMP } from "./buildStamp";
 
 const app = express();
 
@@ -19,6 +20,9 @@ app.set('trust proxy', 1);
 // Health check endpoint — must be before all other middleware
 app.get("/health", (_req, res) => {
   res.status(200).send("OK");
+});
+app.get("/api/build-info", (_req, res) => {
+  res.set("Cache-Control", "no-store").status(200).json(BUILD_STAMP);
 });
 
 // ── Stripe webhook — MUST be registered BEFORE express.json() ─────────────────
