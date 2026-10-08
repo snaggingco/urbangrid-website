@@ -7,6 +7,7 @@ import { db } from "./db";
 import { visitorLogs } from "@shared/schema";
 import { startVisitorReportScheduler } from "./visitorReport";
 import { WebhookHandlers } from "./webhookHandlers";
+import { startNetworkLeadWorker } from "./networkLeadSync";
 
 const app = express();
 
@@ -175,6 +176,7 @@ async function initStripe() {
   }, () => {
     log(`serving on port ${port}`);
     startVisitorReportScheduler();
+    startNetworkLeadWorker();
     void import("./operationsIntegration").then(({ startOperationsDeliveryWorker }) => startOperationsDeliveryWorker());
   });
 })();
