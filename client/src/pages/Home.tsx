@@ -164,14 +164,14 @@ export default function Home() {
             <span className="block text-brand-white">&amp; Snagging Company.</span>
           </h1>
 
-          <p className="text-sm sm:text-lg text-zinc-300 mb-2 max-w-lg leading-relaxed font-normal">
-            40,000+ UAE properties inspected. 600,000+ defects documented.
+          <p className="text-sm sm:text-lg text-zinc-300 mb-2 max-w-xl leading-relaxed font-normal">
+            Independent property inspection and building consultancy across the UAE.
           </p>
           <p className="text-xs sm:text-sm text-zinc-500 mb-6 sm:mb-8 max-w-lg leading-relaxed font-normal tracking-wide">
             UAE &nbsp;·&nbsp;
             <a href="https://www.stratasurveyor.com" target="_blank" rel="noopener" className="hover:text-zinc-300 transition-colors">KSA</a>
             &nbsp;·&nbsp;
-            <a href="https://www.snagging.in" target="_blank" rel="noopener" className="hover:text-zinc-300 transition-colors">India</a>
+            <a href="https://www.urbansnag.in" target="_blank" rel="noopener" className="hover:text-zinc-300 transition-colors">India</a>
             &nbsp;·&nbsp;
             <a href="https://www.urbangrid.co.uk" target="_blank" rel="noopener" className="hover:text-zinc-300 transition-colors">United Kingdom</a>
           </p>
@@ -181,7 +181,7 @@ export default function Home() {
 
           {/* CTA buttons */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6 sm:mb-6">
-            <Link href="/contact">
+            <Link href="/contact?category=residential">
               <Button
                 size="lg"
                 className="bg-brand-green text-white hover:bg-emerald-700 transition-all px-8 py-6 text-sm font-semibold tracking-wide rounded-none group relative overflow-hidden active:scale-95 w-full sm:w-auto"
@@ -190,6 +190,19 @@ export default function Home() {
                 <span className="flex items-center gap-3">
                   Book Inspection
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </Button>
+            </Link>
+
+            <Link href="/contact?category=consultancy">
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-zinc-600 bg-transparent text-white hover:bg-white hover:text-zinc-900 hover:border-white transition-all px-8 py-6 text-sm font-semibold tracking-wide rounded-none w-full sm:w-auto"
+              >
+                <span className="flex items-center gap-3">
+                  Request Consultancy Proposal
+                  <ArrowRight className="w-4 h-4" />
                 </span>
               </Button>
             </Link>
