@@ -6,6 +6,7 @@ import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
+import { websiteLeadContext } from "@/lib/leadAttribution";
 import { trackConversion } from "@/lib/analytics";
 
 export default function ConsultationForm() {
@@ -26,6 +27,7 @@ export default function ConsultationForm() {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
+        ...websiteLeadContext(),
       });
 
       toast({

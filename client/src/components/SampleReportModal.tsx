@@ -6,6 +6,7 @@ import PhoneInput from "react-phone-number-input";
 import "react-phone-number-input/style.css";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
+import { websiteLeadContext } from "@/lib/leadAttribution";
 import { ArrowRight, X, FileText, CheckCircle } from "lucide-react";
 
 interface Props {
@@ -29,7 +30,9 @@ export default function SampleReportModal({ isOpen, onClose }: Props) {
     }
     setIsLoading(true);
     try {
-      await apiRequest("POST", "/api/sample-report-download", formData);
+      await apiRequest("POST", "/api/sample-report-download", {
+        ...formData, ...websiteLeadContext(),
+      });
       setStep("success");
       // Trigger download after a brief delay so user sees success state
       setTimeout(() => {
