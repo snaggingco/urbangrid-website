@@ -28,9 +28,14 @@ function canonicalPage(raw:unknown) {
   }catch{return "/";}
 }
 function countrySettings() {
+  // The reference UAE site can identify itself via its platform-bound custom
+  // domain. Cloned sites do not inherit an unconditional UAE fallback.
+  const boundDomains=(process.env.REPLIT_DOMAINS || "").split(",")
+    .map(host=>host.trim().toLowerCase().replace(/^www\./,""));
+  const isUaeReference=boundDomains.includes("urbangrid.ae");
   const clientCode=process.env.URBANGRID_NETWORK_CLIENT_CODE || "urbangrid-website";
-  const countryCode=process.env.URBANGRID_COUNTRY_CODE || "";
-  const sourceDomain=process.env.URBANGRID_SITE_DOMAIN || "";
+  const countryCode=process.env.URBANGRID_COUNTRY_CODE || (isUaeReference?"AE":"");
+  const sourceDomain=process.env.URBANGRID_SITE_DOMAIN || (isUaeReference?"urbangrid.ae":"");
   return {clientCode,countryCode:countryCode.toUpperCase(),sourceDomain:sourceDomain.toLowerCase().replace(/^www\./,"")};
 }
 function eventForLead(lead:Lead) {
