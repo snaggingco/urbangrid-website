@@ -12,24 +12,21 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9.15.4
+          run_install: false
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: npm
-      - name: Upgrade npm CLI
-        run: npm install --global npm@11.6.2
-      - name: Install dependencies (verify local toolchain)
-        shell: bash
-        run: |
-          set -euo pipefail
-          npm ci --no-audit --no-fund --prefer-online || {
-            npm cache clean --force
-            npm ci --no-audit --no-fund --prefer-online
-          }
-          node -e "require.resolve('typescript'); require.resolve('vite'); require.resolve('esbuild')"
-          test -x node_modules/.bin/tsc
-      - run: npm run check
-      - run: npm run build
+      - name: Resolve dependency lockfile without rewriting repository
+        run: pnpm import
+      - name: Install dependencies with pnpm
+        run: pnpm install --frozen-lockfile
+      - name: Validate installed compiler
+        run: pnpm exec tsc --version
+      - run: pnpm run check
+      - run: pnpm run build
