@@ -1,3 +1,4 @@
+- [Saudi fork scope](saudi-fork-scope.md) — this project is the Saudi Arabia site; inherited UAE assumptions are not Saudi requirements.
 - [Bundle perf](bundle-perf.md) — eager App.tsx/shell imports drag heavy deps into the every-page main chunk; lazy-load interaction/below-fold UI to shrink it.
 - [Visibility methodology](visibility-methodology.md) — keep GEO readiness separate from LLM visibility; only observed platform responses can populate LLM metrics.
 - [WhatsApp conversion semantics](whatsapp-conversion-semantics.md) — measure outbound contact clicks separately from confirmed leads or completed conversations.
