@@ -3,16 +3,16 @@ import compression from "compression";
 import crypto from "crypto";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-import { db } from "./db";
+import { db, pool } from "./db";
 import { visitorLogs } from "@shared/schema";
 import { startVisitorReportScheduler } from "./visitorReport";
 import { WebhookHandlers } from "./webhookHandlers";
 import { startNetworkLeadWorker } from "./networkLeadSync";
 import { ensureNetworkOutboxSchema } from "./networkOutboxMigration";
 import { BUILD_STAMP } from "./buildStamp";
-import { assertUaeApplication } from "./network/runtime";
+import { countrySafetyMiddleware, websiteMarket } from "./network/application";
 
-assertUaeApplication(process.env);
+const market = websiteMarket(process.env);
 const app = express();
 
 // Trust the first proxy hop so req.protocol correctly reflects HTTPS behind Replit/nginx.
@@ -26,6 +26,8 @@ app.get("/health", (_req, res) => {
 app.get("/api/build-info", (_req, res) => {
   res.set("Cache-Control", "no-store").status(200).json(BUILD_STAMP);
 });
+
+app.use(countrySafetyMiddleware(market));
 
 // ── Stripe webhook — MUST be registered BEFORE express.json() ─────────────────
 // Stripe requires the raw Buffer body to verify the signature.
@@ -159,10 +161,17 @@ async function initStripe() {
 (async () => {
   // Ensure every accepted enquiry is backed by a durable queue.
   // SQL is additive and idempotent; never run a destructive schema push.
-  await ensureNetworkOutboxSchema();
+  if (market === "AE") {
+    await ensureNetworkOutboxSchema();
+  } else {
+    // Replit Publish owns managed production schema changes. Startup is read-only.
+    // Verify the tables required to accept and durably queue Saudi enquiries.
+    await pool.query("SELECT 1 FROM contact_submissions LIMIT 0");
+    await pool.query("SELECT 1 FROM website_lead_outbox LIMIT 0");
+  }
 
   // Init Stripe in background — don't block server startup
-  initStripe();
+  if (market === "AE") initStripe();
 
   const server = await registerRoutes(app);
 
@@ -186,8 +195,14 @@ async function initStripe() {
     reusePort: true,
   }, () => {
     log(`serving on port ${port}`);
-    startVisitorReportScheduler();
-    startNetworkLeadWorker();
-    void import("./operationsIntegration").then(({ startOperationsDeliveryWorker }) => startOperationsDeliveryWorker());
+    if (market === "AE") {
+      startVisitorReportScheduler();
+      startNetworkLeadWorker();
+      void import("./operationsIntegration").then(({ startOperationsDeliveryWorker }) => startOperationsDeliveryWorker());
+    }
   });
-})();
+})().catch(() => {
+  // Never print connection strings, credentials, query parameters or customer data.
+  console.error("Website startup failed: verify the country database schema and application configuration.");
+  process.exit(1);
+});

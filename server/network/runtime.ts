@@ -27,6 +27,19 @@ export function countrySecretName(country: CountryCode, kind: "DATABASE_URL" | "
     : `URBANGRID_${country}_${kind}`;
 }
 
+/** Explicit opt-in to this Replit project's provisioned database, never a copied external URL. */
+export function usesManagedWebsiteDatabase(env: Environment, country: CountryCode): boolean {
+  if (country === "AE" || env.URBANGRID_DATABASE_PROVIDER !== "replit-managed") return false;
+  const editorBound = Boolean(env.REPL_ID) && env.REPL_ID === env.URBANGRID_MANAGED_DATABASE_REPL_ID;
+  // REPL_ID is not guaranteed in published apps. Use the platform-assigned
+  // production hostname as the deployment binding, not an editor-only variable.
+  const boundDomain = env.URBANGRID_MANAGED_DATABASE_SITE_DOMAIN;
+  const domains = (env.REPLIT_DOMAINS || "").toLowerCase().split(",").map(host => host.trim());
+  const deploymentBound = env.NODE_ENV === "production" && Boolean(boundDomain) &&
+    boundDomain === env.URBANGRID_SITE_DOMAIN && domains.includes(boundDomain!);
+  return editorBound || deploymentBound;
+}
+
 /** Never let a copied Saudi/UK app fall back to the UAE's generic database. */
 export function websiteDatabaseUrl(env: Environment): string {
   const identity = resolveSiteIdentity(env);
@@ -35,9 +48,11 @@ export function websiteDatabaseUrl(env: Environment): string {
     (env.NODE_ENV === "development" ? "AE" : "")).toUpperCase();
   if (!isCountryCode(country)) throw new Error("Unregistered website country");
   if ((country !== "AE" || env.NODE_ENV !== "development") && !identity) throw new Error("Country site registration is incomplete");
-  const url = env[countrySecretName(country, "DATABASE_URL")];
+  const scopedUrl = env[countrySecretName(country, "DATABASE_URL")];
+  const managed = !scopedUrl && usesManagedWebsiteDatabase(env, country);
+  const url = scopedUrl || (managed ? env.DATABASE_URL : undefined);
   if (!url) throw new Error("Country-specific website database is missing");
-  if (country !== "AE" && env.DATABASE_URL) {
+  if (country !== "AE" && !managed && env.DATABASE_URL) {
     const target = (value: string) => {
       try { const parsed = new URL(value); return parsed.hostname + ":" + (parsed.port || "5432") + parsed.pathname; }
       catch { throw new Error("Country website database configuration is invalid"); }

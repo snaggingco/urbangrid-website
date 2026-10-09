@@ -29,6 +29,9 @@ import { registerBookingRoutes } from "./bookingRoutes";
 import { getNetworkDeliveryHealth } from "./networkGatewayHealth";
 import { calculateInspectionPrice, serviceFromLabel, formatAed } from "@shared/inspectionPricing";
 import { residentialTerms } from "./residentialChat";
+import { websiteMarket } from "./network/application";
+
+const market = websiteMarket(process.env);
 
 // ── Quote signing (HMAC-SHA256) ─────────────────────────────────────────────
 // Prevents client-side price tampering: every quoted price is signed by the
@@ -85,6 +88,10 @@ function generateSlug(title: string): string {
 }
 
 async function sendEmail(to: string, subject: string, content: string) {
+  if (market !== "AE") {
+    console.warn("Saudi staff notifications are not configured; enquiry remains in this site's database.");
+    return false;
+  }
   const smtpHost = process.env.SMTP_HOST;
   const smtpUser = process.env.SMTP_USER;
   const smtpPass = process.env.SMTP_PASS;
@@ -176,7 +183,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
   // Auth middleware
   await setupLocalAuth(app);
-  setupInspectorAuth(app);
+  if (market === "AE") setupInspectorAuth(app);
   registerVisibilityRoutes(app, isAdminAuthenticated);
 
   // Conversion tracking
@@ -359,7 +366,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   registerLeadRoutes(app, isAdminAuthenticated);
-  registerBookingRoutes(app, isAdminAuthenticated);
+  if (market === "AE") registerBookingRoutes(app, isAdminAuthenticated);
 
   app.post('/api/contact', async (req, res) => {
     try {

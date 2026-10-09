@@ -8,6 +8,7 @@ import { PRIVACY_CONTRACT } from "../shared/network/privacy";
 import { buildMatchesRelease } from "../shared/network/health";
 import { leadAcknowledged, leadRetryDelay, leadEventMatchesSite, LEAD_LEASE_MS } from "../shared/network/outbox";
 import { resolveSiteIdentity, networkRuntime, websiteDatabaseUrl, assertUaeApplication } from "../server/network/runtime";
+import { websiteMarket, countrySafetyMiddleware } from "../server/network/application";
 import { integrationEndpoint } from "../server/network/recipient";
 import { sendLeadEvent } from "../server/network/transport";
 
@@ -90,6 +91,43 @@ for (const code of ["SA", "GB"] as const) {
   });
   check(code + " cannot accidentally launch the UAE booking/email application", () => assert.throws(() => assertUaeApplication(isolated)));
 }
+check("Saudi managed database requires explicit project-bound opt-in", () => {
+  const managed = { NODE_ENV: "production", REPL_ID: "saudi-fixture",
+    REPLIT_DOMAINS: "sa-fixture.invalid", URBANGRID_COUNTRY_CODE: "SA",
+    URBANGRID_SITE_DOMAIN: "sa-fixture.invalid", URBANGRID_NETWORK_CLIENT_CODE: "urbangrid-sa",
+    URBANGRID_DATABASE_PROVIDER: "replit-managed", URBANGRID_MANAGED_DATABASE_REPL_ID: "saudi-fixture",
+    DATABASE_URL: "postgresql://fixture:fixture@managed.invalid/sa" };
+  assert.equal(websiteDatabaseUrl(managed), managed.DATABASE_URL);
+  assert.equal(websiteMarket(managed), "SA");
+  assert.throws(() => websiteDatabaseUrl({ ...managed, REPL_ID: "another-project" }));
+  assert.throws(() => websiteDatabaseUrl({ ...managed, URBANGRID_DATABASE_PROVIDER: undefined }));
+  assert.throws(() => websiteDatabaseUrl({ ...managed, REPLIT_DOMAINS: "urbangrid.ae" }));
+  assert.throws(() => websiteDatabaseUrl({ ...managed, DATABASE_URL: undefined }));
+  assert.throws(() => websiteMarket({ ...managed, URBANGRID_COUNTRY_CODE: "GB" }));
+  const published = { ...managed, REPL_ID: undefined, URBANGRID_MANAGED_DATABASE_SITE_DOMAIN: "sa-fixture.invalid" };
+  assert.equal(websiteDatabaseUrl(published), managed.DATABASE_URL);
+  assert.throws(() => websiteDatabaseUrl({ ...published, REPLIT_DOMAINS: "copied-fork.invalid" }));
+  assert.throws(() => websiteDatabaseUrl({ ...published, REPLIT_DOMAINS: undefined }));
+  assert.throws(() => websiteDatabaseUrl({ ...published, NODE_ENV: "development" }));
+});
+check("Saudi adapter blocks UAE integrations but preserves public leads and authenticated admin", () => {
+  for (const path of ["/api/bookings", "/api/bookings/config", "/api/checkout",
+    "/api/chat/lead", "/api/stripe/webhook", "/api/ziina/webhook",
+    "/api/admin/bookings/1/action", "/booking-access/reference/token", "/api/career-application"]) {
+    let next = false, status = 0;
+    const response = { status(value: number) { status = value; return this; }, json() {} };
+    countrySafetyMiddleware("SA")({ path } as any, response as any, () => { next = true; });
+    assert.equal(status, 503);
+    assert.equal(next, false);
+    countrySafetyMiddleware("AE")({ path } as any, response as any, () => { next = true; });
+    assert.equal(next, true);
+  }
+  for (const path of ["/", "/health", "/api/contact", "/api/consultation", "/api/admin/login", "/api/admin/leads"]) {
+    let next = false;
+    countrySafetyMiddleware("SA")({ path } as any, {} as any, () => { next = true; });
+    assert.equal(next, true);
+  }
+});
 check("recipient policy forbids redirects/credentials/query/IP/private hosts", () => {
   for (const value of ["http://example.invalid", "https://u:p@example.invalid", "https://127.0.0.1", "https://[::1]",
     "https://localhost", "https://example.local", live + "?key=x", live + "#fragment"]) assert.equal(integrationEndpoint(value), null);
