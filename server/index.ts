@@ -10,7 +10,9 @@ import { WebhookHandlers } from "./webhookHandlers";
 import { startNetworkLeadWorker } from "./networkLeadSync";
 import { ensureNetworkOutboxSchema } from "./networkOutboxMigration";
 import { BUILD_STAMP } from "./buildStamp";
+import { assertUaeApplication } from "./network/runtime";
 
+assertUaeApplication(process.env);
 const app = express();
 
 // Trust the first proxy hop so req.protocol correctly reflects HTTPS behind Replit/nginx.

@@ -27,3 +27,15 @@ commit exactly.
 Compare generated tree and commit SHAs with the local objects before updating
 the branch, and use a non-forced, fast-forward ref update. Never print or extract
 the connection's credential to repair a shell push.
+
+The connected GitHub App may allow ordinary source writes while rejecting Git
+tree writes containing a changed workflow file with HTTP 404.
+
+**Why:** A source-only tree write succeeded with HTTP 201, while the same request
+including a `.github/workflows` edit returned 404 despite repository read/push
+permissions being reported.
+
+**How to apply:** Distinguish workflow-write access from ordinary contents
+access. Do not infer that the repository is absent, widen permissions silently,
+or replace credentials. If CI editing is optional, leave the existing workflow
+unchanged and clearly report local test results rather than remote CI results.

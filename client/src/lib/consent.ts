@@ -1,8 +1,5 @@
-export type ConsentChoice = "accepted" | "rejected";
-export type ConsentState = { choice: ConsentChoice | null; persisted: boolean };
-
-export const CONSENT_CHANGED_EVENT = "ug:consent-change";
-export const OPEN_CONSENT_EVENT = "ug:consent-open";
+import { OPEN_CONSENT_EVENT, type ConsentChoice, type ConsentState } from "@shared/network/privacy";
+export { CONSENT_CHANGED_EVENT, OPEN_CONSENT_EVENT, type ConsentChoice, type ConsentState } from "@shared/network/privacy";
 
 declare global {
   interface Window {

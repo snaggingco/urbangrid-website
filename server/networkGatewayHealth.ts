@@ -1,7 +1,9 @@
 import { sql } from "drizzle-orm";
 import { db } from "./db";
 import { websiteLeadOutbox } from "@shared/schema";
-import { operationsEndpoint, validOperationsKey } from "./operationsContract";
+import { integrationEndpoint, validIntegrationKey } from "./network/recipient";
+import { resolveSiteIdentity, countrySecretName, networkRuntime, LIVE_NETWORK_HOST } from "./network/runtime";
+import type { CountryCode } from "@shared/network/country";
 
 /**
  * Read-only, aggregate diagnostic: never returns a key, customer data or an event.
@@ -10,16 +12,10 @@ import { operationsEndpoint, validOperationsKey } from "./operationsContract";
 export async function getNetworkDeliveryHealth() {
   const raw = process.env.URBANGRID_NETWORK_INTEGRATION_URL
     || process.env.URBANGRID_OPERATIONS_INTEGRATION_URL;
-  const endpoint = operationsEndpoint(raw);
-  const urlIsLive = Boolean(endpoint && new URL(endpoint).hostname === "nzbewemalujbhnjbrpcs.supabase.co");
-  const registeredDomain = (process.env.URBANGRID_SITE_DOMAIN || "").trim().toLowerCase();
-  const domains = (process.env.REPLIT_DOMAINS || "").toLowerCase()
-    .split(",").map(item => item.trim().replace(/^www\./, ""));
-  const domainIsBound = Boolean(registeredDomain)
-    || domains.includes("urbangrid.ae");
-  const countryConfigured = /^[A-Z]{2}$/.test((process.env.URBANGRID_COUNTRY_CODE || "").toUpperCase())
-    || domains.includes("urbangrid.ae");
-  const hasKey = validOperationsKey(process.env.URBANGRID_NETWORK_INTEGRATION_KEY);
+  const endpoint = integrationEndpoint(raw);
+  const urlIsLive = Boolean(endpoint && new URL(endpoint).hostname === LIVE_NETWORK_HOST);
+  const identity = resolveSiteIdentity(process.env);
+  const hasKey = identity ? validIntegrationKey(process.env[countrySecretName(identity.countryCode as CountryCode, "NETWORK_INTEGRATION_KEY")]) : false;
   const rows = await db.select({
     status: websiteLeadOutbox.status,
     count: sql<number>`count(*)::int`,
@@ -32,9 +28,10 @@ export async function getNetworkDeliveryHealth() {
       endpointPresent: Boolean(endpoint),
       liveNetworkTarget: urlIsLive,
       integrationKeyValidFormat: hasKey,
-      countryConfigured,
-      sourceDomainConfigured: domainIsBound,
-      clientCodeConfigured: Boolean(process.env.URBANGRID_NETWORK_CLIENT_CODE || domains.includes("urbangrid.ae")),
+      countryConfigured: Boolean(identity),
+      sourceDomainConfigured: Boolean(identity),
+      clientCodeConfigured: Boolean(identity),
+      deliveryConfigured: Boolean(networkRuntime(process.env)),
     },
     outboundQueue: {
       pending: counts.pending || 0,

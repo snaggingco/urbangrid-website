@@ -5,6 +5,7 @@ import connectPg from "connect-pg-simple";
 import type { Express, Request, RequestHandler } from "express";
 import crypto from "node:crypto";
 import { ADMIN_EMAIL, bootstrapAdminAccount, authenticateAdmin, restoreAdminSession, type AdminIdentity } from "./adminBootstrap";
+import { websiteDatabaseUrl } from "./network/runtime";
 
 declare module "express-session" { interface SessionData { adminLoginCsrf?: string } }
 const failures = new Map<string, { count: number; until: number }>();
@@ -29,7 +30,7 @@ export async function setupLocalAuth(app: Express, testSessionStore?: session.St
 
   const PgSessionStore = connectPg(session);
   const sessionStore = testSessionStore || new PgSessionStore({
-    conString: process.env.DATABASE_URL,
+    conString: websiteDatabaseUrl(process.env),
     createTableIfMissing: false,
     tableName: "sessions",
   });

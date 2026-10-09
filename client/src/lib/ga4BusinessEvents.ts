@@ -1,7 +1,8 @@
 import { getConsentState } from "./consent";
 import { measurementClassification } from "@shared/commercialEvents";
+import { measurementAllowed, UAE_MEASUREMENT } from "@shared/network/measurement";
 
-const measurementId = "G-ZX4B5QJGB4";
+const measurementId = UAE_MEASUREMENT.measurementId!;
 
 declare global {
   interface Window {
@@ -10,8 +11,7 @@ declare global {
 }
 
 export function canMeasureBusinessEvents(): boolean {
-  return ["urbangrid.ae", "www.urbangrid.ae"].includes(window.location.hostname)
-    && getConsentState().choice === "accepted";
+  return measurementAllowed(UAE_MEASUREMENT, window.location.hostname, getConsentState().choice);
 }
 
 export function sendGa4BusinessEvent(

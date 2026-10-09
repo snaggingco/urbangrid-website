@@ -2,6 +2,8 @@ import { getAttribution } from "./attribution";
 import { canMeasureBusinessEvents, sendGa4BusinessEvent } from "./ga4BusinessEvents";
 import { attributionKeys, type AttributionTouch, type LeadAttribution } from "@shared/leads";
 import type { BookingView } from "@shared/booking";
+import { COUNTRY_PROFILES } from "@shared/network/country";
+import { safeCampaignValue, safePageUrl, contactClick } from "@shared/network/measurement";
 
 declare global {
   interface Window {
@@ -12,28 +14,6 @@ declare global {
 
 // No form values, arbitrary query parameters, WhatsApp message text, or fragments
 // enter the measurement payload. Marketing identifiers are attribution, not revenue.
-function safeCampaignValue(key: string, value?: string): string | null {
-  if (!value || /@|%40/i.test(value)) return null;
-  if (["gclid", "gbraid", "wbraid", "utm_id"].includes(key)) {
-    return /^[a-z0-9._~-]+$/i.test(value) ? value.slice(0, 500) : null;
-  }
-  if (/^\+?\d[\d\s().-]{6,}$/.test(value)) return null;
-  return value.slice(0, 500);
-}
-
-function safePageUrl(raw: string): string | null {
-  try {
-    const url = new URL(raw);
-    if (!["http:", "https:"].includes(url.protocol)) return null;
-    // Rebuild rather than retaining credentials, fragments, or unknown query data.
-    const clean = new URL(url.origin + url.pathname);
-    for (const key of attributionKeys) {
-      const value = safeCampaignValue(key, url.searchParams.get(key) || undefined);
-      if (value) clean.searchParams.set(key, value);
-    }
-    return clean.href.slice(0, 2000);
-  } catch { return null; }
-}
 
 function measurementTouch(touch: AttributionTouch) {
   return {
@@ -153,16 +133,7 @@ export function installContactClickTracking() {
     const target = event.target instanceof Element ? event.target.closest<HTMLAnchorElement>("a[href]") : null;
     if (!target) return;
     const href = (target.getAttribute("href") || "").trim();
-    let type: "call_click" | "whatsapp_click" | undefined;
-    if (/^tel:/i.test(href) && ["971585686852", "971567427634"].includes(href.slice(4).replace(/\D/g, ""))) type = "call_click";
-    try {
-      const url = new URL(href, window.location.href);
-      const phone = (url.searchParams.get("phone") || "").replace(/\D/g, "");
-      if ((url.hostname === "wa.me" && /^\/971567427634\/?$/.test(url.pathname)) ||
-          ((["api.whatsapp.com", "www.whatsapp.com", "whatsapp.com"].includes(url.hostname) || url.protocol === "whatsapp:") && phone === "971567427634")) {
-        type = "whatsapp_click";
-      }
-    } catch {}
+    const type = contactClick(href, window.location.href, COUNTRY_PROFILES.AE.cta);
     if (!type) return;
     const region = target.closest<HTMLElement>("[data-analytics-region]")?.dataset.analyticsRegion;
     const source = target.dataset.analyticsSource || region ||

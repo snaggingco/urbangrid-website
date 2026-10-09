@@ -8,6 +8,8 @@
     "build": "node scripts/write-build-stamp.mjs && vite build --manifest && NODE_ENV=production node scripts/build-first-paint.mjs && esbuild server/index.ts --platform=node --packages=external --bundle --format=esm --outdir=dist",
     "start": "NODE_ENV=production node dist/index.js",
     "check": "tsc",
+    "test:country-network": "tsx scripts/test-country-network.ts",
+    "test:network-outbox": "NODE_ENV=development tsx scripts/test-network-outbox.ts",
     "db:push": "drizzle-kit push",
     "test:lead-pipeline": "NODE_ENV=development tsx scripts/test-lead-pipeline.ts",
     "test:residential-bookings": "NODE_ENV=development tsx scripts/test-residential-bookings.ts",

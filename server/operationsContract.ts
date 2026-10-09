@@ -1,23 +1,10 @@
-import { isIP } from "node:net";
+export { integrationEndpoint as operationsEndpoint, validIntegrationKey as validOperationsKey } from "./network/recipient";
 import type { contactSubmissions, inspectionBookings } from "@shared/schema";
 import type { BookingCreatedOperationsEvent, OperationsEnvironment } from "@shared/operationsIntegration";
 
 export const operationsEnvironment = (): OperationsEnvironment =>
   process.env.NODE_ENV === "production" ? "production" : "development";
 
-export const validOperationsKey = (key: string | undefined): key is string =>
-  Boolean(key && key.length >= 48 && /^[\x21-\x7e]+$/.test(key));
-
-export function operationsEndpoint(value: string | undefined): string | null {
-  if (!value) return null;
-  try {
-    const url = new URL(value);
-    if (url.protocol !== "https:" || url.username || url.password || url.search || url.hash ||
-        isIP(url.hostname.replace(/^\[|\]$/g, "")) || !url.hostname.includes(".") ||
-        /(^|\.)localhost$|\.local$|\.internal$/i.test(url.hostname)) return null;
-    return url.toString();
-  } catch { return null; }
-}
 
 export function bookingCreatedEvent(
   booking: typeof inspectionBookings.$inferSelect,

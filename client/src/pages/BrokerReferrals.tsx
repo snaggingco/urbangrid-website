@@ -1,3 +1,4 @@
+import { NETWORK_LOGIN_URL } from "@shared/network/country";
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -185,7 +186,7 @@ ${formData.message}`,
                     <p className="text-sm text-zinc-500 leading-relaxed">
                       Simply share our contact details or submit a referral through the{" "}
                       <a
-                        href="https://app.stratasurveyor.com/"
+                        href={NETWORK_LOGIN_URL}
                         className="font-medium text-brand-green underline underline-offset-4 hover:text-zinc-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-green"
                       >
                         Strata Surveyor app

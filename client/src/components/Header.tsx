@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { ChevronDown, Menu, ArrowUpRight } from "lucide-react";
 import { buildingConsultancyServices, residentialServices } from "@/data/serviceHierarchy";
+import { NETWORK_LOGIN_URL } from "@shared/network/country";
 
 interface HeaderProps {
   isAdmin?: boolean;
@@ -143,7 +144,7 @@ export default function Header({ isAdmin = false }: HeaderProps) {
             ) : (
               <>
                 <a
-                  href="https://app.stratasurveyor.com/"
+                  href={NETWORK_LOGIN_URL}
                   className="hidden md:inline-flex text-xs font-medium text-brand-green border-b border-brand-green pb-0.5 hover:text-zinc-900 hover:border-zinc-900 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-green"
                 >
                   Login
@@ -183,7 +184,7 @@ export default function Header({ isAdmin = false }: HeaderProps) {
                         </Link>
                         <div className="border-t border-zinc-100 pt-6 mt-8">
                           <a
-                            href="https://app.stratasurveyor.com/"
+                            href={NETWORK_LOGIN_URL}
                             onClick={closeMobileMenu}
                             className="inline-flex text-xs font-medium text-brand-green border-b border-brand-green pb-0.5 hover:text-zinc-900 hover:border-zinc-900 transition-all focus-visible:outline focus-visible:outline-2 focus-visible:outline-brand-green"
                           >

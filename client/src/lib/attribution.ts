@@ -1,4 +1,5 @@
-import { attributionKeys, attributionSchema, type LeadAttribution, type AttributionTouch } from "@shared/leads";
+import { attributionKeys, attributionSchema, type LeadAttribution } from "@shared/leads";
+import { campaignTouch } from "@shared/network/attribution";
 
 const STORAGE_KEY = "ug_lead_attribution_v1";
 let current: LeadAttribution | undefined;
@@ -21,15 +22,7 @@ export function captureAttribution(initialVisit = false): LeadAttribution {
   const params = new URLSearchParams(window.location.search);
   const tagged = attributionKeys.some((key) => Boolean(params.get(key)));
   if (!current || ((initialVisit || tagged) && url !== lastCapturedUrl)) {
-    const touch: AttributionTouch = {
-      landingPage: url.slice(0, 2000),
-      referrer: document.referrer.slice(0, 2000),
-      capturedAt: new Date().toISOString(),
-    };
-    for (const key of attributionKeys) {
-      const value = params.get(key);
-      if (value) touch[key] = value.slice(0, 500);
-    }
+    const touch = campaignTouch(url, document.referrer, new Date().toISOString());
     current = { firstTouch: current?.firstTouch || touch, lastTouch: touch };
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(current)); } catch { /* Memory still works when storage is unavailable. */ }
   }
