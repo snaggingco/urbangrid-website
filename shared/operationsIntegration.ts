@@ -1,0 +1,73 @@
+import type { LeadAttribution } from "./leads";
+
+export type OperationsEnvironment = "development" | "production";
+export type BookingCreatedOperationsEvent = {
+  eventId: string;
+  type: "booking.created";
+  schemaVersion: 1;
+  source: "urbangrid";
+  environment: OperationsEnvironment;
+  occurredAt: string;
+  data: { booking: {
+    id: number;
+    leadId: number;
+    country?: "AE";
+    market?: "UAE";
+    siteId?: "urbangrid.ae";
+    leadIdentity?: string;
+    bookingIdentity?: string;
+    bookingReference: string;
+    customer: { name: string; email: string; phone: string | null };
+    propertyType: string;
+    areaSqft: number;
+    bedrooms: string | null;
+    project: string;
+    location: string;
+    emirate: string;
+    service: string;
+    baseMinor: number;
+    vatMinor: number;
+    quoteTotalMinor: number;
+    currency: string;
+    inspectionDate: string;
+    timeWindow: string | null;
+    timeZone: "Asia/Dubai";
+    status: string;
+    paymentStatus: "unpaid";
+    cashCollectedMinor: 0;
+    amountOutstandingMinor: number;
+    leadSource: string | null;
+    attribution: LeadAttribution | null;
+    recordType?: "integration_test";
+    sendEmail?: false;
+    sendSms?: false;
+    sendNotifications?: false;
+  } };
+};
+
+export type OperationsReceiverIdentifiers = { orderId?: string; jobId?: string; projectId?: string; reportId?: string };
+export type OperationsDeliveryStatus = "pending" | "processing" | "failed" | "delivered";
+export type OperationsEventSummary = {
+  eventId: string; bookingId: number; bookingReference: string;
+  status: OperationsDeliveryStatus; attempts: number;
+  lastAttemptAt: string | null; httpStatus: number | null; errorCode: string | null;
+  nextAttemptAt: string; deliveredAt: string | null; createdAt: string;
+  lastFailureAt: string | null; lastFailureCode: string | null; lastFailureHttpStatus: number | null;
+  isIntegrationTest: boolean; receiverIdentifiers: OperationsReceiverIdentifiers | null;
+  lifecycleStatus?: string | null;
+  lastSyncAt?: string | null;
+  lastReconcileAt?: string | null;
+  reconcileErrorCode?: string | null;
+};
+export type OperationsIntegrationStatus = {
+  integration: string; schemaVersion: number; environment: OperationsEnvironment;
+  configured: boolean; endpoint: string | null; configurationIssue: string | null;
+  keyConfigured: boolean; keyFingerprint: string | null;
+  counts: { pending: number; failed: number; delivered: number; processing: number; awaitingEnqueue: number };
+  lastDelivery: Omit<OperationsEventSummary, "bookingId" | "bookingReference" | "createdAt"> | null;
+  workerRunning: boolean; lastWorkerTickAt: string | null; retryPolicy: string;
+  events: OperationsEventSummary[];
+  developmentTestsAvailable: boolean;
+  statusReconciliationConfigured?: boolean;
+  developmentVerification?: { healthy: boolean; checkedAt: string } | null;
+};

@@ -1,0 +1,7 @@
+node_modules
+attached_assets/generated_images/
+dist
+.DS_Store
+server/public
+vite.config.ts.*
+*.tar.gz

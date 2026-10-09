@@ -1,0 +1,956 @@
+import { useParams, Link } from "wouter";
+import NotFound from "@/pages/not-found";
+import SEO from "@/components/SEO";
+import { serviceFAQs } from "@shared/faqs";
+import ResidentialServiceGuidance from "@/components/ResidentialServiceGuidance";
+
+interface ServiceData {
+  slug: string;
+  title: string;
+  description: string;
+  image: string;
+  longDescription: string;
+  features: string[];
+  process: string[];
+  benefits: string[];
+  duration: string;
+  price: string;
+  includes: string[];
+}
+
+const servicesData: Record<string, ServiceData> = {
+  "new-build-snagging": {
+    slug: "new-build-snagging",
+    title: "New Build Handover Snagging & Inspection",
+    description: "Comprehensive pre-handover inspection of newly constructed properties to identify defects, incomplete work, and quality issues before you take possession.",
+    image: "/london-property-editorial.jpg",
+    longDescription: "Our new build handover snagging service is designed to protect your investment by conducting a thorough inspection before you accept your new property. Our certified inspectors examine every aspect of your property, from structural elements to finishing details, ensuring that everything meets the required standards and specifications. This critical step can save you thousands of dirhams in future repairs and ensures that any defects are identified and rectified by the developer at no cost to you.",
+    features: [
+      "Complete structural assessment and stability check",
+      "MEP systems inspection (mechanical, electrical, plumbing)",
+      "Finishing quality evaluation and compliance verification",
+      "Door and window functionality testing",
+      "Flooring, tiling, and paintwork inspection",
+      "Kitchen and bathroom fittings examination",
+      "Balcony and terrace safety assessment",
+      "Common area and external facade review"
+    ],
+    process: [
+      "Pre-inspection consultation and scheduling",
+      "Comprehensive on-site examination (4-8 hours)",
+      "Digital documentation with photos and videos",
+      "Detailed snagging report generation",
+      "Client presentation and explanation",
+      "Follow-up inspection after rectification"
+    ],
+    benefits: [
+      "Protect your investment from hidden defects",
+      "Record visible observations for your own review",
+      "Save money on future repairs and maintenance",
+      "Professional documentation for warranty claims",
+      "Peace of mind before taking possession",
+      "Leverage for negotiations with developers"
+    ],
+    duration: "Agreed by scope",
+    price: "Custom quote",
+    includes: [
+      "Professional inspection team",
+      "Digital report with photos",
+      "Detailed defect listing",
+      "Rectification follow-up",
+      "Technical consultation",
+      "Warranty documentation support"
+    ]
+  },
+  "post-renovation-inspection": {
+    slug: "post-renovation-inspection", 
+    title: "Post Renovation / Fit-out Snagging Inspection",
+    description: "Quality assessment after renovation or fit-out work to ensure all improvements meet specifications and industry standards.",
+    image: "/london-property-editorial.jpg",
+    longDescription: "After completing renovation or fit-out work, it's essential to verify that all improvements have been executed according to specifications and meet industry standards. Our post-renovation inspection service provides comprehensive quality assessment, ensuring that your investment in property improvements delivers the expected results and complies with all relevant building codes and safety requirements.",
+    features: [
+      "Renovation work quality assessment",
+      "Material compliance verification",
+      "Safety standards evaluation",
+      "Workmanship quality inspection",
+      "Before/after comparison analysis",
+      "Warranty and guarantee documentation",
+      "Building code compliance check",
+      "Final sign-off recommendations"
+    ],
+    process: [
+      "Review of renovation plans and specifications",
+      "Comprehensive post-work inspection",
+      "Quality assessment and testing",
+      "Documentation and photo evidence",
+      "Report compilation and review",
+      "Client consultation and recommendations"
+    ],
+    benefits: [
+      "Ensure renovation meets specifications",
+      "Verify compliance with building codes",
+      "Document quality for warranty purposes",
+      "Identify issues before final payment",
+      "Professional quality assurance",
+      "Support for contractor negotiations"
+    ],
+    duration: "Agreed by scope",
+    price: "Custom quote",
+    includes: [
+      "Comprehensive quality assessment",
+      "Detailed inspection report",
+      "Photo documentation",
+      "Compliance verification",
+      "Recommendations report",
+      "Follow-up consultation"
+    ]
+  },
+  "dlp-snagging": {
+    slug: "dlp-snagging",
+    title: "Property Defect Liability Period (DLP) Snagging",
+    description: "Strategic inspection during the defect liability period to identify and document all issues before warranty expires.",
+    image: "/london-property-editorial.jpg",
+    longDescription: "The Defect Liability Period (DLP) is your last opportunity to claim free rectification of defects from your developer or contractor. Our DLP snagging service conducts a strategic and comprehensive inspection to identify all potential issues before your warranty expires, ensuring maximum protection for your investment and securing your rights for free repairs.",
+    features: [
+      "Pre-warranty expiry comprehensive inspection",
+      "Systematic defect identification and cataloging",
+      "Developer liaison and communication support",
+      "Rectification progress tracking and monitoring",
+      "Legal documentation and evidence gathering",
+      "Multiple follow-up inspections as needed",
+      "Warranty claim submission assistance",
+      "Final completion verification"
+    ],
+    process: [
+      "DLP timeline review and planning",
+      "Comprehensive property re-inspection",
+      "Defect documentation and prioritization",
+      "Developer notification and liaison",
+      "Rectification monitoring and tracking",
+      "Final inspection and sign-off"
+    ],
+    benefits: [
+      "Maximize warranty claim potential",
+      "Ensure all defects are addressed",
+      "Professional developer liaison",
+      "Legal protection and documentation",
+      "Cost savings on repairs",
+      "Extended property protection"
+    ],
+    duration: "Agreed by scope", 
+    price: "Custom quote",
+    includes: [
+      "Comprehensive re-inspection",
+      "Defect tracking system",
+      "Developer communication",
+      "Legal documentation",
+      "Multiple follow-ups",
+      "Final verification report"
+    ]
+  },
+  "move-in-move-out": {
+    slug: "move-in-move-out",
+    title: "Property Move-in / Move-out Snagging",
+    description: "Detailed condition reports for rental properties to protect both tenants and landlords during property transitions.",
+    image: "/london-property-editorial.jpg",
+    longDescription: "Our move-in/move-out snagging service provides impartial, detailed condition reports that protect both tenants and landlords during property transitions. These comprehensive assessments document the exact condition of the property, preventing disputes over security deposits and ensuring fair treatment for all parties involved in rental agreements.",
+    features: [
+      "Comprehensive property condition assessment",
+      "Detailed photographic documentation",
+      "Damage and wear assessment",
+      "Security deposit protection documentation",
+      "Legal compliance verification",
+      "Tenant/landlord mediation support",
+      "Inventory and fixture recording",
+      "Maintenance recommendation report"
+    ],
+    process: [
+      "Initial condition assessment",
+      "Room-by-room inspection",
+      "Photographic documentation",
+      "Condition report compilation",
+      "Client review and approval",
+      "Final report distribution"
+    ],
+    benefits: [
+      "Protect security deposits",
+      "Prevent rental disputes",
+      "Legal protection for both parties",
+      "Fair and impartial assessment",
+      "Professional documentation",
+      "Mediation support if needed"
+    ],
+    duration: "Agreed by scope",
+    price: "Custom quote",
+    includes: [
+      "Detailed condition report",
+      "Comprehensive photo documentation",
+      "Damage assessment",
+      "Legal compliance check",
+      "Report for all parties",
+      "Mediation support"
+    ]
+  },
+  "secondary-market": {
+    slug: "secondary-market",
+    title: "Secondary Market Property Snagging",
+    description: "Pre-purchase inspections for existing properties to help buyers make informed decisions and negotiate fair prices.",
+    image: "/london-property-editorial.jpg",
+    longDescription: "Purchasing a property in the secondary market requires careful evaluation to ensure you're making a sound investment. Our secondary market snagging service provides comprehensive pre-purchase inspections that reveal hidden issues, assess maintenance requirements, and provide valuable insights for price negotiations and future planning.",
+    features: [
+      "Comprehensive pre-purchase inspection",
+      "Market value assessment support",
+      "Hidden defect detection and analysis",
+      "Maintenance requirement evaluation",
+      "Negotiation support and recommendations",
+      "Investment protection advisory",
+      "Future maintenance cost estimation",
+      "Property condition benchmarking"
+    ],
+    process: [
+      "Property history review",
+      "Comprehensive inspection",
+      "Market analysis and comparison",
+      "Risk assessment evaluation",
+      "Report preparation and review",
+      "Buyer consultation and advice"
+    ],
+    benefits: [
+      "Make informed purchase decisions",
+      "Negotiate fair market prices",
+      "Identify hidden maintenance costs",
+      "Protect your investment",
+      "Professional market insights",
+      "Avoid costly surprises"
+    ],
+    duration: "Agreed by scope",
+    price: "Custom quote",
+    includes: [
+      "Pre-purchase inspection",
+      "Market assessment report",
+      "Hidden defect analysis",
+      "Maintenance cost projection",
+      "Negotiation recommendations",
+      "Investment advisory"
+    ]
+  },
+  "developer-projects": {
+    slug: "developer-projects",
+    title: "Developer and Contractor Project Snagging",
+    description: "Quality control inspections for developers and contractors to ensure projects meet industry standards and client expectations.",
+    image: "/london-property-editorial.jpg",
+    longDescription: "For developers and contractors, maintaining quality standards and client satisfaction is paramount to business success. Our project snagging service provides independent quality control inspections that ensure your projects meet industry standards, comply with regulations, and exceed client expectations, protecting your reputation and minimizing future liabilities.",
+    features: [
+      "Independent quality control auditing",
+      "Progress milestone verification",
+      "Compliance monitoring and reporting",
+      "Industry standards enforcement",
+      "Client satisfaction assurance",
+      "Reputation protection services",
+      "Risk mitigation strategies",
+      "Quality improvement recommendations"
+    ],
+    process: [
+      "Project requirement analysis",
+      "Milestone-based inspections",
+      "Quality control auditing",
+      "Compliance verification",
+      "Client satisfaction assessment",
+      "Final quality certification"
+    ],
+    benefits: [
+      "Ensure project quality standards",
+      "Protect business reputation",
+      "Minimize future liabilities",
+      "Improve client satisfaction",
+      "Enhance competitive advantage",
+      "Reduce rework and costs"
+    ],
+    duration: "6-12 hours",
+    price: "Custom Quote",
+    includes: [
+      "Quality control auditing",
+      "Compliance verification",
+      "Progress reporting",
+      "Client satisfaction assessment",
+      "Certification documentation",
+      "Improvement recommendations"
+    ]
+  },
+  "reserve-fund-study": {
+    slug: "reserve-fund-study",
+    title: "Reserve Fund Study / Sinking Fund",
+    description: "Comprehensive analysis of building reserve fund requirements and long-term capital expenditure planning for strata properties in compliance with the agreed brief.",
+    image: "/london-property-editorial.jpg",
+    longDescription: "Our Reserve Fund Study service provides comprehensive analysis of building reserve fund requirements and long-term capital expenditure planning for strata properties. This essential service ensures compliance with the agreed brief while providing property owners and management companies with accurate financial projections for future maintenance and replacement costs.",
+    features: [
+      "Long-term capital planning analysis",
+      "RERA compliance assessment and documentation",
+      "Financial projection modeling and forecasting",
+      "Asset lifecycle analysis and evaluation",
+      "Regulatory documentation and reporting",
+      "Stakeholder consultation and presentation",
+      "Reserve fund requirement calculations",
+      "Maintenance scheduling optimization"
+    ],
+    process: [
+      "Property assessment and data collection",
+      "Asset condition evaluation and analysis",
+      "Financial modeling and projections",
+      "RERA compliance verification",
+      "Report preparation and documentation",
+      "Stakeholder presentation and consultation"
+    ],
+    benefits: [
+      "Ensure RERA regulatory compliance",
+      "Accurate long-term financial planning",
+      "Protect property investment value",
+      "Transparent reserve fund management",
+      "Professional financial documentation",
+      "Reduced future financial risks"
+    ],
+    duration: "2-4 weeks",
+    price: "Custom Quote",
+    includes: [
+      "Comprehensive building assessment",
+      "Financial projection modeling",
+      "RERA compliance documentation",
+      "Professional consultation",
+      "Detailed analytical report",
+      "Ongoing advisory support"
+    ]
+  },
+  "service-charge-allocation": {
+    slug: "service-charge-allocation",
+    title: "Service Charge Cost Allocation",
+    description: "Detailed assessment and allocation of service charges across common property areas ensuring fair distribution and full compliance with the agreed brief.",
+    image: "/london-property-editorial.jpg",
+    longDescription: "Our Service Charge Cost Allocation service provides detailed assessment and fair allocation of service charges across common property areas. This service ensures transparent cost distribution and full compliance with the agreed brief, protecting both property owners and management companies from disputes and regulatory issues.",
+    features: [
+      "Fair cost distribution analysis and calculation",
+      "RERA guideline compliance verification",
+      "Common area assessment and evaluation",
+      "Usage pattern analysis and documentation",
+      "Transparent reporting and documentation",
+      "Dispute resolution support and mediation",
+      "Cost allocation methodology development",
+      "Regulatory compliance monitoring"
+    ],
+    process: [
+      "Property analysis and area measurement",
+      "Usage pattern assessment and evaluation",
+      "Cost allocation calculation and modeling",
+      "RERA compliance verification",
+      "Documentation preparation and review",
+      "Stakeholder consultation and approval"
+    ],
+    benefits: [
+      "Fair and transparent cost allocation",
+      "RERA regulatory compliance assurance",
+      "Reduced owner disputes and conflicts",
+      "Professional cost documentation",
+      "Legal protection and compliance",
+      "Improved management transparency"
+    ],
+    duration: "1-3 weeks",
+    price: "Custom Quote",
+    includes: [
+      "Comprehensive area assessment",
+      "Cost allocation calculations",
+      "RERA compliance verification",
+      "Detailed allocation report",
+      "Professional consultation",
+      "Dispute resolution support"
+    ]
+  },
+  "reinstatement-cost-assessment": {
+    slug: "reinstatement-cost-assessment",
+    title: "Reinstatement Cost Assessment",
+    description: "A property reinstatement cost assessment to inform insurance discussions and asset planning.",
+    image: "/london-property-editorial.jpg",
+    longDescription: "We assess agreed building information and visible conditions to prepare a reinstatement cost report within the agreed scope. The report is not an insurance policy, legal opinion or guarantee of cover.",
+    features: [
+      "Insurance valuation compliance assessment",
+      "Current market cost analysis and evaluation",
+      "Regulatory requirement adherence verification",
+      "Risk assessment integration and analysis",
+      "Professional certification and documentation",
+      "Annual review recommendations and updates",
+      "Insurance adequacy evaluation",
+      "Market trend analysis and reporting"
+    ],
+    process: [
+      "Property inspection and assessment",
+      "Market cost analysis and research",
+      "Insurance requirement evaluation",
+      "Regulatory compliance verification",
+      "Valuation calculation and modeling",
+      "Professional certification and reporting"
+    ],
+    benefits: [
+      "Accurate insurance coverage protection",
+      "Regulatory compliance assurance",
+      "Protection from underinsurance risks",
+      "Professional valuation certification",
+      "Insurance claim support",
+      "Risk mitigation and management"
+    ],
+    duration: "1-2 weeks",
+    price: "Custom Quote",
+    includes: [
+      "Professional property valuation",
+      "Market cost analysis",
+      "Insurance compliance verification",
+      "Certified valuation report",
+      "Professional consultation",
+      "Annual review recommendations"
+    ]
+  },
+  "building-completion-audit": {
+    slug: "building-completion-audit",
+    title: "Building Completion Audit",
+    description: "A review of agreed project information and accessible areas to document completion observations.",
+    image: "/london-property-editorial.jpg",
+    longDescription: "We review the agreed drawings and project information alongside accessible site observations. This service does not provide statutory approval, certification or a guarantee of completion.",
+    features: [
+      "Plan compliance verification and assessment",
+      "RERA requirement assessment and documentation",
+      "Completion status documentation and reporting",
+      "Regulatory liaison support and coordination",
+      "Handover readiness certification and approval",
+      "Non-compliance identification and remediation",
+      "Quality control verification",
+      "Documentation preparation and management"
+    ],
+    process: [
+      "Plan review and analysis",
+      "On-site completion verification",
+      "Regulatory compliance assessment",
+      "Documentation preparation and review",
+      "RERA liaison and coordination",
+      "Certification preparation and submission"
+    ],
+    benefits: [
+      "RERA compliance assurance",
+      "Proper handover certification",
+      "Regulatory protection and compliance",
+      "Professional documentation support",
+      "Risk mitigation and management",
+      "Quality assurance verification"
+    ],
+    duration: "2-4 weeks",
+    price: "Custom Quote",
+    includes: [
+      "Comprehensive completion audit",
+      "Plan compliance verification",
+      "RERA documentation support",
+      "Regulatory liaison services",
+      "Professional certification",
+      "Detailed audit report"
+    ]
+  },
+  "building-condition-survey": {
+    slug: "building-condition-survey",
+    title: "Building Condition Survey",
+    description: "A condition assessment of agreed building components and systems to inform maintenance planning.",
+    image: "/london-property-editorial.jpg",
+    longDescription: "Our building condition survey records observations on agreed, accessible components and systems. Findings can support maintenance planning but are not a statutory inspection or certification.",
+    features: [
+      "Comprehensive condition analysis and assessment",
+      "Regulatory reporting compliance documentation",
+      "Maintenance planning integration and support",
+      "Asset condition documentation and reporting",
+      "Risk identification and assessment",
+      "Improvement recommendations and planning",
+      "System performance evaluation",
+      "Compliance monitoring and reporting"
+    ],
+    process: [
+      "Building inspection and assessment",
+      "Component condition evaluation",
+      "System performance analysis",
+      "Risk assessment and identification",
+      "Documentation preparation and review",
+      "Recommendations development and presentation"
+    ],
+    benefits: [
+      "Comprehensive building condition knowledge",
+      "Effective maintenance planning support",
+      "Regulatory compliance assurance",
+      "Risk mitigation and management",
+      "Professional assessment documentation",
+      "Long-term cost optimization"
+    ],
+    duration: "1-3 weeks",
+    price: "Custom Quote",
+    includes: [
+      "Detailed condition survey",
+      "Component analysis report",
+      "Maintenance planning support",
+      "Risk assessment documentation",
+      "Professional recommendations",
+      "Regulatory compliance verification"
+    ]
+  },
+  "technical-due-diligence": {
+    slug: "technical-due-diligence",
+    title: "Technical Due Diligence",
+    description: "Comprehensive technical analysis for property acquisition, covering structural, mechanical, and compliance aspects for informed investment decisions in local property market.",
+    image: "/london-property-editorial.jpg",
+    longDescription: "Our Technical Due Diligence service provides comprehensive technical analysis for property acquisition, covering all structural, mechanical, and compliance aspects. This critical service enables informed investment decisions in the local property market by identifying potential risks, compliance issues, and technical challenges before property acquisition.",
+    features: [
+      "Investment risk assessment and analysis",
+      "Technical compliance verification and documentation",
+      "Structural integrity analysis and evaluation",
+      "Systems performance evaluation and testing",
+      "Market value correlation and analysis",
+      "Professional recommendations and advisory",
+      "Regulatory compliance verification",
+      "Future maintenance cost projections"
+    ],
+    process: [
+      "Property documentation review",
+      "Comprehensive technical inspection",
+      "Compliance verification and assessment",
+      "Risk analysis and evaluation",
+      "Market analysis and comparison",
+      "Report preparation and presentation"
+    ],
+    benefits: [
+      "Informed investment decision making",
+      "Risk identification and mitigation",
+      "Technical compliance assurance",
+      "Professional investment advisory",
+      "Market value optimization",
+      "Future cost prediction and planning"
+    ],
+    duration: "2-4 weeks",
+    price: "Custom Quote",
+    includes: [
+      "Comprehensive technical analysis",
+      "Risk assessment report",
+      "Compliance verification",
+      "Investment recommendations",
+      "Professional consultation",
+      "Detailed due diligence report"
+    ]
+  },
+  "dilapidation-survey": {
+    slug: "dilapidation-survey",
+    title: "Dilapidation Survey",
+    description: "Pre and post-construction condition assessments of adjacent properties to document potential impact from nearby construction activities and protect property interests.",
+    image: "/london-property-editorial.jpg",
+    longDescription: "Our Dilapidation Survey service provides professional pre and post-construction condition assessments of adjacent properties to document potential impact from nearby construction activities. This essential service protects property interests and provides legal documentation for potential damage claims.",
+    features: [
+      "Pre-construction condition documentation",
+      "Post-construction comparison and analysis",
+      "Impact assessment analysis and evaluation",
+      "Legal documentation support and preparation",
+      "Photographic evidence collection and archiving",
+      "Expert witness testimony and support",
+      "Damage quantification and assessment",
+      "Construction monitoring and reporting"
+    ],
+    process: [
+      "Initial property condition assessment",
+      "Detailed documentation and photography",
+      "Construction monitoring and observation",
+      "Post-construction condition evaluation",
+      "Impact analysis and comparison",
+      "Legal documentation preparation"
+    ],
+    benefits: [
+      "Legal protection and documentation",
+      "Property interest protection",
+      "Professional evidence collection",
+      "Expert witness support",
+      "Damage claim support",
+      "Risk mitigation and management"
+    ],
+    duration: "Ongoing monitoring",
+    price: "Custom Quote",
+    includes: [
+      "Pre-construction assessment",
+      "Ongoing construction monitoring",
+      "Post-construction evaluation",
+      "Legal documentation support",
+      "Expert witness services",
+      "Comprehensive impact report"
+    ]
+  },
+  "thermographic-survey": {
+    slug: "thermographic-survey",
+    title: "Thermographic Survey",
+    description: "Advanced thermal imaging inspections following ASHRAE standards to detect energy losses, moisture intrusion, and NFPA 70 electrical compliance issues invisible to conventional inspection methods.",
+    image: "/london-property-editorial.jpg",
+    longDescription: "Our Thermographic Survey service utilizes advanced thermal imaging technology following ASHRAE Standard 180 guidelines to detect energy losses, moisture intrusion, and NFPA 70 electrical compliance issues that are invisible to conventional inspection methods. This cutting-edge service provides detailed ASTM-compliant analysis of building performance and identifies hidden problems before they become costly repairs.",
+    features: [
+      "Thermal imaging analysis and evaluation",
+      "Energy efficiency assessment and optimization",
+      "Moisture detection and analysis",
+      "Electrical system evaluation and testing",
+      "Building envelope testing and assessment",
+      "Performance optimization recommendations",
+      "Heat loss identification and quantification",
+      "Insulation effectiveness evaluation"
+    ],
+    process: [
+      "Thermal imaging data collection",
+      "Image analysis and interpretation",
+      "Problem identification and documentation",
+      "Performance assessment and evaluation",
+      "Recommendations development",
+      "Report preparation and presentation"
+    ],
+    benefits: [
+      "Hidden problem identification",
+      "Energy efficiency optimization",
+      "Preventive maintenance planning",
+      "Cost-effective problem solving",
+      "Professional thermal analysis",
+      "Performance improvement guidance"
+    ],
+    duration: "1-2 days",
+    price: "Custom Quote",
+    includes: [
+      "Advanced thermal imaging",
+      "Comprehensive analysis",
+      "Problem identification",
+      "Performance recommendations",
+      "Detailed thermal report",
+      "Professional consultation"
+    ]
+  },
+  "noise-survey": {
+    slug: "noise-survey",
+    title: "Noise Survey",
+    description: "Professional acoustic assessments to measure and analyze noise levels for compliance with local regulations and habitability standards in residential and commercial properties.",
+    image: "/london-property-editorial.jpg",
+    longDescription: "Our Noise Survey service provides professional acoustic assessments to measure and analyze noise levels for compliance with local regulations and habitability standards. This specialized service ensures properties meet applicable noise requirements and provides documentation for regulatory compliance and dispute resolution.",
+    features: [
+      "Acoustic level measurement and analysis",
+      "Regulatory compliance testing and verification",
+      "Environmental impact analysis and assessment",
+      "Habitability assessment and evaluation",
+      "Mitigation recommendations and planning",
+      "Expert reporting and documentation",
+      "Noise source identification and analysis",
+      "Sound level monitoring and tracking"
+    ],
+    process: [
+      "Site acoustic assessment and measurement",
+      "Data collection and analysis",
+      "Regulatory compliance verification",
+      "Impact assessment and evaluation",
+      "Mitigation planning and recommendations",
+      "Professional reporting and documentation"
+    ],
+    benefits: [
+      "Regulatory compliance assurance",
+      "Habitability verification",
+      "Professional acoustic analysis",
+      "Noise mitigation guidance",
+      "Legal documentation support",
+      "Environmental protection compliance"
+    ],
+    duration: "1-3 days",
+    price: "Custom Quote",
+    includes: [
+      "Professional noise measurement",
+      "Regulatory compliance assessment",
+      "Acoustic analysis report",
+      "Mitigation recommendations",
+      "Expert consultation",
+      "Compliance documentation"
+    ]
+  },
+  "structural-survey": {
+    slug: "structural-survey",
+    title: "Structural Survey",
+    description: "Detailed structural engineering assessment following ASTM E2018 standards, examining building integrity, load-bearing elements, and structural compliance with relevant requirements identified in the agreed scope.",
+    image: "/london-property-editorial.jpg",
+    longDescription: "Our Structural Survey service provides detailed structural engineering assessment within the agreed inspection scope, examining building integrity, load-bearing elements, and structural compliance with relevant requirements identified in the agreed scope. This critical service ensures structural safety and regulatory compliance while identifying potential structural issues and risks.",
+    features: [
+      "Structural integrity assessment and analysis",
+      "Load-bearing analysis and evaluation",
+      "Building code compliance verification",
+      "Safety standard verification and assessment",
+      "Risk identification and evaluation",
+      "Remediation planning and recommendations",
+      "Structural component evaluation",
+      "Foundation assessment and analysis"
+    ],
+    process: [
+      "Structural inspection and assessment",
+      "Load analysis and calculation",
+      "Compliance verification and evaluation",
+      "Risk assessment and identification",
+      "Remediation planning and development",
+      "Professional reporting and documentation"
+    ],
+    benefits: [
+      "Structural safety assurance",
+      "Building code compliance verification",
+      "Risk mitigation and management",
+      "Professional structural analysis",
+      "Safety standard compliance",
+      "Investment protection and security"
+    ],
+    duration: "1-2 weeks",
+    price: "Custom Quote",
+    includes: [
+      "Comprehensive structural assessment",
+      "Load-bearing analysis",
+      "Compliance verification",
+      "Risk assessment report",
+      "Remediation recommendations",
+      "Professional engineering consultation"
+    ]
+  }
+};
+
+export default function ServiceDetail() {
+  const params = useParams();
+  const slug = params.slug;
+  const category = params.category;
+  
+  if (!slug || !servicesData[slug]) {
+    return <NotFound />;
+  }
+
+  const service = servicesData[slug];
+  const standardService = false;
+  const residentialGuidance = slug === "new-build-snagging" ? "new-build" : slug === "dlp-snagging" ? "dlp" : slug === "secondary-market" ? "resale" : null;
+  const qualifiedCopy = (text: string) => text
+    .replace(/\b(?:NFPA|ASHRAE|ASTM)(?:\s+(?:E)?\d+(?:[.\-]\d+)*)?(?:-compliant)?/gi, "project-specific")
+    .replace(/certified inspectors/gi, "inspection team")
+    .replace(/examine every aspect of your property, from structural elements to finishing details, documenting visible conditions for review against the information provided/gi, "review accessible conditions within the agreed scope, documenting observations for consideration against the information provided")
+    .replace(/ensuring that everything meets the required standards and specifications/gi, "documenting visible conditions for review against the information provided")
+    .replace(/This critical step can save you thousands of dirhams in future repairs and ensures that any defects are identified and rectified by the developer at no cost to you\./gi, "The report records observable findings for discussion with the developer; rectification decisions depend on the applicable contract and the developer.")
+    .replace(/The Defect Liability Period \(DLP\) is your last opportunity to claim free rectification of defects from your developer or contractor\./gi, "The terms and duration of any defects liability period depend on the applicable contract and circumstances.")
+    .replace(/ensuring maximum protection for your investment and securing your rights for free repairs/gi, "to record observable findings before any applicable contractual period ends")
+    .replace(/Our secondary market snagging service provides comprehensive pre-purchase inspections that reveal hidden issues, assess maintenance requirements, and provide valuable insights for price negotiations and future planning\./gi, "Our secondary-market inspection documents accessible, visible conditions and maintenance observations to inform your own due diligence and discussions.")
+    .replace(/Complete structural assessment and stability check/gi, "Visual review of accessible structural elements; not a stability certification")
+    .replace(/Follow-up inspection after rectification/gi, "Reinspection only by agreed separate scope; not guaranteed")
+    .replace(/Rectification follow-up/gi, "Further inspections require an agreed separate scope")
+    .replace(/Multiple follow-ups/gi, "Any reinspection requires an agreed separate scope")
+    .replace(/Comprehensive re-inspection/gi, "Inspection of accessible conditions within the agreed visit")
+    .replace(/Warranty documentation support/gi, "Inspection report with photographic observations")
+    .replace(/Leverage for negotiations with developers/gi, "Findings may inform your own discussions; no outcome is promised")
+    .replace(/Cost savings on repairs/gi, "A record of observed conditions")
+    .replace(/Record visible observations for your own review/gi, "Record visible observations for your own review")
+    .replace(/Save money on future repairs and maintenance/gi, "Identify visible conditions for your own follow-up")
+    .replace(/Professional documentation for warranty claims/gi, "Inspection documentation for your own follow-up")
+    .replace(/the last opportunity to claim free rectification/gi, "an opportunity to document observations under applicable contract terms")
+    .replace(/identify all potential issues/gi, "record observable conditions within the agreed inspection scope")
+    .replace(/certification documentation/gi, "documentation of inspection observations")
+    .replace(/final quality certification/gi, "final quality observations")
+    .replace(/certified valuation report/gi, "valuation report by separately agreed scope")
+    .replace(/professional certification and reporting/gi, "reporting within the agreed scope")
+    .replace(/professional certification and documentation/gi, "documentation within the agreed scope")
+    .replace(/handover readiness certification and approval/gi, "documented handover observations; authority approval is outside scope")
+    .replace(/certification preparation and submission/gi, "documentation preparation within the agreed scope")
+    .replace(/proper handover certification/gi, "handover observations")
+    .replace(/RERA (?:regulatory )?compliance (?:assessment|verification|documentation|assurance|requirements)?/gi, "review of relevant documents within the agreed scope")
+    .replace(/RERA guideline compliance verification/gi, "review of relevant documents within the agreed scope")
+    .replace(/RERA compliance/gi, "review of relevant documents within the agreed scope")
+    .replace(/RERA[^,.]*/gi, "review of relevant documents within the agreed scope")
+    .replace(/(?:regulatory|insurance|plan) compliance (?:assessment|verification|documentation|assurance|requirements|adherence)?/gi, "review of relevant documents within the agreed scope")
+    .replace(/Developer liaison and communication support/gi, "Inspection findings documented for your own follow-up")
+    .replace(/Rectification progress tracking and monitoring/gi, "Rectification progress is outside this inspection scope")
+    .replace(/Legal documentation and evidence gathering/gi, "Photographic records of observable findings")
+    .replace(/Multiple follow-up inspections as needed/gi, "Any reinspection requires an agreed separate scope and is not guaranteed")
+    .replace(/Warranty claim submission assistance/gi, "Observations may be shared by you with the relevant party")
+    .replace(/Final completion verification/gi, "Visual reinspection only by agreed separate scope")
+    .replace(/Legal protection and documentation/gi, "Inspection documentation")
+    .replace(/Maximize warranty claim potential/gi, "Document visible conditions during the applicable period")
+    .replace(/Ensure all defects are addressed/gi, "Record accessible observations for follow-up")
+    .replace(/Professional developer liaison/gi, "Clear findings for your own developer follow-up")
+    .replace(/Legal protection and documentation/gi, "Photographic inspection documentation")
+    .replace(/Extended property protection/gi, "A record of observed conditions on the inspection date")
+    .replace(/Market value assessment support/gi, "Visible condition assessment; not a valuation")
+    .replace(/Hidden defect detection and analysis/gi, "Visual review of accessible areas; concealed defects cannot be confirmed")
+    .replace(/Negotiation support and recommendations/gi, "Findings may inform your own discussions; no outcome is promised")
+    .replace(/Investment protection advisory/gi, "Condition observations to inform your own due diligence")
+    .replace(/Market analysis and comparison/gi, "Review of available property information")
+    .replace(/Market assessment report/gi, "Accessible condition report; not a valuation")
+    .replace(/Hidden defect analysis/gi, "Visual review of accessible areas; concealed conditions are not confirmed")
+    .replace(/Maintenance cost projection/gi, "Maintenance observations; no repair estimate")
+    .replace(/Professional market insights/gi, "Condition observations for your own due diligence")
+    .replace(/Investment advisory/gi, "Condition observations for your own due diligence")
+    .replace(/Final inspection and sign-off/gi, "Any reinspection requires agreed separate scope; no completion sign-off is provided")
+    .replace(/Final verification report/gi, "Report of observations within the agreed scope")
+    .replace(/Make informed purchase decisions/gi, "Use condition observations as one part of your due diligence")
+    .replace(/Negotiate fair market prices/gi, "Discuss documented observations with relevant parties")
+    .replace(/Avoid costly surprises/gi, "Identify observable conditions before your decision");
+
+  return (
+    <>
+      <SEO 
+        title={`${service.title} | UrbanGrid UK`}
+        description={qualifiedCopy(service.description)}
+      />
+      <div className="pt-16">
+        {/* Hero Section */}
+        <section className="pt-24 pb-16 bg-zinc-950">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="flex flex-col gap-6">
+              <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase">
+                Service Details
+              </p>
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white leading-tight">
+                {service.title}
+              </h1>
+              <div className="flex flex-wrap gap-8 mt-4 pt-8 border-t border-zinc-800">
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.25em] text-zinc-500 mb-2">Duration</p>
+                  <p className="text-white font-bold">Agreed by scope</p>
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.25em] text-zinc-500 mb-2">Investment</p>
+                  <p className="text-white font-bold">Custom quote</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Overview & Image Section */}
+        <section className="py-24 lg:py-32 bg-white">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="grid lg:grid-cols-2 gap-16 items-start">
+              <div>
+                <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Overview</p>
+                <h2 className="text-4xl font-bold text-zinc-900 mb-8 leading-tight">Professional Property Assessment</h2>
+                <p className="text-sm text-zinc-500 leading-relaxed mb-8">
+                  {slug === "new-build-snagging"
+                    ? "Before a new-property handover, an independent inspection can document conditions visible and accessible during the agreed visit. Findings are recorded with context for your own discussion with the developer; contractual responsibilities and any rectification decisions depend on the documents and circumstances that apply."
+                    : slug === "dlp-snagging"
+                      ? "An inspection during an applicable defects liability period can record visible conditions for your own review and follow-up. Check the start date, duration and notification requirements in your contract. Contractual rights and developer responses vary; an inspection does not guarantee acceptance or free rectification."
+                      : slug === "secondary-market"
+                        ? "A pre-purchase inspection documents accessible, visible conditions and maintenance observations to inform your own due diligence and discussions. It is not a valuation or legal opinion, cannot confirm concealed conditions and does not promise a negotiation outcome."
+                        : qualifiedCopy(service.longDescription)}
+                </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {service.includes.map((item, idx) => (
+                    <div key={idx} className="flex items-center gap-3 py-3 border-b border-zinc-100">
+                      <div className="w-1.5 h-1.5 bg-brand-green"></div>
+                      <span className="text-[10px] uppercase tracking-wider text-zinc-600 font-bold">{qualifiedCopy(item)}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="aspect-[4/3] overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
+                <img 
+                  src={service.image} 
+                  alt={service.title}
+                  className="w-full h-full object-cover"
+                  fetchPriority="high"
+                  loading="eager"
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Features & Benefits - Editorial 2-col */}
+        <section className="py-24 lg:py-32 bg-zinc-50">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="grid lg:grid-cols-2 gap-24">
+              <div>
+                <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-8">Key Features</p>
+                <div className="divide-y divide-zinc-200">
+                  {service.features.map((feature, idx) => (
+                    <div key={idx} className="py-6 flex gap-6 items-start group">
+                      <span className="text-[10px] font-bold text-zinc-500 mt-1">{String(idx + 1).padStart(2, '0')}</span>
+                      <p className="text-sm text-zinc-600 font-medium group-hover:text-zinc-900 transition-colors">{qualifiedCopy(feature)}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-8">Strategic Benefits</p>
+                <div className="space-y-6">
+                  {service.benefits.map((benefit, idx) => (
+                    <div key={idx} className="flex items-start gap-4">
+                      <span className="text-brand-green mt-1">→</span>
+                      <p className="text-sm text-zinc-500 leading-relaxed">{qualifiedCopy(benefit)}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Process Section */}
+        <section className="py-24 lg:py-32 bg-white">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="mb-20">
+              <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Methodology</p>
+              <h2 className="text-4xl lg:text-5xl font-bold text-zinc-900 leading-tight">Our Technical Process</h2>
+            </div>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+              {service.process.map((step, idx) => (
+                <div key={idx} className="pt-8 border-t border-zinc-200 relative group">
+                  <span className="text-[10px] font-bold text-zinc-500 absolute top-4 right-0">{String(idx + 1).padStart(2, '0')}</span>
+                  <p className="text-sm text-zinc-600 leading-relaxed font-medium">{qualifiedCopy(step)}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {residentialGuidance && <ResidentialServiceGuidance kind={residentialGuidance} />}
+
+        {/* FAQ Section - renders exact same Q&A as server-side FAQPage schema */}
+        <section className="py-24 lg:py-32 bg-zinc-50">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="max-w-3xl">
+              <p className="text-[10px] font-semibold tracking-[0.25em] text-brand-green uppercase mb-4">Inquiry & FAQ</p>
+              <h2 className="text-4xl font-bold text-zinc-900 mb-16 leading-tight">Frequently Asked Questions</h2>
+
+              <div className="divide-y divide-zinc-200">
+                {(serviceFAQs[slug] || []).map((faq, i) => (
+                  <div className="py-10" key={i}>
+                    <h3 className="text-lg font-bold text-zinc-900 mb-4">{faq.q}</h3>
+                    <p className="text-sm text-zinc-500 leading-relaxed">{faq.a}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* CTA Section */}
+        <section className="py-24 lg:py-32 bg-brand-green text-white">
+          <div className="max-w-6xl mx-auto px-6 sm:px-10 lg:px-16">
+            <div className="grid lg:grid-cols-2 gap-12 items-center">
+              <div>
+                <p className="text-[10px] font-semibold tracking-[0.25em] text-white/60 uppercase mb-4">
+                  Engagement
+                </p>
+                <h2 className="text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+                  Discuss Your {service.title}
+                </h2>
+                <p className="text-white/70 text-sm leading-relaxed max-w-md">
+                  "Tell us about the property and the outcome you need. We will confirm availability, scope and a custom quote before proceeding."
+                </p>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-6 lg:justify-end">
+                <a href={`/contact?category=${category === "technical-inspections" ? "technical" : category === "property-snagging" ? "residential" : "consultancy"}&service=${encodeURIComponent(slug)}`} className="inline-block">
+                  <span className="inline-flex items-center justify-center bg-white px-10 text-[10px] font-bold uppercase tracking-[0.2em] text-brand-green transition-colors hover:bg-zinc-100" style={{ minHeight: "3.5rem" }}>
+                    Request Custom Quote
+                  </span>
+                </a>
+                <a href="/services" className="inline-flex items-center justify-center border border-white/30 text-white h-14 px-10 text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-white hover:text-brand-green transition-all">
+                  All Services
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </>
+  );
+}
