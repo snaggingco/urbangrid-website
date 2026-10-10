@@ -82,11 +82,11 @@ app.use((req, res, next) => {
   };
 
   const clientIP = getClientIP(req);
-  const anonymousVisitorId = crypto
+  const anonymousVisitorId = process.env.SESSION_SECRET ? crypto
     .createHmac("sha256", process.env.SESSION_SECRET!)
     .update(String(clientIP))
     .digest("hex")
-    .slice(0, 32);
+    .slice(0, 32) : null;
 
   res.on("finish", () => {
     const duration = Date.now() - start;
@@ -96,7 +96,7 @@ app.use((req, res, next) => {
     }
     log(logLine);
 
-    if (databaseConfigured && res.statusCode < 400 && path.startsWith("/api/")) {
+    if (databaseConfigured && anonymousVisitorId && res.statusCode < 400 && path.startsWith("/api/")) {
       db.insert(visitorLogs).values({
         ipAddress: anonymousVisitorId,
         userAgent: null,

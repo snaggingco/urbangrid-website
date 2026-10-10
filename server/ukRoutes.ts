@@ -15,6 +15,7 @@ import { registerUkPublicPages } from "./ukPublicPages";
 import { ukAssistantReply } from "./ukAssistant";
 import { sendUkEnquiryNotification } from "./ukEmail";
 
+const adminConfigured = databaseConfigured && Boolean(process.env.SESSION_SECRET && process.env.SESSION_SECRET.length >= 32);
 const unavailable = {
   message: "Online enquiries are not available yet. Please call UrbanGrid UK on +44 7436 597890.",
   code: "UK_DATABASE_NOT_CONFIGURED",
@@ -83,12 +84,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         req.path !== "/chat") return res.status(503).json(unavailable);
     next();
   });
-  if (databaseConfigured) await setupLocalAuth(app);
+  if (adminConfigured) await setupLocalAuth(app);
   app.get("/api/auth/user", (req, res) => {
     if (!req.isAuthenticated?.()) return res.status(401).json({ message: "Unauthorized" });
     const user = req.user as any;
     res.json({ id: user.claims?.sub, email: user.claims?.email, role: user.claims?.role, type: user.type });
   });
+  app.use("/api/admin", (_req, res, next) => adminConfigured ? next() : res.status(503).json({ message: "UK admin session configuration is incomplete; enquiries remain saved in the UK database." }));
   app.use("/api/admin", (req, res, next) =>
     ["GET", "HEAD", "OPTIONS"].includes(req.method) || req.path === "/login" ? next() : sameOrigin(req, res, next));
   registerLeadRoutes(app, isAdminAuthenticated);
