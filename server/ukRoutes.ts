@@ -49,7 +49,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     const host = (req.get("host") || "").split(":")[0].toLowerCase();
     if (["GET", "HEAD"].includes(req.method) && !req.path.startsWith("/api/")) {
       const clean = req.path.replace(/\/+$/, "") || "/";
-      if (host === "www.urbangrid.co.uk" || (host === "urbangrid.co.uk" && clean !== req.path)) {
+      if (host === "www.urbangrid.co.uk" || host === "urbangrid-uk.replit.app" || (host === "urbangrid.co.uk" && clean !== req.path)) {
         const query = req.originalUrl.includes("?") ? req.originalUrl.slice(req.originalUrl.indexOf("?")) : "";
         return res.redirect(301, `${canonicalOrigin}${clean}${query}`);
       }
