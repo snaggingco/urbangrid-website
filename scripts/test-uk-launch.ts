@@ -22,6 +22,10 @@ assert.throws(() => ukDatabaseConfiguration({ URBANGRID_GB_DATABASE_URL: uae, DA
 assert.throws(() => ukDatabaseConfiguration({ URBANGRID_GB_DATABASE_URL: uae, NEON_DATABASE_URL: uae }));
 assert.throws(() => ukDatabaseConfiguration({ URBANGRID_GB_DATABASE_URL: "not-a-url", NEON_DATABASE_URL: uae }));
 assert.equal(ukDatabaseConfiguration({ URBANGRID_GB_DATABASE_URL: db, DATABASE_URL: uae }).configured, true);
+const managed = { DATABASE_URL: db, REPL_ID: "uk-project", URBANGRID_DATABASE_PROVIDER: "replit-managed", URBANGRID_MANAGED_DATABASE_REPL_ID: "uk-project" };
+assert.equal(ukDatabaseConfiguration(managed).configured, true);
+assert.equal(ukDatabaseConfiguration({ ...managed, REPL_ID: "another-project" }).configured, false);
+assert.equal(ukDatabaseConfiguration({ ...managed, REPL_ID: undefined, NODE_ENV: "production", REPLIT_DOMAINS: "uk-deployment.replit.app", URBANGRID_MANAGED_DATABASE_SITE_DOMAIN: "uk-deployment.replit.app" }).configured, true);
 const env = ukEnvironment({
   NODE_ENV: "development", DATABASE_URL: uae, URBANGRID_GB_DATABASE_URL: db,
   URBANGRID_GB_NETWORK_INTEGRATION_KEY: key,

@@ -54,6 +54,9 @@ integrations = ["javascript_sendgrid:1.0.0", "javascript_google_analytics:1.0.0"
 
 [userenv.shared]
 URBANGRID_COUNTRY_CODE = "GB"
+URBANGRID_DATABASE_PROVIDER = "replit-managed"
+URBANGRID_MANAGED_DATABASE_REPL_ID = "d16733cc-2c0d-4529-bc3a-ce4ae86974dd"
+URBANGRID_MANAGED_DATABASE_SITE_DOMAIN = "urbangrid-uk.replit.app"
 URBANGRID_NETWORK_CLIENT_CODE = "urbangrid-uk"
 URBANGRID_SITE_DOMAIN = "urbangrid.co.uk"
 

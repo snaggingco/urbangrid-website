@@ -3,10 +3,9 @@ import compression from "compression";
 import crypto from "crypto";
 import { registerRoutes } from "./ukRoutes";
 import { setupVite, serveStatic, log } from "./vite";
-import { db, databaseConfigured } from "./db";
+import { db, pool, databaseConfigured } from "./db";
 import { visitorLogs } from "@shared/schema";
 import { startNetworkLeadWorker } from "./networkLeadSync";
-import { ensureNetworkOutboxSchema } from "./networkOutboxMigration";
 import { BUILD_STAMP } from "./buildStamp";
 import { assertUkApplication } from "./ukRuntime";
 
@@ -118,7 +117,10 @@ app.use((req, res, next) => {
 (async () => {
   // Ensure every accepted enquiry is backed by a durable queue.
   // SQL is additive and idempotent; never run a destructive schema push.
-  if (databaseConfigured) await ensureNetworkOutboxSchema();
+  if (databaseConfigured) {
+    await pool.query("SELECT 1 FROM contact_submissions LIMIT 0");
+    await pool.query("SELECT 1 FROM website_lead_outbox LIMIT 0");
+  }
   else log("UK onboarding incomplete: static preview only; submissions and admin access are disabled.");
 
   const server = await registerRoutes(app);

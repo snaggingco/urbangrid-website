@@ -92,6 +92,7 @@ function Router() {
             <Route path="/admin/add-blog"><AdminAccess><AddBlog /></AdminAccess></Route>
             <Route path="/admin/manage-blogs"><AdminAccess><ManageBlogs /></AdminAccess></Route>
             <Route path="/admin/leads"><AdminAccess><ManageLeads /></AdminAccess></Route>
+            <Route path="/admin/acquisition"><Redirect to="/admin/leads" /></Route>
             <Route component={NotFound} />
           </Switch>
         </Suspense>

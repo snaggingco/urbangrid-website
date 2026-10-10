@@ -180,10 +180,10 @@ function LeadCard({ lead, onSaved }: { lead: ContactSubmission; onSaved: () => P
             {leadStages.map((value) => <option key={value} value={value}>{value.charAt(0).toUpperCase() + value.slice(1)}</option>)}
           </select>
         </label>
-        <label className={labelClass}>Quote value · GBP
+        <label className={labelClass}>Quote value · {lead.quoteCurrency}
           <Input aria-label={`Quote value for lead ${lead.id}`} inputMode="decimal" value={quote} onChange={(event) => setQuote(event.target.value)} placeholder="Not recorded" className="mt-1 h-10 bg-white" />
         </label>
-        <label className={labelClass}>Actual revenue · GBP
+        <label className={labelClass}>Actual revenue · {lead.revenueCurrency}
           <Input aria-label={`Actual revenue for lead ${lead.id}`} inputMode="decimal" value={revenue} onChange={(event) => setRevenue(event.target.value)} placeholder="Not recorded" className="mt-1 h-10 bg-white" />
         </label>
         <label className={labelClass}>Inspection date
@@ -202,7 +202,7 @@ function LeadCard({ lead, onSaved }: { lead: ContactSubmission; onSaved: () => P
           <Button onClick={save} disabled={saving} className="h-10 w-full bg-[#276448] text-white hover:bg-[#1f523a]">{saving ? "Saving…" : "Save changes"}</Button>
         </div>
         {notice && <p role={notice.error ? "alert" : "status"} className={`self-center text-sm sm:col-span-2 lg:col-span-4 ${notice.error ? "text-rose-700" : "text-[#276448]"}`}>{notice.text}</p>}
-        <p className="text-[11px] leading-relaxed text-zinc-500 sm:col-span-2 lg:col-span-4">Amounts are recorded in GBP. Record verified revenue only; this does not send offline ad conversions.</p>
+        <p className="text-[11px] leading-relaxed text-zinc-500 sm:col-span-2 lg:col-span-4">Amounts use the currencies recorded on this lead. Record verified revenue only; this does not send offline ad conversions.</p>
       </div>
 
       <div className="border-t border-zinc-100 px-5 sm:px-6">
