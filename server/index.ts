@@ -82,8 +82,8 @@ app.use((req, res, next) => {
   };
 
   const clientIP = getClientIP(req);
-  const anonymousVisitorId = process.env.SESSION_SECRET ? crypto
-    .createHmac("sha256", process.env.SESSION_SECRET!)
+  const anonymousVisitorId = process.env.URBANGRID_GB_SESSION_SECRET ? crypto
+    .createHmac("sha256", process.env.URBANGRID_GB_SESSION_SECRET!)
     .update(String(clientIP))
     .digest("hex")
     .slice(0, 32) : null;

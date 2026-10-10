@@ -15,7 +15,7 @@ import { registerUkPublicPages } from "./ukPublicPages";
 import { ukAssistantReply } from "./ukAssistant";
 import { sendUkEnquiryNotification } from "./ukEmail";
 
-const adminConfigured = databaseConfigured && Boolean(process.env.SESSION_SECRET && process.env.SESSION_SECRET.length >= 32);
+const adminConfigured = databaseConfigured && Boolean(process.env.URBANGRID_GB_SESSION_SECRET && process.env.URBANGRID_GB_SESSION_SECRET.length >= 32);
 const unavailable = {
   message: "Online enquiries are not available yet. Please call UrbanGrid UK on +44 7436 597890.",
   code: "UK_DATABASE_NOT_CONFIGURED",
