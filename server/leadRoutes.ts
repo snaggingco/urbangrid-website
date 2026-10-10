@@ -29,6 +29,9 @@ export function registerLeadRoutes(app: Express, authenticate: RequestHandler) {
     }
   });
   app.get("/api/admin/acquisition", authenticate, async (req, res) => {
+    if (process.env.URBANGRID_COUNTRY_CODE && process.env.URBANGRID_COUNTRY_CODE !== "AE") {
+      return res.status(410).set("Cache-Control", "no-store").json({ message: "Use the country enquiry summary; online booking and payment reporting is unavailable.", summaryUrl: "/api/admin/marketing-summary" });
+    }
     try {
       res.set("Cache-Control", "no-store").json(await acquisitionReport(acquisitionFiltersSchema.parse(req.query)));
     } catch (error) {
