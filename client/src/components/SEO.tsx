@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { useLocation } from "wouter";
 import { pageStructuredData } from "@shared/pageStructuredData";
+import { ukPageSeo } from "@shared/ukSeo";
+import { regionalAlternates } from "@shared/regionalSeo";
 import { canonicalUrl, isNonIndexablePath } from "@shared/siteConfig";
 
 interface SEOProps {
@@ -57,14 +59,19 @@ export default function SEO({
   const [location] = useLocation();
 
   useEffect(() => {
-    const routeData = routeSEOData[location] || {};
-    const title = customTitle || routeData.title || "UrbanGrid UK | Property Inspections & Building Consultancy";
-    const description = customDescription || routeData.description || "Property inspection and building consultancy enquiries in London and nearby areas.";
+    const routeData = ukPageSeo(location) || routeSEOData[location] || {};
+    const title = routeData.title || customTitle || "UrbanGrid UK | Property Inspections & Building Consultancy";
+    const description = routeData.description || customDescription || "Property inspection and building consultancy enquiries in London and nearby areas.";
     const keywords = customKeywords || routeData.keywords || "property inspection London, building consultancy London, custom quote";
     const image = customOgImage || ogImage;
-    const shouldNoindex = noindex || isNonIndexablePath(location);
+    const shouldNoindex = noindex || ukPageSeo(location)?.noindex || isNonIndexablePath(location);
     const canonical = canonicalUrl(customCanonical || location);
     document.title = title;
+    document.documentElement.lang = "en-GB";
+    document.querySelectorAll("link[hreflang]").forEach(link => link.remove());
+    for (const {language, href} of regionalAlternates(location, "GB")) {
+      const link = document.createElement("link"); link.rel = "alternate"; link.hreflang = language; link.href = href; document.head.appendChild(link);
+    }
 
     const updateMetaTag = (name: string, content: string, property?: string) => {
       const selector = property ? `meta[property="${name}"]` : `meta[name="${name}"]`;

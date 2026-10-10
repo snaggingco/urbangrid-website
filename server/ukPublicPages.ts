@@ -5,40 +5,9 @@ import { canonicalOrigin, canonicalUrl, isNonIndexablePath } from "@shared/siteC
 import { pageSchemaScript } from "@shared/pageStructuredData";
 import { injectFirstPaint, preloadDubaiRoute } from "./firstPaint";
 
-export const ukServices = [
-  ["property-snagging/new-build-snagging", "New-build Snagging"],
-  ["property-snagging/post-renovation-inspection", "Post-renovation Inspection"],
-  ["property-snagging/dlp-snagging", "Defects Liability Inspection"],
-  ["property-snagging/move-in-move-out", "Move-in / Move-out Inspection"],
-  ["property-snagging/secondary-market", "Resale Property Inspection"],
-  ["property-snagging/developer-projects", "Developer & Contractor Projects"],
-  ["rera-services/reserve-fund-study", "Reserve Fund Study"],
-  ["rera-services/service-charge-allocation", "Service Charge Allocation"],
-  ["rera-services/reinstatement-cost-assessment", "Reinstatement Cost Assessment"],
-  ["rera-services/building-completion-audit", "Building Completion Audit"],
-  ["rera-services/building-condition-survey", "Building Condition Survey"],
-  ["technical-inspections/technical-due-diligence", "Technical Due Diligence"],
-  ["technical-inspections/dilapidation-survey", "Dilapidation Survey"],
-  ["technical-inspections/thermographic-survey", "Thermographic Survey"],
-  ["technical-inspections/noise-survey", "Noise Survey"],
-  ["technical-inspections/structural-survey", "Structural Survey"],
-  ["asset-tagging-inventory", "Asset Tagging & Inventory"],
-] as const;
-
-const coreTitles: Record<string, string> = {
-  "/": "Property Snagging & Inspection in London",
-  "/about": "About UrbanGrid UK",
-  "/services": "Property Inspection & Building Consultancy Services",
-  "/pricing": "Inspection Enquiries & Custom Quotes",
-  "/contact": "Contact UrbanGrid UK",
-  "/blog": "Property Inspection Insights",
-  "/privacy-policy": "Privacy Policy",
-  "/terms-of-service": "Terms of Service",
-  "/locations/london": "Property Inspections in London & Nearby Areas",
-};
-export const ukPublicPaths = [
-  ...Object.keys(coreTitles), ...ukServices.map(([slug]) => `/services/${slug}`),
-];
+import { ukServices, ukPublicPaths, ukPageSeo } from "@shared/ukSeo";
+import { regionalLinkTags } from "@shared/regionalSeo";
+export { ukServices, ukPublicPaths };
 const escape = (s: string) => s.replace(/[&<>"']/g, c =>
   ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
 
@@ -59,11 +28,7 @@ export function registerUkPublicPages(app: Express) {
   for (const page of ukPublicPaths) {
     app.get(page, (_req, res, next) => {
       if (process.env.NODE_ENV !== "production") return next();
-      const label = coreTitles[page] || ukServices.find(([slug]) => `/services/${slug}` === page)![1];
-      const title = `${label} | UrbanGrid UK`;
-      const description = page.startsWith("/services/")
-        ? `Enquire about ${label.toLowerCase()} with UrbanGrid UK in London and nearby areas. Scope and pricing are agreed through a custom quote.`
-        : "UrbanGrid UK offers property inspections and building consultancy in London and nearby areas. Call +44 7436 597890 or request a custom quote.";
+      const { title, description, noindex } = ukPageSeo(page)!;
       try {
         let html = fs.readFileSync(path.resolve(import.meta.dirname, "public", "index.html"), "utf8");
         html = html.replace(/<title>[\s\S]*?<\/title>/i, `<title>${escape(title)}</title>`)
@@ -71,7 +36,6 @@ export function registerUkPublicPages(app: Express) {
           .replace(/<link rel="canonical"[^>]*>\s*/gi, "")
           .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>\s*/gi, "");
         const canonical = canonicalUrl(page);
-        const noindex = page === "/blog" || page === "/sample-report";
         const head = `<meta name="description" content="${escape(description)}">
 <meta name="robots" content="${noindex ? "noindex, follow" : "index, follow"}">
 <link rel="canonical" href="${canonical}">
@@ -80,6 +44,7 @@ export function registerUkPublicPages(app: Express) {
 <meta property="og:url" content="${canonical}">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="UrbanGrid UK">
+${regionalLinkTags(page, "GB")}
 ${pageSchemaScript(page, title, description)}`;
         html = html.replace("</head>", `${head}\n</head>`);
         html = preloadDubaiRoute(injectFirstPaint(html, page), page);

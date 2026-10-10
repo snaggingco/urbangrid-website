@@ -26,7 +26,7 @@ type ContactFormData = z.infer<typeof contactSchema>;
 
 export default function Contact() {
   const [isLoading, setIsLoading] = useState(false);
-  const qs = new URLSearchParams(window.location.search);
+  const qs = new URLSearchParams(typeof window === "undefined" ? "" : window.location.search);
   const categoryFromUrl = qs.get("category");
   const initialCategory = categoryFromUrl === "consultancy" || categoryFromUrl === "technical" ? categoryFromUrl : "residential";
   const [category, setCategory] = useState<"residential" | "consultancy" | "technical">(initialCategory);

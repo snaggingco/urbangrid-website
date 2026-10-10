@@ -1,7 +1,8 @@
 import fs from "node:fs";
 import path from "node:path";
 
-const firstPaintRoutes = new Set(["/", "/locations/london"]);
+import { ukPublicPaths } from "@shared/ukSeo";
+const firstPaintRoutes = new Set(ukPublicPaths);
 let builtPages: Record<string, string> | undefined;
 
 export function injectFirstPaint(html: string, pathname: string, rendered?: string) {

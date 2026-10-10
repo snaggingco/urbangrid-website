@@ -1,3 +1,4 @@
+import { ukPageSeo } from "@shared/ukSeo";
 import { canonicalOrigin, canonicalUrl, isNonIndexablePath } from "@shared/siteConfig";
 
 export interface SitemapUrl {
@@ -89,6 +90,6 @@ export function getSitemapUrls(baseUrl: string, blogPosts: Array<{slug: string, 
     });
   });
 
-  return urls.filter(url => !isNonIndexablePath(new URL(url.loc).pathname))
+  return urls.filter(url => !isNonIndexablePath(new URL(url.loc).pathname) && !ukPageSeo(new URL(url.loc).pathname)?.noindex)
     .map(url => ({ ...url, loc: canonicalUrl(url.loc) }));
 }

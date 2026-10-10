@@ -21,7 +21,8 @@ const vite = await createServer({
 try {
   const { renderFirstPaint } = await vite.ssrLoadModule("/src/firstPaint.tsx");
   const pages = {};
-  for (const route of ["/", "/locations/london"]) {
+  const { ukPublicPaths } = await vite.ssrLoadModule(path.resolve("shared/ukSeo.ts"));
+  for (const route of ukPublicPaths) {
     const markup = renderFirstPaint(route);
     if (!markup) throw new Error("Public first-paint rendering failed");
     pages[route] = markup.replace(/src="([^"]+)"/g, (tag, url) => {
@@ -32,7 +33,7 @@ try {
     });
   }
   await fs.writeFile(path.join(publicDir, "first-paint.json"), JSON.stringify(pages));
-  console.log("Generated shared public first-paint markup for homepage and London.");
+  console.log("Generated public first-paint markup for every UK public route.");
 } finally {
   await vite.close();
 }
