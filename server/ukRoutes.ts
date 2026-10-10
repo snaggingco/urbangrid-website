@@ -15,6 +15,7 @@ import { registerUkPublicPages } from "./ukPublicPages";
 import { ukAssistantReply } from "./ukAssistant";
 import { sendUkEnquiryNotification } from "./ukEmail";
 
+const publishCountryArticles = process.env.URBANGRID_GB_PUBLISH_BLOGS === "true";
 const adminConfigured = databaseConfigured && Boolean(process.env.URBANGRID_GB_SESSION_SECRET && process.env.URBANGRID_GB_SESSION_SECRET.length >= 32);
 const unavailable = {
   message: "Online enquiries are not available yet. Please call UrbanGrid UK on +44 7436 597890.",
@@ -156,7 +157,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     app.get(prefix, ...(admin ? [isAdminAuthenticated] : []), async (req, res) => {
       try {
         const query = blogQuery.parse(req.query);
-        if (!databaseConfigured) return res.json({ posts: [], total: 0, page: query.page, pages: 0 });
+        if (!databaseConfigured || (!admin && !publishCountryArticles)) return res.json({ posts: [], total: 0, page: query.page, pages: 0 });
         const filter = { ...query, status: admin ? query.status : "published", offset: (query.page - 1) * query.limit };
         const [posts, total] = await Promise.all([storage.getBlogPosts(filter), storage.getBlogPostsCount(filter)]);
         res.json({ posts, total, page: query.page, pages: Math.ceil(total / query.limit) });
@@ -164,7 +165,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   }
   app.get("/api/blog/:slug", async (req, res) => {
-    const post = databaseConfigured ? await storage.getBlogPostBySlug(req.params.slug).catch(() => undefined) : undefined;
+    const post = databaseConfigured && publishCountryArticles ? await storage.getBlogPostBySlug(req.params.slug).catch(() => undefined) : undefined;
     if (!post || post.status !== "published") return res.status(404).json({ message: "UK article not found" });
     res.json(post);
   });
@@ -200,14 +201,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.json({ totalBlogs, publishedBlogs, totalContacts, totalInspectors: 0 });
   });
   app.get("/sitemap.xml", async (_req, res) => {
-    const posts = databaseConfigured ? await storage.getBlogPosts({ status: "published", limit: 1000 }).catch(() => []) : [];
+    const posts = databaseConfigured && publishCountryArticles ? await storage.getBlogPosts({ status: "published", limit: 1000 }).catch(() => []) : [];
     res.type("application/xml").send(generateSitemap(getSitemapUrls(canonicalOrigin,
       posts.map(p => ({ slug: p.slug, updatedAt: p.updatedAt || p.createdAt || new Date() })))));
   });
   app.get(/^\/(?:sitemap[_-]index|sitemaps|sitemap1|post-sitemap|page-sitemap|category-sitemap|news-sitemap|video-sitemap|image-sitemap)\.xml$/,
     (_req, res) => res.redirect(301, "/sitemap.xml"));
   app.get("/blog/:slug", async (req, res, next) => {
-    const post = databaseConfigured ? await storage.getBlogPostBySlug(req.params.slug).catch(() => undefined) : undefined;
+    const post = databaseConfigured && publishCountryArticles ? await storage.getBlogPostBySlug(req.params.slug).catch(() => undefined) : undefined;
     if (!post || post.status !== "published") return res.status(404).set("X-Robots-Tag", "noindex, nofollow")
       .type("html").send('<!doctype html><title>Article not found | UrbanGrid UK</title><h1>Article not found</h1><a href="/services">Explore UK services</a>');
     next();
