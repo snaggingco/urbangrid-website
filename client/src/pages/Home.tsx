@@ -252,6 +252,7 @@ export default function Home() {
           </div>
 
           <div className="mt-10 text-center">
+            <p className="mt-6 text-sm text-zinc-600">Outside London? <Link href="/locations" className="font-semibold text-brand-green underline">Explore UK city enquiries and check local availability</Link>.</p>
             <Link href="/contact">
               <span className="inline-flex items-center gap-2 text-xs font-semibold text-brand-green border-b border-brand-green pb-0.5 hover:gap-3 transition-all cursor-pointer">
                 Request a Quote in Your Area <ArrowRight className="w-3 h-3" />
