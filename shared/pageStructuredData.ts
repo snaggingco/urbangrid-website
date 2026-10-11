@@ -1,3 +1,4 @@
+import { ukCityBySlug } from "./ukLocations";
 import { serviceFAQs, type FAQEntry } from "./faqs";
 import { homepageFAQs } from "./publicFAQs";
 import { resourceSchema, seoResources } from "./seoResources";
@@ -28,6 +29,7 @@ export function pageStructuredData(path: string, title: string, description: str
   if (path === "/sample-report") return resourceSchema(seoResources.sampleReport);
   if (path === "/services/asset-tagging-inventory") return assetTaggingSchema();
   const canonical = `${base}${path === "/" ? "/" : path}`;
+  const city = path.startsWith("/locations/") ? ukCityBySlug(path.slice("/locations/".length)) : undefined;
   const nodes: Record<string, unknown>[] = [];
   if (path === "/") {
     nodes.push(
@@ -48,12 +50,12 @@ export function pageStructuredData(path: string, title: string, description: str
     if (path.startsWith("/services/")) items.push({ name: "Services", item: `${base}/services` });
     items.push({ name: title.replace(/ [-|] UrbanGrid.*$/, ""), item: canonical });
     nodes.push(breadcrumbData(items));
-    if (path.startsWith("/services/") || path === "/locations/london") {
+    if (path.startsWith("/services/") || path === "/locations/london" || city) {
       nodes.push({ "@type": "Service", "@id": `${canonical}#service`, name: title.replace(/ [-|] UrbanGrid.*$/, ""),
-        description, url: canonical, serviceType: path === "/locations/london" ? "Property inspection coverage" : title.replace(/ [-|] UrbanGrid.*$/, ""),
+        description, url: canonical, serviceType: path.startsWith("/locations/") ? "Property inspection enquiries" : title.replace(/ [-|] UrbanGrid.*$/, ""),
         provider: { "@type": "Organization", "@id": `${base}/#organization`, name: "UrbanGrid UK", url: `${base}/` },
-        areaServed: { "@type": "AdministrativeArea", name: "London and nearby areas" } });
-      const faqs = path === "/locations/london" ? homepageFAQs : serviceFAQs[path.split("/").pop() || ""];
+        areaServed: city ? { "@type": "City", name: city.name, containedInPlace: { "@type": "Country", name: "United Kingdom" } } : { "@type": "AdministrativeArea", name: "London and nearby areas" } });
+      const faqs = path === "/locations/london" ? homepageFAQs : city ? [] : serviceFAQs[path.split("/").pop() || ""];
       if (faqs?.length) nodes.push(faqData(faqs));
     } else {
       nodes.push({ "@type": "WebPage", url: canonical, name: title, description,

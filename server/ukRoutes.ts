@@ -62,10 +62,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     res.set("X-Robots-Tag", "noindex, nofollow").redirect(302, "/contact"));
   app.get(/^\/(?:broker-referrals|careers)$/, (_req, res) => res.redirect(302, "/contact"));
   app.get("/sample-report", (_req, res) => res.status(410).set("X-Robots-Tag", "noindex").send("No approved UK sample report is currently published."));
-  app.get(/^\/locations\/(?!london(?:\/|$))/, (_req, res) =>
-    res.status(410).set("X-Robots-Tag", "noindex, nofollow").type("html").send(
-      '<!doctype html><title>Location unavailable | UrbanGrid UK</title><h1>This location is not part of our UK site</h1><a href="/locations/london">London coverage</a>',
-    ));
+  // City enquiry pages are registered via the public route whitelist; unknown cities return 404.
   app.all("/api/sample-report-download", (_req, res) => res.status(410).json({ message: "No approved UK sample report is available. Please enquire about reporting." }));
   app.get("/login", (_req, res) => res.redirect(302, centralLoginUrl));
   app.get("/api/launch-readiness", (_req, res) => {

@@ -1,0 +1,23 @@
+name: City SEO validation
+on:
+  push:
+    branches: [seo/uk-city-enquiry-pages-20261011]
+  pull_request:
+    branches: [release/uk-launch-20261009]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts --no-audit --no-fund
+      - run: npm run check
+      - run: node --import tsx scripts/test-city-catalog.ts
+      - run: npm run build
+      - run: node scripts/test-uk-http.mjs

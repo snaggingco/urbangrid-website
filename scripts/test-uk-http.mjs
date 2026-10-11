@@ -62,7 +62,14 @@ try {
     assert.equal(response.status, 302);
     assert.equal(response.headers.get("location"), "/contact");
   }
-  assert.equal((await fetch(`${base}/locations/dubai`)).status, 410);
+  for (const slug of ["manchester", "birmingham", "leeds", "edinburgh", "cardiff", "belfast"]) {
+    const response = await fetch(`${base}/locations/${slug}`);
+    assert.equal(response.status, 200, slug);
+    const html = await response.text();
+    assert.match(html, /Confirm availability|confirm availability|provider availability/);
+    assert.match(html, new RegExp(slug === "belfast" ? "Belfast" : slug, "i"));
+  }
+  assert.equal((await fetch(`${base}/locations/dubai`)).status, 404);
   assert.equal((await fetch(`${base}/blog/uae-fixture`)).status, 404);
   assert.equal((await fetch(`${base}/not-a-real-page`)).status, 404);
   const llms = await (await fetch(`${base}/llms.txt`)).text();

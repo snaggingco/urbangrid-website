@@ -11,6 +11,7 @@ import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import TermsOfService from "@/pages/TermsOfService";
 import Footer from "@/components/Footer";
 import { ukPublicPaths } from "@shared/ukSeo";
+import UKLocations from "@/pages/locations/UKLocations";
 import Header from "@/components/Header";
 import LondonHero from "@/components/first-paint/DubaiHero";
 import HomeHero, { HomeStats } from "@/components/first-paint/HomeHero";
@@ -26,7 +27,7 @@ export function renderFirstPaint(path: string): string | undefined {
         <HomeHero />
         <HomeStats counts={initialCounts} />
       </>
-    ) : path === "/locations/london" ? <LondonHero /> : (
+    ) : path === "/locations/london" ? <LondonHero /> : path === "/locations" || path.startsWith("/locations/") ? <UKLocations /> : (
       <Switch>
         <Route path="/about" component={About} />
         <Route path="/services" component={Services} />
