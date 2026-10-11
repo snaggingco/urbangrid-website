@@ -60,6 +60,9 @@ assert.equal(leadEventMatchesSite(event, { ...UK_SITE_IDENTITY, countryCode: "AE
 const sitemap = getSitemapUrls(canonicalOrigin, []);
 assert.equal(sitemap.filter(p => p.loc.includes("/services/")).length, 17);
 assert(sitemap.some(p => p.loc.endsWith("/locations/london")));
+for (const city of ["manchester", "birmingham", "leeds", "edinburgh", "cardiff", "belfast"]) {
+  assert(sitemap.some(p => p.loc.endsWith("/locations/" + city)));
+}
 assert(sitemap.every(p => p.loc.startsWith("https://urbangrid.co.uk/")));
 assert(!sitemap.some(p => /dubai|abu-dhabi|book-inspection|checkout|sample-report/.test(p.loc)));
 for (const prompt of ["price AED 800", "RERA approved?", "Dubai contact", "sample report", "hello"]) {
