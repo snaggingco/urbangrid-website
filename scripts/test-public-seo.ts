@@ -19,6 +19,7 @@ try {
     const response = await fetch(base + route), html = await response.text();
     assert.equal(response.status, 200, route);
     assert.equal((html.match(/<h1\b/g) || []).length, 1, `${route}: one visible heading`);
+    if (route === "/") assert(html.includes('href="/locations"'), "Homepage must link to UK city hub in initial HTML");
     assert.equal((html.match(/rel="canonical"/g) || []).length, 1, `${route}: one canonical`);
     assert(html.includes(`href="https://urbangrid.co.uk${route}"`), route);
     assert(html.includes(ukPageSeo(route)!.noindex ? 'content="noindex, follow"' : 'content="index, follow"'), route);
