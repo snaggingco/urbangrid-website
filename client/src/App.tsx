@@ -31,6 +31,7 @@ const NotFound = lazy(() => import("@/pages/not-found"));
 
 // This is the existing location-page component, adapted to the verified UK coverage.
 const LondonCoverage = lazy(() => import("@/pages/locations/Dubai"));
+const UKLocations = lazy(() => import("@/pages/locations/UKLocations"));
 
 // Lazy-loaded admin pages
 const Dashboard = lazy(() => import("@/pages/admin/Dashboard"));
@@ -75,6 +76,8 @@ function Router() {
             <Route path="/blog/:slug" component={BlogDetail} />
 
             <Route path="/locations/london" component={LondonCoverage} />
+            <Route path="/locations" component={UKLocations} />
+            <Route path="/locations/:slug" component={UKLocations} />
 
             <Route path="/contact" component={Contact} />
             <Route path="/login" component={Login} />
