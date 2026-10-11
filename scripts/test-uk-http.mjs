@@ -28,6 +28,7 @@ try {
   const home = await (await fetch(`${base}/`)).text();
   assert.match(home, /https:\/\/urbangrid\.co\.uk/);
   assert.match(home, /UrbanGrid UK/);
+  assert.match(home, /href="\/locations"/, "UK locations hub must be in initial HTML");
   assert.match(home, /7436 597890/);
   assert.doesNotMatch(home, /urbangrid\.ae|AED\s*\d|\+971|GTM-NGVDWWRF|G-ZX4B5QJGB4|AW-11443889137/);
   const london = await fetch(`${base}/locations/london`);
