@@ -4,6 +4,7 @@ import { registerUkPublicPages } from "../server/ukPublicPages";
 import { ukPublicPaths, ukPageSeo } from "../shared/ukSeo";
 import { generateSitemap, getSitemapUrls } from "../server/sitemap";
 import { regionalAlternates } from "../shared/regionalSeo";
+import { ukCityPages } from "../shared/ukLocations";
 
 const app = express();
 app.get("/sitemap.xml", (_req, res) => res.type("application/xml").send(generateSitemap(getSitemapUrls("https://urbangrid.co.uk", []))));
@@ -13,6 +14,7 @@ await new Promise<void>(resolve => server.once("listening", resolve));
 const base = `http://127.0.0.1:${(server.address() as any).port}`;
 try {
   const titles = new Set(), descriptions = new Set();
+  assert(ukCityPages.length >= 25, "UK major city enquiries must be represented");
   for (const route of ukPublicPaths) {
     const response = await fetch(base + route), html = await response.text();
     assert.equal(response.status, 200, route);
