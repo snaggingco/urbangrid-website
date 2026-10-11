@@ -5,6 +5,7 @@ const companyLinks = [
   { name: "Home", href: "/" },
   { name: "About", href: "/about" },
   { name: "All Services", href: "/services" },
+  { name: "UK Locations", href: "/locations" },
   { name: "Custom Quotes", href: "/pricing" },
   { name: "Resources", href: "/blog" },
   { name: "Contact", href: "/contact" },
@@ -21,7 +22,7 @@ export default function Footer() {
         <div className="mb-8 flex flex-col gap-4 border-b border-zinc-800 pb-8 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <div className="text-lg font-bold tracking-tight text-white">UrbanGrid UK</div>
-            <p className="mt-3 max-w-md text-xs leading-relaxed text-zinc-400">Property inspection and building consultancy enquiries for owners in London and nearby areas.</p>
+            <p className="mt-3 max-w-md text-xs leading-relaxed text-zinc-400">Property inspection and building consultancy enquiries across UK cities, subject to postcode and provider confirmation.</p>
           </div>
         </div>
         <div className="hidden gap-x-8 gap-y-10 pb-12 md:grid md:grid-cols-2 lg:grid-cols-[1.1fr_1.4fr_1.4fr_1fr]">
@@ -34,12 +35,12 @@ export default function Footer() {
             <div className="mt-4 flex flex-col gap-3">
               <a href="tel:+447436597890" className="text-xs text-zinc-400 hover:text-white">+44 7436 597890</a>
               <Link href="/contact" className="text-xs text-zinc-400 hover:text-white">Send an enquiry</Link>
-              <Link href="/locations/london" className="text-xs text-zinc-400 hover:text-white">London coverage</Link>
+              <Link href="/locations" className="text-xs text-zinc-400 hover:text-white">UK city enquiries</Link><Link href="/locations/london" className="text-xs text-zinc-400 hover:text-white">London coverage</Link>
             </div>
           </section>
         </div>
         <div className="divide-y divide-zinc-800 border-y border-zinc-800 md:hidden">
-          <details className="py-1"><summary className="cursor-pointer py-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-zinc-300">Company & Contact</summary><div className="grid grid-cols-2 gap-8 pb-5"><ul className="space-y-3">{companyLinks.map(item => <li key={item.href}><Link href={item.href} className="text-xs text-zinc-400 hover:text-white">{item.name}</Link></li>)}</ul><div className="space-y-3 text-xs text-zinc-400"><p>28 Manchester Street<br />London W1U 7LE<br />United Kingdom</p><a href="tel:+447436597890" className="block">+44 7436 597890</a><Link href="/contact" className="block">Send an enquiry</Link><Link href="/locations/london" className="block">London coverage</Link></div></div></details>
+          <details className="py-1"><summary className="cursor-pointer py-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-zinc-300">Company & Contact</summary><div className="grid grid-cols-2 gap-8 pb-5"><ul className="space-y-3">{companyLinks.map(item => <li key={item.href}><Link href={item.href} className="text-xs text-zinc-400 hover:text-white">{item.name}</Link></li>)}</ul><div className="space-y-3 text-xs text-zinc-400"><p>28 Manchester Street<br />London W1U 7LE<br />United Kingdom</p><a href="tel:+447436597890" className="block">+44 7436 597890</a><Link href="/contact" className="block">Send an enquiry</Link><Link href="/locations" className="block">UK city enquiries</Link><Link href="/locations/london" className="block">London coverage</Link></div></div></details>
           <details className="py-1"><summary className="cursor-pointer py-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-zinc-300">Residential Inspections</summary><div className="pb-5"><ServiceLinks services={residentialServices} /></div></details>
           <details className="py-1"><summary className="cursor-pointer py-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-zinc-300">Building Consultancy</summary><div className="pb-5"><ServiceLinks services={buildingConsultancyServices} /></div></details>
         </div>
