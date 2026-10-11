@@ -1,3 +1,4 @@
+import { ukCityPages } from "@shared/ukLocations";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -43,6 +44,7 @@ export default function Contact() {
     "noise-survey":"Noise / Acoustic Assessment","structural-survey":"Structural Visual Assessment"
   };
   const initialService = slugLabels[qs.get("service") || ""] || "";
+  const initialCity = qs.get("location") === "London" ? "London" : ukCityPages.find(c => c.name === qs.get("location"))?.name || "";
   const [selectedService, setSelectedService] = useState(initialService);
   const { toast } = useToast();
 
@@ -54,7 +56,7 @@ export default function Contact() {
     setValue,
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
-    defaultValues: { enquiryType: initialService },
+    defaultValues: { enquiryType: initialService, projectName: initialCity },
   });
 
   const onSubmit = async (data: ContactFormData) => {
@@ -76,7 +78,7 @@ export default function Contact() {
       ].filter(Boolean).join("\n");
       await submitLead("/api/contact", {
         name:data.name,email:data.email,phone:data.phone,
-        enquiryType:selected,message:contextualMessage,leadSource:"london_quote"
+        enquiryType:selected,message:contextualMessage,leadSource: initialCity && initialCity !== "London" ? "contact" : "london_quote"
       });
       
       toast({
@@ -118,13 +120,13 @@ export default function Contact() {
     ]
   };
 
-  const serviceAreas = ["London", "Nearby areas (confirm availability by postcode)"];
+  const serviceAreas = ["London", ...ukCityPages.map(city => city.name), "Other UK locations (please confirm availability)"];
 
   return (
     <>
       <SEO 
-        title="Contact UrbanGrid UK | London Property Enquiries"
-        description="Enquire about UrbanGrid UK inspection and consultancy services in London and nearby areas. Call +44 7436 597890."
+        title="Contact UrbanGrid UK | Property Inspection Enquiries"
+        description="Send a UK property inspection or building consultancy enquiry. Confirm surveyor availability, postcode coverage and a tailored GBP quote."
         
       />
       
@@ -137,7 +139,7 @@ export default function Contact() {
               Get In Touch
             </h1>
             <p className="text-sm text-zinc-400 leading-relaxed max-w-2xl">
-              Residential inspections, building consultancy and specialist surveys in London and nearby areas. Tell us what you need and our team will discuss scope and a custom quote.
+              Residential inspections, building consultancy and specialist surveys by enquiry across UK cities. Availability is confirmed for each property postcode and service before a quote.
             </p>
           </div>
         </section>
@@ -175,7 +177,7 @@ export default function Contact() {
                 </div>
 
                 <div className="mt-20">
-                  <p className="text-[10px] uppercase tracking-[0.18em] text-zinc-400 font-medium mb-6">Service Areas</p>
+                  <p className="text-[10px] uppercase tracking-[0.18em] text-zinc-400 font-medium mb-6">Enquiry Locations (subject to provider confirmation)</p>
                   <p className="text-sm text-zinc-500 leading-relaxed max-w-sm">
                     {serviceAreas.join(", ")}
                   </p>

@@ -31,12 +31,13 @@ export default function UKLocations() {
     </div>;
   }
 
+  const cityContactPath = `/contact?location=${encodeURIComponent(city.name)}`;
   return <div className="bg-white">
     <section className="bg-zinc-950 pt-32 pb-20 text-white"><div className={wrap}>
       <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-emerald-300">{city.region} · property inspection enquiries</p>
       <h1 className="max-w-4xl text-4xl font-bold lg:text-5xl">Property snagging and building surveys in {city.name}</h1>
       <p className="mt-6 max-w-3xl text-base leading-relaxed text-zinc-300">Get an inspection or consultancy quote for a property in {city.name}. Please share the postcode and required service. We first confirm provider coverage, suitable expertise, travel and access before agreeing any visit.</p>
-      <Link href="/contact" className="mt-8 inline-flex bg-emerald-700 px-6 py-4 text-sm font-semibold text-white hover:bg-emerald-600">Request a {city.name} quote →</Link>
+      <Link href={cityContactPath} className="mt-8 inline-flex bg-emerald-700 px-6 py-4 text-sm font-semibold text-white hover:bg-emerald-600">Request a {city.name} quote →</Link>
     </div></section>
     <section className={`${wrap} grid gap-12 py-16 lg:grid-cols-2`}>
       <div><h2 className="mb-5 text-2xl font-bold">What can be inspected in {city.name}?</h2>
@@ -67,7 +68,7 @@ export default function UKLocations() {
     <section className={`${wrap} py-16`}>
       <h2 className="mb-5 text-2xl font-bold">Availability and scope in {city.name}</h2>
       <p className="max-w-3xl text-sm leading-7 text-zinc-600">This city page helps you enquire; it is not a statement that UrbanGrid has a permanent {city.name} office or an inspector available on any given date. A tailored quote in GBP follows confirmation of provider coverage, inspection requirements and access. There is no online checkout; for standard residential work, payment is after the inspection and before final report release.</p>
-      <div className="mt-8 flex flex-wrap gap-5"><Link href="/contact" className="bg-emerald-700 px-6 py-3 text-sm font-semibold text-white">Discuss your property</Link><Link href="/locations" className="px-2 py-3 text-sm font-semibold text-emerald-700 underline">Other UK cities</Link></div>
+      <div className="mt-8 flex flex-wrap gap-5"><Link href={cityContactPath} className="bg-emerald-700 px-6 py-3 text-sm font-semibold text-white">Discuss your property</Link><Link href="/locations" className="px-2 py-3 text-sm font-semibold text-emerald-700 underline">Other UK cities</Link></div>
     </section>
   </div>;
 }
