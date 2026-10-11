@@ -1,3 +1,4 @@
+import { ukCityBySlug, ukLocationPaths } from "./ukLocations";
 export const ukServices = [
   ["property-snagging/new-build-snagging", "New-build Snagging"],
   ["property-snagging/post-renovation-inspection", "Post-renovation Inspection"],
@@ -30,7 +31,7 @@ export const coreTitles: Record<string, string> = {
   "/locations/london": "Property Inspections in London & Nearby Areas",
 };
 export const ukPublicPaths = [
-  ...Object.keys(coreTitles), ...ukServices.map(([slug]) => `/services/${slug}`),
+  ...Object.keys(coreTitles), ...ukServices.map(([slug]) => `/services/${slug}`), ...ukLocationPaths,
 ];
 
 const serviceDescriptions: Record<string, string> = {
@@ -59,16 +60,24 @@ const coreDescriptions: Record<string, string> = {
   "/pricing": "Request a property-specific inspection quote in GBP for London and nearby areas. Standard residential payment is after inspection and before report release.",
   "/contact": "Contact UrbanGrid UK on +44 7436 597890 or send your London property details to discuss inspection scope, availability and a custom quote.",
   "/locations/london": "Property inspections in London and nearby areas. Share your postcode, property type and inspection stage to confirm coverage and request a quote.",
+  "/locations": "Explore property snagging and building survey enquiries across UK cities. Share your postcode to check available providers and arrange a tailored quote.",
   "/blog": "Property inspection resources from UrbanGrid UK. Approved UK guidance will be published here when available.",
   "/privacy-policy": "How UrbanGrid UK handles property enquiry details and privacy preferences.",
   "/terms-of-service": "Read the scope, limitations and agreed commercial terms for UrbanGrid UK inspection enquiries.",
 };
 export function ukPageSeo(path: string) {
   const service = ukServices.find(([slug]) => path === `/services/${slug}`);
-  const name = coreTitles[path] || service?.[1];
+  const city = path.startsWith("/locations/") ? ukCityBySlug(path.slice("/locations/".length)) : undefined;
+  if (city) return {
+    title: `Property Snagging & Building Surveys in ${city.name} | UrbanGrid UK`,
+    description: `Enquire about property snagging and building surveys in ${city.name}, ${city.region}. Share the postcode, service and inspection stage to confirm availability and a GBP quote.`,
+    keywords: `property snagging ${city.name}, building survey ${city.name}, property inspection ${city.region}`,
+    noindex: false,
+  };
+  const name = coreTitles[path] || (path === "/locations" ? "UK Property Inspection Locations" : undefined) || service?.[1];
   if (!name) return null;
   return { title: `${name}${service ? " in London" : ""} | UrbanGrid UK`,
     description: coreDescriptions[path] || serviceDescriptions[service![0].split("/").pop()!],
-    keywords: "property inspection London, building consultancy London",
+    keywords: path === "/locations" ? "property inspection UK cities, UK snagging survey enquiries" : "property inspection London, building consultancy London",
     noindex: ["/blog", "/privacy-policy", "/terms-of-service"].includes(path) };
 }
