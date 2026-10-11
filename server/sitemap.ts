@@ -1,3 +1,4 @@
+import { ukLocationPaths } from "@shared/ukLocations";
 import { ukPageSeo } from "@shared/ukSeo";
 import { canonicalOrigin, canonicalUrl, isNonIndexablePath } from "@shared/siteConfig";
 
@@ -70,8 +71,8 @@ export function getSitemapUrls(baseUrl: string, blogPosts: Array<{slug: string, 
     { loc: `${baseUrl}/services/technical-inspections/structural-survey`, priority: 0.8, changefreq: 'monthly' },
     { loc: `${baseUrl}/services/asset-tagging-inventory`, priority: 0.8, changefreq: 'monthly' },
 
-    // Only verified UK coverage belongs in the UK sitemap.
-    { loc: `${baseUrl}/locations/london`, priority: 0.8, changefreq: 'monthly' },
+    // Indexable enquiry locations; no implied office or available inspector.
+    ...["/locations/london", ...ukLocationPaths].map(path => ({ loc: `${baseUrl}${path}`, priority: 0.65, changefreq: 'monthly' as const })),
 
     // Note: blog posts below are added dynamically from the DB (status='published' only)
   ];
